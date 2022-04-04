@@ -34,18 +34,19 @@ const Layout = ({ children, title, imgSrc }: LayoutProps) => {
   const { scrolled } = useScroll();
 
   return (
-    <div className="grid grid-cols-12">
-      <SideBar className="col-span-2">
-        <div className="h-full rounded-2xl bg-gray-50 p-6 shadow-xl dark:bg-gray-700">
-          <h1 className="mb-2 border-b pb-4 ">Dashboard</h1>
+    <div className="flex">
+      <SideBar className="min-w-[20vw]">
+        <div className="p-6">
+          <h1 className="mx-auto mb-2 pb-1 text-center">Dashboard</h1>
+          <hr className="mx-auto w-3/4" />
           <ul className="mt-4">
             {data.links.map((l) => (
               <li>
                 <a
                   href={l.link}
-                  className="flex items-center rounded-lg p-2 transition-colors duration-300 hover:bg-cyan-100"
+                  className="flex items-center rounded-md p-2 transition-colors duration-300 hover:bg-cyan-100 dark:hover:bg-cyan-700 dark:hover:bg-opacity-50"
                 >
-                  <div className="mr-2 rounded-lg bg-gradient-to-br from-cyan-400 to-cyan-500 p-2 text-white shadow-md">
+                  <div className="mr-2 rounded-lg bg-gradient-to-br from-cyan-400 to-cyan-500 p-2 text-white shadow-md dark:from-cyan-500 dark:to-cyan-700">
                     <AiTwotoneHome size={18} />
                   </div>
                   {l.name}
@@ -55,13 +56,13 @@ const Layout = ({ children, title, imgSrc }: LayoutProps) => {
           </ul>
         </div>
       </SideBar>
-      <div className="col-span-10">
+      <div className="w-full">
         <Header
           className={`flex bg-opacity-50 backdrop-blur-sm transition-all duration-300 ${
             scrolled ? "bg-white shadow-md" : ""
           }`}
         >
-          {imgSrc && <img src={imgSrc} className="aspect-square w-10" />}
+          {imgSrc && <img src={imgSrc} className="mr-2 aspect-square w-10" />}
           <h1 className="text-4xl">{title}</h1>
         </Header>
         <main>{children}</main>
