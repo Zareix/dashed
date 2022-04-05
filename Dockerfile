@@ -3,9 +3,6 @@ FROM node:lts-alpine
 RUN yarn global add servor
 
 WORKDIR /app
-COPY package.json .
-COPY yarn.lock .
-RUN yarn install
 COPY . .
 
 RUN chmod +x docker-start.sh
