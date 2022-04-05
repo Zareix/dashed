@@ -1,4 +1,4 @@
-import React, { ReactChild } from "react";
+import React, { ReactChild, ReactChildren } from "react";
 
 import styled from "styled-components";
 import { AiTwotoneHome } from "react-icons/ai";
@@ -25,7 +25,7 @@ const SideBar = styled.section`
 `;
 
 type LayoutProps = {
-  children: ReactChild;
+  children?: React.ReactNode;
   title: string;
   imgSrc?: string;
 };
@@ -40,8 +40,8 @@ const Layout = ({ children, title, imgSrc }: LayoutProps) => {
           <h1 className="mx-auto mb-2 pb-1 text-center">Dashboard</h1>
           <hr className="mx-auto w-3/4" />
           <ul className="mt-4">
-            {data.links.map((l) => (
-              <li>
+            {data.links.map((l, index) => (
+              <li key={index}>
                 <a
                   href={l.link}
                   className="flex items-center rounded-md p-2 transition-colors duration-300 hover:bg-cyan-100 dark:hover:bg-cyan-700 dark:hover:bg-opacity-50"
@@ -58,11 +58,16 @@ const Layout = ({ children, title, imgSrc }: LayoutProps) => {
       </SideBar>
       <div className="w-full">
         <Header
-          className={`flex bg-opacity-50 backdrop-blur-sm transition-all duration-300 ${
+          className={`flex items-center bg-opacity-50 backdrop-blur-sm transition-all duration-300 ${
             scrolled ? "bg-white shadow-md" : ""
           }`}
         >
-          {imgSrc && <img src={imgSrc} className="mr-2 aspect-square w-10" />}
+          {imgSrc && (
+            <img
+              src={imgSrc}
+              className="mr-2 aspect-square w-12 object-contain"
+            />
+          )}
           <h1 className="text-4xl">{title}</h1>
         </Header>
         <main>{children}</main>

@@ -8,18 +8,19 @@
     "apps": [
         {
             "name": "Portainer",
-            "url": "http://192.168.31.50:9000",
+            "url": "https://portainer.lab.home",
             "image": "portainer.svg"
         },
         {
             "name": "File Browser",
-            "url": "http://192.168.31.50:8220",
-            "image": "portainer.svg"
+            "url": "https://files.lab.home",
+            "image": "file-browser.png"
         },
         {
             "name": "Pi Hole",
-            "url": "http://192.168.31.50:8117/admin",
-            "image": "portainer.svg"
+            "url": "https://ph.lab.home/admin",
+            "image": "pi-hole.png",
+            "type": "pi-hole",
         }
     ]
 }

@@ -1,36 +1,42 @@
 import { useParams } from "@reach/router";
-import React from "react";
-import Layout from "../../components/Layout";
 
 import data from "../../../assets/data.json";
+
+import Layout from "../../components/Layout";
+import PiHole from "./PiHole";
 
 type Props = {
   path: string;
 };
 
-const App = ({ path }: Props) => {
+const App = (props: Props) => {
   const params = useParams();
-  console.log(params.index);
+  const app = data.apps[params.index];
 
-  return (
-    <Layout
-      title={data.apps[params.index] ? data.apps[params.index].name : ""}
-      imgSrc={
-        data.apps[params.index]
-          ? "/assets/apps/" + data.apps[params.index].image
-          : ""
-      }
-    >
-      {data.apps[params.index] ? (
-        <iframe
-          src={data.apps[params.index].url}
-          className="h-[39rem] max-h-[80vh] w-[98%] rounded-md"
-        ></iframe>
-      ) : (
+  if (!app)
+    return (
+      <Layout title="">
         <div>App not found</div>
-      )}
-    </Layout>
-  );
+      </Layout>
+    );
+
+  switch (app.type?.toLowerCase()) {
+    case "pi-hole":
+      return <PiHole url={app.url} apiKey={app.apiKey} image={app.image} />;
+
+    default:
+      return (
+        <Layout
+          title={app ? app.name : ""}
+          imgSrc={app ? "/assets/apps/" + app.image : ""}
+        >
+          <iframe
+            src={app.url}
+            className="h-[39rem] max-h-[80vh] w-[98%] rounded-md border-2"
+          ></iframe>
+        </Layout>
+      );
+  }
 };
 
 export default App;
