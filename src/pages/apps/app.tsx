@@ -1,6 +1,6 @@
 import { useParams } from "@reach/router";
 
-import data from "../../../assets/data.json";
+import data from "../../../public/data.json";
 
 import Layout from "../../components/Layout";
 import PiHole from "./PiHole";

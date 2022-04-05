@@ -9,7 +9,7 @@ const queryClient = new QueryClient();
 import "./global.css";
 
 import Home from "./pages/Home";
-import App from "./pages/apps/app";
+import App from "./pages/apps/App";
 
 ReactDOM.render(
   <React.StrictMode>

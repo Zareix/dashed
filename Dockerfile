@@ -1,12 +1,15 @@
-FROM node
+FROM node:lts-alpine
+
+RUN yarn global add servor
 
 WORKDIR /app
 COPY package.json .
-
+COPY yarn.lock .
 RUN yarn install
-
 COPY . .
 
-EXPOSE 3000
+RUN chmod +x docker-start.sh
 
-CMD [ "yarn", "dev", "--host" ]
+EXPOSE 8080
+
+CMD ["sh", "/app/docker-start.sh"]

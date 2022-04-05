@@ -1,11 +1,11 @@
-import React, { ReactChild, ReactChildren } from "react";
+import React from "react";
 
 import styled from "styled-components";
 import { AiTwotoneHome } from "react-icons/ai";
 
 import useScroll from "../hooks/scroll";
 
-import data from "../../assets/data.json";
+import data from "../../public/data.json";
 
 const Header = styled.header`
   position: sticky;
@@ -70,7 +70,7 @@ const Layout = ({ children, title, imgSrc }: LayoutProps) => {
           )}
           <h1 className="text-4xl">{title}</h1>
         </Header>
-        <main>{children}</main>
+        <main className="mr-4">{children}</main>
       </div>
     </div>
   );

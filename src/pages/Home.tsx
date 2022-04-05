@@ -3,7 +3,8 @@ import { RiFullscreenFill } from "react-icons/ri";
 
 import Layout from "../components/Layout";
 
-import data from "../../assets/data.json";
+import data from "../../public/data.json";
+
 import { FlexCard } from "../components/Cards";
 
 const AppCard = styled(FlexCard)`
@@ -12,7 +13,8 @@ const AppCard = styled(FlexCard)`
 
   img {
     margin: 0 0.5rem;
-    width: 38px;
+    width: 52px;
+    aspect-ratio: 1/1;
     object-fit: contain;
   }
 `;

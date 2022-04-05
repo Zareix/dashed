@@ -1,8 +1,8 @@
 {
     "links": [
         {
-            "link": "/",
-            "name": "Home"
+            "name": "Home",
+            "link": "/"
         }
     ],
     "apps": [
@@ -21,6 +21,7 @@
             "url": "https://ph.lab.home/admin",
             "image": "pi-hole.png",
             "type": "pi-hole",
+            "apiKey": "aaa"
         }
     ]
 }
