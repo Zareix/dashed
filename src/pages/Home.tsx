@@ -9,7 +9,7 @@ const Home = () => {
       <h1>Dashboard</h1>
       {data.categories.map((cat, i) => {
         return (
-          <section key={i}>
+          <section key={i} className="mt-4">
             <h2 className="mb-3 ml-3 flex items-center text-2xl text-gray-700 dark:text-gray-300">
               <DynamicIcon icon={cat.icon} className="mr-2" />
               {cat.name}
