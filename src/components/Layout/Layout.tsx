@@ -30,8 +30,6 @@ type LayoutProps = {
 };
 
 const Layout = ({ children }: LayoutProps) => {
-  const { scrolled } = useScroll();
-
   return (
     <div className="flex">
       <SideBar className="min-w-[20vw]">
