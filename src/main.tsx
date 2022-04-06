@@ -9,9 +9,9 @@ const queryClient = new QueryClient();
 
 import "./global.scss";
 
+import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
 import App from "./pages/apps/App";
-import Layout from "./components/layout/Layout";
 import Category from "./pages/Category";
 
 ReactDOM.render(
