@@ -1,6 +1,6 @@
 import { RiFullscreenFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import { FlexCard } from "../../components/UI/Cards";
+import { FlexCard } from "../../components/ui/Cards";
 
 type Props = {
   category: {

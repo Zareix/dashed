@@ -1,6 +1,6 @@
 import data from "data.json";
 
-import DynamicIcon from "../components/UI/DynamicIcon";
+import DynamicIcon from "../components/ui/DynamicIcon";
 import AppsList from "./apps/AppsList";
 
 const Home = () => {

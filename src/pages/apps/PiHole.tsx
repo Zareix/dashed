@@ -6,7 +6,7 @@ import { RiEarthLine } from "react-icons/ri";
 import { ImBlocked } from "react-icons/im";
 import { HiOutlineExternalLink } from "react-icons/hi";
 
-import { FlexCard, SimpleCard } from "../../components/UI/Cards";
+import { FlexCard, SimpleCard } from "../../components/ui/Cards";
 
 const FETCH_INTERVAL = 60 * 1000;
 

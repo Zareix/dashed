@@ -1,6 +1,6 @@
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
 
-import DynamicIcon from "../../UI/DynamicIcon";
+import DynamicIcon from "../../ui/DynamicIcon";
 
 type NavLinkProps = {
   name: string;
