@@ -1,11 +1,11 @@
-import React from "react";
+import { ReactNode } from "react";
 
 import styled from "styled-components";
-import { AiTwotoneHome } from "react-icons/ai";
 
-import useScroll from "../hooks/scroll";
+import useScroll from "../../hooks/scroll";
 
-import data from "../../public/data.json";
+import data from "../../../public/data.json";
+import NavLink from "./Nav/NavLink";
 
 const Header = styled.header`
   position: sticky;
@@ -25,38 +25,26 @@ const SideBar = styled.section`
 `;
 
 type LayoutProps = {
-  children?: React.ReactNode;
-  title: string;
-  imgSrc?: string;
+  children?: ReactNode;
 };
 
-const Layout = ({ children, title, imgSrc }: LayoutProps) => {
+const Layout = ({ children }: LayoutProps) => {
   const { scrolled } = useScroll();
 
   return (
     <div className="flex">
       <SideBar className="min-w-[20vw]">
         <div className="p-6">
-          <h1 className="mx-auto mb-2 pb-1 text-center">Dashboard</h1>
+          <h2 className="mx-auto mb-2 pb-1 text-center">Dashboard</h2>
           <hr className="mx-auto w-3/4" />
           <ul className="mt-4">
-            {data.links.map((l, index) => (
-              <li key={index}>
-                <a
-                  href={l.link}
-                  className="flex items-center rounded-md p-2 transition-colors duration-300 hover:bg-cyan-100 dark:hover:bg-cyan-700 dark:hover:bg-opacity-50"
-                >
-                  <div className="mr-2 rounded-lg bg-gradient-to-br from-cyan-400 to-cyan-500 p-2 text-white shadow-md dark:from-cyan-500 dark:to-cyan-700">
-                    <AiTwotoneHome size={18} />
-                  </div>
-                  {l.name}
-                </a>
-              </li>
+            {data.links.map((link, index) => (
+              <NavLink key={index} {...link}></NavLink>
             ))}
           </ul>
         </div>
       </SideBar>
-      <div className="w-full">
+      {/*<div className="w-full">
         <Header
           className={`flex items-center bg-opacity-50 backdrop-blur-sm transition-all duration-300 ${
             scrolled ? "bg-white shadow-md" : ""
@@ -70,8 +58,8 @@ const Layout = ({ children, title, imgSrc }: LayoutProps) => {
           )}
           <h1 className="text-4xl">{title}</h1>
         </Header>
-        <main className="mr-4">{children}</main>
-      </div>
+      </div>*/}
+      <main className="mr-4 mt-10 w-full">{children}</main>
     </div>
   );
 };
