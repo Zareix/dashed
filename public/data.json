@@ -9,17 +9,17 @@
         {
             "name": "Portainer",
             "url": "https://portainer.lab.home",
-            "image": "portainer.svg"
+            "image": "apps/portainer.svg"
         },
         {
             "name": "File Browser",
             "url": "https://files.lab.home",
-            "image": "file-browser.png"
+            "image": "apps/file-browser.png"
         },
         {
             "name": "Pi Hole",
             "url": "https://ph.lab.home/admin",
-            "image": "pi-hole.png",
+            "image": "apps/pi-hole.png",
             "type": "pi-hole",
             "apiKey": "aaa"
         }

@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-
-type Props = {};
+import { useEffect, useState } from "react";
 
 const useScroll = () => {
   const [scrolled, setScrolled] = useState(false);

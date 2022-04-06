@@ -16,7 +16,10 @@ const App = () => {
     default:
       return (
         <>
-          <h1>{app.name}</h1>
+          <h1 className="flex items-center">
+            <img className="icon" src={`/assets/${app.image}`} />
+            {app.name}
+          </h1>
           <iframe
             src={app.url}
             className="h-[39rem] max-h-[80vh] w-[98%] rounded-md border-2"

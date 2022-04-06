@@ -10,3 +10,10 @@ body {
 h1 {
   @apply mb-4 text-4xl font-bold;
 }
+
+.icon {
+  margin: 0 0.5rem;
+  width: 52px;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+}

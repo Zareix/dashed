@@ -4,7 +4,7 @@ import { FiCheck } from "react-icons/fi";
 import { RiEarthLine } from "react-icons/ri";
 import { ImBlocked } from "react-icons/im";
 
-import { FlexCard, SimpleCard } from "../../components/Cards";
+import { FlexCard, SimpleCard } from "../../components/UI/Cards";
 import { useState } from "react";
 
 type Props = {
@@ -30,7 +30,7 @@ const PiHole = (props: Props) => {
 
   const disable = async () => {
     if (!props.apiKey) alert("No api token set");
-    const res = await axios.post(
+    await axios.post(
       `${props.url}/api.php?disable=${duration}&auth=${props.apiKey}`
     );
     client.invalidateQueries("pihole_stats");
@@ -38,20 +38,19 @@ const PiHole = (props: Props) => {
 
   const enable = async () => {
     if (!props.apiKey) alert("No api token set");
-    const res = await axios.post(
-      `${props.url}/api.php?enable&auth=${props.apiKey}`
-    );
+    await axios.post(`${props.url}/api.php?enable&auth=${props.apiKey}`);
     client.invalidateQueries("pihole_stats");
   };
 
   const { data, isLoading } = useQuery("pihole_stats", fetchStats);
 
-  console.log(data);
-
   if (isLoading) return <div>Loading...</div>;
   return (
     <>
-      <h1>Pi-Hole</h1>
+      <h1 className="flex items-center">
+        <img className="icon" src={`/assets/${props.image}`} />
+        Pi-Hole
+      </h1>
       <div className="grid grid-cols-4 gap-4">
         <FlexCard>
           <div>

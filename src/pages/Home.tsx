@@ -1,23 +1,14 @@
 import styled from "styled-components";
 import { RiFullscreenFill } from "react-icons/ri";
 
-import Layout from "../components/Layout/Layout";
-
 import data from "../../public/data.json";
 
-import { FlexCard } from "../components/Cards";
+import { FlexCard } from "../components/UI/Cards";
 import { Link } from "react-router-dom";
 
 const AppCard = styled(FlexCard)`
   width: 100%;
   height: 100%;
-
-  img {
-    margin: 0 0.5rem;
-    width: 52px;
-    aspect-ratio: 1/1;
-    object-fit: contain;
-  }
 `;
 
 const Home = () => {
@@ -35,7 +26,7 @@ const Home = () => {
             </Link>
             <Link to={app.url} key={index}>
               <AppCard className="!justify-start transition-shadow group-hover:shadow-lg dark:bg-slate-800">
-                <img src={`/assets/apps/${app.image}`} />
+                <img className="icon" src={`/assets/${app.image}`} />
                 <h2 className="ml-2 text-lg">{app.name}</h2>
               </AppCard>
             </Link>
