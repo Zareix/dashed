@@ -1,0 +1,28 @@
+{
+    "links": [
+        {
+            "name": "Home",
+            "link": "/"
+        }
+    ],
+    "categories": [
+        {
+            "name": "System",
+            "icon": "MdSettings",
+            "apps": [
+                {
+                    "name": "Portainer",
+                    "url": "http://portainer/",
+                    "image": "apps/portainer.png"
+                },
+                {
+                    "name": "Pi-Hole",
+                    "url": "http://pi-hole/",
+                    "image": "apps/pi-hole.png",
+                    "type": "pi-hole",
+                    "apiKey": "aaa"
+                }
+            ]
+        }
+    ]
+}

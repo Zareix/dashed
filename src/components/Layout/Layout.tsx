@@ -2,10 +2,11 @@ import { ReactNode } from "react";
 
 import styled from "styled-components";
 
-import useScroll from "../../hooks/scroll";
+import data from "data.json";
 
-import data from "../../../public/data.json";
-import NavLink from "./Nav/NavLink";
+import useScroll from "../../hooks/scroll";
+import NavLink from "./nav/NavLink";
+import CatLink from "./nav/CatLink";
 
 const Header = styled.header`
   position: sticky;
@@ -39,26 +40,16 @@ const Layout = ({ children }: LayoutProps) => {
           <hr className="mx-auto w-3/4" />
           <ul className="mt-4">
             {data.links.map((link, index) => (
-              <NavLink key={index} {...link}></NavLink>
+              <NavLink key={index} {...link} />
             ))}
+            <div>
+              {data.categories.map((cat, i) => (
+                <CatLink key={i} category={cat} index={i} />
+              ))}
+            </div>
           </ul>
         </div>
       </SideBar>
-      {/*<div className="w-full">
-        <Header
-          className={`flex items-center bg-opacity-50 backdrop-blur-sm transition-all duration-300 ${
-            scrolled ? "bg-white shadow-md" : ""
-          }`}
-        >
-          {imgSrc && (
-            <img
-              src={imgSrc}
-              className="mr-2 aspect-square w-12 object-contain"
-            />
-          )}
-          <h1 className="text-4xl">{title}</h1>
-        </Header>
-      </div>*/}
       <main className="mr-4 mt-10 w-full">{children}</main>
     </div>
   );

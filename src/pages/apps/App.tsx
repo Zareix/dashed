@@ -1,11 +1,15 @@
 import { useParams } from "react-router-dom";
-import data from "../../../public/data.json";
+
+import data from "data.json";
 
 import PiHole from "./PiHole";
 
 const App = () => {
   const params = useParams();
-  const app = data.apps[parseInt(params.index ?? "9999")];
+  const app =
+    data.categories[parseInt(params.catIndex ?? "9999")].apps[
+      parseInt(params.appIndex ?? "9999")
+    ];
 
   if (!app) return <div>App not found</div>;
 
@@ -22,7 +26,7 @@ const App = () => {
           </h1>
           <iframe
             src={app.url}
-            className="h-[39rem] max-h-[80vh] w-[98%] rounded-md border-2"
+            className="h-[39rem] max-h-[80vh] w-[98%] rounded-md border-2 dark:border-slate-700"
           ></iframe>
         </>
       );

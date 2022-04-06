@@ -4,4 +4,5 @@
 node_modules
 .yarn
 dist
-public/assets/apps
+public/
+!public/data-default.json

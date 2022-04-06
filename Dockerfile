@@ -4,6 +4,7 @@ RUN yarn global add servor
 
 WORKDIR /app
 COPY . .
+COPY public/data-default.json public/data.json
 
 RUN chmod +x docker-start.sh
 
