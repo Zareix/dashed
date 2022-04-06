@@ -4,7 +4,6 @@ import styled from "styled-components";
 
 import data from "data.json";
 
-import useScroll from "../../hooks/scroll";
 import NavLink from "./nav/NavLink";
 import CatLink from "./nav/CatLink";
 
