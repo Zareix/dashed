@@ -27,4 +27,4 @@ jobs:
         with:
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: zareix/dashboard:latest
+          tags: ghrc.io/zareix/dashboard:latest
