@@ -24,8 +24,8 @@ jobs:
           registry: ghcr.io
           username: zareix
           password: ${{ secrets.GITHUB_TOKEN }}
-      -
-        name: Build and push
+          
+      - name: Build and push
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -33,3 +33,13 @@ jobs:
           push: true
           tags: |
             ghcr.io/zareix/dashboard:latest
+            ghcr.io/zareix/dashboard:$(date +%s)
+            ghcr.io/zareix/dashboard:${{ secrets.MAJOR }}.${{ secrets.MINOR }}
+      
+      - name: Update Minor version
+        uses: hmanzur/actions-set-secret@v2.0.0
+        with:
+          name: 'MINOR'
+          value: $((${{ secrets.MINOR }}+1))
+          repository: EriksonGM/MasterReport
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
