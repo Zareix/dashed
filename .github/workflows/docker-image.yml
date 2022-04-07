@@ -33,7 +33,7 @@ jobs:
           push: true
           tags: |
             ghcr.io/zareix/dashboard:latest
-            ghcr.io/zareix/dashboard:$(date +%s)
+            ghcr.io/zareix/dashboard:$((date +%d.%m.%y))
             ghcr.io/zareix/dashboard:${{ secrets.MAJOR }}.${{ secrets.MINOR }}
       
       - name: Update Minor version
