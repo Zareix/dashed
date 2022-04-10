@@ -506,16 +506,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^17.0.14":
-  version: 17.0.14
-  resolution: "@types/react-dom@npm:17.0.14"
+"@types/react-dom@npm:^18.0.0":
+  version: 18.0.0
+  resolution: "@types/react-dom@npm:18.0.0"
   dependencies:
     "@types/react": "*"
-  checksum: b54cd0ef573236b3d87fe7493e6d1c36d8b4ca37a3b46364272a5c91ac178e3296b68ea1aeb299ce68f12ad663c5720ee890d0539b14881c6754bdcbdb0befa0
+  checksum: 0d8c9cb3e72aefe0dd2b58a49845a200369f01ae92f3f11f642e04efc95dfd1c9380b6592d4273dd6113fb8707947d15b66d56c75c41f39f28bd897f0c08dfa9
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^17.0.43":
+"@types/react@npm:*":
   version: 17.0.43
   resolution: "@types/react@npm:17.0.43"
   dependencies:
@@ -526,6 +526,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react@npm:^18.0.1":
+  version: 18.0.1
+  resolution: "@types/react@npm:18.0.1"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": "*"
+    csstype: ^3.0.2
+  checksum: ede927ed3766fef5fec513fe75e79180bb3c97d21ca7707321e969193c596bc4a531160238546a845e4131df02ec9be7803277a268bc270156362d16b29b4ffb
+  languageName: node
+  linkType: hard
+
 "@types/scheduler@npm:*":
   version: 0.16.2
   resolution: "@types/scheduler@npm:0.16.2"
@@ -533,14 +544,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/styled-components@npm:^5.1.24":
-  version: 5.1.24
-  resolution: "@types/styled-components@npm:5.1.24"
+"@types/styled-components@npm:^5.1.25":
+  version: 5.1.25
+  resolution: "@types/styled-components@npm:5.1.25"
   dependencies:
     "@types/hoist-non-react-statics": "*"
     "@types/react": "*"
     csstype: ^3.0.2
-  checksum: 158c69085ad899622f558426c623d3052f7b521ede01c0fd342280c93ef2ac462a39c4c3b2374e7c7e2630fcc64dfcfd8f4446c8d4809cbac9a7b962a73357c0
+  checksum: 60ce64f13283b01da54fd3a4c5703769d8575c979d5ec6b67ad124c2d4df980c9b96bb91af87e03f6447a816a5d2b0270c63eefad60cfa885091b594984525f5
   languageName: node
   linkType: hard
 
@@ -1028,9 +1039,9 @@ __metadata:
   dependencies:
     "@types/loadable__component": ^5.13.4
     "@types/node": ^17.0.23
-    "@types/react": ^17.0.43
-    "@types/react-dom": ^17.0.14
-    "@types/styled-components": ^5.1.24
+    "@types/react": ^18.0.1
+    "@types/react-dom": ^18.0.0
+    "@types/styled-components": ^5.1.25
     "@vitejs/plugin-react": ^1.3.0
     autoprefixer: ^10.4.4
     axios: ^0.26.1
@@ -1042,7 +1053,7 @@ __metadata:
     react-icons: ^4.3.1
     react-query: ^3.34.19
     react-router-dom: 6.3.0
-    sass: ^1.49.11
+    sass: ^1.50.0
     styled-components: ^5.3.5
     tailwindcss: ^3.0.23
     typescript: ^4.6.3
@@ -2587,16 +2598,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:^1.49.11":
-  version: 1.49.11
-  resolution: "sass@npm:1.49.11"
+"sass@npm:^1.50.0":
+  version: 1.50.0
+  resolution: "sass@npm:1.50.0"
   dependencies:
     chokidar: ">=3.0.0 <4.0.0"
     immutable: ^4.0.0
     source-map-js: ">=0.6.2 <2.0.0"
   bin:
     sass: sass.js
-  checksum: f81cabfc43d6baf710979d647e24019f7cfb68242f8421d20dfc8c864cf83512b0b74a89098331696f758756829cb736f7b8aca70a11cff365928393ae351bcc
+  checksum: 43738cc83a3921731456f769aba190277f0620f8b80c14426ab098be9ab8dc8465957f5bf2edbcffda189edb3024ed83dee2cb8cd580459ca4984a9fc88c18f7
   languageName: node
   linkType: hard
 

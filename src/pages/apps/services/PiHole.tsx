@@ -6,7 +6,7 @@ import { RiEarthLine } from "react-icons/ri";
 import { ImBlocked } from "react-icons/im";
 import { HiOutlineExternalLink } from "react-icons/hi";
 
-import { FlexCard, SimpleCard } from "../../components/ui/Cards";
+import { FlexCard, SimpleCard } from "../../../components/ui/Cards";
 
 const FETCH_INTERVAL = 60 * 1000;
 
@@ -48,7 +48,7 @@ const DurationButton = (props: DurationBtnProps) => {
 };
 
 const PiHole = (props: Props) => {
-  const [duration, setDuration] = useState(0);
+  const [duration, setDuration] = useState(5 * 60);
   const client = useQueryClient();
 
   const fetchStats = async (): Promise<PiHoleStats> => {
@@ -57,15 +57,23 @@ const PiHole = (props: Props) => {
 
   const disable = async () => {
     if (!props.apiKey) alert("No api token set");
-    await axios.post(
+    const res = await axios.post(
       `${props.url}/api.php?disable=${duration}&auth=${props.apiKey}`
     );
+    if (!res.data.status) {
+      alert("An error occurred, ensure your apiKey is set correctly");
+    }
     client.invalidateQueries("pihole_stats");
   };
 
   const enable = async () => {
     if (!props.apiKey) alert("No api token set");
-    await axios.post(`${props.url}/api.php?enable&auth=${props.apiKey}`);
+    const res = await axios.post(
+      `${props.url}/api.php?enable&auth=${props.apiKey}`
+    );
+    if (!res.data.status) {
+      alert("An error occurred, ensure your apiKey is set correctly");
+    }
     client.invalidateQueries("pihole_stats");
   };
 

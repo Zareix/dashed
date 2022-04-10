@@ -12,7 +12,6 @@ import "./global.scss";
 import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
 import App from "./pages/apps/App";
-import Category from "./pages/Category";
 
 const container = document.getElementById("root");
 if (!container) {
@@ -26,7 +25,6 @@ root.render(
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="categories/:catIndex" element={<Category />} />
             <Route
               path="categories/:catIndex/apps/:appIndex"
               element={<App />}
@@ -34,9 +32,7 @@ root.render(
           </Routes>
         </Layout>
       </BrowserRouter>
-      {!import.meta.env.VITE_PROD && (
-        <ReactQueryDevtools initialIsOpen={false} />
-      )}
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   </React.StrictMode>
 );

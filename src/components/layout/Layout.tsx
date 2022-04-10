@@ -12,6 +12,7 @@ const SideBar = styled.section`
   top: 0;
   height: 100vh;
   padding: 2rem 1rem;
+  padding: 1.5rem;
 `;
 
 type LayoutProps = {
@@ -26,27 +27,25 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="flex">
       <SideBar className="min-w-[20vw]">
-        <div className="p-6">
-          <h2 className="mx-auto mb-2 pb-1 text-center">Dashboard</h2>
-          <hr className="mx-auto w-3/4" />
-          <ul className="mt-4 max-h-[80vh] overflow-y-scroll">
-            {data.links.map((link, i) => (
-              <li onClick={() => setOpened(-1)} key={i}>
-                <NavLink {...link} />
-              </li>
-            ))}
-            {data.categories.map((cat, j) => (
-              <li key={j}>
-                <CatLink
-                  category={cat}
-                  index={j}
-                  open={open}
-                  opened={opened === j}
-                />
-              </li>
-            ))}
-          </ul>
-        </div>
+        <h2 className="mx-auto mb-2 pb-1 text-center">Dashboard</h2>
+        <hr className="mx-auto w-3/4" />
+        <ul className="mt-4 max-h-[80vh] overflow-y-auto">
+          {data.links.map((link, i) => (
+            <li onClick={() => setOpened(-1)} key={i}>
+              <NavLink {...link} />
+            </li>
+          ))}
+          {data.categories.map((cat, j) => (
+            <li key={j}>
+              <CatLink
+                category={cat}
+                index={j}
+                open={open}
+                opened={opened === j}
+              />
+            </li>
+          ))}
+        </ul>
       </SideBar>
       <main className="mr-4 mt-6 min-h-screen w-full pb-10">{children}</main>
     </div>
