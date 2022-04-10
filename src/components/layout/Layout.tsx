@@ -30,19 +30,18 @@ const Layout = ({ children }: LayoutProps) => {
           <h2 className="mx-auto mb-2 pb-1 text-center">Dashboard</h2>
           <hr className="mx-auto w-3/4" />
           <ul className="mt-4 max-h-[80vh] overflow-y-scroll">
-            {data.links.map((link, index) => (
-              <li onClick={() => setOpened(-1)}>
-                <NavLink key={index} {...link} />
+            {data.links.map((link, i) => (
+              <li onClick={() => setOpened(-1)} key={i}>
+                <NavLink {...link} />
               </li>
             ))}
-            {data.categories.map((cat, i) => (
-              <li>
+            {data.categories.map((cat, j) => (
+              <li key={j}>
                 <CatLink
-                  key={i}
                   category={cat}
-                  index={i}
+                  index={j}
                   open={open}
-                  opened={opened === i}
+                  opened={opened === j}
                 />
               </li>
             ))}

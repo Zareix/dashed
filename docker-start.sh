@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 if [ ! -e /app/node_modules ]; then
     echo ">> Installing packages"
@@ -20,5 +20,6 @@ if [ ! -e /app/public/data.json ]; then
     echo ">> Creating default data.json file"
     cp /app/src/defaults/data-default.json /app/public/data.json
 fi
+echo ">> Running server"
 servor dist --reload &
 yarn build

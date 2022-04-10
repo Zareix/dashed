@@ -2,7 +2,8 @@
     "links": [
         {
             "name": "Home",
-            "link": "/"
+            "link": "/",
+            "icon": "MdHome"
         }
     ],
     "categories": [
@@ -13,7 +14,7 @@
                 {
                     "name": "Portainer",
                     "url": "http://portainer/",
-                    "image": "apps/portainer.png"
+                    "image": "apps/portainer.svg"
                 },
                 {
                     "name": "Pi-Hole",

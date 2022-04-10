@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -14,7 +14,12 @@ import Home from "./pages/Home";
 import App from "./pages/apps/App";
 import Category from "./pages/Category";
 
-ReactDOM.render(
+const container = document.getElementById("root");
+if (!container) {
+  throw new Error("Could not find root");
+}
+const root = createRoot(container);
+root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
@@ -29,8 +34,9 @@ ReactDOM.render(
           </Routes>
         </Layout>
       </BrowserRouter>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {!import.meta.env.VITE_PROD && (
+        <ReactQueryDevtools initialIsOpen={false} />
+      )}
     </QueryClientProvider>
-  </React.StrictMode>,
-  document.getElementById("root")
+  </React.StrictMode>
 );
