@@ -1,5 +1,8 @@
 import { useMatch, useResolvedPath } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
+import { Category } from "../../../models/Category";
+import { Button } from "../../ui/Button";
+import DynamicIcon from "../../ui/DynamicIcon";
 
 import NavLink from "./NavLink";
 
@@ -10,26 +13,20 @@ const expand = (n: number) => keyframes`
 `;
 
 const AppLinksList = styled.div`
-  max-height: 0;
+  max-height: ${(props: { opened: boolean; nbItems: number }) =>
+    props.opened ? props.nbItems * 5 : "0"}rem;
   overflow: hidden;
-  animation: ${(props: { nbItems: number }) => expand(props.nbItems)} 750ms
-    forwards ease-out;
+  transition: max-height 500ms ease;
 `;
 
 type CatLinkProps = {
-  category: {
-    name: string;
-    icon: string;
-    apps: {
-      url: string;
-      image: string;
-      name: string;
-    }[];
-  };
+  category: Category;
   index: number;
+  opened: boolean;
+  open: Function;
 };
 
-const CatLink = ({ category, index }: CatLinkProps) => {
+const CatLink = ({ category, index, open, opened }: CatLinkProps) => {
   const resolved = useResolvedPath(`categories/${index}`);
   const match = useMatch({
     path: resolved.pathname,
@@ -38,22 +35,31 @@ const CatLink = ({ category, index }: CatLinkProps) => {
 
   return (
     <div>
-      <NavLink {...category} link={`categories/${index}`} />
-      {match && (
-        <AppLinksList
-          className="ml-6 border-l-2 pl-3"
-          nbItems={category.apps.length}
-        >
-          {category.apps.map((app, j) => (
-            <NavLink
-              key={`${index}/${j}`}
-              link={`categories/${index}/apps/${j}`}
-              name={app.name}
-              image={app.image}
-            />
-          ))}
-        </AppLinksList>
-      )}
+      <Button
+        className={`flex w-full items-center ${match ? "font-bold" : ""}`}
+        onClick={() => open(index)}
+      >
+        {category.icon && (
+          <div className="mr-2 rounded-lg bg-gradient-to-br from-cyan-400 to-cyan-500 p-2 text-white shadow-md dark:from-cyan-500 dark:to-cyan-700">
+            <DynamicIcon icon={category.icon} size={18} />
+          </div>
+        )}
+        {category.name}
+      </Button>
+      <AppLinksList
+        className="ml-6 border-l-2 pl-3"
+        nbItems={category.apps.length}
+        opened={opened}
+      >
+        {category.apps.map((app, j) => (
+          <NavLink
+            key={`${index}/${j}`}
+            link={`categories/${index}/apps/${j}`}
+            name={app.name}
+            image={app.image}
+          />
+        ))}
+      </AppLinksList>
     </div>
   );
 };

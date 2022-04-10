@@ -1,22 +1,11 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 
 import styled from "styled-components";
 
 import data from "data.json";
 
-import useScroll from "../../hooks/scroll";
 import NavLink from "./nav/NavLink";
 import CatLink from "./nav/CatLink";
-
-const Header = styled.header`
-  position: sticky;
-  top: 1rem;
-  width: 90%;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  padding: 0.75rem;
-  border-radius: 16px;
-`;
 
 const SideBar = styled.section`
   position: sticky;
@@ -30,25 +19,37 @@ type LayoutProps = {
 };
 
 const Layout = ({ children }: LayoutProps) => {
+  const [opened, setOpened] = useState(-1);
+
+  const open = (index: number) => setOpened(opened === index ? -1 : index);
+
   return (
     <div className="flex">
       <SideBar className="min-w-[20vw]">
         <div className="p-6">
           <h2 className="mx-auto mb-2 pb-1 text-center">Dashboard</h2>
           <hr className="mx-auto w-3/4" />
-          <ul className="mt-4">
+          <ul className="mt-4 max-h-[80vh] overflow-y-scroll">
             {data.links.map((link, index) => (
-              <NavLink key={index} {...link} />
+              <li onClick={() => setOpened(-1)}>
+                <NavLink key={index} {...link} />
+              </li>
             ))}
-            <div>
-              {data.categories.map((cat, i) => (
-                <CatLink key={i} category={cat} index={i} />
-              ))}
-            </div>
+            {data.categories.map((cat, i) => (
+              <li>
+                <CatLink
+                  key={i}
+                  category={cat}
+                  index={i}
+                  open={open}
+                  opened={opened === i}
+                />
+              </li>
+            ))}
           </ul>
         </div>
       </SideBar>
-      <main className="mr-4 mt-10 w-full">{children}</main>
+      <main className="mr-4 mt-6 min-h-screen w-full pb-10">{children}</main>
     </div>
   );
 };
