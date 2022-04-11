@@ -20,7 +20,7 @@ const NavLink = (props: NavLinkProps) => {
     <Button
       as={Link}
       to={props.link}
-      className="flex items-center rounded-md p-2 transition-colors duration-300 hover:bg-cyan-100 dark:hover:bg-cyan-700 dark:hover:bg-opacity-50"
+      className="flex items-center rounded-md bg-transparent p-2 transition-colors duration-300 hover:bg-cyan-100 dark:hover:bg-cyan-700 dark:hover:bg-opacity-50"
     >
       {props.image && (
         <img

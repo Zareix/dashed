@@ -7,6 +7,7 @@ import { ImBlocked } from "react-icons/im";
 import { HiOutlineExternalLink } from "react-icons/hi";
 
 import { FlexCard, SimpleCard } from "../../../components/ui/Cards";
+import { piholeFetchStats } from "../../../utils/api";
 
 const FETCH_INTERVAL = 60 * 1000;
 
@@ -16,7 +17,7 @@ type Props = {
   image: string;
 };
 
-type PiHoleStats = {
+export type PiHoleStats = {
   ads_percentage_today: number;
   dns_queries_today: number;
   ads_blocked_today: number;
@@ -51,10 +52,6 @@ const PiHole = (props: Props) => {
   const [duration, setDuration] = useState(5 * 60);
   const client = useQueryClient();
 
-  const fetchStats = async (): Promise<PiHoleStats> => {
-    return (await axios.get(`${props.url}/api.php`)).data;
-  };
-
   const disable = async () => {
     if (!props.apiKey) alert("No api token set");
     const res = await axios.post(
@@ -77,9 +74,13 @@ const PiHole = (props: Props) => {
     client.invalidateQueries("pihole_stats");
   };
 
-  const { data: stats, isLoading } = useQuery("pihole_stats", fetchStats, {
-    refetchInterval: FETCH_INTERVAL,
-  });
+  const { data: stats, isLoading } = useQuery(
+    "pihole_stats",
+    () => piholeFetchStats(props.url),
+    {
+      refetchInterval: FETCH_INTERVAL,
+    }
+  );
 
   if (isLoading) return <div>Loading...</div>;
   return (
@@ -146,9 +147,12 @@ const PiHole = (props: Props) => {
               Blocked ads percentage
             </h2>
             <p className="text-xl font-bold text-gray-700 dark:text-gray-300">
-              {stats?.ads_percentage_today.toLocaleString("fr", {
-                maximumFractionDigits: 2,
-              })}
+              {stats?.ads_percentage_today.toLocaleString(
+                window.navigator.language,
+                {
+                  maximumFractionDigits: 2,
+                }
+              )}
               %
             </p>
           </div>

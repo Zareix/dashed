@@ -36,7 +36,9 @@ const CatLink = ({ category, index, open, opened }: CatLinkProps) => {
   return (
     <div>
       <Button
-        className={`flex w-full items-center ${match ? "font-bold" : ""}`}
+        className={`flex w-full items-center bg-transparent ${
+          match ? "font-bold" : ""
+        }`}
         onClick={() => open(index)}
       >
         {category.icon && (

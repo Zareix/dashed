@@ -1,5 +1,8 @@
 import { RiFullscreenFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
+
+import Service from "../services/Service";
+import ServiceDetails from "../services/ServiceDetails";
 import { Button } from "../ui/Button";
 import { FlexCard } from "../ui/Cards";
 
@@ -31,7 +34,15 @@ const AppsList = (props: Props) => {
           <a href={app.url}>
             <FlexCard className="!justify-start transition-shadow group-hover:shadow-lg">
               <img className="icon" src={`/assets/${app.image}`} />
-              <h2 className="ml-2 text-lg">{app.name}</h2>
+              <div className="ml-2">
+                <h2 className="-mb-1 text-lg">{app.name}</h2>
+                <p className="text-sm text-gray-500">
+                  <ServiceDetails app={app} />
+                </p>
+              </div>
+              <div className="ml-auto mr-4">
+                <Service app={app} />
+              </div>
             </FlexCard>
           </a>
         </li>
