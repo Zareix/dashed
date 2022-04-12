@@ -6,8 +6,8 @@ import { RiEarthLine } from "react-icons/ri";
 import { ImBlocked } from "react-icons/im";
 import { HiOutlineExternalLink } from "react-icons/hi";
 
-import { FlexCard, SimpleCard } from "../../../components/ui/Cards";
-import { piholeFetchStats } from "../../../utils/api";
+import { FlexCard, SimpleCard } from "../../components/ui/Cards";
+import { piholeFetchStats } from "../../utils/api";
 
 const FETCH_INTERVAL = 60 * 1000;
 

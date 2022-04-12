@@ -4,7 +4,7 @@ import { HiOutlineExternalLink, HiOutlineRefresh } from "react-icons/hi";
 
 import data from "data.json";
 
-import PiHole from "./services/PiHole";
+import PiHole from "./PiHole";
 import { useRef } from "react";
 import { Button } from "../../components/ui/Button";
 

@@ -20,18 +20,18 @@ type Props = {
 
 export const Pihole = ({ app }: Props) => {
   const { data: stats, isLoading } = useQuery(
-    "pihole_status",
+    "pihole_stats",
     () => piholeFetchStats(app.url),
     {
       refetchInterval: FETCH_INTERVAL,
     }
   );
 
-  if (isLoading) {
+  if (isLoading || !stats) {
     return <></>;
   }
 
-  return stats?.status === "enabled" ? <></> : <Disabled />;
+  return stats.status === "enabled" ? <></> : <Disabled />;
 };
 
 type DetailsProps = {
@@ -47,9 +47,13 @@ export const PiholeDetails = ({ app }: DetailsProps) => {
     }
   );
 
+  if (isLoading || !stats) {
+    return <div>...</div>;
+  }
+
   return (
     <div>
-      {stats?.ads_percentage_today.toLocaleString(window.navigator.language, {
+      {stats.ads_percentage_today.toLocaleString(window.navigator.language, {
         maximumFractionDigits: 2,
       })}
       %

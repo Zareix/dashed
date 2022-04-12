@@ -1,21 +1,15 @@
 import { useMatch, useResolvedPath } from "react-router-dom";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { Category } from "../../../models/Category";
 import { Button } from "../../ui/Button";
 import DynamicIcon from "../../ui/DynamicIcon";
 
 import NavLink from "./NavLink";
 
-const expand = (n: number) => keyframes`
-    to {
-        max-height: ${n * 5}rem;
-    }
-`;
-
 const AppLinksList = styled.div`
   max-height: ${(props: { opened: boolean; nbItems: number }) =>
     props.opened ? props.nbItems * 5 : "0"}rem;
-  overflow: hidden;
+  overflow-y: hidden;
   transition: max-height 500ms ease;
 `;
 
@@ -58,6 +52,7 @@ const CatLink = ({ category, index, open, opened }: CatLinkProps) => {
             key={`${index}/${j}`}
             link={`categories/${index}/apps/${j}`}
             name={app.name}
+            app={app}
             image={app.image}
           />
         ))}

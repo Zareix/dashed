@@ -26,7 +26,7 @@ const Layout = ({ children }: LayoutProps) => {
 
   return (
     <div className="flex">
-      <SideBar className="min-w-[20vw]">
+      <SideBar className="hidden min-w-[20vw] sm:block">
         <h2 className="mx-auto mb-2 pb-1 text-center">Dashboard</h2>
         <hr className="mx-auto w-3/4" />
         <ul className="mt-4 max-h-[80vh] overflow-y-auto">
@@ -47,7 +47,9 @@ const Layout = ({ children }: LayoutProps) => {
           ))}
         </ul>
       </SideBar>
-      <main className="mr-4 mt-6 min-h-screen w-full pb-10">{children}</main>
+      <main className="mx-4 mt-6 min-h-screen w-full pb-10 sm:ml-0">
+        {children}
+      </main>
     </div>
   );
 };

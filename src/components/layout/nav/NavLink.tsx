@@ -1,11 +1,14 @@
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
-import { Button } from "../../ui/Button";
 
+import { Application } from "../../../models/Applications";
+import Service from "../../services/Service";
+import { Button } from "../../ui/Button";
 import DynamicIcon from "../../ui/DynamicIcon";
 
 type NavLinkProps = {
   name: string;
   link: string;
+  app?: Application;
   icon?: string;
   image?: string;
 };
@@ -38,6 +41,11 @@ const NavLink = (props: NavLinkProps) => {
       >
         {props.name}
       </span>
+      {props.app && (
+        <span className="ml-auto mr-2">
+          <Service app={props.app} discret />
+        </span>
+      )}
     </Button>
   );
 };
