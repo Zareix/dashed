@@ -1,5 +1,7 @@
-import { RiFullscreenFill } from "react-icons/ri";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { RiFullscreenFill } from "react-icons/ri";
+import { ImEarth } from "react-icons/im";
 
 import data from "data.json";
 
@@ -8,10 +10,6 @@ import { Button } from "../components/ui/Button";
 import { FlexCard } from "../components/ui/Cards";
 import ServiceDetails from "../components/services/ServiceDetails";
 import Service from "../components/services/Service";
-import { Application } from "../models/Applications";
-import { useState } from "react";
-import { Md10K } from "react-icons/md";
-import { ImEarth } from "react-icons/im";
 
 const Home = () => {
   return (

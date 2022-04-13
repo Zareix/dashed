@@ -42,8 +42,8 @@ const NavLink = (props: NavLinkProps) => {
         {props.name}
       </span>
       {props.app && (
-        <span className="ml-auto mr-2">
-          <Service app={props.app} discret />
+        <span className="discret ml-auto mr-2">
+          <Service app={props.app} />
         </span>
       )}
     </Button>

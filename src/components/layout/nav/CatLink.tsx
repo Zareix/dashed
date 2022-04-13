@@ -1,4 +1,5 @@
-import { useMatch, useResolvedPath } from "react-router-dom";
+import { useEffect } from "react";
+import { useLocation, useMatch, useResolvedPath } from "react-router-dom";
 import styled from "styled-components";
 import { Category } from "../../../models/Category";
 import { Button } from "../../ui/Button";
@@ -21,11 +22,16 @@ type CatLinkProps = {
 };
 
 const CatLink = ({ category, index, open, opened }: CatLinkProps) => {
+  const location = useLocation();
   const resolved = useResolvedPath(`categories/${index}`);
   const match = useMatch({
     path: resolved.pathname,
     end: false,
   });
+
+  useEffect(() => {
+    if (match && !opened) open(index);
+  }, [location]);
 
   return (
     <div>
