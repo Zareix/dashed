@@ -23,7 +23,7 @@ const NavLink = (props: NavLinkProps) => {
     <Button
       as={Link}
       to={props.link}
-      className="flex items-center rounded-md bg-transparent p-2 transition-colors duration-300 hover:bg-cyan-100 dark:hover:bg-cyan-700 dark:hover:bg-opacity-50"
+      className="flex items-center overflow-x-auto rounded-md bg-transparent p-2 transition-colors duration-300 hover:bg-cyan-100 dark:hover:bg-cyan-700 dark:hover:bg-opacity-50"
     >
       {props.image && (
         <img
@@ -37,7 +37,9 @@ const NavLink = (props: NavLinkProps) => {
         </div>
       )}
       <span
-        className={match ? "font-bold" : "text-gray-600 dark:text-gray-400"}
+        className={`mr-2 ${
+          match ? "font-bold" : "text-gray-600 dark:text-gray-400"
+        }`}
       >
         {props.name}
       </span>

@@ -1,6 +1,7 @@
 import { Application } from "../../models/Applications";
 
 import { Pihole } from "./PiHole";
+import Portainer from "./Portainer";
 import ServarrV3 from "./ServarrV3";
 
 type Props = {
@@ -15,6 +16,9 @@ const Service = ({ app }: Props) => {
     case "sonarr":
     case "radarr":
       return <ServarrV3 app={app} />;
+
+    case "portainer":
+      return <Portainer app={app} />;
 
     default:
       return <></>;
