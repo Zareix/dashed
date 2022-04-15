@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 
 import { Application } from "../../models/Applications";
-import { sonarrFetchActivity, sonarrFetchStatus } from "../../utils/api";
+import { servarrFetchActivity, servarrFetchStatus } from "../../utils/api";
 import { Indicator } from "../ui/Indicator";
 
 const REFETCH_INTERVAL = 15 * 1000;
@@ -23,12 +23,17 @@ export type ServarrV3Activity = {
 
 type Props = {
   app: Application;
+  apiVersion: number;
+} & typeof defaultProps;
+
+const defaultProps = {
+  apiVersion: 3,
 };
 
-const ServarrV3 = ({ app }: Props) => {
+const Servarr = ({ app, apiVersion }: Props) => {
   const { data: status, isLoading } = useQuery(
     `${app.name.toLowerCase()}_status`,
-    () => sonarrFetchStatus(app.url, app.apiKey),
+    () => servarrFetchStatus(app.url, app.apiKey, apiVersion),
     {
       refetchInterval: REFETCH_INTERVAL,
     }
@@ -36,7 +41,7 @@ const ServarrV3 = ({ app }: Props) => {
 
   const { data: activity, isLoading: isActLoading } = useQuery(
     `${app.name.toLowerCase()}_activity`,
-    () => sonarrFetchActivity(app.url, app.apiKey),
+    () => servarrFetchActivity(app.url, app.apiKey, apiVersion),
     {
       refetchInterval: REFETCH_INTERVAL,
     }
@@ -87,4 +92,6 @@ const ServarrV3 = ({ app }: Props) => {
   );
 };
 
-export default ServarrV3;
+Servarr.defaultProps = defaultProps;
+
+export default Servarr;

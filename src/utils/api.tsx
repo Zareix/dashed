@@ -6,7 +6,7 @@ import {
 import {
   ServarrV3Activity,
   ServarrV3Status,
-} from "../components/services/ServarrV3";
+} from "../components/services/Servarr";
 
 import { PiHoleStats } from "../pages/apps/PiHole";
 
@@ -17,20 +17,23 @@ export const piholeFetchStats = async (url: string): Promise<PiHoleStats> => {
 
 // --- Servarr ---
 
-export const sonarrFetchStatus = async (
+export const servarrFetchStatus = async (
   url: string,
-  apiKey: string | undefined
+  apiKey: string | undefined,
+  apiVersion: number
 ): Promise<ServarrV3Status[]> => {
-  return (await axios.get(`${url}/api/v3/health?apikey=${apiKey}`)).data;
+  return (await axios.get(`${url}/api/v${apiVersion}/health?apikey=${apiKey}`))
+    .data;
 };
 
-export const sonarrFetchActivity = async (
+export const servarrFetchActivity = async (
   url: string,
-  apiKey: string | undefined
+  apiKey: string | undefined,
+  apiVersion: number
 ): Promise<ServarrV3Activity> => {
   return (
     await axios.get(
-      `${url}/api/v3/queue?apikey=${apiKey}&includeUnknownMovieItems=true`
+      `${url}/api/v${apiVersion}/queue?apikey=${apiKey}&includeUnknownMovieItems=true`
     )
   ).data;
 };
