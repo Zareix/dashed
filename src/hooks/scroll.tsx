@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
-const useScroll = () => {
+const useScroll = (offset?: number) => {
   const [scrolled, setScrolled] = useState(false);
   const [scrollAmount, setScrollAmount] = useState(0);
-  const scrollOffset = 0;
+  const scrollOffset = offset ?? 0;
 
   useEffect(() => {
     const handleScroll = () => {

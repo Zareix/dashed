@@ -12,6 +12,7 @@ import "./global.scss";
 import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
 import App from "./pages/apps/App";
+import ScrollToTop from "./utils/scrollToTop";
 
 const container = document.getElementById("root");
 if (!container) {
@@ -22,6 +23,7 @@ root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
+        <ScrollToTop />
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />

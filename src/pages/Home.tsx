@@ -14,7 +14,7 @@ import Service from "../components/services/Service";
 const Home = () => {
   return (
     <>
-      <h1>Dashboard</h1>
+      <h1>Home</h1>
       {data.categories.map((cat, i) => {
         return (
           <section key={i} className="mt-4">
@@ -28,8 +28,8 @@ const Home = () => {
                   <Button
                     as={Link}
                     to={`/categories/${i}/apps/${j}`}
-                    className="absolute top-1/2 right-2 mr-3 w-0 -translate-y-1/2
-                          overflow-hidden px-0 py-2 group-hover:w-10 group-hover:border group-hover:px-2"
+                    className="absolute top-1/2 right-2 mr-3 -translate-y-1/2 overflow-hidden
+                          border py-2 px-2 md:w-0 md:border-0 md:px-0 md:group-hover:w-10 md:group-hover:border md:group-hover:px-2"
                   >
                     <RiFullscreenFill size={20} className="mx-auto" />
                   </Button>
@@ -42,7 +42,7 @@ const Home = () => {
                           <ServiceDetails app={app} />
                         </div>
                       </div>
-                      <div className="ml-auto mr-4 transition-all duration-300 group-hover:mr-14 empty:group-hover:mr-0">
+                      <div className="ml-auto mr-14 transition-all duration-300 md:mr-4 md:group-hover:mr-14 md:empty:group-hover:mr-0">
                         <Service app={app} />
                       </div>
                     </FlexCard>

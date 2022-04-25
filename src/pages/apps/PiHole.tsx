@@ -95,7 +95,7 @@ const PiHole = (props: Props) => {
           <HiOutlineExternalLink />
         </a>
       </h1>
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
         <FlexCard>
           <div>
             <h2 className="font-semibold text-gray-500 dark:text-gray-500">
@@ -161,8 +161,8 @@ const PiHole = (props: Props) => {
           </div>
         </FlexCard>
       </div>
-      <div className="mt-4 grid grid-cols-5">
-        <SimpleCard className="col-span-2">
+      <div className="mt-4 flex">
+        <SimpleCard className="md:w-3/5 lg:w-1/3">
           <h2 className="text-xl font-semibold text-gray-600 dark:text-gray-300">
             Disable/Enable
           </h2>

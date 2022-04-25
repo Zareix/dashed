@@ -38,7 +38,7 @@ const App = () => {
           <iframe
             ref={frame}
             src={app.url}
-            className="h-[39rem] max-h-[80vh] w-[98%] rounded-md border-2 dark:border-slate-700"
+            className="h-[39rem] max-h-[80vh] w-full rounded-md border-2 dark:border-slate-700 sm:w-[98%]"
           ></iframe>
           <div className="mt-2 flex w-full items-center justify-center">
             <Button

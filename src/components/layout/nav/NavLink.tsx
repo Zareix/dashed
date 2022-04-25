@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { ImEarth } from "react-icons/im";
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
 
 import { Application } from "../../../models/Applications";
@@ -19,18 +21,22 @@ const NavLink = (props: NavLinkProps) => {
     path: resolved.pathname,
     end: props.link === "/",
   });
+  const [imgError, setImgError] = useState(false);
+
   return (
     <Button
       as={Link}
       to={props.link}
       className="flex items-center overflow-x-auto rounded-md bg-transparent p-2 transition-colors duration-300 hover:bg-cyan-100 dark:hover:bg-cyan-700 dark:hover:bg-opacity-50"
     >
-      {props.image && (
+      {props.image && !imgError && (
         <img
           src={`assets/${props.image}`}
+          onError={() => setImgError(true)}
           className="mr-2 aspect-square w-6 object-contain"
         />
       )}
+      {imgError && <ImEarth size={25} className="mr-2" />}
       {props.icon && (
         <div className="mr-2 rounded-lg bg-gradient-to-br from-cyan-400 to-cyan-500 p-2 text-white shadow-md dark:from-cyan-500 dark:to-cyan-700">
           <DynamicIcon icon={props.icon} size={18} />

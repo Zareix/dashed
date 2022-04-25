@@ -4,7 +4,11 @@
 
 html,
 body {
-  @apply bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100;
+  @apply custom-bg text-gray-900  dark:text-gray-100;
+}
+
+#root {
+  @apply sm:flex;
 }
 
 h1 {
@@ -15,4 +19,10 @@ h1 {
   width: 52px;
   aspect-ratio: 1/1;
   object-fit: contain;
+}
+
+@layer base {
+  .custom-bg {
+    @apply bg-gray-100 dark:bg-gray-900;
+  }
 }

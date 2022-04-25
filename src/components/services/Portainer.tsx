@@ -22,7 +22,7 @@ type Props = {
 };
 
 const Portainer = ({ app }: Props) => {
-  const { data, isLoading } = useQuery(["portainer_endpoints"], () =>
+  const { data: endpoints, isLoading } = useQuery(["portainer_endpoints"], () =>
     portainerFetchEndpoints(app.url, app.apiKey)
   );
 
@@ -32,15 +32,15 @@ const Portainer = ({ app }: Props) => {
       portainerFetchContainers(
         app.endpoint ?? app.url,
         app.apiKey,
-        data,
+        endpoints,
         app.endpoints
       ),
     {
-      enabled: !!data,
+      enabled: !!endpoints,
     }
   );
 
-  if (isLoading || isLoadingContainers || !data || !results) {
+  if (isLoading || isLoadingContainers || !endpoints || !results) {
     return <></>;
   }
 
@@ -52,7 +52,7 @@ const Portainer = ({ app }: Props) => {
   return (
     <div className="flex gap-1">
       <Indicator
-        info={runningContainers.map((x) => x.Names.join()).join("\\A ")}
+        info={runningContainers.map((x) => x.Names[0].slice(1)).join("\\A ")}
         className="bg-cyan-400 text-gray-50"
       >
         {runningContainers.length}
