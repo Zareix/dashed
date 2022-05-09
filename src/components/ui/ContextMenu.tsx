@@ -42,8 +42,8 @@ const ContextMenu = () => {
           if (x.id === "home") {
             setShow(true);
           }
-          if (x instanceof HTMLAnchorElement && x.id) {
-            let p = x.id.split("/");
+          if (x instanceof HTMLAnchorElement && x.id?.includes("///")) {
+            let p = x.id.split("///");
             let app = data.categories[parseInt(p[0])].apps[parseInt(p[1])];
             setPath(`categories/${p[0]}/apps/${p[1]}`);
             setUrl(app.url);

@@ -38,7 +38,7 @@ const Home = () => {
                   >
                     <RiFullscreenFill size={20} className="mx-auto" />
                   </Button>
-                  <a href={app.url} id={i + "/" + j}>
+                  <a href={app.url} id={i + "///" + j}>
                     <FlexCard className="!justify-start transition-shadow group-hover:shadow-lg">
                       <CardImg imgSrc={app.image} />
                       <div className="ml-2">
