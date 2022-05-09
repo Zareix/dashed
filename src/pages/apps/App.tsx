@@ -26,7 +26,7 @@ const App = () => {
       return (
         <>
           <h1 className="flex items-center">
-            <img className="icon" src={`/assets/${app.image}`} />
+            <img className="icon mr-2" src={`/assets/${app.image}`} />
             {app.name}
             <a
               href={app.url}

@@ -2,7 +2,6 @@ import { ReactNode, useEffect, useState } from "react";
 
 import styled from "styled-components";
 import { AiOutlineMenu } from "react-icons/ai";
-import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 
 import data from "data.json";
 
