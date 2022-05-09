@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import { Link } from "react-router-dom";
 import { RiFullscreenFill } from "react-icons/ri";
 import { ImEarth } from "react-icons/im";
@@ -10,14 +11,18 @@ import { Button } from "../components/ui/Button";
 import { FlexCard } from "../components/ui/Cards";
 import ServiceDetails from "../components/services/ServiceDetails";
 import Service from "../components/services/Service";
+import useWindowWidth from "../hooks/windowWidth";
+import ContextMenu from "../components/ui/ContextMenu";
 
 const Home = () => {
+  const { isMobile } = useWindowWidth();
+
   return (
     <>
       <h1>Home</h1>
       {data.categories.map((cat, i) => {
         return (
-          <section key={i} className="mt-4">
+          <section key={i} className="mt-4" id="home">
             <h2 className="mb-3 ml-3 flex items-center text-2xl text-gray-700 dark:text-gray-300">
               <DynamicIcon icon={cat.icon} className="mr-2" />
               {cat.name}
@@ -33,7 +38,7 @@ const Home = () => {
                   >
                     <RiFullscreenFill size={20} className="mx-auto" />
                   </Button>
-                  <a href={app.url}>
+                  <a href={app.url} id={i + "/" + j}>
                     <FlexCard className="!justify-start transition-shadow group-hover:shadow-lg">
                       <CardImg imgSrc={app.image} />
                       <div className="ml-2">
@@ -53,6 +58,7 @@ const Home = () => {
           </section>
         );
       })}
+      {!isMobile && <ContextMenu />}
     </>
   );
 };
