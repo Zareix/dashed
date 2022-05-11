@@ -10,11 +10,11 @@ import { Application } from "../../models/Applications";
 import DynamicIcon from "./DynamicIcon";
 
 const IconNumber = styled.span`
-  border-radius: 100vw;
-  width: 1.5rem;
-  height: 1.5rem;
+  border-radius: 8px;
+  width: 1.375rem;
+  height: 1.375rem;
   text-align: center;
-  line-height: 1.5rem;
+  line-height: 1.375rem;
 `;
 
 type MenuProps = {
@@ -25,10 +25,9 @@ type MenuProps = {
 const Menu = styled.div`
   font-size: 14px;
   border-radius: 8px;
-  padding: 5px 0 5px 0;
   height: auto;
   margin: 0;
-  padding: 1rem 0;
+  padding: 0.5rem 0;
   position: absolute;
   list-style: none;
   top: ${(props: MenuProps) => props.top}px;
@@ -136,7 +135,9 @@ const ContextMenu = () => {
                     {x.icon ? (
                       <DynamicIcon icon={x.icon} size={22} />
                     ) : (
-                      <IconNumber>{i}</IconNumber>
+                      <IconNumber className="bg-slate-200 dark:bg-slate-500">
+                        {i}
+                      </IconNumber>
                     )}
                     {x.name}
                   </Link>
