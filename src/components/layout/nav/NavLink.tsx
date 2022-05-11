@@ -13,6 +13,7 @@ type NavLinkProps = {
   app?: Application;
   icon?: string;
   image?: string;
+  isWorkspace?: boolean;
 };
 
 const NavLink = (props: NavLinkProps) => {
@@ -27,29 +28,34 @@ const NavLink = (props: NavLinkProps) => {
     <Button
       as={Link}
       to={props.link}
-      className="flex items-center overflow-x-auto rounded-md bg-transparent p-2 transition-colors duration-300 hover:bg-cyan-100 dark:hover:bg-cyan-700 dark:hover:bg-opacity-50"
+      title={props.name}
+      className={`d flex items-center gap-2 overflow-x-auto rounded-md p-2 transition-colors duration-300 ${
+        match
+          ? "bg-cyan-200 dark:bg-cyan-700"
+          : "bg-transparent dark:bg-transparent"
+      }`}
     >
       {props.image && !imgError && (
         <img
           src={`assets/${props.image}`}
           onError={() => setImgError(true)}
-          className="mr-2 aspect-square w-6 object-contain"
+          className="aspect-square w-6 object-contain"
         />
       )}
-      {imgError && <ImEarth size={25} className="mr-2" />}
+      {imgError && <ImEarth size={25} />}
       {props.icon && (
-        <div className="mr-2 rounded-lg bg-gradient-to-br from-cyan-400 to-cyan-500 p-2 text-white shadow-md dark:from-cyan-500 dark:to-cyan-700">
+        <div className="rounded-lg bg-gradient-to-br from-cyan-400 to-cyan-500 p-2 text-white shadow-md dark:from-cyan-500 dark:to-cyan-700">
           <DynamicIcon icon={props.icon} size={18} />
         </div>
       )}
-      <span
-        className={`mr-2 ${
-          match ? "font-bold" : "text-gray-600 dark:text-gray-400"
-        }`}
-      >
-        {props.name}
-      </span>
-      {props.app && (
+      {!props.isWorkspace && (
+        <span
+          className={match ? "font-bold" : "text-gray-600 dark:text-gray-400"}
+        >
+          {props.name}
+        </span>
+      )}
+      {props.app && !props.isWorkspace && (
         <span className="discret ml-auto mr-2">
           <Service app={props.app} />
         </span>

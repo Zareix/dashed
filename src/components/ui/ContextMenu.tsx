@@ -6,6 +6,16 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import data from "data.json";
+import { Application } from "../../models/Applications";
+import DynamicIcon from "./DynamicIcon";
+
+const IconNumber = styled.span`
+  border-radius: 100vw;
+  width: 1.5rem;
+  height: 1.5rem;
+  text-align: center;
+  line-height: 1.5rem;
+`;
 
 type MenuProps = {
   top: number;
@@ -29,13 +39,15 @@ const ContextMenu = () => {
   const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
   const [show, setShow] = useState(false);
   const [path, setPath] = useState("");
-  const [url, setUrl] = useState("");
+  const [app, setApp] = useState<Application>();
 
   const handleContextMenu = useCallback(
     (event: MouseEvent) => {
       event.preventDefault();
+      console.log(event);
+
       setPath("");
-      setUrl("");
+      setApp(undefined);
       setAnchorPoint({ x: event.pageX, y: event.pageY });
       if (event.path) {
         event.path.map((x: HTMLElement) => {
@@ -46,7 +58,7 @@ const ContextMenu = () => {
             let p = x.id.split("///");
             let app = data.categories[parseInt(p[0])].apps[parseInt(p[1])];
             setPath(`categories/${p[0]}/apps/${p[1]}`);
-            setUrl(app.url);
+            setApp(app);
           }
         });
       }
@@ -58,7 +70,7 @@ const ContextMenu = () => {
     if (show) {
       setShow(false);
       setPath("");
-      setUrl("");
+      setApp(undefined);
     }
   }, [show]);
 
@@ -72,21 +84,21 @@ const ContextMenu = () => {
     };
   });
 
-  if (show && (url !== "" || path !== ""))
+  if (show && (app || path !== ""))
     return (
       <Menu
-        className="bg-gray-50 shadow-xl dark:bg-gray-500"
+        className="bg-slate-50 shadow-2xl dark:bg-slate-700"
         top={anchorPoint.y}
         left={anchorPoint.x}
       >
         <ul>
-          {url !== "" && (
+          {app && (
             <li>
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href={url}
-                className="flex gap-1 px-3 py-2 dark:hover:bg-gray-600"
+                href={app.url}
+                className="flex gap-1 px-3 py-2 hover:bg-slate-200 dark:hover:bg-slate-600"
               >
                 <FiExternalLink size={22} />
                 Open in new tab
@@ -97,13 +109,40 @@ const ContextMenu = () => {
             <li>
               <Link
                 to={path}
-                className="flex gap-1 px-3 py-2 dark:hover:bg-gray-600"
+                className="flex gap-1 px-3 py-2 hover:bg-slate-200 dark:hover:bg-slate-600"
               >
                 <RiFullscreenFill size={22} />
                 Open here
               </Link>
             </li>
           )}
+          {path !== "" &&
+            app &&
+            app.customLinks &&
+            app.customLinks.map((x, i) => (
+              <li key={i}>
+                {x.path.startsWith("http") ? (
+                  <a
+                    href={x.path}
+                    className="flex gap-1 px-3 py-2 hover:bg-slate-200 dark:hover:bg-slate-600"
+                  >
+                    {x.name}
+                  </a>
+                ) : (
+                  <Link
+                    to={`${path}?path=${x.path}`}
+                    className="flex items-center gap-1 px-3 py-2 hover:bg-slate-200 dark:hover:bg-slate-600"
+                  >
+                    {x.icon ? (
+                      <DynamicIcon icon={x.icon} size={22} />
+                    ) : (
+                      <IconNumber>{i}</IconNumber>
+                    )}
+                    {x.name}
+                  </Link>
+                )}
+              </li>
+            ))}
         </ul>
       </Menu>
     );
