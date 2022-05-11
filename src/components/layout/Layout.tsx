@@ -2,12 +2,12 @@ import { ReactNode, useEffect, useState } from "react";
 
 import styled from "styled-components";
 import { AiOutlineMenu } from "react-icons/ai";
+import { Link, useLocation } from "react-router-dom";
 
 import data from "data.json";
 
 import NavLink from "./nav/NavLink";
 import CatLink from "./nav/CatLink";
-import { Link, useLocation } from "react-router-dom";
 import useScroll from "../../hooks/scroll";
 import useWindowWidth from "../../hooks/windowWidth";
 
@@ -15,10 +15,15 @@ const SideBar = styled.section`
   position: sticky;
   top: 0;
   height: 100vh;
-  min-width: 20vw;
-  padding: 2rem 1rem;
-  padding: 1.5rem;
+  min-width: ${(props: SideBarProps) => (props.workspace ? "auto" : "20vw")};
+  padding-top: 1.5rem;
+  padding-inline: ${(props: SideBarProps) =>
+    props.workspace ? "0" : "1.5rem"};
 `;
+
+type SideBarProps = {
+  workspace?: boolean;
+};
 
 type LayoutProps = {
   children?: ReactNode;
@@ -27,12 +32,14 @@ type LayoutProps = {
 const Layout = ({ children }: LayoutProps) => {
   const [opened, setOpened] = useState(-1);
   const [isDrawerOpened, setIsDrawerOpened] = useState(false);
+  const [isWorkspace, setIsWorkspace] = useState(false);
   const { pathname } = useLocation();
   const { scrolled } = useScroll(10);
   const { isMobile } = useWindowWidth();
 
   useEffect(() => {
     setIsDrawerOpened(false);
+    setIsWorkspace(/categories\/[0-9]\/apps\/[0-9]/.test(pathname));
   }, [pathname]);
 
   const open = (index: number) => setOpened(opened === index ? -1 : index);
@@ -40,23 +47,32 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <>
       {!isMobile && (
-        <SideBar>
-          <h2 className="mx-auto mb-2 pb-1 text-center">Dashboard</h2>
-          <hr className="mx-auto w-3/4" />
+        <SideBar workspace={isWorkspace}>
+          {!isWorkspace && (
+            <>
+              <h2 className="mx-auto mb-2 pb-1 text-center">Dashboard</h2>
+              <hr className="mx-auto w-3/4" />
+            </>
+          )}
           <nav>
-            <ul className="mt-4 max-h-[80vh] overflow-y-auto">
+            <ul className="mt-4 flex max-h-[85vh] flex-col gap-1 overflow-y-auto">
               {data.links.map((link, i) => (
-                <li onClick={() => setOpened(-1)} key={i}>
-                  <NavLink {...link} />
+                <li
+                  onClick={() => setOpened(-1)}
+                  key={"link" + i}
+                  className="custom-bg sticky top-0"
+                >
+                  <NavLink {...link} isWorkspace={isWorkspace} />
                 </li>
               ))}
               {data.categories.map((cat, j) => (
-                <li key={j}>
+                <li key={"cat" + j}>
                   <CatLink
                     category={cat}
                     index={j}
                     open={open}
                     opened={opened === j}
+                    isWorkspace={isWorkspace}
                   />
                 </li>
               ))}
@@ -87,7 +103,7 @@ const Layout = ({ children }: LayoutProps) => {
             }`}
             onClickCapture={console.log}
           >
-            <ul className="max-h-[80vh] overflow-y-auto">
+            <ul className="flex max-h-[80vh] flex-col  gap-1 overflow-y-auto">
               {data.links.map((link, i) => (
                 <li
                   onClick={() => {
@@ -119,7 +135,7 @@ const Layout = ({ children }: LayoutProps) => {
           )}
         </>
       )}
-      <main className="min-h-screen w-full px-4 pb-10 sm:mx-4 sm:mt-6 sm:ml-0 sm:p-0">
+      <main className="min-h-screen w-full px-4 pb-10 sm:mx-4 sm:ml-0 sm:p-0 sm:pt-6">
         {children}
       </main>
     </>

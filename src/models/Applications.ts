@@ -6,4 +6,11 @@ export type Application = {
   type?: string;
   apiKey?: string;
   endpoints?: string[];
+  customLinks?: CustomLink[];
+};
+
+type CustomLink = {
+  icon?: string;
+  name: string;
+  path: string;
 };

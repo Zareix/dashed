@@ -19,9 +19,16 @@ type CatLinkProps = {
   index: number;
   opened: boolean;
   open: Function;
+  isWorkspace?: boolean;
 };
 
-const CatLink = ({ category, index, open, opened }: CatLinkProps) => {
+const CatLink = ({
+  category,
+  index,
+  open,
+  opened,
+  isWorkspace = false,
+}: CatLinkProps) => {
   const location = useLocation();
   const resolved = useResolvedPath(`categories/${index}`);
   const match = useMatch({
@@ -36,22 +43,28 @@ const CatLink = ({ category, index, open, opened }: CatLinkProps) => {
   return (
     <div>
       <Button
-        className={`flex w-full items-center bg-transparent ${
+        className={`flex w-full items-center bg-transparent dark:bg-transparent ${
           match ? "font-bold" : ""
         }`}
         onClick={() => open(index)}
       >
         {category.icon && (
-          <div className="mr-2 rounded-lg bg-gradient-to-br from-cyan-400 to-cyan-500 p-2 text-white shadow-md dark:from-cyan-500 dark:to-cyan-700">
+          <div
+            className={`rounded-lg bg-gradient-to-br from-cyan-400 to-cyan-500 p-2 text-white shadow-md dark:from-cyan-500 dark:to-cyan-700 ${
+              isWorkspace ? "mx-auto" : "mr-2"
+            }`}
+          >
             <DynamicIcon icon={category.icon} size={18} />
           </div>
         )}
-        {category.name}
+        {!isWorkspace && <span>{category.name}</span>}
       </Button>
       <AppLinksList
-        className="ml-6 border-l-2 pl-3"
+        className={
+          isWorkspace ? "flex flex-col items-center" : "ml-6 border-l-2 pl-3"
+        }
         nbItems={category.apps.length}
-        opened={opened}
+        opened={opened || isWorkspace}
       >
         {category.apps.map((app, j) => (
           <NavLink
@@ -60,6 +73,7 @@ const CatLink = ({ category, index, open, opened }: CatLinkProps) => {
             name={app.name}
             app={app}
             image={app.image}
+            isWorkspace={isWorkspace}
           />
         ))}
       </AppLinksList>
