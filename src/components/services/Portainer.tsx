@@ -46,20 +46,24 @@ const Portainer = ({ app }: Props) => {
 
   const containers = results.reduce((x, y) => x.concat(y), []);
 
-  const runningContainers = containers.filter((x) => x.State === "running");
-  const idleContainers = containers.filter((x) => x.State !== "running");
+  const runningContainers = containers
+    .filter((x) => x.State === "running")
+    .sort((x, y) => x.Names[0].localeCompare(y.Names[0]));
+  const idleContainers = containers
+    .filter((x) => x.State !== "running")
+    .sort((x, y) => x.Names[0].localeCompare(y.Names[0]));
 
   return (
     <div className="flex gap-1">
       <Indicator
         info={runningContainers.map((x) => x.Names[0].slice(1)).join("\\A ")}
-        className="bg-cyan-400 text-gray-50"
+        className="bg-cyan-400 text-gray-50 dark:bg-cyan-500"
       >
         {runningContainers.length}
       </Indicator>
       <Indicator
         info={idleContainers.map((x) => x.Names[0].slice(1)).join("\\A ")}
-        className="bg-gray-300 text-gray-50"
+        className="bg-gray-300 text-gray-50 dark:bg-gray-400"
       >
         {idleContainers.length}
       </Indicator>
