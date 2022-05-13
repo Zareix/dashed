@@ -19,10 +19,8 @@ const App = () => {
   const frame = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
-    console.log(app.url + (searchParams.get("path") ?? ""));
-
     setUrl(app.url + (searchParams.get("path") ?? ""));
-  }, []);
+  }, [params]);
 
   if (!app) return <div>App not found</div>;
 
