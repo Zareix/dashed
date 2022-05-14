@@ -3,7 +3,7 @@ import { ImEarth } from "react-icons/im";
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
 
 import { Application } from "../../../models/Applications";
-import Service from "../../services/Service";
+import Service from "../../modules/Service";
 import { Button } from "../../ui/Button";
 import DynamicIcon from "../../ui/DynamicIcon";
 

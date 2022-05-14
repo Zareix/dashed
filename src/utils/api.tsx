@@ -2,11 +2,11 @@ import axios from "axios";
 import {
   PortainerContainer,
   PortainerEndpoint,
-} from "../components/services/Portainer";
+} from "../components/modules/services/Portainer";
 import {
   ServarrV3Activity,
   ServarrV3Status,
-} from "../components/services/Servarr";
+} from "../components/modules/services/Servarr";
 
 import { PiHoleStats } from "../pages/apps/PiHole";
 
@@ -16,7 +16,6 @@ export const piholeFetchStats = async (url: string): Promise<PiHoleStats> => {
 };
 
 // --- Servarr ---
-
 export const servarrFetchStatus = async (
   url: string,
   apiKey: string | undefined,
@@ -39,7 +38,6 @@ export const servarrFetchActivity = async (
 };
 
 // --- Portainer ---
-
 export const portainerFetchEndpoints = async (
   url: string,
   apiKey: string | undefined

@@ -1,11 +1,11 @@
 import { useQueries, useQuery } from "react-query";
 
-import { Application } from "../../models/Applications";
+import { Application } from "../../../models/Applications";
 import {
   portainerFetchContainers,
   portainerFetchEndpoints,
-} from "../../utils/api";
-import { Indicator } from "../ui/Indicator";
+} from "../../../utils/api";
+import { Indicator } from "../../ui/Indicator";
 
 export type PortainerEndpoint = {
   Id: number;

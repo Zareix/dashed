@@ -1,8 +1,8 @@
 import { useQuery } from "react-query";
 
-import { Application } from "../../models/Applications";
-import { servarrFetchActivity, servarrFetchStatus } from "../../utils/api";
-import { Indicator } from "../ui/Indicator";
+import { Application } from "../../../models/Applications";
+import { servarrFetchActivity, servarrFetchStatus } from "../../../utils/api";
+import { Indicator } from "../../ui/Indicator";
 
 const REFETCH_INTERVAL = 15 * 1000;
 
@@ -23,19 +23,21 @@ export type ServarrV3Activity = {
 
 type Props = {
   app: Application;
-  apiVersion: number;
-} & typeof defaultProps;
-
-const defaultProps = {
-  apiVersion: 3,
+  apiVersion?: number;
+  scopes?: string[];
 };
 
-const Servarr = ({ app, apiVersion }: Props) => {
+const Servarr = ({
+  app,
+  apiVersion = 3,
+  scopes = ["queue", "status"],
+}: Props) => {
   const { data: status, isLoading } = useQuery(
     `${app.name.toLowerCase()}_status`,
     () => servarrFetchStatus(app.url, app.apiKey, apiVersion),
     {
       refetchInterval: REFETCH_INTERVAL,
+      enabled: scopes.includes("status"),
     }
   );
 
@@ -44,6 +46,7 @@ const Servarr = ({ app, apiVersion }: Props) => {
     () => servarrFetchActivity(app.url, app.apiKey, apiVersion),
     {
       refetchInterval: REFETCH_INTERVAL,
+      enabled: scopes.includes("queue"),
     }
   );
 
@@ -91,7 +94,5 @@ const Servarr = ({ app, apiVersion }: Props) => {
     </div>
   );
 };
-
-Servarr.defaultProps = defaultProps;
 
 export default Servarr;

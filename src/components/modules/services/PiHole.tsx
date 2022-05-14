@@ -1,8 +1,8 @@
 import { useQuery } from "react-query";
 import styled from "styled-components";
 
-import { Application } from "../../models/Applications";
-import { piholeFetchStats } from "../../utils/api";
+import { Application } from "../../../models/Applications";
+import { piholeFetchStats } from "../../../utils/api";
 
 const FETCH_INTERVAL = 10 * 1000;
 
