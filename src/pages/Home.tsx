@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import { RiFullscreenFill } from "react-icons/ri";
@@ -17,6 +17,10 @@ import SearchBar from "../components/modules/SearchBar";
 
 const Home = () => {
   const { isMobile } = useWindowWidth();
+
+  useEffect(() => {
+    document.getElementById("searchInput")?.focus();
+  }, []);
 
   return (
     <>
