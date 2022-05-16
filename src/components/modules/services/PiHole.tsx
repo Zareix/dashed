@@ -52,7 +52,7 @@ type DetailsProps = {
 
 export const PiholeDetails = ({ app }: DetailsProps) => {
   const { data: stats, isLoading } = useQuery(
-    "pihole_stats",
+    ["pihole_stats", app.name],
     () => piholeFetchStats(app.url),
     {
       refetchInterval: FETCH_INTERVAL,

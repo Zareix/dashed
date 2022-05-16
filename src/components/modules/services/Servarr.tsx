@@ -33,7 +33,7 @@ const Servarr = ({
   scopes = ["queue", "status"],
 }: Props) => {
   const { data: status, isLoading } = useQuery(
-    `${app.name.toLowerCase()}_status`,
+    ["status", app.name],
     () => servarrFetchStatus(app.url, app.apiKey, apiVersion),
     {
       refetchInterval: REFETCH_INTERVAL,
