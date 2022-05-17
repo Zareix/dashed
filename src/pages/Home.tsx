@@ -30,7 +30,7 @@ const Home = () => {
           <SearchBar />
         </div>
       </div>
-      <div id="home">
+      <div id="home" className="pb-10">
         {data.categories.map((cat, i) => {
           return (
             <section key={i} className="mt-4">
