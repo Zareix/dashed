@@ -9,7 +9,7 @@ export default defineConfig({
     tsconfigPaths(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["robots.txt", "icons/*", "assets/**/*"],
+      includeAssets: ["robots.txt", "icons/**/*", "assets/**/*"],
       manifest: {
         name: "Dashboard",
         short_name: "Dashboard",
