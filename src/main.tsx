@@ -1,18 +1,13 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
 
 const queryClient = new QueryClient();
 
 import "./global.scss";
 
-import Layout from "./components/layout/Layout";
-import Home from "./pages/Home";
-import App from "./pages/apps/App";
-import ScrollToTop from "./utils/scrollToTop";
+import MainApp from "./MainApp";
 
 const container = document.getElementById("root");
 if (!container) {
@@ -22,19 +17,7 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <ScrollToTop />
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route
-              path="categories/:catIndex/apps/:appIndex"
-              element={<App />}
-            />
-          </Routes>
-        </Layout>
-      </BrowserRouter>
-      <ReactQueryDevtools initialIsOpen={false} />
+      <MainApp />
     </QueryClientProvider>
   </React.StrictMode>
 );

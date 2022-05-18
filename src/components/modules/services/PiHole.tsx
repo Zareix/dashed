@@ -60,7 +60,7 @@ export const PiholeDetails = ({ app }: DetailsProps) => {
   );
 
   if (isLoading || !stats) {
-    return <div>...</div>;
+    return <></>;
   }
 
   return (

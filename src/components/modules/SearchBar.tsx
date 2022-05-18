@@ -2,9 +2,6 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { MdSearch } from "react-icons/md";
 import styled from "styled-components";
 
-import googleIcon from "../../images/google_icon.png";
-import ytIcon from "../../images/yt_icon.png";
-
 type Props = {
   isNewTab?: boolean;
 };
@@ -50,10 +47,20 @@ const SearchBar = ({ isNewTab }: Props) => {
   const getIcon = () => {
     switch (searchEngine.name.trim().toLowerCase()) {
       case "google":
-        return <img src={googleIcon} alt="search icon" className="h-8" />;
+        return (
+          <img
+            src="/assets/searchEngines/google_icon.png"
+            alt="search icon"
+            className="aspect-square h-8 max-w-none"
+          />
+        );
       case "youtube":
         return (
-          <img src={ytIcon} alt="search icon youtube" className="h-8 p-2" />
+          <img
+            src="/assets/searchEngines/yt_icon.png"
+            alt="search icon youtube"
+            className="h-8 p-2"
+          />
         );
       default:
         return <MdSearch size={24} className="m-1" />;
