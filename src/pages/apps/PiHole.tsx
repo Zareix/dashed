@@ -60,7 +60,10 @@ const PiHole = (props: Props) => {
     if (!res.data.status) {
       alert("An error occurred, ensure your apiKey is set correctly");
     }
-    client.invalidateQueries("pihole_stats");
+    setTimeout(
+      () => client.invalidateQueries(["pihole_stats", props.url]),
+      200
+    );
   };
 
   const enable = async () => {
@@ -71,7 +74,10 @@ const PiHole = (props: Props) => {
     if (!res.data.status) {
       alert("An error occurred, ensure your apiKey is set correctly");
     }
-    client.invalidateQueries("pihole_stats");
+    setTimeout(
+      () => client.invalidateQueries(["pihole_stats", props.url]),
+      200
+    );
   };
 
   const { data: stats, isLoading } = useQuery(
