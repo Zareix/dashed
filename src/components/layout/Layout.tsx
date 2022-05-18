@@ -3,6 +3,8 @@ import { ReactNode, useEffect, useState } from "react";
 import styled from "styled-components";
 import { AiOutlineMenu } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
+import { FiCommand } from "react-icons/fi";
+import { useKBar } from "kbar";
 
 import data from "data.json";
 
@@ -36,11 +38,16 @@ const Layout = ({ children }: LayoutProps) => {
   const { pathname } = useLocation();
   const { scrolled } = useScroll(10);
   const { isMobile } = useWindowWidth();
+  const { query } = useKBar();
 
   useEffect(() => {
     setIsDrawerOpened(false);
     setIsWorkspace(/categories\/[0-9]\/apps\/[0-9]/.test(pathname));
   }, [pathname]);
+
+  const openKbar = () => {
+    query.toggle();
+  };
 
   const open = (index: number) => setOpened(opened === index ? -1 : index);
 
@@ -83,17 +90,17 @@ const Layout = ({ children }: LayoutProps) => {
       {isMobile && (
         <>
           <section
-            className={`custom-bg sticky top-0 z-40 block px-4 py-3 text-center transition-shadow ${
+            className={`custom-bg sticky top-0 z-40 flex justify-between px-4 py-3 text-center transition-shadow ${
               scrolled || isDrawerOpened ? "shadow-md" : ""
             }`}
           >
+            <button onClick={openKbar}>
+              <FiCommand size={30} />
+            </button>
             <Link to="/">
-              <h1 className="mx-auto mb-0 w-max">Dashboard</h1>
+              <h1 className="mx-auto mb-0 ">Dashboard</h1>
             </Link>
-            <button
-              onClick={() => setIsDrawerOpened(!isDrawerOpened)}
-              className="absolute right-6 top-1/2 -translate-y-1/2"
-            >
+            <button onClick={() => setIsDrawerOpened(!isDrawerOpened)}>
               <AiOutlineMenu size={35} />
             </button>
           </section>

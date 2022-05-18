@@ -30,18 +30,10 @@ const SearchBar = ({ isNewTab }: Props) => {
     e.preventDefault();
     const url = searchEngine.url + query;
     if (isNewTab) {
-      openInNewTab(url);
+      window.open(url, "_blank")?.focus();
     } else {
-      navigate(url);
+      window.open(url, "_self")?.focus();
     }
-  };
-
-  const navigate = (url: string) => {
-    window.location.href = url;
-  };
-
-  const openInNewTab = (url: string) => {
-    window.open(url, "_blank")?.focus();
   };
 
   const getIcon = () => {
@@ -51,7 +43,7 @@ const SearchBar = ({ isNewTab }: Props) => {
           <img
             src="/assets/searchEngines/google_icon.png"
             alt="search icon"
-            className="aspect-square h-8 max-w-none"
+            className="aspect-square h-8 max-w-none object-contain"
           />
         );
       case "youtube":
@@ -59,7 +51,7 @@ const SearchBar = ({ isNewTab }: Props) => {
           <img
             src="/assets/searchEngines/yt_icon.png"
             alt="search icon youtube"
-            className="h-8 p-2"
+            className="aspect-square h-8 object-contain"
           />
         );
       default:
@@ -99,14 +91,14 @@ const SearchBar = ({ isNewTab }: Props) => {
 
   return (
     <Wrapper
-      className="mt-3 bg-white transition-shadow duration-300 focus-within:shadow md:mt-0"
+      className="mt-3 bg-white transition-shadow duration-300 focus-within:shadow dark:bg-slate-700 md:mt-0"
       onSubmit={submit}
     >
-      <button type="submit" className="text-gray-500">
+      <button type="submit" className="mr-1 text-gray-500">
         {getIcon()}
       </button>
       <input
-        className="h-full w-full outline-none"
+        className="h-full w-full outline-none dark:bg-slate-700"
         value={query}
         onChange={handleChange}
         id="searchInput"

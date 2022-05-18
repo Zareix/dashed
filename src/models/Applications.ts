@@ -5,6 +5,7 @@ export type Application = {
   image: string;
   type?: string;
   apiKey?: string;
+  subtitle?: string;
   endpoints?: string[];
   customLinks?: CustomLink[];
 };

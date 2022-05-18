@@ -14,8 +14,10 @@ const Clock = () => {
   }, []);
 
   return (
-    <div className="grid justify-items-end">
-      <div className="text-2xl font-bold">{time.toLocaleTimeString()}</div>
+    <div className="text-right">
+      <div className="w-[105px] text-2xl font-bold">
+        {time.toLocaleTimeString()}
+      </div>
       <div>
         {time.toLocaleDateString(undefined, {
           day: "2-digit",

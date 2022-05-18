@@ -7,6 +7,7 @@ import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
 import ScrollToTop from "./utils/scrollToTop";
 import App from "./pages/apps/App";
+import CommandPalette from "./components/modules/CommandPalette";
 
 const MainApp = () => {
   useRegisterSW({
@@ -22,15 +23,17 @@ const MainApp = () => {
     <>
       <BrowserRouter>
         <ScrollToTop />
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route
-              path="categories/:catIndex/apps/:appIndex"
-              element={<App />}
-            />
-          </Routes>
-        </Layout>
+        <CommandPalette>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route
+                path="categories/:catIndex/apps/:appIndex"
+                element={<App />}
+              />
+            </Routes>
+          </Layout>
+        </CommandPalette>
       </BrowserRouter>
       <ReactQueryDevtools initialIsOpen={false} />
     </>
