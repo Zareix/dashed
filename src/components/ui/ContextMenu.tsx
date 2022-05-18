@@ -43,8 +43,6 @@ const ContextMenu = () => {
   const handleContextMenu = useCallback(
     (event: MouseEvent) => {
       event.preventDefault();
-      console.log(event);
-
       setPath("");
       setApp(undefined);
       setAnchorPoint({ x: event.pageX, y: event.pageY });

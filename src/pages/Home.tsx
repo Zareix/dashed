@@ -14,6 +14,7 @@ import Service from "../components/modules/Service";
 import useWindowWidth from "../hooks/windowWidth";
 import ContextMenu from "../components/ui/ContextMenu";
 import SearchBar from "../components/modules/SearchBar";
+import Clock from "../components/modules/Clock";
 
 const Home = () => {
   const { isMobile } = useWindowWidth();
@@ -24,16 +25,32 @@ const Home = () => {
 
   return (
     <>
-      <div className="w-full items-center justify-between md:flex md:w-4/5">
-        <h1 className="mb-0">Home</h1>
-        <div className="flex justify-center">
-          <SearchBar />
-        </div>
+      <div className="w-full items-center justify-between md:flex">
+        {!isMobile && (
+          <>
+            <h1 className="mb-0">Home</h1>
+            <div className="flex justify-center">
+              <SearchBar />
+            </div>
+            <Clock />
+          </>
+        )}
+        {isMobile && (
+          <>
+            <div className="flex items-center justify-between">
+              <h1 className="mb-0">Home</h1>
+              <Clock />
+            </div>
+            <div className="flex justify-center">
+              <SearchBar />
+            </div>
+          </>
+        )}
       </div>
       <div id="home" className="pb-10">
         {data.categories.map((cat, i) => {
           return (
-            <section key={i} className="mt-4">
+            <section key={i} className="mt-5">
               <h2 className="mb-3 ml-3 flex items-center text-2xl text-gray-700 dark:text-gray-300">
                 <DynamicIcon icon={cat.icon} className="mr-2" />
                 {cat.name}
