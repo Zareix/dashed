@@ -75,7 +75,7 @@ const PiHole = (props: Props) => {
   };
 
   const { data: stats, isLoading } = useQuery(
-    "pihole_stats",
+    ["pihole_stats", props.url],
     () => piholeFetchStats(props.url),
     {
       refetchInterval: FETCH_INTERVAL,

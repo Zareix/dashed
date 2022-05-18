@@ -42,7 +42,7 @@ const Servarr = ({
   );
 
   const { data: activity, isLoading: isActLoading } = useQuery(
-    `${app.name.toLowerCase()}_activity`,
+    ["activity", app.name],
     () => servarrFetchActivity(app.url, app.apiKey, apiVersion),
     {
       refetchInterval: REFETCH_INTERVAL,
