@@ -8,6 +8,7 @@ import data from "data.json";
 import PiHole from "./PiHole";
 import { Button } from "../../components/ui/Button";
 import SearchBar from "../../components/modules/SearchBar";
+import useWindowWidth from "../../hooks/windowWidth";
 
 const App = () => {
   const params = useParams();
@@ -18,6 +19,7 @@ const App = () => {
     ];
   const [url, setUrl] = useState<string>("");
   const frame = useRef<HTMLIFrameElement>(null);
+  const { isMobile } = useWindowWidth();
 
   useEffect(() => {
     setUrl(app.url + (searchParams.get("path") ?? ""));
@@ -32,7 +34,7 @@ const App = () => {
     default:
       return (
         <>
-          <div className="mb-2 flex items-center justify-between md:-mt-4">
+          <div className="mb-2 items-center justify-between md:-mt-4 md:flex">
             <h1 className="mb-0 flex items-center">
               <img className="icon mr-2" src={`/assets/${app.image}`} />
               {app.name}
@@ -43,17 +45,21 @@ const App = () => {
                 <HiOutlineExternalLink />
               </a>
             </h1>
-            <div className="flex justify-center">
-              <SearchBar isNewTab />
-            </div>
-            <Button
-              onClick={() => {
-                if (frame === null || frame.current === null) return;
-                frame.current.src = url;
-              }}
-            >
-              <HiOutlineRefresh size={20} />
-            </Button>
+            {!isMobile && (
+              <>
+                <div className="flex justify-center">
+                  <SearchBar isNewTab />
+                </div>
+                <Button
+                  onClick={() => {
+                    if (frame === null || frame.current === null) return;
+                    frame.current.src = url;
+                  }}
+                >
+                  <HiOutlineRefresh size={20} />
+                </Button>
+              </>
+            )}
           </div>
           {url && url !== "" ? (
             <iframe
