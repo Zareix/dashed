@@ -16,9 +16,13 @@ if [ ! -e /app/public/assets ]; then
     echo ">> Creating assets folder"
     mkdir -p /app/public/assets
 fi
+if [ ! -e /app/public/app ]; then
+    echo ">> Creating default app folder"
+    cp -r /app/src/defaults/app /app/public/app
+fi
 if [ ! -e /app/public/data.json ]; then
     echo ">> Creating default data.json file"
-    cp /app/src/defaults/data-default.json /app/public/data.json
+    cp /app/src/defaults/data.json /app/public/data.json
 fi
 echo ">> Running server"
 servor dist --reload &

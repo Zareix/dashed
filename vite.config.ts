@@ -9,7 +9,7 @@ export default defineConfig({
     tsconfigPaths(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["robots.txt", "icons/**/*", "assets/**/*"],
+      includeAssets: ["robots.txt", "app/**/*", "assets/**/*"],
       manifest: {
         name: "Dashboard",
         short_name: "Dashboard",
@@ -17,17 +17,17 @@ export default defineConfig({
         theme_color: "#a5f3fc",
         icons: [
           {
-            src: "icons/pwa-192x192.png",
+            src: "/app/icons/pwa-192x192.png",
             sizes: "192x192",
             type: "image/png",
           },
           {
-            src: "icons/pwa-512x512.png",
+            src: "/app/icons/pwa-512x512.png",
             sizes: "512x512",
             type: "image/png",
           },
           {
-            src: "icons/pwa-512x512.png",
+            src: "/app/icons/pwa-512x512.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "any maskable",

@@ -41,15 +41,15 @@ const SearchBar = ({ isNewTab }: Props) => {
       case "google":
         return (
           <img
-            src="/assets/searchEngines/google_icon.png"
-            alt="search icon"
+            src="/app/searchEngines/google_icon.png"
+            alt="search icon google"
             className="aspect-square h-8 max-w-none object-contain"
           />
         );
       case "youtube":
         return (
           <img
-            src="/assets/searchEngines/yt_icon.png"
+            src="/app/searchEngines/yt_icon.png"
             alt="search icon youtube"
             className="aspect-square h-8 object-contain"
           />
