@@ -12,6 +12,20 @@ docker run -d \
         ghcr.io/zareix/dashboard:latest
 ```
 
+or with docker-compose :
+
+```yml
+version: "3"
+services:
+  app:
+    image: ghcr.io/zareix/dashboard:latest
+    container_name: dashboard
+    ports:
+      - 8080:8080
+    volumes:
+      - ./dashboard/public:/app/public
+```
+
 You can modify `data.json` file and `assets` folder as you wish.
 
 ## Running in dev environment
