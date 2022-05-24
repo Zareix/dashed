@@ -9,6 +9,7 @@ type Props = {
 type SearchEngine = {
   name: string;
   url: string;
+  emptyQueryUrl: string;
 };
 
 const Wrapper = styled.form`
@@ -24,11 +25,15 @@ const SearchBar = ({ isNewTab }: Props) => {
   const [searchEngine, setSearchEngine] = useState<SearchEngine>({
     name: "google",
     url: "https://google.fr/search?q=",
+    emptyQueryUrl: "#",
   });
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
-    const url = searchEngine.url + query;
+    let url = searchEngine.url + query;
+    if (query === "") {
+      url = searchEngine.emptyQueryUrl;
+    }
     if (isNewTab) {
       window.open(url, "_blank")?.focus();
     } else {
@@ -61,18 +66,13 @@ const SearchBar = ({ isNewTab }: Props) => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    if (value === "") {
-      setSearchEngine({
-        name: "google",
-        url: "https://google.fr/search?q=",
-      });
-    }
 
     switch (true) {
       case value.startsWith("y "):
         setSearchEngine({
           name: "youtube",
           url: "https://www.youtube.com/results?search_query=",
+          emptyQueryUrl: "https://www.youtube.com/",
         });
         setQuery(value.slice(2));
         break;
@@ -80,6 +80,7 @@ const SearchBar = ({ isNewTab }: Props) => {
         setSearchEngine({
           name: "google",
           url: "https://google.fr/search?q=",
+          emptyQueryUrl: "#",
         });
         setQuery(value.slice(2));
         break;
