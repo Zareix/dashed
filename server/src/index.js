@@ -12,17 +12,17 @@ app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
 
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
   res.send("Running");
 });
 
-app.post("/config", (req, res) => {
+app.post("/api/config", (req, res) => {
   fs.writeFile(
     "../public/data.json",
     JSON.stringify(req.body, null, 4),
     (err) => {
-      if (err) console.log("Error writing file:", err);
+      if (err) res.status(500).send("Error writing file :", err);
+      res.status(200).send();
     }
   );
-  res.send("Done");
 });
