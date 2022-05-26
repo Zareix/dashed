@@ -6,7 +6,7 @@ To run using docker, run the following command :
 
 ```
 docker run -d \
-        -p 8080:8080 \
+        -p 80:80 \
         -v ~/dashboard/public:/app/public \
         --name=dashboard \
         ghcr.io/zareix/dashboard:latest
@@ -21,7 +21,7 @@ services:
     image: ghcr.io/zareix/dashboard:latest
     container_name: dashboard
     ports:
-      - 8080:8080
+      - 80:80
     volumes:
       - ./dashboard/public:/app/public
 ```
