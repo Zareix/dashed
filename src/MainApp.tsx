@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import ScrollToTop from "./utils/scrollToTop";
 import App from "./pages/apps/App";
 import CommandPalette from "./components/modules/CommandPalette";
+import Config from "./pages/Config";
 
 const MainApp = () => {
   useRegisterSW({
@@ -27,6 +28,7 @@ const MainApp = () => {
           <Layout>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/config" element={<Config />} />
               <Route
                 path="categories/:catIndex/apps/:appIndex"
                 element={<App />}

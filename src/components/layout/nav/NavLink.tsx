@@ -49,11 +49,7 @@ const NavLink = (props: NavLinkProps) => {
         </div>
       )}
       {!props.isWorkspace && (
-        <span
-          className={match ? "font-bold" : "text-gray-600 dark:text-gray-400"}
-        >
-          {props.name}
-        </span>
+        <span className={match ? "font-bold" : ""}>{props.name}</span>
       )}
       {props.app && !props.isWorkspace && (
         <span className="discret ml-auto mr-2">

@@ -83,6 +83,14 @@ const Layout = ({ children }: LayoutProps) => {
                   />
                 </li>
               ))}
+              <li>
+                <NavLink
+                  link="/config"
+                  name="Config"
+                  icon="MdSettings"
+                  isWorkspace={isWorkspace}
+                />
+              </li>
             </ul>
           </nav>
         </SideBar>
