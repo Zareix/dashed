@@ -5,7 +5,7 @@ echo ">> Starting nginx"
 nginx -g "daemon off;" &
 
 # App
-echo ">> Installing packages"
+echo ">> Installing front packages"
 yarn install
 if [ ! -e /app/dist ]; then
     echo ">> Creating dist folder"
@@ -27,11 +27,12 @@ if [ ! -e /app/public/data.json ]; then
     echo ">> Creating default data.json file"
     cp /app/src/defaults/data.json /app/public/data.json
 fi
-echo ">> Running server"
+echo ">> Running front"
 yarn build:docker &
 
 # Api
 cd server
-echo ">> Installing packages"
+echo ">> Installing api packages"
 yarn install
+echo ">> Starting api"
 yarn start
