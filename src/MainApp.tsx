@@ -9,7 +9,6 @@ import Home from "./pages/Home";
 import ScrollToTop from "./utils/scrollToTop";
 import App from "./pages/apps/App";
 import CommandPalette from "./components/modules/CommandPalette";
-import ConfigJson from "./pages/config/ConfigJson";
 import Config from "./pages/config/Config";
 
 const MainApp = () => {
@@ -30,7 +29,6 @@ const MainApp = () => {
           <Layout>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/config/json" element={<ConfigJson />} />
               <Route path="/config" element={<Config />} />
               <Route
                 path="categories/:catIndex/apps/:appIndex"
