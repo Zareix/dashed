@@ -28,7 +28,7 @@ const actions = [
       keywords: app.name,
       section: category.name,
       subtitle: app.subtitle,
-      icon: app.image ? (
+      icon: (
         <AppIcon
           imgClassName="icon mr-2 max-w-[2rem]"
           iconClassName="icon mr-2 max-w-[2rem]"
@@ -36,7 +36,7 @@ const actions = [
           appName={app.name}
           iconSize={30}
         />
-      ) : null,
+      ),
       perform: () => {
         window.location.pathname = `/categories/${i}/apps/${j}`;
       },
@@ -69,7 +69,10 @@ const CommandPalette = ({ children }: Props) => {
         <KBarPositioner className="bg-gray-800 bg-opacity-30 backdrop-blur-[3px] dark:bg-gray-900 dark:bg-opacity-40">
           <KBarAnimator className="w-full max-w-md overflow-hidden rounded-xl bg-white shadow-xl dark:bg-slate-800">
             <div className="flex pt-4 pb-4">
-              <KBarSearch className="mx-auto w-1/2 rounded-md bg-gray-200 px-2 py-1 dark:bg-slate-700" />
+              <KBarSearch
+                className="mx-auto w-1/2 rounded-md bg-gray-200 px-2 py-1 dark:bg-slate-700"
+                defaultPlaceholder="Search an app or link"
+              />
             </div>
             <RenderResults />
           </KBarAnimator>
