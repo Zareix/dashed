@@ -148,7 +148,7 @@ const schema = {
         properties: {
           apps: {
             items: {
-              required: ["name", "image", "url"],
+              required: ["name", "url"],
               properties: {
                 name: {
                   type: "string",

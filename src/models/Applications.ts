@@ -1,7 +1,7 @@
 export type Application = {
   name: string;
   url: string;
-  image: string;
+  image?: string;
   endpoint?: string;
   type?: string;
   apiKey?: string;
