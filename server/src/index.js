@@ -13,7 +13,7 @@ app.listen(port, () => {
 });
 
 app.get("/api", (req, res) => {
-  res.send("Running");
+  res.status(200).send("Running");
 });
 
 app.post("/api/config", (req, res) => {

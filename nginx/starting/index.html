@@ -24,7 +24,7 @@
       }
 
       h1,
-      p {
+      section {
         margin: 0;
       }
 
@@ -40,7 +40,7 @@
         font-size: 3rem;
       }
 
-      p {
+      section {
         font-size: 1.25rem;
       }
 
@@ -50,6 +50,7 @@
         width: 80px;
         height: 80px;
       }
+
       .lds-ellipsis div {
         position: absolute;
         top: 33px;
@@ -59,52 +60,88 @@
         background: #333;
         animation-timing-function: cubic-bezier(0, 1, 1, 0);
       }
+
       .lds-ellipsis div:nth-child(1) {
         left: 8px;
         animation: lds-ellipsis1 0.6s infinite;
       }
+
       .lds-ellipsis div:nth-child(2) {
         left: 8px;
         animation: lds-ellipsis2 0.6s infinite;
       }
+
       .lds-ellipsis div:nth-child(3) {
         left: 32px;
         animation: lds-ellipsis2 0.6s infinite;
       }
+
       .lds-ellipsis div:nth-child(4) {
         left: 56px;
         animation: lds-ellipsis3 0.6s infinite;
       }
+
       @keyframes lds-ellipsis1 {
         0% {
           transform: scale(0);
         }
+
         100% {
           transform: scale(1);
         }
       }
+
       @keyframes lds-ellipsis3 {
         0% {
           transform: scale(1);
         }
+
         100% {
           transform: scale(0);
         }
       }
+
       @keyframes lds-ellipsis2 {
         0% {
           transform: translate(0, 0);
         }
+
         100% {
           transform: translate(24px, 0);
         }
       }
     </style>
+    <script>
+      if (window.fetch) {
+        setInterval(async () => {
+          const resApi = await window.fetch("/api");
+          const resFront = await window.fetch("/");
+          let doc;
+          if (resFront && resFront.status === 200) {
+            doc = new DOMParser().parseFromString(
+              await resFront.text(),
+              "text/html"
+            );
+          }
+          if (resApi && resApi.status === 200 && doc.getElementById("root")) {
+            location.reload();
+          }
+        }, 1000);
+      }
+    </script>
   </head>
+
   <body>
     <main>
       <h1>Dashboard</h1>
-      <p><div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div></p>
+      <section>
+        <div class="lds-ellipsis">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </section>
     </main>
   </body>
 </html>
