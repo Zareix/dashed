@@ -4,14 +4,11 @@ import axios, { AxiosError } from "axios";
 import styled, { createGlobalStyle } from "styled-components";
 import { JsonEditor } from "jsoneditor-react";
 import "jsoneditor-react/es/editor.min.css";
-import ace from "brace";
-import "brace/mode/json";
-import "brace/theme/solarized_dark";
-import "brace/theme/github";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { Button } from "../components/ui/Button";
+import { AppData } from "../models/AppData";
 
 import data from "data.json";
 
@@ -39,7 +36,8 @@ const Wrapper = styled.div`
       border-top: 1px solid #334155;
     }
 
-    .jsoneditor-tree {
+    .jsoneditor-tree,
+    textarea.jsoneditor-text {
       background-color: #002b36;
       color: #93a1a1;
     }
@@ -160,8 +158,6 @@ const Config = () => {
           value={newData}
           allowedModes={["code", "tree"]}
           onChange={(e: any) => setNewData(e)}
-          ace={ace}
-          theme={isDark ? "ace/theme/solarized_dark" : "ace/theme/github"}
         />
         <div className="flex justify-end">
           <Button>Save</Button>
