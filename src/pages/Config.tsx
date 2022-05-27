@@ -1,10 +1,5 @@
 import { FormEvent, useState } from "react";
 
-import "brace";
-import "brace/mode/json";
-import "brace/theme/solarized_dark";
-import "brace/theme/github";
-
 import axios, { AxiosError } from "axios";
 import styled, { createGlobalStyle } from "styled-components";
 import Ajv from "ajv";
@@ -217,6 +212,7 @@ const Config = () => {
     window.matchMedia &&
     window.matchMedia("(prefers-color-scheme: dark)").matches;
   const ajv = new Ajv({ allErrors: true, verbose: true });
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     axios
@@ -260,7 +256,6 @@ const Config = () => {
           onChange={(e: any) => setNewData(e)}
           ajv={ajv}
           schema={schema}
-          theme={isDark ? "ace/theme/solarized_dark" : "ace/theme/github"}
         />
         <div className="flex justify-end">
           <Button>Save</Button>
