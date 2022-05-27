@@ -7,6 +7,7 @@ import { piholeFetchStats } from "../../../utils/api";
 const FETCH_INTERVAL = 10 * 1000;
 
 const Enabled = styled.div`
+  margin-right: 0.25rem;
   width: 7px;
   height: 7px;
   background-color: #a6a8f2;
@@ -15,6 +16,7 @@ const Enabled = styled.div`
 `;
 
 const Disabled = styled.div`
+  margin-right: 0.25rem;
   width: 7px;
   height: 7px;
   background-color: red;

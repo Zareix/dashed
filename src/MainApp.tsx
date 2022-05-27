@@ -2,13 +2,15 @@ import { useRegisterSW } from "virtual:pwa-register/react";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { ToastContainer } from "react-toastify";
 
 import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
 import ScrollToTop from "./utils/scrollToTop";
 import App from "./pages/apps/App";
 import CommandPalette from "./components/modules/CommandPalette";
-import Config from "./pages/Config";
+import ConfigJson from "./pages/config/ConfigJson";
+import Config from "./pages/config/Config";
 
 const MainApp = () => {
   useRegisterSW({
@@ -28,6 +30,7 @@ const MainApp = () => {
           <Layout>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/config/json" element={<ConfigJson />} />
               <Route path="/config" element={<Config />} />
               <Route
                 path="categories/:catIndex/apps/:appIndex"
@@ -36,6 +39,7 @@ const MainApp = () => {
             </Routes>
           </Layout>
         </CommandPalette>
+        <ToastContainer />
       </BrowserRouter>
       <ReactQueryDevtools initialIsOpen={false} />
     </>

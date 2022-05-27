@@ -22,8 +22,12 @@ type Props = {
 };
 
 const Portainer = ({ app }: Props) => {
-  const { data: endpoints, isLoading } = useQuery(["portainer_endpoints"], () =>
-    portainerFetchEndpoints(app.url, app.apiKey)
+  const { data: endpoints, isLoading } = useQuery(
+    ["portainer_endpoints"],
+    () => portainerFetchEndpoints(app.url, app.apiKey),
+    {
+      retry: 3,
+    }
   );
 
   const { data: results, isLoading: isLoadingContainers } = useQuery(
@@ -37,6 +41,7 @@ const Portainer = ({ app }: Props) => {
       ),
     {
       enabled: !!endpoints,
+      retry: 3,
     }
   );
 

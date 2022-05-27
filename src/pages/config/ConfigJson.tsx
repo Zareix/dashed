@@ -1,15 +1,14 @@
 import { FormEvent, useState } from "react";
 
-import axios, { AxiosError } from "axios";
 import styled, { createGlobalStyle } from "styled-components";
 import Ajv from "ajv";
 import { JsonEditor } from "jsoneditor-react";
-import { ToastContainer, toast } from "react-toastify";
 
 import "jsoneditor-react/es/editor.min.css";
 import "react-toastify/dist/ReactToastify.css";
 
-import { Button } from "../components/ui/Button";
+import { Button } from "../../components/ui/Button";
+import { saveSettings } from "../../utils/api";
 
 import data from "data.json";
 
@@ -113,8 +112,35 @@ export const JsonEditorStyle = createGlobalStyle`
 `;
 
 const schema = {
-  required: ["categories", "links"],
+  required: ["categories", "links", "settings"],
   properties: {
+    settings: {
+      type: "object",
+      required: ["searchEngine"],
+      properties: {
+        searchEngine: {
+          type: "object",
+          required: ["default", "display", "autofocus", "inApp"],
+          properties: {
+            default: {
+              type: "string",
+              enum: ["google", "youtube", "bitsearch"],
+            },
+            display: {
+              type: "string",
+              enum: ["mobile", "mobile large-screen", "large-screen"],
+            },
+            autofocus: {
+              type: "string",
+              enum: ["mobile", "mobile large-screen", "large-screen"],
+            },
+            inApp: {
+              type: "boolean",
+            },
+          },
+        },
+      },
+    },
     categories: {
       items: {
         required: ["apps", "icon", "name"],
@@ -206,49 +232,18 @@ const schema = {
   type: "object",
 };
 
-const Config = () => {
+const ConfigJson = () => {
   const [newData, setNewData] = useState(data);
-  const isDark =
-    window.matchMedia &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches;
   const ajv = new Ajv({ allErrors: true, verbose: true });
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    axios
-      .post("/api/config", newData)
-      .then((res) => {
-        toast.success(
-          () => (
-            <div className="text-gray-600 dark:text-gray-200">
-              Data json updated successfully
-            </div>
-          ),
-          {
-            theme: isDark ? "dark" : "light",
-          }
-        );
-      })
-      .catch((err: AxiosError) => {
-        toast.error(
-          () => (
-            <>
-              <div className="text-gray-600 dark:text-gray-200">
-                An error occured
-              </div>
-              <div className="text-sm dark:text-gray-400">{err.message}</div>
-            </>
-          ),
-          {
-            theme: isDark ? "dark" : "light",
-          }
-        );
-      });
+    saveSettings(newData);
   };
 
   return (
     <Wrapper>
-      <h1>Config</h1>
+      <h1>Config - Json</h1>
       <form onSubmit={handleSubmit}>
         <JsonEditor
           value={newData}
@@ -262,9 +257,8 @@ const Config = () => {
         </div>
       </form>
       <JsonEditorStyle />
-      <ToastContainer />
     </Wrapper>
   );
 };
 
-export default Config;
+export default ConfigJson;

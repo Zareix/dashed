@@ -1,4 +1,6 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { toast } from "react-toastify";
+
 import {
   PortainerContainer,
   PortainerEndpoint,
@@ -7,8 +9,47 @@ import {
   ServarrV3Activity,
   ServarrV3Status,
 } from "../components/modules/services/Servarr";
+import { AppData } from "../models/AppData";
 
 import { PiHoleStats } from "../pages/apps/PiHole";
+
+const API_URL = import.meta.env.PROD ? "/api" : "http://localhost:3001/api";
+
+// --- Settings ---
+export const saveSettings = (data: AppData): void => {
+  const isDark =
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
+  axios
+    .post(`${API_URL}/config`, data)
+    .then((res) => {
+      toast.success(
+        () => (
+          <div className="text-gray-600 dark:text-gray-200">
+            Data json updated successfully
+          </div>
+        ),
+        {
+          theme: isDark ? "dark" : "light",
+        }
+      );
+    })
+    .catch((err: AxiosError) => {
+      toast.error(
+        () => (
+          <>
+            <div className="text-gray-600 dark:text-gray-200">
+              An error occured
+            </div>
+            <div className="text-sm dark:text-gray-400">{err.message}</div>
+          </>
+        ),
+        {
+          theme: isDark ? "dark" : "light",
+        }
+      );
+    });
+};
 
 // --- Pi-Hole ---
 export const piholeFetchStats = async (url: string): Promise<PiHoleStats> => {

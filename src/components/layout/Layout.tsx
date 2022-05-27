@@ -140,6 +140,9 @@ const Layout = ({ children }: LayoutProps) => {
                   />
                 </li>
               ))}
+              <li>
+                <NavLink link="/config" name="Config" icon="MdSettings" />
+              </li>
             </ul>
           </nav>
           {isDrawerOpened && (

@@ -2,6 +2,8 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { MdSearch } from "react-icons/md";
 import styled from "styled-components";
 
+import data from "data.json";
+
 type Props = {
   isNewTab?: boolean;
 };
@@ -20,13 +22,29 @@ const Wrapper = styled.form`
   padding: 0.25rem 0.5rem;
 `;
 
-const SearchBar = ({ isNewTab }: Props) => {
-  const [query, setQuery] = useState("");
-  const [searchEngine, setSearchEngine] = useState<SearchEngine>({
+const SEARCH_ENGINES: Record<string, SearchEngine> = {
+  google: {
     name: "google",
     url: "https://google.fr/search?q=",
     emptyQueryUrl: "#",
-  });
+  },
+  youtube: {
+    name: "youtube",
+    url: "https://www.youtube.com/results?search_query=",
+    emptyQueryUrl: "https://www.youtube.com/",
+  },
+  bitsearch: {
+    name: "bitsearch",
+    url: "https://bitsearch.to/search?q=",
+    emptyQueryUrl: "https://bitsearch.to",
+  },
+};
+
+const SearchBar = ({ isNewTab }: Props) => {
+  const [query, setQuery] = useState("");
+  const [searchEngine, setSearchEngine] = useState<SearchEngine>(
+    SEARCH_ENGINES[data.settings.searchEngine.default ?? "google"]
+  );
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
@@ -59,6 +77,14 @@ const SearchBar = ({ isNewTab }: Props) => {
             className="aspect-square h-8 object-contain"
           />
         );
+      case "bitsearch":
+        return (
+          <img
+            src="/app/searchEngines/bitsearch_icon.png"
+            alt="search icon bitsearch"
+            className="aspect-square h-8 object-contain"
+          />
+        );
       default:
         return <MdSearch size={24} className="m-1" />;
     }
@@ -69,19 +95,15 @@ const SearchBar = ({ isNewTab }: Props) => {
 
     switch (true) {
       case value.startsWith("y "):
-        setSearchEngine({
-          name: "youtube",
-          url: "https://www.youtube.com/results?search_query=",
-          emptyQueryUrl: "https://www.youtube.com/",
-        });
+        setSearchEngine(SEARCH_ENGINES["youtube"]);
         setQuery(value.slice(2));
         break;
       case value.startsWith("g "):
-        setSearchEngine({
-          name: "google",
-          url: "https://google.fr/search?q=",
-          emptyQueryUrl: "#",
-        });
+        setSearchEngine(SEARCH_ENGINES["google"]);
+        setQuery(value.slice(2));
+        break;
+      case value.startsWith("t "):
+        setSearchEngine(SEARCH_ENGINES["bitsearch"]);
         setQuery(value.slice(2));
         break;
       default:

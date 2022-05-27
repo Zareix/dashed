@@ -20,7 +20,12 @@ const Home = () => {
   const { isMobile } = useWindowWidth();
 
   useEffect(() => {
-    document.getElementById("searchInput")?.focus();
+    if (
+      data.settings?.searchEngine?.autofocus?.includes(
+        isMobile ? "mobile" : "large-screen"
+      )
+    )
+      document.getElementById("searchInput")?.focus();
   }, []);
 
   return (
@@ -30,7 +35,9 @@ const Home = () => {
           <>
             <h1 className="mb-0">Home</h1>
             <div className="flex justify-center">
-              <SearchBar />
+              {data.settings?.searchEngine?.autofocus?.includes(
+                "large-screen"
+              ) && <SearchBar />}
             </div>
             <Clock />
           </>
@@ -42,7 +49,9 @@ const Home = () => {
               <Clock />
             </div>
             <div className="flex justify-center">
-              <SearchBar />
+              {data.settings?.searchEngine?.autofocus?.includes("mobile") && (
+                <SearchBar />
+              )}
             </div>
           </>
         )}
@@ -58,6 +67,9 @@ const Home = () => {
               <ul className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {cat.apps.map((app, j) => (
                   <li className="group relative h-max" key={j}>
+                    <div className="absolute right-2 top-1/2 ml-auto mr-14 -translate-y-1/2 transition-all duration-300 md:mr-4 md:group-hover:mr-14 md:empty:group-hover:mr-0">
+                      <Service app={app} />
+                    </div>
                     <Button
                       as={Link}
                       to={`/categories/${i}/apps/${j}`}
@@ -76,9 +88,6 @@ const Home = () => {
                           <div className="text-sm text-gray-500">
                             <ServiceDetails app={app} />
                           </div>
-                        </div>
-                        <div className="ml-auto mr-14 transition-all duration-300 md:mr-4 md:group-hover:mr-14 md:empty:group-hover:mr-0">
-                          <Service app={app} />
                         </div>
                       </FlexCard>
                     </a>
