@@ -1,9 +1,8 @@
-import { useState } from "react";
-import { ImEarth } from "react-icons/im";
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
 
 import { Application } from "../../../models/Applications";
 import Service from "../../modules/Service";
+import AppIcon from "../../ui/AppIcon";
 import { Button } from "../../ui/Button";
 import DynamicIcon from "../../ui/DynamicIcon";
 
@@ -22,32 +21,28 @@ const NavLink = (props: NavLinkProps) => {
     path: resolved.pathname,
     end: props.link === "/",
   });
-  const [imgError, setImgError] = useState(false);
 
   return (
     <Button
       as={Link}
       to={props.link}
       title={props.name}
-      className={`d flex items-center gap-2 overflow-x-auto rounded-md p-2 transition-colors duration-300 ${
+      className={`flex items-center gap-2 overflow-x-auto rounded-md p-2 transition-colors duration-300 ${
         match
           ? "bg-cyan-200 dark:bg-cyan-700"
           : "bg-transparent dark:bg-transparent"
       }`}
     >
-      {props.image && !imgError && (
-        <img
-          src={`assets/${props.image}`}
-          onError={() => setImgError(true)}
-          className="aspect-square w-6 object-contain"
-        />
-      )}
-      {imgError && <ImEarth size={25} />}
-      {props.icon && (
-        <div className="rounded-lg bg-gradient-to-br from-cyan-400 to-cyan-500 p-2 text-white shadow-md dark:from-cyan-500 dark:to-cyan-700">
-          <DynamicIcon icon={props.icon} size={18} />
-        </div>
-      )}
+      <AppIcon
+        image={props.image}
+        icon={props.icon}
+        appName={props.name}
+        imgClassName="aspect-square w-7 object-contain"
+        iconClassName={
+          props.icon &&
+          "rounded-lg bg-gradient-to-br from-cyan-400 to-cyan-500 p-2 text-white shadow-md dark:from-cyan-500 dark:to-cyan-700"
+        }
+      />
       {!props.isWorkspace && (
         <span className={match ? "font-bold" : ""}>{props.name}</span>
       )}

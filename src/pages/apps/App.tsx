@@ -9,6 +9,7 @@ import PiHole from "./PiHole";
 import { Button } from "../../components/ui/Button";
 import SearchBar from "../../components/modules/SearchBar";
 import useWindowWidth from "../../hooks/windowWidth";
+import AppIcon from "../../components/ui/AppIcon";
 
 const App = () => {
   const params = useParams();
@@ -36,7 +37,13 @@ const App = () => {
         <>
           <div className="mb-2 items-center justify-between md:-mt-4 md:flex">
             <h1 className="mb-0 flex items-center">
-              <img className="icon mr-2" src={`/assets/${app.image}`} />
+              <AppIcon
+                imgClassName="icon mr-2"
+                iconSize={32}
+                iconClassName="mr-2"
+                image={app.image}
+                appName={app.name}
+              />
               {app.name}
               <a
                 href={app.url}

@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+
 import {
   KBarProvider,
   KBarPortal,
@@ -9,7 +10,6 @@ import {
   useMatches,
   Action,
 } from "kbar";
-import { MdHome } from "react-icons/md";
 
 import { Application } from "../../models/Applications";
 import { Category } from "../../models/Category";
@@ -17,6 +17,7 @@ import { Category } from "../../models/Category";
 import data from "data.json";
 import Service from "./Service";
 import DynamicIcon from "../ui/DynamicIcon";
+import AppIcon from "../ui/AppIcon";
 
 const actions = [
   ...data.categories.flatMap<Action>((category: Category, i) =>
@@ -28,7 +29,13 @@ const actions = [
       section: category.name,
       subtitle: app.subtitle,
       icon: app.image ? (
-        <img className="icon mr-2 max-w-[2rem]" src={`/assets/${app.image}`} />
+        <AppIcon
+          imgClassName="icon mr-2 max-w-[2rem]"
+          iconClassName="icon mr-2 max-w-[2rem]"
+          image={app.image}
+          appName={app.name}
+          iconSize={30}
+        />
       ) : null,
       perform: () => {
         window.location.pathname = `/categories/${i}/apps/${j}`;
@@ -82,7 +89,7 @@ const RenderResults = () => {
       onRender={({ item, active }) => {
         if (typeof item === "string") {
           return (
-            <div className="px-4 pt-2 pb-1 text-sm text-gray-500 dark:text-slate-400">
+            <div className="px-4 pt-2 pb-1 text-gray-500 dark:text-slate-400">
               {item}
             </div>
           );

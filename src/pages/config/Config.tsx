@@ -37,7 +37,8 @@ const Wrapper = styled.div`
     }
 
     .jsoneditor-tree,
-    textarea.jsoneditor-text {
+    textarea.jsoneditor-text,
+    select {
       background-color: #002b36;
       color: #93a1a1;
     }

@@ -15,6 +15,8 @@ import useWindowWidth from "../hooks/windowWidth";
 import ContextMenu from "../components/ui/ContextMenu";
 import SearchBar from "../components/modules/SearchBar";
 import Clock from "../components/modules/Clock";
+import AppIcon from "../components/ui/AppIcon";
+import { Application } from "../models/Applications";
 
 const Home = () => {
   const { isMobile } = useWindowWidth();
@@ -65,7 +67,7 @@ const Home = () => {
                 {cat.name}
               </h2>
               <ul className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {cat.apps.map((app, j) => (
+                {cat.apps.map((app: Application, j) => (
                   <li className="group relative h-max" key={j}>
                     <div className="absolute right-2 top-1/2 ml-auto mr-14 -translate-y-1/2 transition-all duration-300 md:mr-4 md:group-hover:mr-14 md:empty:group-hover:mr-0">
                       <Service app={app} />
@@ -80,13 +82,22 @@ const Home = () => {
                     </Button>
                     <a href={app.url} id={i + "///" + j}>
                       <FlexCard className="!justify-start transition-shadow group-hover:shadow-lg">
-                        <CardImg imgSrc={app.image} />
+                        <AppIcon
+                          imgClassName="icon p-[0.1rem]"
+                          iconClassName="icon p-1"
+                          appName={app.name}
+                          image={app.image}
+                          iconSize={52}
+                        />
                         <div className="ml-2">
                           <h2 className="-mb-1 text-lg leading-6 ">
                             {app.name}
                           </h2>
                           <div className="text-sm text-gray-500">
-                            <ServiceDetails app={app} />
+                            {app.subtitle}
+                            {(!app.subtitle || app.subtitle === "") && (
+                              <ServiceDetails app={app} />
+                            )}
                           </div>
                         </div>
                       </FlexCard>
