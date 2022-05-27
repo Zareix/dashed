@@ -1,14 +1,20 @@
 import { FormEvent, useState } from "react";
 
+import "brace";
+import "brace/mode/json";
+import "brace/theme/solarized_dark";
+import "brace/theme/github";
+
 import axios, { AxiosError } from "axios";
 import styled, { createGlobalStyle } from "styled-components";
+import Ajv from "ajv";
 import { JsonEditor } from "jsoneditor-react";
-import "jsoneditor-react/es/editor.min.css";
 import { ToastContainer, toast } from "react-toastify";
+
+import "jsoneditor-react/es/editor.min.css";
 import "react-toastify/dist/ReactToastify.css";
 
 import { Button } from "../components/ui/Button";
-import { AppData } from "../models/AppData";
 
 import data from "data.json";
 
@@ -86,7 +92,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const GlobalStyle = createGlobalStyle`
+export const JsonEditorStyle = createGlobalStyle`
   @media (prefers-color-scheme: dark){
     .pico-modal-header {
       background-color: #1e3a8a!important;
@@ -111,12 +117,106 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const schema = {
+  required: ["categories", "links"],
+  properties: {
+    categories: {
+      items: {
+        required: ["apps", "icon", "name"],
+        properties: {
+          apps: {
+            items: {
+              required: ["name", "image", "url"],
+              properties: {
+                name: {
+                  type: "string",
+                },
+                url: {
+                  type: "string",
+                },
+                image: {
+                  type: "string",
+                },
+                apiKey: {
+                  type: "string",
+                },
+                customLinks: {
+                  items: {
+                    required: ["name", "path"],
+                    properties: {
+                      icon: {
+                        type: "string",
+                      },
+                      name: {
+                        type: "string",
+                      },
+                      path: {
+                        type: "string",
+                      },
+                    },
+                    type: "object",
+                  },
+                  type: "array",
+                },
+                endpoint: {
+                  type: "string",
+                },
+                endpoints: {
+                  items: {
+                    type: "string",
+                  },
+                  type: "array",
+                },
+                subtitle: {
+                  type: "string",
+                },
+                type: {
+                  type: "string",
+                },
+              },
+              type: "object",
+            },
+            type: "array",
+          },
+          icon: {
+            type: "string",
+          },
+          name: {
+            type: "string",
+          },
+        },
+        type: "object",
+      },
+      type: "array",
+    },
+    links: {
+      items: {
+        required: ["icon", "link", "name"],
+        properties: {
+          icon: {
+            type: "string",
+          },
+          link: {
+            type: "string",
+          },
+          name: {
+            type: "string",
+          },
+        },
+        type: "object",
+      },
+      type: "array",
+    },
+  },
+  type: "object",
+};
+
 const Config = () => {
   const [newData, setNewData] = useState(data);
   const isDark =
     window.matchMedia &&
     window.matchMedia("(prefers-color-scheme: dark)").matches;
-
+  const ajv = new Ajv({ allErrors: true, verbose: true });
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     axios
@@ -158,12 +258,15 @@ const Config = () => {
           value={newData}
           allowedModes={["code", "tree"]}
           onChange={(e: any) => setNewData(e)}
+          ajv={ajv}
+          schema={schema}
+          theme={isDark ? "ace/theme/solarized_dark" : "ace/theme/github"}
         />
         <div className="flex justify-end">
           <Button>Save</Button>
         </div>
       </form>
-      <GlobalStyle />
+      <JsonEditorStyle />
       <ToastContainer />
     </Wrapper>
   );

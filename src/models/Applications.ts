@@ -1,8 +1,8 @@
 export type Application = {
   name: string;
   url: string;
-  endpoint?: string;
   image: string;
+  endpoint?: string;
   type?: string;
   apiKey?: string;
   subtitle?: string;
@@ -11,7 +11,7 @@ export type Application = {
 };
 
 type CustomLink = {
-  icon?: string;
   name: string;
   path: string;
+  icon?: string;
 };
