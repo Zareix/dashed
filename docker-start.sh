@@ -2,7 +2,7 @@
 
 # Nginx
 echo ">> Starting nginx"
-nginx -g "daemon off;" &
+nginx -g "daemon off;" | sed "s/^/[NGINX] /" &
 
 # Setup app
 if [ ! -e /app/client/public ]; then

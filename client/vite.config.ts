@@ -9,16 +9,16 @@ export default defineConfig({
     tsconfigPaths(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: [
-        "robots.txt",
-        "app/**/*.{js,css,html}",
-        "assets/**/*.{js,css,html}",
-      ],
+      includeAssets: ["robots.txt", "app/**/*", "assets/**/*"],
+      workbox: {
+        maximumFileSizeToCacheInBytes: 5000000, // 20 MB
+      },
       manifest: {
         name: "Dashboard",
         short_name: "Dashboard",
         description: "A dashboard for your Homelab",
         theme_color: "#a5f3fc",
+
         icons: [
           {
             src: "/app/icons/pwa-192x192.png",
