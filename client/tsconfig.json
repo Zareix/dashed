@@ -16,8 +16,9 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "types": ["vite/client"],
-    "baseUrl": "public"
+    "baseUrl": "public",
+    "declaration": true
   },
   "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [{ "path": "./tsconfig.node.json" }],
 }

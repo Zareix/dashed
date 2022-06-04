@@ -33,5 +33,5 @@ You can modify `data.json` file and `assets` folder as you wish.
 - Clone the repo
 - Copy `data-defaults.json` file from `src/defaults/` to `public/data.json`
 - Run `yarn install` to install node dependencies
-- Run `yarn dev` to start dev server
-- App is running on port 3000
+- Run `yarn start` to start dev server
+- Front is running on port 3000 and api on 3001

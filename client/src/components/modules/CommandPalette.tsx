@@ -66,7 +66,7 @@ const CommandPalette = ({ children }: Props) => {
   return (
     <KBarProvider actions={actions}>
       <KBarPortal>
-        <KBarPositioner className="bg-gray-800 bg-opacity-30 backdrop-blur-[3px] dark:bg-gray-900 dark:bg-opacity-40">
+        <KBarPositioner className="z-50 bg-gray-800 bg-opacity-30 backdrop-blur-[3px] dark:bg-gray-900 dark:bg-opacity-40">
           <KBarAnimator className="w-full max-w-md overflow-hidden rounded-xl bg-white shadow-xl dark:bg-slate-800">
             <div className="flex pt-4 pb-4">
               <KBarSearch

@@ -4,8 +4,6 @@
 *Dockerfile*
 *docker-compose*
 node_modules
-server/node_modules
 .yarn
-server/.yarn
 dist
-public/
+client/public/

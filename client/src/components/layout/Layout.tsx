@@ -12,6 +12,7 @@ import NavLink from "./nav/NavLink";
 import CatLink from "./nav/CatLink";
 import useScroll from "../../hooks/scroll";
 import useWindowWidth from "../../hooks/windowWidth";
+import IsOffline from "../modules/IsOffline";
 
 const SideBar = styled.section`
   position: sticky;
@@ -57,7 +58,13 @@ const Layout = ({ children }: LayoutProps) => {
         <SideBar workspace={isWorkspace}>
           {!isWorkspace && (
             <>
-              <h2 className="mx-auto mb-2 pb-1 text-center">Dashboard</h2>
+              <h2 className="relative mx-auto mb-2 pb-1 text-center">
+                Dashboard{" "}
+                <IsOffline
+                  className="absolute right-4 top-1/2 -translate-y-1/2"
+                  size={20}
+                />
+              </h2>
               <hr className="mx-auto w-3/4" />
             </>
           )}
@@ -106,7 +113,13 @@ const Layout = ({ children }: LayoutProps) => {
               <FiCommand size={30} />
             </button>
             <Link to="/">
-              <h1 className="mx-auto mb-0 ">Dashboard</h1>
+              <h1 className="relative mx-auto mb-0">
+                Dashboard
+                <IsOffline
+                  className="absolute -right-10 top-1/2 -translate-y-1/2"
+                  size={30}
+                />
+              </h1>
             </Link>
             <button onClick={() => setIsDrawerOpened(!isDrawerOpened)}>
               <AiOutlineMenu size={35} />

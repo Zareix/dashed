@@ -10,10 +10,16 @@ import {
   ServarrV3Status,
 } from "../components/modules/services/Servarr";
 import { AppData } from "../models/AppData";
+import { Health } from "../models/Health";
 
 import { PiHoleStats } from "../pages/apps/PiHole";
 
 const API_URL = import.meta.env.PROD ? "/api" : "http://localhost:3001/api";
+
+// --- Api Health ---
+export const getApiHealth = async (): Promise<Health> => {
+  return (await axios.get(API_URL)).data;
+};
 
 // --- Settings ---
 export const saveSettings = (data: AppData): void => {
@@ -34,14 +40,16 @@ export const saveSettings = (data: AppData): void => {
         }
       );
     })
-    .catch((err: AxiosError) => {
+    .catch((err: AxiosError<{ message: string }>) => {
       toast.error(
         () => (
           <>
             <div className="text-gray-600 dark:text-gray-200">
               An error occured
             </div>
-            <div className="text-sm dark:text-gray-400">{err.message}</div>
+            <div className="text-sm dark:text-gray-400">
+              {err.response?.data.message ?? err.message}
+            </div>
           </>
         ),
         {

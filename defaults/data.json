@@ -1,0 +1,37 @@
+{
+    "settings": {
+        "searchEngine": {
+            "default": "google",
+            "display": "mobile large-screen",
+            "autofocus": "mobile large-screen",
+            "inApp": true
+        }
+    },
+    "links": [
+        {
+            "name": "Home",
+            "link": "/",
+            "icon": "MdHome"
+        }
+    ],
+    "categories": [
+        {
+            "name": "System",
+            "icon": "MdSettings",
+            "apps": [
+                {
+                    "name": "Portainer",
+                    "url": "http://portainer/",
+                    "image": "portainer.svg"
+                },
+                {
+                    "name": "Pi-Hole",
+                    "url": "http://pi-hole/",
+                    "image": "pi-hole.png",
+                    "type": "pi-hole",
+                    "apiKey": "aaa"
+                }
+            ]
+        }
+    ]
+}

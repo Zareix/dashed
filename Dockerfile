@@ -1,7 +1,10 @@
 FROM nginx:alpine
 
 # Install nvm with node and npm
-RUN apk add nodejs npm yarn \
+RUN apk add \
+    nodejs \
+    npm \
+    yarn \
     && echo "NodeJS Version:" "$(node -v)" \
     && echo "NPM Version:" "$(npm -v)" \
     && echo "Yarn Version:" "$(yarn -v)"

@@ -4,35 +4,23 @@
 echo ">> Starting nginx"
 nginx -g "daemon off;" &
 
-# App
-echo ">> Installing front packages"
-yarn install
-if [ ! -e /app/dist ]; then
-    echo ">> Creating dist folder"
-    mkdir -p /app/dist
-fi
-if [ ! -e /app/public ]; then
+# Setup app
+if [ ! -e /app/client/public ]; then
     echo ">> Creating public folder"
-    mkdir -p /app/public
+    mkdir -p /app/client/public
 fi
-if [ ! -e /app/public/assets ]; then    
+if [ ! -e /app/client/public/assets ]; then    
     echo ">> Creating assets folder"
-    mkdir -p /app/public/assets
+    mkdir -p /app/client/public/assets
 fi
-if [ ! -e /app/public/app ]; then
-    echo ">> Creating default app assets folder"
-    cp -r /app/src/defaults/app /app/public/app
-fi
-if [ ! -e /app/public/data.json ]; then
+if [ ! -e /app/client/public/data.json ]; then
     echo ">> Creating default data.json file"
-    cp /app/src/defaults/data.json /app/public/data.json
+    cp /app/defaults/data.json /app/client/public/data.json
 fi
-echo ">> Running front"
-yarn build:docker &
+echo ">> Copying default app assets"
+cp -nr /app/defaults/app /app/client/public/app
 
-# Api
-cd server
-echo ">> Installing api packages"
+echo ">> Installing packages"
 yarn install
-echo ">> Starting api"
-yarn start
+echo ">> Running front"
+yarn docker:start
