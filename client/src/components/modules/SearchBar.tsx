@@ -3,6 +3,8 @@ import { MdSearch } from "react-icons/md";
 import styled from "styled-components";
 
 import data from "data.json";
+import { useQuery } from "react-query";
+import { fetchAutocompletions } from "../../utils/api";
 
 type Props = {
   isNewTab?: boolean;
@@ -44,6 +46,10 @@ const SearchBar = ({ isNewTab }: Props) => {
   const [query, setQuery] = useState("");
   const [searchEngine, setSearchEngine] = useState<SearchEngine>(
     SEARCH_ENGINES[data.settings.searchEngine.default ?? "google"]
+  );
+  const { data: autocompletions } = useQuery(
+    ["search_autocomplete", query],
+    () => fetchAutocompletions(query)
   );
 
   const submit = (e: FormEvent) => {
@@ -125,6 +131,7 @@ const SearchBar = ({ isNewTab }: Props) => {
         value={query}
         onChange={handleChange}
         id="searchInput"
+        autoComplete="off"
       />
     </Wrapper>
   );

@@ -1,3 +1,4 @@
+import axios from "axios";
 import express from "express";
 import cors from "cors";
 
@@ -19,3 +20,11 @@ app.get("/api", (req, res) => {
 });
 
 app.use("/api/config", config);
+
+app.use("/api/autocomplete", async (req, res) => {
+  return res.send(
+    await (
+      await axios.get(`https://duckduckgo.com/ac/?q=${req.query.query}`)
+    ).data
+  );
+});
