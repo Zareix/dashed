@@ -5,6 +5,8 @@ import { Combobox } from "@headlessui/react";
 import { useQuery } from "react-query";
 
 import data from "data.json";
+import { useQuery } from "react-query";
+import { fetchAutocompletions } from "../../utils/api";
 
 import { fetchAutocompletions } from "../../utils/api";
 
