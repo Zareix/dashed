@@ -114,16 +114,8 @@
     <script>
       if (window.fetch) {
         setInterval(async () => {
-          const resApi = await window.fetch("/api");
-          const resFront = await window.fetch("/");
-          let doc;
-          if (resFront && resFront.status === 200) {
-            doc = new DOMParser().parseFromString(
-              await resFront.text(),
-              "text/html"
-            );
-          }
-          if (resApi && resApi.status === 200 && doc.getElementById("root")) {
+          const resApi = await window.fetch("/api/health");
+          if (resApi && resApi.status === 200) {
             location.reload();
           }
         }, 1000);

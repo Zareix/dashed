@@ -19,7 +19,7 @@ const API_URL = import.meta.env.PROD ? "/api" : "http://localhost:3001/api";
 
 // --- Api Health ---
 export const getApiHealth = async (): Promise<Health> => {
-  return (await axios.get(API_URL)).data;
+  return (await axios.get<Health>(`${API_URL}/health`)).data;
 };
 
 // --- Settings ---
@@ -33,7 +33,7 @@ export const saveSettings = (data: AppData): void => {
       toast.success(
         () => (
           <div className="text-gray-600 dark:text-gray-200">
-            Data json updated successfully
+            {res.data.message}
           </div>
         ),
         {
@@ -62,7 +62,7 @@ export const saveSettings = (data: AppData): void => {
 
 // --- Pi-Hole ---
 export const piholeFetchStats = async (url: string): Promise<PiHoleStats> => {
-  return (await axios.get(`${url}/api.php`)).data;
+  return (await axios.get<PiHoleStats>(`${url}/api.php`)).data;
 };
 
 // --- Servarr ---
@@ -71,8 +71,11 @@ export const servarrFetchStatus = async (
   apiKey: string | undefined,
   apiVersion: number
 ): Promise<ServarrV3Status[]> => {
-  return (await axios.get(`${url}/api/v${apiVersion}/health?apikey=${apiKey}`))
-    .data;
+  return (
+    await axios.get<ServarrV3Status[]>(
+      `${url}/api/v${apiVersion}/health?apikey=${apiKey}`
+    )
+  ).data;
 };
 
 export const servarrFetchActivity = async (
@@ -81,7 +84,7 @@ export const servarrFetchActivity = async (
   apiVersion: number
 ): Promise<ServarrV3Activity> => {
   return (
-    await axios.get(
+    await axios.get<ServarrV3Activity>(
       `${url}/api/v${apiVersion}/queue?apikey=${apiKey}&includeUnknownMovieItems=true`
     )
   ).data;
@@ -95,7 +98,7 @@ export const portainerFetchEndpoints = async (
   if (!apiKey) throw new Error("No API Key set");
 
   return (
-    await axios.get(`${url}/api/endpoints`, {
+    await axios.get<PortainerEndpoint[]>(`${url}/api/endpoints`, {
       headers: {
         "X-Api-Key": apiKey,
       },
@@ -103,6 +106,7 @@ export const portainerFetchEndpoints = async (
   ).data;
 };
 
+// TODO Check type : not sur it's a 'const reqs: Promise<PortainerContainer[]>[]'
 export const portainerFetchContainers = async (
   url: string,
   apiKey: string | undefined,
@@ -135,5 +139,7 @@ export const fetchAutocompletions = async (
   query: string
 ): Promise<Autocompletion[]> => {
   if (!query || query === "") return [];
-  return (await axios.get(`${API_URL}/autocomplete?query=${query}`)).data;
+  return (
+    await axios.get<Autocompletion[]>(`${API_URL}/autocomplete?query=${query}`)
+  ).data;
 };

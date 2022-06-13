@@ -15,13 +15,14 @@ app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
 
-app.get("/api", (req, res) => {
+app.get("/api/health", (req, res) => {
   res.status(200).send({ message: "Running", healthy: true });
 });
 
 app.use("/api/config", config);
 
 app.use("/api/autocomplete", async (req, res) => {
+  for (let index = 0; index < 10000; index++) {}
   return res.send(
     await (
       await axios.get(`https://duckduckgo.com/ac/?q=${req.query.query}`)

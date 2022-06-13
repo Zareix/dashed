@@ -2,7 +2,7 @@
 
 # Nginx
 echo ">> Starting nginx"
-nginx -g "daemon off;" | sed "s/^/[NGINX] /" &
+nginx -g "daemon off;" | awk '{ print \"[NGINX]\", $0 }' &
 
 # Setup app
 if [ ! -e /app/client/public ]; then
@@ -22,5 +22,5 @@ cp -nr /app/defaults/app /app/client/public
 
 echo ">> Installing packages"
 yarn install
-echo ">> Running front"
+echo ">> Running app"
 yarn docker:start

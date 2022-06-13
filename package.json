@@ -8,6 +8,6 @@
   ],
   "scripts": {
     "start": "yarn workspace server start & yarn workspace client dev",
-    "docker:start": "yarn workspace server start & yarn workspace client docker:build"
+    "docker:start": "yarn workspace client docker:build | awk '{ print \"[FRONT]\", $0 }' && yarn workspace server start | awk '{ print \"[API]\", $0 }'"
   }
 }
