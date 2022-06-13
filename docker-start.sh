@@ -18,7 +18,7 @@ if [ ! -e /app/client/public/data.json ]; then
     cp /app/defaults/data.json /app/client/public/data.json
 fi
 echo ">> Copying default app assets"
-cp -nr /app/defaults/app /app/client/public/app
+cp -nr /app/defaults/app /app/client/public
 
 echo ">> Installing packages"
 yarn install
