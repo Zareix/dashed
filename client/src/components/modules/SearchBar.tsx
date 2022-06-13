@@ -19,7 +19,6 @@ type SearchEngine = {
 const Wrapper = styled.form`
   display: flex;
   width: clamp(20rem, 30vw, 30rem);
-  overflow: hidden;
   border-radius: 100vw;
   padding: 0.25rem 0.5rem;
 `;
@@ -47,10 +46,8 @@ const SearchBar = ({ isNewTab }: Props) => {
   const [searchEngine, setSearchEngine] = useState<SearchEngine>(
     SEARCH_ENGINES[data.settings.searchEngine.default ?? "google"]
   );
-  const { data: autocompletions } = useQuery(
-    ["search_autocomplete", query],
-    () => fetchAutocompletions(query)
-  );
+  const { data: autocompletions, isLoading: isLoadingAutocompletions } =
+    useQuery(["search_autocomplete", query], () => fetchAutocompletions(query));
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
@@ -120,7 +117,7 @@ const SearchBar = ({ isNewTab }: Props) => {
 
   return (
     <Wrapper
-      className="mt-3 bg-white transition-shadow duration-300 focus-within:shadow dark:bg-slate-700 md:mt-0"
+      className="relative mt-3 bg-white transition-shadow duration-300 focus-within:shadow dark:bg-slate-700 md:mt-0"
       onSubmit={submit}
     >
       <button type="submit" className="mr-1 text-gray-500">
@@ -133,6 +130,15 @@ const SearchBar = ({ isNewTab }: Props) => {
         id="searchInput"
         autoComplete="off"
       />
+      {!isLoadingAutocompletions &&
+        autocompletions &&
+        autocompletions.length > 0 && (
+          <ul className="absolute top-12 z-50 w-11/12 rounded-xl bg-white py-3 px-3 shadow-md">
+            {autocompletions.map((x) => (
+              <li>{x.phrase}</li>
+            ))}
+          </ul>
+        )}
     </Wrapper>
   );
 };
