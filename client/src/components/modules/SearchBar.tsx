@@ -1,9 +1,11 @@
-import { ChangeEvent, FormEvent, useState } from "react";
-import { MdSearch } from "react-icons/md";
+import { ChangeEvent, FormEvent, Fragment, useState } from "react";
+
 import styled from "styled-components";
+import { Combobox } from "@headlessui/react";
+import { useQuery } from "react-query";
 
 import data from "data.json";
-import { useQuery } from "react-query";
+
 import { fetchAutocompletions } from "../../utils/api";
 
 type Props = {
@@ -14,6 +16,8 @@ type SearchEngine = {
   name: string;
   url: string;
   emptyQueryUrl: string;
+  triggerOn: string;
+  icon: JSX.Element;
 };
 
 const Wrapper = styled.form`
@@ -23,122 +27,138 @@ const Wrapper = styled.form`
   padding: 0.25rem 0.5rem;
 `;
 
-const SEARCH_ENGINES: Record<string, SearchEngine> = {
-  google: {
+const SEARCH_ENGINES: SearchEngine[] = [
+  {
     name: "google",
     url: "https://google.fr/search?q=",
     emptyQueryUrl: "#",
+    triggerOn: "g ",
+    icon: (
+      <img
+        src="/app/searchEngines/google_icon.png"
+        alt="search icon google"
+        className="aspect-square h-8 max-w-none object-contain"
+      />
+    ),
   },
-  youtube: {
+  {
     name: "youtube",
     url: "https://www.youtube.com/results?search_query=",
     emptyQueryUrl: "https://www.youtube.com/",
+    triggerOn: "y ",
+    icon: (
+      <img
+        src="/app/searchEngines/yt_icon.png"
+        alt="search icon youtube"
+        className="aspect-square h-8 object-contain"
+      />
+    ),
   },
-  bitsearch: {
+  {
     name: "bitsearch",
     url: "https://bitsearch.to/search?q=",
     emptyQueryUrl: "https://bitsearch.to",
+    triggerOn: "t ",
+    icon: (
+      <img
+        src="/app/searchEngines/bitsearch_icon.png"
+        alt="search icon bitsearch"
+        className="aspect-square h-8 object-contain"
+      />
+    ),
   },
-};
+];
 
 const SearchBar = ({ isNewTab }: Props) => {
   const [query, setQuery] = useState("");
   const [searchEngine, setSearchEngine] = useState<SearchEngine>(
-    SEARCH_ENGINES[data.settings.searchEngine.default ?? "google"]
+    SEARCH_ENGINES.find((x) => x.name === data.settings.searchEngine.default) ??
+      SEARCH_ENGINES[0]
   );
-  const { data: autocompletions, isLoading: isLoadingAutocompletions } =
-    useQuery(["search_autocomplete", query], () => fetchAutocompletions(query));
+  const { data: autoCompletions } = useQuery(
+    ["search_autocomplete", query],
+    () => fetchAutocompletions(query)
+  );
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
-    let url = searchEngine.url + query;
-    if (query === "") {
-      url = searchEngine.emptyQueryUrl;
-    }
-    if (isNewTab) {
-      window.open(url, "_blank")?.focus();
-    } else {
-      window.open(url, "_self")?.focus();
-    }
-  };
-
-  const getIcon = () => {
-    switch (searchEngine.name.trim().toLowerCase()) {
-      case "google":
-        return (
-          <img
-            src="/app/searchEngines/google_icon.png"
-            alt="search icon google"
-            className="aspect-square h-8 max-w-none object-contain"
-          />
-        );
-      case "youtube":
-        return (
-          <img
-            src="/app/searchEngines/yt_icon.png"
-            alt="search icon youtube"
-            className="aspect-square h-8 object-contain"
-          />
-        );
-      case "bitsearch":
-        return (
-          <img
-            src="/app/searchEngines/bitsearch_icon.png"
-            alt="search icon bitsearch"
-            className="aspect-square h-8 object-contain"
-          />
-        );
-      default:
-        return <MdSearch size={24} className="m-1" />;
-    }
+    const url =
+      query === "" ? searchEngine.emptyQueryUrl : searchEngine.url + query;
+    window.open(url, isNewTab ? "_blank" : "_self")?.focus();
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-
-    switch (true) {
-      case value.startsWith("y "):
-        setSearchEngine(SEARCH_ENGINES["youtube"]);
+    for (const se of SEARCH_ENGINES) {
+      if (value.startsWith(se.triggerOn)) {
+        setSearchEngine(se);
         setQuery(value.slice(2));
-        break;
-      case value.startsWith("g "):
-        setSearchEngine(SEARCH_ENGINES["google"]);
-        setQuery(value.slice(2));
-        break;
-      case value.startsWith("t "):
-        setSearchEngine(SEARCH_ENGINES["bitsearch"]);
-        setQuery(value.slice(2));
-        break;
-      default:
-        setQuery(value);
-        break;
+        return;
+      }
     }
+    setQuery(value);
   };
 
   return (
     <Wrapper
       className="relative mt-3 bg-white transition-shadow duration-300 focus-within:shadow dark:bg-slate-700 md:mt-0"
       onSubmit={submit}
+      id="searchInput"
     >
       <button type="submit" className="mr-1 text-gray-500">
-        {getIcon()}
+        {searchEngine.icon}
       </button>
-      <input
-        className="h-full w-full outline-none dark:bg-slate-700"
+      <Combobox
         value={query}
-        onChange={handleChange}
-        id="searchInput"
-        autoComplete="off"
-      />
-      {!isLoadingAutocompletions &&
-        autocompletions &&
-        autocompletions.length > 0 && (
-          <ul className="absolute top-12 z-50 w-11/12 rounded-xl bg-white py-3 px-3 shadow-md">
-            {autocompletions.map((x) => (
-              <li>{x.phrase}</li>
-            ))}
-          </ul>
+        onChange={(x) => {
+          setQuery(x);
+        }}
+      >
+        <Combobox.Input
+          onChange={handleChange}
+          className="h-full w-full outline-none dark:bg-slate-700"
+          autoComplete="off"
+        />
+        {autoCompletions && autoCompletions.length > 0 && (
+          <Combobox.Options className="absolute top-11 left-0 right-0 z-10 mx-4 overflow-hidden rounded-lg bg-white py-2 shadow-xl dark:bg-slate-700">
+            <Combobox.Option key={query} value={query} as={Fragment}>
+              {({ active, selected }) => (
+                <li
+                  className={`px-3 py-1 ${
+                    active
+                      ? "bg-slate-200 dark:bg-slate-500"
+                      : "bg-white dark:bg-slate-700"
+                  } ${selected ? "font-semibold" : ""}`}
+                >
+                  {query}
+                </li>
+              )}
+            </Combobox.Option>
+            {autoCompletions.map(
+              (completion) =>
+                query !== completion.phrase && (
+                  <Combobox.Option
+                    key={completion.phrase}
+                    value={completion.phrase}
+                    as={Fragment}
+                  >
+                    {({ active, selected }) => (
+                      <li
+                        className={`px-3 py-1 ${
+                          active
+                            ? "bg-slate-200 dark:bg-slate-500"
+                            : "bg-white dark:bg-slate-700"
+                        } ${selected ? "font-semibold" : ""}`}
+                      >
+                        {completion.phrase}
+                      </li>
+                    )}
+                  </Combobox.Option>
+                )
+            )}
+          </Combobox.Options>
         )}
+      </Combobox>
     </Wrapper>
   );
 };

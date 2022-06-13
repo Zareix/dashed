@@ -27,7 +27,7 @@ const Home = () => {
         isMobile ? "mobile" : "large-screen"
       )
     )
-      document.getElementById("searchInput")?.focus();
+      document.querySelector("#searchInput input")?.focus();
   }, []);
 
   return (

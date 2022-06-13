@@ -135,8 +135,5 @@ export const fetchAutocompletions = async (
   query: string
 ): Promise<Autocompletion[]> => {
   if (!query || query === "") return [];
-  let data = (await axios.get(`${API_URL}/autocomplete?query=${query}`)).data;
-  console.log(data);
-
-  return data;
+  return (await axios.get(`${API_URL}/autocomplete?query=${query}`)).data;
 };
