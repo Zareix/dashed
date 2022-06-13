@@ -33,16 +33,12 @@
                 {
                     "name": "Radarr",
                     "url": "https://radarr.lab.home",
-                    "image": "radarr.png",
-                    "type": "radarr",
-                    "apiKey": "9341536c5c384d73a51f78105850ae1e"
+                    "image": "radarr.png"
                 },
                 {
                     "name": "Sonarr",
                     "url": "https://sonarr.lab.home",
-                    "image": "sonarr.png",
-                    "type": "sonarr",
-                    "apiKey": "c1290fb36de44e56a1d269b05468b0b7"
+                    "image": "sonarr.png"
                 },
                 {
                     "name": "Bazarr",
@@ -52,97 +48,12 @@
                 {
                     "name": "Prowlarr",
                     "url": "https://prowlarr.lab.home",
-                    "image": "prowlarr.png",
-                    "type": "prowlarr",
-                    "apiKey": "484b66ab5efa47ebb232b92a59fc9d98"
+                    "image": "prowlarr.png"
                 },
                 {
                     "name": "Transmission",
                     "url": "https://transmission.lab.home",
                     "image": "transmission.png"
-                }
-            ]
-        },
-        {
-            "name": "Système",
-            "icon": "MdSettings",
-            "apps": [
-                {
-                    "name": "Portainer",
-                    "url": "https://portainer.lab.home",
-                    "image": "portainer.svg",
-                    "type": "portainer",
-                    "apiKey": "ptr_boToR65p0gX+IPaYQt/I4YRdP4UgnihyjH31kbYagwk=",
-                    "endpoints": [
-                        "raspberrypi"
-                    ]
-                },
-                {
-                    "name": "NginxProxyManager",
-                    "url": "https://npm.lab.home",
-                    "image": "nginx-pm.png"
-                },
-                {
-                    "name": "FileBrowser",
-                    "url": "https://files.lab.home",
-                    "image": "file-browser.png",
-                    "customLinks": [
-                        {
-                            "icon": "MdApps",
-                            "name": "Apps",
-                            "path": "/files/home/raphaelgc/apps"
-                        },
-                        {
-                            "name": "Home",
-                            "path": "/files/home/raphaelgc"
-                        }
-                    ]
-                },
-                {
-                    "name": "Pi Hole",
-                    "url": "https://ph.lab.home/admin",
-                    "image": "pi-hole.png",
-                    "type": "pi-hole",
-                    "subtitle": "Dns ads block",
-                    "apiKey": "eaa0085b2e417ddad770208aeebd72232f511c8b5a5630c7701ccd31972399da"
-                }
-            ]
-        },
-        {
-            "name": "Autres",
-            "icon": "MdOutlineMoreHoriz",
-            "apps": [
-                {
-                    "name": "Home Assistant",
-                    "url": "https://hass.lab.home",
-                    "image": "hass.png"
-                },
-                {
-                    "name": "Joal",
-                    "url": "https://joal.lab.home/9891/ui",
-                    "image": "joal.png"
-                }
-            ]
-        },
-        {
-            "name": "PC Fixe",
-            "icon": "MdDesktopWindows",
-            "apps": [
-                {
-                    "name": "FileBrowser",
-                    "url": "http://pc-f-raphael:8220",
-                    "image": "file-browser.png"
-                },
-                {
-                    "name": "Portainer",
-                    "url": "https://portainer.lab.home/#!/17/docker/dashboard",
-                    "endpoint": "https://portainer.lab.home",
-                    "image": "portainer.svg",
-                    "type": "portainer",
-                    "apiKey": "ptr_boToR65p0gX+IPaYQt/I4YRdP4UgnihyjH31kbYagwk=",
-                    "endpoints": [
-                        "pc-fixe"
-                    ]
                 }
             ]
         }

@@ -129,3 +129,11 @@ export const portainerFetchContainers = async (
   }
   return Promise.all(reqs);
 };
+
+export const fetchAutocompletions = async (query: string): Promise<any> => {
+  if (!query || query === "") return;
+  let data = (await axios.get(`${API_URL}/autocomplete?query=${query}`)).data;
+  console.log(data);
+
+  return data;
+};
