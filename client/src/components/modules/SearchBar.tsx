@@ -1,14 +1,13 @@
-import { ChangeEvent, FormEvent, Fragment, useState } from "react";
+import { ChangeEvent, FormEvent, Fragment, useEffect, useState } from "react";
 
 import styled from "styled-components";
 import { Combobox } from "@headlessui/react";
 import { useQuery } from "react-query";
 
 import data from "data.json";
-import { useQuery } from "react-query";
-import { fetchAutocompletions } from "../../utils/api";
 
 import { fetchAutocompletions } from "../../utils/api";
+import { Autocompletion } from "../../models/Autocompletion";
 
 type Props = {
   isNewTab?: boolean;
@@ -77,10 +76,20 @@ const SearchBar = ({ isNewTab }: Props) => {
     SEARCH_ENGINES.find((x) => x.name === data.settings.searchEngine.default) ??
       SEARCH_ENGINES[0]
   );
+  const [oldAutoCompletions, setOldAutoCompletions] = useState<
+    Autocompletion[]
+  >([]);
   const { data: autoCompletions } = useQuery(
     ["search_autocomplete", query],
-    () => fetchAutocompletions(query)
+    () => fetchAutocompletions(query),
+    {
+      placeholderData: oldAutoCompletions,
+    }
   );
+
+  useEffect(() => {
+    setOldAutoCompletions(autoCompletions ?? []);
+  }, [autoCompletions]);
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
