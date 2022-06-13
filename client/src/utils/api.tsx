@@ -10,6 +10,7 @@ import {
   ServarrV3Status,
 } from "../components/modules/services/Servarr";
 import { AppData } from "../models/AppData";
+import { Autocompletion } from "../models/Autocompletion";
 import { Health } from "../models/Health";
 
 import { PiHoleStats } from "../pages/apps/PiHole";
@@ -130,8 +131,10 @@ export const portainerFetchContainers = async (
   return Promise.all(reqs);
 };
 
-export const fetchAutocompletions = async (query: string): Promise<any> => {
-  if (!query || query === "") return;
+export const fetchAutocompletions = async (
+  query: string
+): Promise<Autocompletion[]> => {
+  if (!query || query === "") return [];
   let data = (await axios.get(`${API_URL}/autocomplete?query=${query}`)).data;
   console.log(data);
 
