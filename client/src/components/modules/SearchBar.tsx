@@ -21,7 +21,7 @@ type SearchEngine = {
   icon: JSX.Element;
 };
 
-const Wrapper = styled.form`
+const Form = styled.form`
   display: flex;
   width: clamp(20rem, 30vw, 30rem);
   border-radius: 100vw;
@@ -32,7 +32,7 @@ const SEARCH_ENGINES: SearchEngine[] = [
   {
     name: "google",
     url: "https://google.fr/search?q=",
-    emptyQueryUrl: "#",
+    emptyQueryUrl: "https://google.fr",
     triggerOn: "g ",
     icon: (
       <img
@@ -91,10 +91,9 @@ const SearchBar = ({ isNewTab }: Props) => {
     setOldAutoCompletions(autoCompletions ?? []);
   }, [autoCompletions]);
 
-  const submit = (e: FormEvent) => {
-    e.preventDefault();
-    const url =
-      query === "" ? searchEngine.emptyQueryUrl : searchEngine.url + query;
+  const submit = (q?: string) => {
+    q ??= query;
+    const url = q === "" ? searchEngine.emptyQueryUrl : searchEngine.url + q;
     window.open(url, isNewTab ? "_blank" : "_self")?.focus();
   };
 
@@ -111,9 +110,12 @@ const SearchBar = ({ isNewTab }: Props) => {
   };
 
   return (
-    <Wrapper
+    <Form
       className="relative mt-3 bg-white transition-shadow duration-300 focus-within:shadow dark:bg-slate-700 md:mt-0"
-      onSubmit={submit}
+      onSubmit={(e) => {
+        e.preventDefault();
+        submit();
+      }}
       id="searchInput"
     >
       <button type="submit" className="mr-1 text-gray-500">
@@ -122,7 +124,12 @@ const SearchBar = ({ isNewTab }: Props) => {
       <Combobox
         value={query}
         onChange={(x) => {
-          setQuery(x);
+          if (x !== null) {
+            setQuery(x);
+            submit(x);
+          } else {
+            setQuery("");
+          }
         }}
       >
         <Combobox.Input
@@ -130,47 +137,45 @@ const SearchBar = ({ isNewTab }: Props) => {
           className="h-full w-full outline-none dark:bg-slate-700"
           autoComplete="off"
         />
-        {autoCompletions && autoCompletions.length > 0 && (
-          <Combobox.Options className="absolute top-11 left-0 right-0 z-10 mx-4 overflow-hidden rounded-lg bg-white py-2 shadow-xl dark:bg-slate-700">
-            <Combobox.Option key={query} value={query} as={Fragment}>
-              {({ active, selected }) => (
-                <li
-                  className={`px-3 py-1 ${
-                    active
-                      ? "bg-slate-200 dark:bg-slate-500"
-                      : "bg-white dark:bg-slate-700"
-                  } ${selected ? "font-semibold" : ""}`}
-                >
-                  {query}
-                </li>
-              )}
-            </Combobox.Option>
-            {autoCompletions.map(
-              (completion) =>
-                query !== completion.phrase && (
-                  <Combobox.Option
-                    key={completion.phrase}
-                    value={completion.phrase}
-                    as={Fragment}
-                  >
-                    {({ active, selected }) => (
-                      <li
-                        className={`px-3 py-1 ${
-                          active
-                            ? "bg-slate-200 dark:bg-slate-500"
-                            : "bg-white dark:bg-slate-700"
-                        } ${selected ? "font-semibold" : ""}`}
-                      >
-                        {completion.phrase}
-                      </li>
-                    )}
-                  </Combobox.Option>
-                )
+        <Combobox.Options className="absolute top-11 left-0 right-0 z-10 mx-4 overflow-hidden rounded-lg bg-white py-2 shadow-xl empty:hidden dark:bg-slate-700">
+          <Combobox.Option key={query} value={query} as={Fragment}>
+            {({ active, selected }) => (
+              <li
+                className={`px-3 py-1 ${
+                  active
+                    ? "bg-slate-200 dark:bg-slate-500"
+                    : "bg-white dark:bg-slate-700"
+                } ${selected ? "font-semibold" : ""}`}
+              >
+                {query === "" ? `Go to ${searchEngine.name}` : query}
+              </li>
             )}
-          </Combobox.Options>
-        )}
+          </Combobox.Option>
+          {autoCompletions?.map(
+            (completion) =>
+              query !== completion.phrase && (
+                <Combobox.Option
+                  key={completion.phrase}
+                  value={completion.phrase}
+                  as={Fragment}
+                >
+                  {({ active, selected }) => (
+                    <li
+                      className={`px-3 py-1 ${
+                        active
+                          ? "bg-slate-200 dark:bg-slate-500"
+                          : "bg-white dark:bg-slate-700"
+                      } ${selected ? "font-semibold" : ""}`}
+                    >
+                      {completion.phrase}
+                    </li>
+                  )}
+                </Combobox.Option>
+              )
+          )}
+        </Combobox.Options>
       </Combobox>
-    </Wrapper>
+    </Form>
   );
 };
 
