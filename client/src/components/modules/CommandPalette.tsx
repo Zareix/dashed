@@ -11,52 +11,10 @@ import {
   Action,
 } from "kbar";
 
-import { Application } from "../../models/Applications";
-import { Category } from "../../models/Category";
-
 import data from "data.json";
 import Service from "./Service";
-import DynamicIcon from "../ui/DynamicIcon";
-import AppIcon from "../ui/AppIcon";
 
-const actions = [
-  ...data.categories.flatMap<Action>((category: Category, i) =>
-    category.apps.map((app: Application, j) => ({
-      id: `${i}/${j}`,
-      name: app.name,
-      shortcut: [],
-      keywords: app.name,
-      section: category.name,
-      subtitle: app.subtitle,
-      icon: (
-        <AppIcon
-          imgClassName="icon mr-2 max-w-[2rem]"
-          iconClassName="icon mr-2 max-w-[2rem]"
-          image={app.image}
-          appName={app.name}
-          iconSize={30}
-        />
-      ),
-      perform: () => {
-        window.location.pathname = `/categories/${i}/apps/${j}`;
-      },
-    }))
-  ),
-  ...data.links.map((link, i) => ({
-    id: i.toString(),
-    name: link.name,
-    shortcut: [],
-    keywords: link.name,
-    section: "Links",
-    icon: (
-      <DynamicIcon icon={link.icon} size={30} className="mr-2 max-w-[2rem]" />
-    ),
-    priority: 10,
-    perform: () => {
-      window.location.pathname = link.link;
-    },
-  })),
-];
+const defaultActions: Action[] = [];
 
 type Props = {
   children?: ReactNode;
@@ -64,7 +22,7 @@ type Props = {
 
 const CommandPalette = ({ children }: Props) => {
   return (
-    <KBarProvider actions={actions}>
+    <KBarProvider actions={defaultActions}>
       <KBarPortal>
         <KBarPositioner className="z-50 bg-gray-800 bg-opacity-30 backdrop-blur-[3px] dark:bg-gray-900 dark:bg-opacity-40">
           <KBarAnimator className="w-full max-w-md overflow-hidden rounded-xl bg-white shadow-xl dark:bg-slate-800">

@@ -2,9 +2,9 @@ import { ReactNode, useEffect, useState } from "react";
 
 import styled from "styled-components";
 import { AiOutlineMenu } from "react-icons/ai";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FiCommand } from "react-icons/fi";
-import { useKBar } from "kbar";
+import { Action, useKBar, useRegisterActions } from "kbar";
 
 import data from "data.json";
 
@@ -13,6 +13,11 @@ import CatLink from "./nav/CatLink";
 import useScroll from "../../hooks/scroll";
 import useWindowWidth from "../../hooks/windowWidth";
 import IsOffline from "../modules/IsOffline";
+import { Application } from "../../models/Applications";
+import { Category } from "../../models/Category";
+import AppIcon from "../ui/AppIcon";
+import DynamicIcon from "../ui/DynamicIcon";
+import { MdSettings } from "react-icons/md";
 
 const SideBar = styled.section`
   position: sticky;
@@ -33,6 +38,57 @@ type LayoutProps = {
 };
 
 const Layout = ({ children }: LayoutProps) => {
+  const navigate = useNavigate();
+  useRegisterActions([
+    ...data.categories.flatMap<Action>((category: Category, i) =>
+      category.apps.map((app: Application, j) => ({
+        id: `${i}/${j}`,
+        name: app.name,
+        shortcut: [],
+        keywords: app.name,
+        section: category.name,
+        subtitle: app.subtitle,
+        icon: (
+          <AppIcon
+            imgClassName="icon mr-2 max-w-[2rem]"
+            iconClassName="icon mr-2 max-w-[2rem]"
+            image={app.image}
+            appName={app.name}
+            iconSize={30}
+          />
+        ),
+        perform: () => {
+          navigate(`/categories/${i}/apps/${j}`);
+        },
+      }))
+    ),
+    ...data.links.map((link, i) => ({
+      id: i.toString(),
+      name: link.name,
+      shortcut: [],
+      keywords: link.name,
+      section: "Links",
+      icon: (
+        <DynamicIcon icon={link.icon} size={30} className="mr-2 max-w-[2rem]" />
+      ),
+      priority: 10,
+      perform: () => {
+        navigate(link.link);
+      },
+    })),
+    {
+      id: "config",
+      name: "Configuration",
+      shortcut: [],
+      keywords: "configuration",
+      section: "Links",
+      icon: <MdSettings size={30} className="mr-2 max-w-[2rem]" />,
+      priority: 10,
+      perform: () => {
+        navigate("/config");
+      },
+    },
+  ]);
   const [opened, setOpened] = useState(-1);
   const [isDrawerOpened, setIsDrawerOpened] = useState(false);
   const [isWorkspace, setIsWorkspace] = useState(false);
@@ -45,6 +101,8 @@ const Layout = ({ children }: LayoutProps) => {
     setIsDrawerOpened(false);
     setIsWorkspace(/categories\/[0-9]\/apps\/[0-9]/.test(pathname));
   }, [pathname]);
+
+  useEffect(() => {}, []);
 
   const openKbar = () => {
     query.toggle();
