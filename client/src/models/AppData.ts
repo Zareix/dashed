@@ -49,6 +49,17 @@ export const schema = {
         },
       },
     },
+    modules: {
+      type: "object",
+      properties: {
+        healthCheck: {
+          type: "array",
+          items: {
+            type: "string",
+          },
+        },
+      },
+    },
     categories: {
       items: {
         required: ["apps", "icon", "name"],
@@ -94,13 +105,28 @@ export const schema = {
                   items: {
                     type: "string",
                   },
-                  type: "array",
+                  type: ["array", "string"],
                 },
                 subtitle: {
                   type: "string",
                 },
                 type: {
                   type: "string",
+                  enum: [
+                    "pi-hole",
+                    "servarr",
+                    "sonarr",
+                    "radarr",
+                    "prowlarr",
+                    "portainer",
+                    "healthcheck",
+                  ],
+                },
+                healthCheck: {
+                  items: {
+                    type: "string",
+                  },
+                  type: ["array", "string"],
                 },
               },
               type: "object",

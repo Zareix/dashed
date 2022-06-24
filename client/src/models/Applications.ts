@@ -8,6 +8,7 @@ export type Application = {
   subtitle?: string;
   endpoints?: string[];
   customLinks?: CustomLink[];
+  healthCheck?: string | string[];
 };
 
 type CustomLink = {

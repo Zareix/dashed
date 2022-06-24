@@ -1,7 +1,7 @@
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
 
 import { Application } from "../../../models/Applications";
-import Service from "../../modules/Service";
+import Service from "../../modules/services/_Service";
 import AppIcon from "../../ui/AppIcon";
 import { Button } from "../../ui/Button";
 import DynamicIcon from "../../ui/DynamicIcon";

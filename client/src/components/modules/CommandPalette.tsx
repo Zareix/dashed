@@ -12,7 +12,7 @@ import {
 } from "kbar";
 
 import data from "data.json";
-import Service from "./Service";
+import Service from "./services/_Service";
 
 const defaultActions: Action[] = [];
 

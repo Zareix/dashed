@@ -1,8 +1,9 @@
-import { Application } from "../../models/Applications";
+import { Application } from "../../../models/Applications";
+import HealthChecks from "./HealthChecks";
 
-import { Pihole } from "./services/PiHole";
-import Portainer from "./services/Portainer";
-import Servarr from "./services/Servarr";
+import { Pihole } from "./PiHole";
+import Portainer from "./Portainer";
+import Servarr from "./Servarr";
 
 type Props = {
   app: Application;
@@ -23,6 +24,8 @@ const Service = ({ app }: Props) => {
     case "portainer":
       return <Portainer app={app} />;
 
+    case "healthcheck":
+      return <HealthChecks sources={app.healthCheck} />;
     default:
       return <></>;
   }

@@ -9,14 +9,15 @@ import data from "data.json";
 import DynamicIcon from "../components/ui/DynamicIcon";
 import { Button } from "../components/ui/Button";
 import { FlexCard } from "../components/ui/Cards";
-import ServiceDetails from "../components/modules/ServiceDetails";
-import Service from "../components/modules/Service";
+import ServiceDetails from "../components/modules/services/_ServiceDetails";
+import Service from "../components/modules/services/_Service";
 import useWindowWidth from "../hooks/windowWidth";
 import ContextMenu from "../components/ui/ContextMenu";
 import SearchBar from "../components/modules/SearchBar";
 import Clock from "../components/modules/Clock";
 import AppIcon from "../components/ui/AppIcon";
 import { Application } from "../models/Applications";
+import HealthChecks from "../components/modules/services/HealthChecks";
 
 const Home = () => {
   const { isMobile } = useWindowWidth();
@@ -26,8 +27,9 @@ const Home = () => {
       data.settings?.searchEngine?.autofocus?.includes(
         isMobile ? "mobile" : "large-screen"
       )
-    )
-      document.querySelector("#searchInput input")?.focus();
+    ) {
+      (document.querySelector("#searchInput input") as HTMLElement)?.focus();
+    }
   }, []);
 
   return (
@@ -36,12 +38,15 @@ const Home = () => {
         {!isMobile && (
           <>
             <h1 className="mb-0">Home</h1>
-            <div className="flex justify-center">
-              {data.settings?.searchEngine?.autofocus?.includes(
+            <div className="flex items-center justify-center gap-3">
+              {data.settings?.searchEngine?.display?.includes(
                 "large-screen"
               ) && <SearchBar />}
+              {data.modules.healthCheck && (
+                <HealthChecks sources={data.modules.healthCheck} />
+              )}
+              <Clock />
             </div>
-            <Clock />
           </>
         )}
         {isMobile && (
@@ -50,11 +55,11 @@ const Home = () => {
               <h1 className="mb-0">Home</h1>
               <Clock />
             </div>
-            <div className="flex justify-center">
-              {data.settings?.searchEngine?.autofocus?.includes("mobile") && (
+            {data.settings?.searchEngine?.display?.includes("mobile") && (
+              <div className="flex justify-center">
                 <SearchBar />
-              )}
-            </div>
+              </div>
+            )}
           </>
         )}
       </div>
