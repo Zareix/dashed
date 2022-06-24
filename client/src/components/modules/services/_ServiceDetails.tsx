@@ -1,5 +1,5 @@
-import { Application } from "../../models/Applications";
-import { PiholeDetails } from "./services/PiHole";
+import { Application } from "../../../models/Applications";
+import { PiholeDetails } from "./PiHole";
 
 type Props = {
   app: Application;

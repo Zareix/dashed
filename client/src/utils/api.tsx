@@ -12,6 +12,7 @@ import {
 import { AppData } from "../models/AppData";
 import { Autocompletion } from "../models/Autocompletion";
 import { Health } from "../models/Health";
+import { HealthCheckIO } from "../models/HealthCheckIO";
 
 import { PiHoleStats } from "../pages/apps/PiHole";
 
@@ -135,6 +136,7 @@ export const portainerFetchContainers = async (
   return Promise.all(reqs);
 };
 
+// --- Autocompletion ---
 export const fetchAutocompletions = async (
   query: string
 ): Promise<Autocompletion[]> => {
@@ -142,4 +144,9 @@ export const fetchAutocompletions = async (
   return (
     await axios.get<Autocompletion[]>(`${API_URL}/autocomplete?query=${query}`)
   ).data;
+};
+
+// --- HealthChecks.io ---
+export const fetchHealthCheck = async (src: string): Promise<HealthCheckIO> => {
+  return (await axios.get<HealthCheckIO>(src)).data;
 };

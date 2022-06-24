@@ -110,6 +110,23 @@ export const JsonEditorStyle = createGlobalStyle`
         border: 1px solid #334155!important;
       }
     }
+
+    .jsoneditor .jsoneditor-text-errors tr {
+      background-color: #dc2626;
+    }
+
+    .jsoneditor .jsoneditor-text-errors {
+      border-top: none;
+    }
+
+    .jsoneditor-contextmenu .jsoneditor-text {
+      color: #f3f4f6;
+    }
+
+    .jsoneditor-contextmenu .jsoneditor-menu button:hover, .jsoneditor-contextmenu .jsoneditor-menu button:focus {
+      color : #333;
+      background-color: #1e40af;
+    }
   }
 `;
 
