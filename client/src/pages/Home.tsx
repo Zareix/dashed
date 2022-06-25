@@ -42,7 +42,7 @@ const Home = () => {
               {data.settings?.searchEngine?.display?.includes(
                 "large-screen"
               ) && <SearchBar />}
-              {data.modules.healthCheck && (
+              {data.modules?.healthCheck && (
                 <HealthChecks sources={data.modules.healthCheck} />
               )}
               <Clock />
