@@ -58,20 +58,26 @@ const Portainer = ({ app }: Props) => {
     .filter((x) => x.State !== "running")
     .sort((x, y) => x.Names[0].localeCompare(y.Names[0]));
 
+  if (runningContainers.length < 0 && idleContainers.length < 0) return <></>;
+
   return (
     <div className="flex gap-1">
-      <Indicator
-        info={runningContainers.map((x) => x.Names[0].slice(1)).join("\\A ")}
-        className="bg-cyan-400 text-gray-50 dark:bg-cyan-500"
-      >
-        {runningContainers.length}
-      </Indicator>
-      <Indicator
-        info={idleContainers.map((x) => x.Names[0].slice(1)).join("\\A ")}
-        className="bg-gray-300 text-gray-50 dark:bg-gray-400"
-      >
-        {idleContainers.length}
-      </Indicator>
+      {runningContainers.length > 0 && (
+        <Indicator
+          info={runningContainers.map((x) => x.Names[0].slice(1)).join("\\A ")}
+          className="bg-cyan-400 text-gray-50 dark:bg-cyan-500"
+        >
+          {runningContainers.length}
+        </Indicator>
+      )}
+      {idleContainers.length > 0 && (
+        <Indicator
+          info={idleContainers.map((x) => x.Names[0].slice(1)).join("\\A ")}
+          className="bg-gray-300 text-gray-50 dark:bg-gray-400"
+        >
+          {idleContainers.length}
+        </Indicator>
+      )}
     </div>
   );
 };
