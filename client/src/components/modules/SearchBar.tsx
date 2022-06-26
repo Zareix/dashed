@@ -23,6 +23,7 @@ type SearchEngine = {
 
 const Form = styled.form`
   display: flex;
+  align-items: center;
   width: clamp(20rem, 30vw, 30rem);
   border-radius: 100vw;
   padding: 0.25rem 0.5rem;
