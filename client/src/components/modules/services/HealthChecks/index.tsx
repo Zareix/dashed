@@ -29,8 +29,8 @@ const HealthChecks = ({ sources }: PropsHealthchecks) => {
   if (Array.isArray(sources))
     return (
       <Wrapper className="ml-auto flex flex-wrap justify-end gap-1">
-        {sources.map((h) => (
-          <HealthCheck src={h} />
+        {sources.map((h, i) => (
+          <HealthCheck src={h} key={i} />
         ))}
       </Wrapper>
     );
