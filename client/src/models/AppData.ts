@@ -128,6 +128,9 @@ export const schema = {
                   },
                   type: ["array", "string"],
                 },
+                external: {
+                  type: "boolean",
+                },
               },
               type: "object",
             },

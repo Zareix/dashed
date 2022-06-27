@@ -9,6 +9,7 @@ export type Application = {
   endpoints?: string[];
   customLinks?: CustomLink[];
   healthCheck?: string | string[];
+  external?: boolean;
 };
 
 type CustomLink = {

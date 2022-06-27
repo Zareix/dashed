@@ -77,14 +77,16 @@ const Home = () => {
                     <div className="absolute right-2 top-1/2 ml-auto mr-14 -translate-y-1/2 transition-all duration-300 md:mr-4 md:group-hover:mr-14 md:empty:group-hover:mr-0">
                       <Service app={app} />
                     </div>
-                    <Button
-                      as={Link}
-                      to={`/categories/${i}/apps/${j}`}
-                      className="absolute top-1/2 right-2 mr-3 -translate-y-1/2 overflow-hidden
+                    {!app.external && (
+                      <Button
+                        as={Link}
+                        to={`/categories/${i}/apps/${j}`}
+                        className="absolute top-1/2 right-2 mr-3 -translate-y-1/2 overflow-hidden
                             border py-2 px-2 md:w-0 md:border-0 md:px-0 md:group-hover:w-10 md:group-hover:border md:group-hover:px-2"
-                    >
-                      <RiFullscreenFill size={20} className="mx-auto" />
-                    </Button>
+                      >
+                        <RiFullscreenFill size={20} className="mx-auto" />
+                      </Button>
+                    )}
                     <a href={app.url} id={i + "///" + j}>
                       <FlexCard className="!justify-start transition-shadow group-hover:shadow-lg">
                         <AppIcon
@@ -95,7 +97,11 @@ const Home = () => {
                           iconSize={52}
                         />
                         <div className="ml-2">
-                          <h2 className="-mb-1 text-lg leading-6 ">
+                          <h2
+                            className={`-mb-1 text-lg leading-6 ${
+                              app.external ? "italic" : ""
+                            }`}
+                          >
                             {app.name}
                           </h2>
                           <div className="text-sm text-gray-500">
