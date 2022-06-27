@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -20,6 +21,21 @@ const MainApp = () => {
       console.log("SW registration", error);
     },
   });
+
+  useEffect(() => {
+    const lightTheme = localStorage.getItem("lightTheme");
+    const darkTheme = localStorage.getItem("darkTheme");
+    if (lightTheme && lightTheme !== "" && darkTheme && darkTheme !== "") {
+      const isOSDark =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (isOSDark) {
+        document.documentElement.setAttribute("data-theme", darkTheme);
+      } else {
+        document.documentElement.setAttribute("data-theme", lightTheme);
+      }
+    }
+  }, []);
 
   return (
     <>

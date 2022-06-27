@@ -18,9 +18,12 @@ import { Category } from "../../models/Category";
 import AppIcon from "../ui/AppIcon";
 import DynamicIcon from "../ui/DynamicIcon";
 import { MdSettings } from "react-icons/md";
+import ThemeSelector from "./theme/ThemeSelector";
 
 const SideBar = styled.section`
   position: sticky;
+  display: flex;
+  flex-direction: column;
   top: 0;
   height: 100vh;
   min-width: ${(props: SideBarProps) => (props.workspace ? "auto" : "20vw")};
@@ -102,8 +105,6 @@ const Layout = ({ children }: LayoutProps) => {
     setIsWorkspace(/categories\/[0-9]\/apps\/[0-9]/.test(pathname));
   }, [pathname]);
 
-  useEffect(() => {}, []);
-
   const openKbar = () => {
     query.toggle();
   };
@@ -158,6 +159,9 @@ const Layout = ({ children }: LayoutProps) => {
               </li>
             </ul>
           </nav>
+          <div className="mt-auto flex justify-end">
+            <ThemeSelector />
+          </div>
         </SideBar>
       )}
       {isMobile && (

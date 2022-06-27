@@ -42,15 +42,15 @@ const CatLink = ({
 
   return (
     <div>
-      <Button
-        className={`flex w-full items-center bg-transparent dark:bg-transparent ${
+      <button
+        className={`flex w-full items-center rounded-md p-2 hover:bg-primary hover:bg-opacity-5 ${
           match ? "font-bold" : ""
         }`}
         onClick={() => open(index)}
       >
         {category.icon && (
           <div
-            className={`rounded-lg bg-gradient-to-br from-cyan-400 to-cyan-500 p-2 text-white shadow-md dark:from-cyan-500 dark:to-cyan-700 ${
+            className={`btn btn-primary btn-square btn-sm shadow-md ${
               isWorkspace ? "mx-auto" : "mr-2"
             }`}
           >
@@ -58,7 +58,7 @@ const CatLink = ({
           </div>
         )}
         {!isWorkspace && <span>{category.name}</span>}
-      </Button>
+      </button>
       <AppLinksList
         className={
           isWorkspace ? "flex flex-col items-center" : "ml-6 border-l-2 pl-3"

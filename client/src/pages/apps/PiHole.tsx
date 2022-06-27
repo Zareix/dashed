@@ -35,10 +35,8 @@ type DurationBtnProps = {
 const DurationButton = (props: DurationBtnProps) => {
   return (
     <button
-      className={`rounded-lg px-2 py-1 text-gray-50 shadow transition-all hover:shadow-md disabled:bg-gray-200 disabled:shadow dark:disabled:bg-gray-700 dark:disabled:text-gray-500 ${
-        props.duration === props.selectedDuration / 60
-          ? "bg-cyan-600"
-          : "bg-cyan-400 dark:bg-cyan-800"
+      className={`btn btn-sm ${
+        props.duration === props.selectedDuration / 60 ? "btn-primary" : ""
       }`}
       onClick={() => props.setDuration(60 * props.duration)}
       disabled={props.disabled}
@@ -101,77 +99,73 @@ const PiHole = (props: Props) => {
           <HiOutlineExternalLink />
         </a>
       </h1>
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-        <FlexCard>
-          <div>
-            <h2 className="font-semibold text-gray-500 dark:text-gray-500">
-              Status
-            </h2>
-            <p className="text-xl font-bold capitalize text-gray-700 dark:text-gray-300">
-              {stats?.status}
-            </p>
+      <div className="flex w-full">
+        <div className="stats stats-vertical mx-auto shadow lg:stats-horizontal">
+          <div className="stat">
+            <div>
+              <div className="stat-title">Status</div>
+              <p className="stat-value capitalize">{stats?.status}</p>
+            </div>
+            <div className="stat-figure">
+              <div
+                className={`ml-auto flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-b  text-white ${
+                  stats?.status === "disabled"
+                    ? " from-red-400 to-red-500"
+                    : "from-green-400 to-green-500"
+                }`}
+              >
+                {stats?.status === "disabled" ? "!" : <FiCheck size={20} />}
+              </div>
+            </div>
           </div>
-          <div
-            className={`ml-auto flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-b  text-white ${
-              stats?.status === "disabled"
-                ? " from-red-400 to-red-500"
-                : "from-green-400 to-green-500"
-            }`}
-          >
-            {stats?.status === "disabled" ? "!" : <FiCheck size={20} />}
+          <div className="stat">
+            <div>
+              <div className="stat-title">Total queries</div>
+              <p className="stat-value">{stats?.dns_queries_today}</p>
+            </div>
+            <div className="stat-figure">
+              <div className="ml-auto flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-b from-cyan-400 to-cyan-500 text-white">
+                <RiEarthLine size={20} />
+              </div>
+            </div>
           </div>
-        </FlexCard>
-        <FlexCard>
-          <div>
-            <h2 className="font-semibold text-gray-500 dark:text-gray-500">
-              Total queries
-            </h2>
-            <p className="text-xl font-bold text-gray-700 dark:text-gray-300">
-              {stats?.dns_queries_today}
-            </p>
+          <div className="stat">
+            <div>
+              <div className="stat-title">Total blocked ads</div>
+              <p className="stat-value">{stats?.ads_blocked_today}</p>
+            </div>
+            <div className="stat-figure">
+              <div className="ml-auto flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-b from-cyan-400 to-cyan-500 text-white">
+                <ImBlocked size={20} />
+              </div>
+            </div>
           </div>
-          <div className="ml-auto flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-b from-cyan-400 to-cyan-500 text-white">
-            <RiEarthLine size={20} />
+          <div className="stat">
+            <div>
+              <div className="stat-title">Blocked ads percentage</div>
+              <p className="stat-value">
+                {stats?.ads_percentage_today.toLocaleString(
+                  window.navigator.language,
+                  {
+                    maximumFractionDigits: 2,
+                  }
+                )}
+                %
+              </p>
+            </div>
+            <div className="stat-figure">
+              <div className="ml-auto flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-b from-cyan-400 to-cyan-500 text-white">
+                %
+              </div>
+            </div>
           </div>
-        </FlexCard>
-        <FlexCard>
-          <div>
-            <h2 className="font-semibold text-gray-500 dark:text-gray-500">
-              Total blocked ads
-            </h2>
-            <p className="text-xl font-bold text-gray-700 dark:text-gray-300">
-              {stats?.ads_blocked_today}
-            </p>
-          </div>
-          <div className="ml-auto flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-b from-cyan-400 to-cyan-500 text-white">
-            <ImBlocked size={20} />
-          </div>
-        </FlexCard>
-        <FlexCard>
-          <div>
-            <h2 className="font-semibold text-gray-500 dark:text-gray-500">
-              Blocked ads percentage
-            </h2>
-            <p className="text-xl font-bold text-gray-700 dark:text-gray-300">
-              {stats?.ads_percentage_today.toLocaleString(
-                window.navigator.language,
-                {
-                  maximumFractionDigits: 2,
-                }
-              )}
-              %
-            </p>
-          </div>
-          <div className="ml-auto flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-b from-cyan-400 to-cyan-500 text-white">
-            %
-          </div>
-        </FlexCard>
+        </div>
       </div>
       <div className="mt-4 flex">
         <SimpleCard className="md:w-3/5 lg:w-1/3">
-          <h2 className="text-xl font-semibold text-gray-600 dark:text-gray-300">
+          <div className="text-xl font-semibold text-gray-600 dark:text-gray-300">
             Disable/Enable
-          </h2>
+          </div>
           <h3 className="font-semibold text-gray-500 dark:text-gray-400">
             Duration
           </h3>
@@ -206,17 +200,11 @@ const PiHole = (props: Props) => {
           </div>
           <div className="flex items-center justify-center">
             {stats?.status === "disabled" ? (
-              <button
-                className="rounded-lg bg-green-500 px-2 py-1 text-gray-50 shadow hover:shadow-md"
-                onClick={enable}
-              >
+              <button className="btn btn-success btn-sm" onClick={enable}>
                 Enable
               </button>
             ) : (
-              <button
-                className="rounded-lg bg-red-500 px-2 py-1 text-gray-50 shadow hover:shadow-md"
-                onClick={disable}
-              >
+              <button className="btn btn-error btn-sm" onClick={disable}>
                 Stop
               </button>
             )}
