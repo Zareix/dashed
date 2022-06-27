@@ -12,6 +12,7 @@ type Props = {
 const Service = ({ app }: Props) => {
   switch (app.type?.toLowerCase()) {
     case "pi-hole":
+    case "pihole":
       return <Pihole app={app} />;
 
     case "sonarr":

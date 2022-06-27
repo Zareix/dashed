@@ -34,6 +34,13 @@ export const Indicator = styled.div`
     --scale: 1;
   }
 
+  &.tooltip-bottom::after {
+    top: auto;
+    bottom: 0rem;
+    transform: translateX(-50%) translateY(110%) scale(var(--scale));
+    transform-origin: top;
+  }
+
   .discret & {
     padding: 0.1rem 0.4rem;
     font-size: 0.875rem;

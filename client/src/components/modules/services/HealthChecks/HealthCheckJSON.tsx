@@ -12,23 +12,22 @@ const HealthCheckJSON = ({ src }: Props) => {
     fetchHealthCheck(src)
   );
 
-  if (!data || isLoading) return <></>;
+  if (!data || isLoading || data.status === "up") return <></>;
 
   const name = src.split("/").at(-1)?.replace(".json", "") ?? "";
 
-  if (data.status !== "up")
-    return (
-      <Indicator
-        className="bg-red-500 text-gray-50 shadow-sm"
-        info={`${name.charAt(0).toUpperCase() + name.slice(1)} : ${
-          data.status
-        }\\A ${data.grace} grace\\A ${data.down} down`}
-      >
-        {data.down}
-      </Indicator>
-    );
-
-  return <></>;
+  return (
+    <Indicator
+      className={`tooltip-bottom text-gray-50 shadow-sm ${
+        data.down > 0 ? "bg-red-500" : "bg-orange-500"
+      }`}
+      info={`${name.charAt(0).toUpperCase() + name.slice(1)} : ${
+        data.status
+      }\\A ${data.grace} grace\\A ${data.down} down`}
+    >
+      {data.down + data.grace}
+    </Indicator>
+  );
 };
 
 export default HealthCheckJSON;
