@@ -2,6 +2,7 @@ import { useQuery } from "react-query";
 
 import { Application } from "../../../models/Applications";
 import { servarrFetchActivity, servarrFetchStatus } from "../../../utils/api";
+import { extractURL } from "../../../utils/extractURL";
 import { Indicator } from "../../ui/Indicator";
 
 const REFETCH_INTERVAL = 15 * 1000;
@@ -34,7 +35,12 @@ const Servarr = ({
 }: Props) => {
   const { data: status, isLoading } = useQuery(
     ["status", app.name],
-    () => servarrFetchStatus(app.url, app.apiKey, apiVersion),
+    () =>
+      servarrFetchStatus(
+        app.endpoint ?? extractURL(app.url),
+        app.apiKey,
+        apiVersion
+      ),
     {
       refetchInterval: REFETCH_INTERVAL,
       enabled: scopes.includes("status"),
@@ -43,7 +49,12 @@ const Servarr = ({
 
   const { data: activity, isLoading: isActLoading } = useQuery(
     ["activity", app.name],
-    () => servarrFetchActivity(app.url, app.apiKey, apiVersion),
+    () =>
+      servarrFetchActivity(
+        app.endpoint ?? extractURL(app.url),
+        app.apiKey,
+        apiVersion
+      ),
     {
       refetchInterval: REFETCH_INTERVAL,
       enabled: scopes.includes("queue"),

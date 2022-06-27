@@ -5,6 +5,7 @@ import {
   portainerFetchContainers,
   portainerFetchEndpoints,
 } from "../../../utils/api";
+import { extractURL } from "../../../utils/extractURL";
 import { Indicator } from "../../ui/Indicator";
 
 export type PortainerEndpoint = {
@@ -24,7 +25,8 @@ type Props = {
 const Portainer = ({ app }: Props) => {
   const { data: endpoints, isLoading } = useQuery(
     ["portainer_endpoints"],
-    () => portainerFetchEndpoints(app.url, app.apiKey),
+    () =>
+      portainerFetchEndpoints(app.endpoint ?? extractURL(app.url), app.apiKey),
     {
       retry: 3,
     }
@@ -34,7 +36,7 @@ const Portainer = ({ app }: Props) => {
     ["portainer_container", app.endpoints],
     () =>
       portainerFetchContainers(
-        app.endpoint ?? app.url,
+        app.endpoint ?? extractURL(app.url),
         app.apiKey,
         endpoints,
         app.endpoints
