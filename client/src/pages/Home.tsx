@@ -67,51 +67,51 @@ const Home = () => {
         {data.categories.map((cat, i) => {
           return (
             <section key={i} className="mt-5">
-              <h2 className="mb-3 ml-3 flex items-center text-2xl text-gray-700 dark:text-gray-300">
+              <h2 className="mb-3 ml-3 flex items-center text-2xl">
                 <DynamicIcon icon={cat.icon} className="mr-2" />
                 {cat.name}
               </h2>
               <ul className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {cat.apps.map((app: Application, j) => (
-                  <li className="group relative h-max" key={j}>
-                    <div className="absolute right-2 top-1/2 ml-auto mr-14 -translate-y-1/2 transition-all duration-300 md:mr-4 md:group-hover:mr-14 md:empty:group-hover:mr-0">
+                  <li className="group relative isolate" key={j}>
+                    <div className="absolute right-2 top-1/2 z-10 ml-auto mr-14 -translate-y-1/2 transition-all duration-300 md:mr-4 md:group-hover:mr-14 md:empty:group-hover:mr-0">
                       <Service app={app} />
                     </div>
                     {!app.external && (
-                      <Button
-                        as={Link}
+                      <Link
                         to={`/categories/${i}/apps/${j}`}
-                        className="absolute top-1/2 right-2 mr-3 -translate-y-1/2 overflow-hidden
-                            border py-2 px-2 md:w-0 md:border-0 md:px-0 md:group-hover:w-10 md:group-hover:border md:group-hover:px-2"
+                        className="absolute top-1/2 right-2 z-10 mr-3 -translate-y-1/2 overflow-hidden rounded border bg-base-100
+                            py-2 px-2 transition-all md:w-0 md:border-0 md:px-0 md:group-hover:w-10 md:group-hover:border md:group-hover:px-2"
                       >
                         <RiFullscreenFill size={20} className="mx-auto" />
-                      </Button>
+                      </Link>
                     )}
                     <a href={app.url} id={i + "///" + j}>
-                      <FlexCard className="!justify-start transition-shadow group-hover:shadow-lg">
-                        <AppIcon
-                          imgClassName="icon p-[0.1rem]"
-                          iconClassName="icon p-1"
-                          appName={app.name}
-                          image={app.image}
-                          iconSize={52}
-                        />
-                        <div className="ml-2">
+                      <div className="card card-side h-full bg-base-200 transition-shadow duration-300 hover:shadow-lg">
+                        <figure className="p-4">
+                          <AppIcon
+                            imgClassName="icon p-[0.1rem]"
+                            iconClassName="icon p-1"
+                            appName={app.name}
+                            image={app.image}
+                            iconSize={52}
+                          />
+                        </figure>
+                        <div className="card-body justify-center gap-0 p-5 pl-0">
                           <h2
-                            className={`-mb-1 text-lg leading-6 ${
+                            className={`card-title m-0 ${
                               app.external ? "italic" : ""
                             }`}
                           >
                             {app.name}
                           </h2>
-                          <div className="text-sm text-gray-500">
-                            {app.subtitle}
-                            {(!app.subtitle || app.subtitle === "") && (
-                              <ServiceDetails app={app} />
-                            )}
-                          </div>
+                          {app.subtitle && app.subtitle !== "" ? (
+                            <p>app.subtitle</p>
+                          ) : (
+                            <ServiceDetails app={app} />
+                          )}
                         </div>
-                      </FlexCard>
+                      </div>
                     </a>
                   </li>
                 ))}

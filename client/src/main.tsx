@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 
 const queryClient = new QueryClient();
 
-import "./global.scss";
+import "./global.css";
 
 import MainApp from "./MainApp";
 

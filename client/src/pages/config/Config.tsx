@@ -151,7 +151,7 @@ const Config = () => {
           schema={schema}
         />
         <div className="flex justify-end">
-          <Button>Save</Button>
+          <button className="btn btn-primary btn-sm">Save</button>
         </div>
       </form>
       <JsonEditorStyle />

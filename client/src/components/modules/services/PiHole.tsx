@@ -66,11 +66,11 @@ export const PiholeDetails = ({ app }: DetailsProps) => {
   }
 
   return (
-    <div>
+    <p>
       {stats.ads_percentage_today.toLocaleString(window.navigator.language, {
         maximumFractionDigits: 2,
       })}
       %
-    </div>
+    </p>
   );
 };

@@ -112,7 +112,7 @@ const SearchBar = ({ isNewTab }: Props) => {
 
   return (
     <Form
-      className="relative mt-3 bg-white transition-shadow duration-300 focus-within:shadow dark:bg-slate-700 md:mt-0"
+      className="relative mt-3 bg-base-200 transition-shadow duration-300 focus-within:shadow  md:mt-0"
       onSubmit={(e) => {
         e.preventDefault();
         submit();
@@ -135,17 +135,15 @@ const SearchBar = ({ isNewTab }: Props) => {
       >
         <Combobox.Input
           onChange={handleChange}
-          className="h-full w-full outline-none dark:bg-slate-700"
+          className="h-full w-full bg-base-200 outline-none"
           autoComplete="off"
         />
-        <Combobox.Options className="absolute top-11 left-0 right-0 z-10 mx-4 overflow-hidden rounded-lg bg-white py-2 shadow-xl empty:hidden dark:bg-slate-700">
+        <Combobox.Options className="absolute top-11 left-0 right-0 z-10 mx-4 overflow-hidden rounded-lg  bg-base-200 py-2 shadow-xl empty:hidden">
           <Combobox.Option key={query} value={query} as={Fragment}>
             {({ active, selected }) => (
               <li
                 className={`px-3 py-1 ${
-                  active
-                    ? "bg-slate-200 dark:bg-slate-500"
-                    : "bg-white dark:bg-slate-700"
+                  active ? "bg-base-300" : "bg-base-200"
                 } ${selected ? "font-semibold" : ""}`}
               >
                 {query === "" ? `Go to ${searchEngine.name}` : query}
@@ -163,9 +161,7 @@ const SearchBar = ({ isNewTab }: Props) => {
                   {({ active, selected }) => (
                     <li
                       className={`px-3 py-1 ${
-                        active
-                          ? "bg-slate-200 dark:bg-slate-500"
-                          : "bg-white dark:bg-slate-700"
+                        active ? "bg-base-300" : "bg-base-200"
                       } ${selected ? "font-semibold" : ""}`}
                     >
                       {completion.phrase}

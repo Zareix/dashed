@@ -67,7 +67,7 @@ const Portainer = ({ app }: Props) => {
       {runningContainers.length > 0 && (
         <Indicator
           info={runningContainers.map((x) => x.Names[0].slice(1)).join("\\A ")}
-          className="bg-cyan-400 text-gray-50 dark:bg-cyan-500"
+          className="bg-info text-info-content"
         >
           {runningContainers.length}
         </Indicator>
@@ -75,7 +75,7 @@ const Portainer = ({ app }: Props) => {
       {idleContainers.length > 0 && (
         <Indicator
           info={idleContainers.map((x) => x.Names[0].slice(1)).join("\\A ")}
-          className="bg-gray-300 text-gray-50 dark:bg-gray-400"
+          className="bg-neutral text-neutral-content"
         >
           {idleContainers.length}
         </Indicator>
