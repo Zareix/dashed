@@ -133,7 +133,7 @@ const Layout = ({ children }: LayoutProps) => {
                 <li
                   onClick={() => setOpened(-1)}
                   key={"link" + i}
-                  className="custom-bg sticky top-0"
+                  className="sticky top-0"
                 >
                   <NavLink {...link} isWorkspace={isWorkspace} />
                 </li>
@@ -149,25 +149,23 @@ const Layout = ({ children }: LayoutProps) => {
                   />
                 </li>
               ))}
-              <li>
-                <NavLink
-                  link="/config"
-                  name="Config"
-                  icon="MdSettings"
-                  isWorkspace={isWorkspace}
-                />
-              </li>
             </ul>
           </nav>
-          <div className="mt-auto flex justify-end">
-            <ThemeSelector />
+
+          <div
+            className={`flex justify-end ${isWorkspace ? "m-auto" : "mt-auto"}`}
+          >
+            <Link to="/config" className="btn btn-square btn-sm m-1">
+              <MdSettings size={20} />
+            </Link>
+            {!isWorkspace && <ThemeSelector />}
           </div>
         </SideBar>
       )}
       {isMobile && (
         <>
           <section
-            className={`custom-bg sticky top-0 z-40 flex justify-between px-4 py-3 text-center transition-shadow ${
+            className={`sticky top-0 z-40 flex justify-between bg-base-100 px-4 py-3 text-center transition-shadow ${
               scrolled || isDrawerOpened ? "shadow-md" : ""
             }`}
           >
@@ -188,7 +186,7 @@ const Layout = ({ children }: LayoutProps) => {
             </button>
           </section>
           <nav
-            className={`custom-bg fixed z-30 ml-auto h-full w-2/3 px-4 pt-4 transition-all duration-300 ${
+            className={`fixed z-30 ml-auto h-full w-2/3 bg-base-100  px-4 pt-4 transition-all duration-300 ${
               isDrawerOpened ? "right-0" : "-right-full"
             }`}
             onClickCapture={console.log}
@@ -219,6 +217,12 @@ const Layout = ({ children }: LayoutProps) => {
                 <NavLink link="/config" name="Config" icon="MdSettings" />
               </li>
             </ul>
+            <div className="mt-2 flex justify-end">
+              <Link to="/config" className="btn btn-square btn-sm m-1">
+                <MdSettings size={20} />
+              </Link>
+              <ThemeSelector />
+            </div>
           </nav>
           {isDrawerOpened && (
             <div

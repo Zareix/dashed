@@ -9,7 +9,7 @@ const ThemeSelector = () => {
       </label>
       <div
         tabIndex={0}
-        className="card-compact card dropdown-content w-64 bg-base-200 p-2 shadow"
+        className="card dropdown-content card-compact w-64 bg-base-200 p-2 shadow"
       >
         <div className="card-body">
           <h3 className="card-title">Theme</h3>

@@ -1,35 +1,35 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 
 const THEMES = [
-  "light",
-  "dark",
-  "cupcake",
-  "bumblebee",
-  "emerald",
-  "corporate",
-  "synthwave",
-  "retro",
-  "cyberpunk",
-  "valentine",
-  "halloween",
-  "garden",
-  "forest",
-  "aqua",
-  "lofi",
-  "pastel",
-  "fantasy",
-  "wireframe",
-  "black",
-  "luxury",
-  "dracula",
-  "cmyk",
-  "autumn",
-  "business",
   "acid",
-  "lemonade",
-  "night",
+  "aqua",
+  "autumn",
+  "black",
+  "bumblebee",
+  "business",
+  "cmyk",
   "coffee",
+  "corporate",
+  "cupcake",
+  "cyberpunk",
+  "dark",
+  "dracula",
+  "emerald",
+  "fantasy",
+  "forest",
+  "garden",
+  "halloween",
+  "lemonade",
+  "light",
+  "lofi",
+  "luxury",
+  "night",
+  "pastel",
+  "retro",
+  "synthwave",
+  "valentine",
   "winter",
+  "wireframe",
 ];
 
 type Inputs = {
@@ -70,11 +70,20 @@ const ThemeForm = () => {
 
   const setTheme = (theme: string) => {
     localStorage.setItem("theme", theme);
+    document.documentElement.setAttribute("data-theme", theme);
   };
 
   const setAutoTheme = (lightTheme: string, darkTheme: string) => {
     localStorage.setItem("lightTheme", lightTheme);
     localStorage.setItem("darkTheme", darkTheme);
+    if (
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    ) {
+      document.documentElement.setAttribute("data-theme", darkTheme);
+    } else {
+      document.documentElement.setAttribute("data-theme", lightTheme);
+    }
   };
 
   return (

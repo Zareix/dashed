@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body {
-  @apply custom-bg text-gray-900  dark:text-gray-100;
-}
-
 #root {
   @apply sm:flex;
 }
@@ -23,10 +18,4 @@ h2 {
   width: 52px;
   aspect-ratio: 1/1;
   object-fit: contain;
-}
-
-@layer base {
-  .custom-bg {
-    @apply bg-gray-100 dark:bg-gray-900;
-  }
 }

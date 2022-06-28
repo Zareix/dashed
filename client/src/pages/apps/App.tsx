@@ -47,19 +47,19 @@ const App = () => {
               {app.name}
               <a
                 href={app.url}
-                className="ml-2 mr-2 text-gray-700 hover:text-gray-600 dark:text-gray-400"
+                className="link ml-2 mr-2 opacity-80 hover:opacity-100"
               >
                 <HiOutlineExternalLink />
               </a>
-              <Button
+              <button
                 onClick={() => {
                   if (frame === null || frame.current === null) return;
                   frame.current.src = url;
                 }}
-                className="ml-auto"
+                className="btn btn-primary btn-square btn-sm"
               >
                 <HiOutlineRefresh size={20} />
-              </Button>
+              </button>
             </h1>
             {data.settings?.searchEngine?.display?.includes(
               isMobile ? "mobile" : "large-screen"

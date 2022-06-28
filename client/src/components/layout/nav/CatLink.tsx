@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useLocation, useMatch, useResolvedPath } from "react-router-dom";
 import styled from "styled-components";
 import { Category } from "../../../models/Category";
-import { Button } from "../../ui/Button";
 import DynamicIcon from "../../ui/DynamicIcon";
 
 import NavLink from "./NavLink";

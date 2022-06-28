@@ -3,8 +3,6 @@ import { Link, useMatch, useResolvedPath } from "react-router-dom";
 import { Application } from "../../../models/Applications";
 import Service from "../../modules/services/_Service";
 import AppIcon from "../../ui/AppIcon";
-import { Button } from "../../ui/Button";
-import DynamicIcon from "../../ui/DynamicIcon";
 
 type NavLinkProps = {
   name: string;
@@ -23,11 +21,10 @@ const NavLink = (props: NavLinkProps) => {
   });
 
   return (
-    <Button
-      as={Link}
+    <Link
       to={props.link}
       title={props.name}
-      className={`flex items-center gap-2 overflow-x-auto rounded-md p-2 transition-colors duration-300 ${
+      className={`flex items-center gap-2 overflow-x-auto rounded-md p-2 transition-colors duration-300 hover:bg-primary hover:bg-opacity-5 ${
         match ? "bg-primary bg-opacity-10" : "bg-transparent"
       }`}
     >
@@ -39,6 +36,7 @@ const NavLink = (props: NavLinkProps) => {
         iconClassName={
           props.icon && "btn btn-square btn-sm btn-primary shadow-md"
         }
+        iconSize={22}
       />
       {!props.isWorkspace && (
         <span className={match ? "font-bold" : ""}>{props.name}</span>
@@ -48,7 +46,7 @@ const NavLink = (props: NavLinkProps) => {
           <Service app={props.app} />
         </span>
       )}
-    </Button>
+    </Link>
   );
 };
 
