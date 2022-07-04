@@ -41,4 +41,5 @@ dist
 .webpack/
 
 !client/public/**
+!defaults/**
 .DS_Store
