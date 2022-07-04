@@ -14,11 +14,10 @@ export default defineConfig({
         maximumFileSizeToCacheInBytes: 5000000, // 20 MB
       },
       manifest: {
-        name: "Dashboard",
-        short_name: "Dashboard",
+        name: "Dashed",
+        short_name: "Dashed",
         description: "A dashboard for your Homelab",
-        theme_color: "#a5f3fc",
-
+        theme_color: "#3d99f5",
         icons: [
           {
             src: "/app/icons/pwa-192x192.png",
@@ -29,12 +28,13 @@ export default defineConfig({
             src: "/app/icons/pwa-512x512.png",
             sizes: "512x512",
             type: "image/png",
+            purpose: "any",
           },
           {
-            src: "/app/icons/pwa-512x512.png",
+            src: "/app/icons/icon.png",
             sizes: "512x512",
             type: "image/png",
-            purpose: "any maskable",
+            purpose: "maskable",
           },
         ],
       },
