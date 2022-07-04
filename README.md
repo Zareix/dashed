@@ -1,7 +1,10 @@
-# Dashboard
+# Dashed
+
+Dashed is selfhosted dashboard for your homelab.
+
 See how to use it in our [wiki](https://github.com/Zareix/dashboard/wiki)
 
-## Using with Docker
+## Using with Docker 🐳
 
 To run using docker, run the following command :
 
