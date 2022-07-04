@@ -174,7 +174,7 @@ const Layout = ({ children }: LayoutProps) => {
             </button>
             <Link to="/">
               <h1 className="relative mx-auto mb-0">
-                Dashboard
+                Dashed
                 <IsOffline
                   className="absolute -right-1/4 top-1/2 -translate-y-1/2"
                   size={30}
