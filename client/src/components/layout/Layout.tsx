@@ -120,7 +120,7 @@ const Layout = ({ children }: LayoutProps) => {
               <h2 className="relative mx-auto mb-2 pb-1 text-center">
                 Dashboard{" "}
                 <IsOffline
-                  className="absolute right-4 top-1/2 -translate-y-1/2"
+                  className="absolute -right-1/3 top-1/2 -translate-y-1/2"
                   size={20}
                 />
               </h2>
@@ -176,7 +176,7 @@ const Layout = ({ children }: LayoutProps) => {
               <h1 className="relative mx-auto mb-0">
                 Dashboard
                 <IsOffline
-                  className="absolute -right-10 top-1/2 -translate-y-1/2"
+                  className="absolute -right-1/4 top-1/2 -translate-y-1/2"
                   size={30}
                 />
               </h1>
