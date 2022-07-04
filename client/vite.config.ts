@@ -18,6 +18,8 @@ export default defineConfig({
         short_name: "Dashed",
         description: "A dashboard for your Homelab",
         theme_color: "#3d99f5",
+        background_color: "#3d99f5",
+        display: "minimal-ui",
         icons: [
           {
             src: "/app/icons/pwa-192x192.png",
