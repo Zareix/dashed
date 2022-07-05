@@ -7,8 +7,6 @@ import { ImEarth } from "react-icons/im";
 import data from "data.json";
 
 import DynamicIcon from "../components/ui/DynamicIcon";
-import { Button } from "../components/ui/Button";
-import { FlexCard } from "../components/ui/Cards";
 import ServiceDetails from "../components/modules/services/_ServiceDetails";
 import Service from "../components/modules/services/_Service";
 import useWindowWidth from "../hooks/windowWidth";
@@ -106,7 +104,7 @@ const Home = () => {
                             {app.name}
                           </h2>
                           {app.subtitle && app.subtitle !== "" ? (
-                            <p>app.subtitle</p>
+                            <p>{app.subtitle}</p>
                           ) : (
                             <ServiceDetails app={app} />
                           )}

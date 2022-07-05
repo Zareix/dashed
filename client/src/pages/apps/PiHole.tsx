@@ -78,15 +78,26 @@ const PiHole = (props: Props) => {
     );
   };
 
-  const { data: stats, isLoading } = useQuery(
-    ["pihole_stats", props.url],
-    () => piholeFetchStats(props.url),
-    {
-      refetchInterval: FETCH_INTERVAL,
-    }
-  );
+  const {
+    data: stats,
+    isLoading,
+    isError,
+  } = useQuery(["pihole_stats", props.url], () => piholeFetchStats(props.url), {
+    refetchInterval: FETCH_INTERVAL,
+  });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        Loading...
+      </div>
+    );
+  if (isError)
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        Error while loading Pi-Hole
+      </div>
+    );
   return (
     <>
       <h1 className="flex items-center">
