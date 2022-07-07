@@ -11,7 +11,7 @@ To run using docker, run the following command :
 ```
 docker run -d \
         -p 80:80 \
-        -v ~/dashboard/public:/app/public \
+        -v ~/dashboard/public:/app/client/public \
         --name=dashboard \
         ghcr.io/zareix/dashboard:latest
 ```
@@ -27,7 +27,7 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./dashboard/public:/app/public
+      - ./dashboard/public:/app/client/public
 ```
 
 You can modify `data.json` file and `assets` folder as you wish.
