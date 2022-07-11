@@ -1,3 +1,4 @@
+import { AxiosRequestHeaders } from "axios";
 export type Application = {
   name: string;
   url: string;
@@ -10,6 +11,8 @@ export type Application = {
   customLinks?: CustomLink[];
   healthCheck?: string | string[];
   external?: boolean;
+  allowedStatusCode?: number[];
+  headers?: AxiosRequestHeaders;
 };
 
 type CustomLink = {

@@ -2,6 +2,7 @@ import { Application } from "../../../models/Applications";
 import HealthChecks from "./HealthChecks";
 
 import { Pihole } from "./PiHole";
+import Ping from "./Ping";
 import Portainer from "./Portainer";
 import Servarr from "./Servarr";
 
@@ -14,7 +15,8 @@ const Service = ({ app }: Props) => {
     case "pi-hole":
     case "pihole":
       return <Pihole app={app} />;
-
+    case "ping":
+      return <Ping app={app} />;
     case "sonarr":
     case "radarr":
     case "servarr":

@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios, { Axios, AxiosError, AxiosRequestHeaders } from "axios";
 import { toast } from "react-toastify";
 
 import {
@@ -149,4 +149,25 @@ export const fetchAutocompletions = async (
 // --- HealthChecks.io ---
 export const fetchHealthCheck = async (src: string): Promise<HealthCheckIO> => {
   return (await axios.get<HealthCheckIO>(src)).data;
+};
+
+// --- Ping ---
+export const ping = async (
+  url: string,
+  headers: AxiosRequestHeaders | undefined
+): Promise<number | undefined> => {
+  try {
+    console.log(headers);
+
+    const res = await axios.get(url, {
+      timeout: 1000,
+      headers,
+    });
+    return res.status;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return error.response?.status;
+    }
+  }
+  return 0;
 };

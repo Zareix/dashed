@@ -127,7 +127,9 @@ const ThemeForm = () => {
           {...register("theme")}
         >
           {THEMES.map((t) => (
-            <option value={t}>{t}</option>
+            <option value={t} key={t}>
+              {t}
+            </option>
           ))}
         </select>
       )}

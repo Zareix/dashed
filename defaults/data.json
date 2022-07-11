@@ -7,6 +7,12 @@
             "inApp": true
         }
     },
+    "modules": {
+        "clock": {
+            "is24h": true,
+            "showSeconds": true
+        }
+    },
     "links": [
         {
             "name": "Home",
