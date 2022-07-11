@@ -58,6 +58,17 @@ export const schema = {
             type: "string",
           },
         },
+        clock: {
+          type: "object",
+          properties: {
+            is24h: {
+              type: "boolean",
+            },
+            showSeconds: {
+              type: "boolean",
+            },
+          },
+        },
       },
     },
     categories: {
@@ -120,6 +131,7 @@ export const schema = {
                     "prowlarr",
                     "portainer",
                     "healthcheck",
+                    "ping",
                   ],
                 },
                 healthCheck: {
