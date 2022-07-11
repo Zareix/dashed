@@ -2,6 +2,12 @@
 
 # Nginx
 echo ">> Starting nginx"
+cp /app/nginx/starting/index.html /usr/share/nginx/html/index.html
+if [[ -z "${USE_SSL}" ]]; then
+    cp /app/nginx/http.conf /etc/nginx/conf.d/default.conf
+else
+    cp /app/nginx/https.conf /etc/nginx/conf.d/default.conf
+fi
 nginx -g "daemon off;" | sed -e 's/^/[NGINX] /;' > /app/nginx/.logs &
 
 # Setup app

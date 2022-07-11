@@ -12,9 +12,6 @@ RUN apk add \
 WORKDIR /app
 COPY . .
 
-COPY nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY nginx/starting /usr/share/nginx/html
-
 RUN chmod +x docker-start.sh
 
 EXPOSE 80
