@@ -106,7 +106,9 @@ const ThemeForm = () => {
             </label>
             <select className="select select-sm" {...register("lightTheme")}>
               {THEMES.map((t) => (
-                <option value={t}>{t}</option>
+                <option value={t} key={t}>
+                  {t}
+                </option>
               ))}
             </select>
           </div>
@@ -116,7 +118,9 @@ const ThemeForm = () => {
             </label>
             <select className="select select-sm" {...register("darkTheme")}>
               {THEMES.map((t) => (
-                <option value={t}>{t}</option>
+                <option value={t} key={t}>
+                  {t}
+                </option>
               ))}
             </select>
           </div>
