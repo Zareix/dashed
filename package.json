@@ -7,7 +7,12 @@
     "server"
   ],
   "scripts": {
-    "start": "yarn workspace server start & yarn workspace client dev",
+    "server:dev": "yarn workspace server start",
+    "client:dev": "yarn workspace client dev",
+    "develop": "concurrently 'yarn:server:dev' 'yarn:client:dev'",
     "docker:start": "yarn workspace client docker:build | awk '{ print \"[FRONT]\", $0 }' && yarn workspace server start | awk '{ print \"[API]\", $0 }'"
+  },
+  "devDependencies": {
+    "concurrently": "^7.2.2"
   }
 }
