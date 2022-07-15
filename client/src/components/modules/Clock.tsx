@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-
-import data from "data.json";
+import { useAppDataContext } from "../context/AppDataContext";
 
 const Clock = () => {
+  const { data } = useAppDataContext();
   const [time, setTime] = useState(new Date());
 
   useEffect(() => {

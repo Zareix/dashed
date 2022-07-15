@@ -5,8 +5,8 @@ import { RiFullscreenFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import data from "data.json";
 import { Application } from "../../models/Applications";
+import { useAppDataContext } from "../context/AppDataContext";
 import DynamicIcon from "./DynamicIcon";
 
 const IconNumber = styled.span`
@@ -35,6 +35,7 @@ const Menu = styled.div`
 `;
 
 const ContextMenu = () => {
+  const { data } = useAppDataContext();
   const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
   const [show, setShow] = useState(false);
   const [path, setPath] = useState("");

@@ -2,6 +2,7 @@ import axios from "axios";
 import express from "express";
 import cors from "cors";
 
+import data from "./routes/data";
 import config from "./routes/config";
 
 const app = express();
@@ -20,10 +21,11 @@ app.get("/api/health", (req, res) => {
 });
 
 app.use("/api/config", config);
+app.use("/api/data", data);
 
 app.use("/api/autocomplete", async (req, res) => {
   for (let index = 0; index < 10000; index++) {}
-  return res.send(
+  res.send(
     await (
       await axios.get(`https://duckduckgo.com/ac/?q=${req.query.query}`)
     ).data

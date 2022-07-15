@@ -9,6 +9,13 @@ export type AppData = {
       inApp: boolean;
     };
   };
+  modules: {
+    healthCheck: string | string[];
+    clock: {
+      is24h: boolean;
+      showSeconds: boolean;
+    };
+  };
   links: CustomLink[];
   categories: Category[];
 };

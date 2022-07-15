@@ -1,10 +1,8 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import { RiFullscreenFill } from "react-icons/ri";
 import { ImEarth } from "react-icons/im";
-
-import data from "data.json";
 
 import DynamicIcon from "../components/ui/DynamicIcon";
 import ServiceDetails from "../components/modules/services/_ServiceDetails";
@@ -16,8 +14,10 @@ import Clock from "../components/modules/Clock";
 import AppIcon from "../components/ui/AppIcon";
 import { Application } from "../models/Applications";
 import HealthChecks from "../components/modules/services/HealthChecks";
+import { useAppDataContext } from "../components/context/AppDataContext";
 
 const Home = () => {
+  const { data } = useAppDataContext();
   const { isMobile } = useWindowWidth();
 
   useEffect(() => {

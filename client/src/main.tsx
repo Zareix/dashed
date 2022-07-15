@@ -2,6 +2,8 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 
 import { QueryClient, QueryClientProvider } from "react-query";
+import AppDataProvider from "./components/context/AppDataContext";
+import ThemeHandler from "./components/layout/theme/ThemeHandler";
 
 const queryClient = new QueryClient();
 
@@ -17,7 +19,10 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <MainApp />
+      <ThemeHandler />
+      <AppDataProvider>
+        <MainApp />
+      </AppDataProvider>
     </QueryClientProvider>
   </React.StrictMode>
 );

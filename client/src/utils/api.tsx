@@ -1,4 +1,10 @@
-import axios, { Axios, AxiosError, AxiosRequestHeaders } from "axios";
+import axios, {
+  Axios,
+  AxiosError,
+  AxiosRequestHeaders,
+  AxiosResponse,
+} from "axios";
+import { useQueryClient } from "react-query";
 import { toast } from "react-toastify";
 
 import {
@@ -18,47 +24,21 @@ import { PiHoleStats } from "../pages/apps/PiHole";
 
 const API_URL = import.meta.env.PROD ? "/api" : "http://localhost:3001/api";
 
+// --- App data ---
+export const getAppData = async (): Promise<AppData> => {
+  return (await axios.get<AppData>(`${API_URL}/data`)).data;
+};
+
 // --- Api Health ---
 export const getApiHealth = async (): Promise<Health> => {
   return (await axios.get<Health>(`${API_URL}/health`)).data;
 };
 
 // --- Settings ---
-export const saveSettings = (data: AppData): void => {
-  const isDark =
-    window.matchMedia &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches;
-  axios
-    .post(`${API_URL}/config`, data)
-    .then((res) => {
-      toast.success(
-        () => (
-          <div className="text-gray-600 dark:text-gray-200">
-            {res.data.message}
-          </div>
-        ),
-        {
-          theme: isDark ? "dark" : "light",
-        }
-      );
-    })
-    .catch((err: AxiosError<{ message: string }>) => {
-      toast.error(
-        () => (
-          <>
-            <div className="text-gray-600 dark:text-gray-200">
-              An error occured
-            </div>
-            <div className="text-sm dark:text-gray-400">
-              {err.response?.data.message ?? err.message}
-            </div>
-          </>
-        ),
-        {
-          theme: isDark ? "dark" : "light",
-        }
-      );
-    });
+export const saveSettings = (
+  data: AppData
+): Promise<AxiosResponse<{ message: string }>> => {
+  return axios.post(`${API_URL}/config`, data);
 };
 
 // --- Pi-Hole ---

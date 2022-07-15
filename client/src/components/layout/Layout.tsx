@@ -6,8 +6,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FiCommand } from "react-icons/fi";
 import { Action, useKBar, useRegisterActions } from "kbar";
 
-import data from "data.json";
-
 import NavLink from "./nav/NavLink";
 import CatLink from "./nav/CatLink";
 import useScroll from "../../hooks/scroll";
@@ -19,6 +17,7 @@ import AppIcon from "../ui/AppIcon";
 import DynamicIcon from "../ui/DynamicIcon";
 import { MdSettings } from "react-icons/md";
 import ThemeSelector from "./theme/ThemeSelector";
+import { useAppDataContext } from "../context/AppDataContext";
 
 const SideBar = styled.section`
   position: sticky;
@@ -41,6 +40,7 @@ type LayoutProps = {
 };
 
 const Layout = ({ children }: LayoutProps) => {
+  const { data } = useAppDataContext();
   const navigate = useNavigate();
   useRegisterActions([
     ...data.categories.flatMap<Action>((category: Category, i) =>

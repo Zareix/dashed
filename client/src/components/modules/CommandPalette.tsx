@@ -11,8 +11,8 @@ import {
   Action,
 } from "kbar";
 
-import data from "data.json";
 import Service from "./services/_Service";
+import { useAppDataContext } from "../context/AppDataContext";
 
 const defaultActions: Action[] = [];
 
@@ -42,6 +42,7 @@ const CommandPalette = ({ children }: Props) => {
 };
 
 const RenderResults = () => {
+  const { data } = useAppDataContext();
   const { results } = useMatches();
 
   return (

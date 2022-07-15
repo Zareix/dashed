@@ -4,10 +4,9 @@ import styled from "styled-components";
 import { Combobox } from "@headlessui/react";
 import { useQuery } from "react-query";
 
-import data from "data.json";
-
 import { fetchAutocompletions } from "../../utils/api";
 import { Autocompletion } from "../../models/Autocompletion";
+import { useAppDataContext } from "../context/AppDataContext";
 
 type Props = {
   isNewTab?: boolean;
@@ -72,6 +71,7 @@ const SEARCH_ENGINES: SearchEngine[] = [
 ];
 
 const SearchBar = ({ isNewTab }: Props) => {
+  const { data } = useAppDataContext();
   const [query, setQuery] = useState("");
   const [searchEngine, setSearchEngine] = useState<SearchEngine>(
     SEARCH_ENGINES.find((x) => x.name === data.settings.searchEngine.default) ??

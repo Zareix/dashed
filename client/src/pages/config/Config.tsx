@@ -3,15 +3,15 @@ import { FormEvent, useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import Ajv from "ajv";
 import { JsonEditor } from "jsoneditor-react";
+import { toast } from "react-toastify";
+import { AxiosError } from "axios";
 
 import "jsoneditor-react/es/editor.min.css";
 import "react-toastify/dist/ReactToastify.css";
 
-import { Button } from "../../components/ui/Button";
 import { saveSettings } from "../../utils/api";
 import { schema } from "../../models/AppData";
-
-import data from "data.json";
+import { useAppDataContext } from "../../components/context/AppDataContext";
 
 const Wrapper = styled.div`
   .jsoneditor {
@@ -131,12 +131,46 @@ export const JsonEditorStyle = createGlobalStyle`
 `;
 
 const Config = () => {
+  const { data, setData } = useAppDataContext();
   const [newData, setNewData] = useState(data);
   const ajv = new Ajv({ allErrors: true, verbose: true });
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    saveSettings(newData);
+    const isDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    saveSettings(newData)
+      .then((res) => {
+        setData(newData);
+        toast.success(
+          () => (
+            <div className="text-gray-600 dark:text-gray-200">
+              {res.data.message}
+            </div>
+          ),
+          {
+            theme: isDark ? "dark" : "light",
+          }
+        );
+      })
+      .catch((err: AxiosError<{ message: string }>) => {
+        toast.error(
+          () => (
+            <>
+              <div className="text-gray-600 dark:text-gray-200">
+                An error occured
+              </div>
+              <div className="text-sm dark:text-gray-400">
+                {err.response?.data.message ?? err.message}
+              </div>
+            </>
+          ),
+          {
+            theme: isDark ? "dark" : "light",
+          }
+        );
+      });
   };
 
   return (

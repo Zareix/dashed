@@ -3,15 +3,14 @@ import { useEffect, useRef, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { HiOutlineExternalLink, HiOutlineRefresh } from "react-icons/hi";
 
-import data from "data.json";
-
 import PiHole from "./PiHole";
-import { Button } from "../../components/ui/Button";
 import SearchBar from "../../components/modules/SearchBar";
 import useWindowWidth from "../../hooks/windowWidth";
 import AppIcon from "../../components/ui/AppIcon";
+import { useAppDataContext } from "../../components/context/AppDataContext";
 
 const App = () => {
+  const { data } = useAppDataContext();
   const params = useParams();
   const [searchParams] = useSearchParams();
   const app =
