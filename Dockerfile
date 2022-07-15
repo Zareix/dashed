@@ -1,18 +1,37 @@
-FROM nginx:alpine
+# --- BUILD STAGE ---
+FROM nginx:alpine AS build
 
-# Install nvm with node and npm
 RUN apk add \
     nodejs \
     npm \
-    yarn \
-    && echo "NodeJS Version:" "$(node -v)" \
-    && echo "NPM Version:" "$(npm -v)" \
-    && echo "Yarn Version:" "$(yarn -v)"
+    yarn
+
+WORKDIR /app/client
+COPY ./client/package.json package.json
+RUN yarn install
+COPY ./client .
+RUN yarn build
+
+# --- App setup stage ---
+FROM nginx:alpine
+RUN apk add \
+    nodejs \
+    npm \
+    yarn
 
 WORKDIR /app
-COPY . .
+COPY ./nginx ./nginx
+COPY ./defaults ./defaults
 
-RUN chmod +x docker-start.sh
+WORKDIR /app/server
+COPY ./server/package.json package.json
+RUN yarn install
+COPY ./server .
+
+COPY ./docker-start.sh /app/docker-start.sh
+RUN chmod +x /app/docker-start.sh
+
+COPY --from=build /app/client/dist /usr/share/nginx/html
 
 EXPOSE 80
 

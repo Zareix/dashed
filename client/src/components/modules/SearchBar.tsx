@@ -36,7 +36,7 @@ const SEARCH_ENGINES: SearchEngine[] = [
     triggerOn: "g ",
     icon: (
       <img
-        src="/app/searchEngines/google_icon.png"
+        src="/assets/app/searchEngines/google_icon.png"
         alt="search icon google"
         className="aspect-square h-8 max-w-none object-contain"
       />
@@ -49,7 +49,7 @@ const SEARCH_ENGINES: SearchEngine[] = [
     triggerOn: "y ",
     icon: (
       <img
-        src="/app/searchEngines/yt_icon.png"
+        src="/assets/app/searchEngines/yt_icon.png"
         alt="search icon youtube"
         className="aspect-square h-8 object-contain"
       />
@@ -62,7 +62,7 @@ const SEARCH_ENGINES: SearchEngine[] = [
     triggerOn: "t ",
     icon: (
       <img
-        src="/app/searchEngines/bitsearch_icon.png"
+        src="/assets/app/searchEngines/bitsearch_icon.png"
         alt="search icon bitsearch"
         className="aspect-square h-8 object-contain"
       />

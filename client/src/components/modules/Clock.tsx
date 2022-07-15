@@ -17,7 +17,7 @@ const Clock = () => {
 
   return (
     <div className="text-right">
-      <div className="w-[120] text-2xl font-bold">
+      <div className="w-[160px] text-2xl font-bold">
         {time.toLocaleTimeString(data.modules.clock.is24h ? "fr-FR" : "en-US", {
           hour: "2-digit",
           minute: "2-digit",

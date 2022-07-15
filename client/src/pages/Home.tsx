@@ -123,28 +123,4 @@ const Home = () => {
   );
 };
 
-type Props = {
-  imgSrc: string;
-};
-
-const CardImg = ({ imgSrc }: Props) => {
-  const [error, setError] = useState(false);
-
-  if (error) {
-    return (
-      <div className="icon flex items-center justify-center">
-        <ImEarth size={52} className="p-2" />
-      </div>
-    );
-  }
-
-  return (
-    <img
-      className="icon"
-      src={`/assets/${imgSrc}`}
-      onError={() => setError(true)}
-    />
-  );
-};
-
 export default Home;

@@ -2,7 +2,6 @@
 
 # Nginx
 echo ">> Starting nginx"
-cp /app/nginx/starting/index.html /usr/share/nginx/html/index.html
 if [[ -z "${USE_SSL}" ]]; then
     cp /app/nginx/http.conf /etc/nginx/conf.d/default.conf
 else
@@ -10,23 +9,18 @@ else
 fi
 nginx -g "daemon off;" | sed -e 's/^/[NGINX] /;' > /app/nginx/.logs &
 
-# Setup app
-if [ ! -e /app/client/public ]; then
-    echo ">> Creating public folder"
-    mkdir -p /app/client/public
-fi
-if [ ! -e /app/client/public/assets ]; then    
+# Set defaults
+if [ ! -e /usr/share/nginx/html/assets ]; then    
     echo ">> Creating assets folder"
-    mkdir -p /app/client/public/assets
+    mkdir -p /usr/share/nginx/html/assets
+    echo ">> Copying default assets"
+    cp -r /app/defaults/assets /usr/share/nginx/html
 fi
-if [ ! -e /app/client/public/data.json ]; then
+if [ ! -e /app/data.json ]; then
     echo ">> Creating default data.json file"
-    cp /app/defaults/data.json /app/client/public/data.json
+    cp /app/defaults/data.json /app/data.json
 fi
-echo ">> Copying default app assets"
-cp -nr /app/defaults/app /app/client/public
 
-echo ">> Installing packages"
-yarn install
-echo ">> Running app"
-yarn docker:start
+# Run
+echo ">> Running api"
+yarn start

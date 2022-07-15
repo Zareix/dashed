@@ -43,3 +43,4 @@ dist
 !client/public/**
 !defaults/**
 .DS_Store
+data.json

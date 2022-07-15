@@ -1,1 +1,1 @@
-export const DATA_JSON_PATH = "../client/public/data.json";
+export const DATA_JSON_PATH = "../data.json";
