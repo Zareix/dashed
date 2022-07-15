@@ -11,9 +11,10 @@ To run using docker, run the following command :
 ```bash
 docker run -d \
         -p 80:80 \
-        -v ~/dashboard/public:/app/client/public \
+        -v ~/dashboard/assets:/usr/share/nginx/html/assets \
+        -v ~/dashboard/data.json:/app/data.json \
         --name=dashboard \
-        ghcr.io/zareix/dashboard:latest
+        ghcr.io/zareix/dashed:latest
 ```
 
 or with docker-compose :
@@ -22,15 +23,19 @@ or with docker-compose :
 version: "3"
 services:
   app:
-    image: ghcr.io/zareix/dashboard:latest
+    image: ghcr.io/zareix/dashed:latest
     container_name: dashboard
     ports:
       - 80:80
     volumes:
-      - ./dashboard/public:/app/client/public
+      - ./dashboard/assets:/usr/share/nginx/html/assets
+      - ./dashboard/data.json:/app/data.json
 ```
 
-You can modify `data.json` file and `assets` folder as you wish.
+### Notes
+
+- `assets/` -> all images assets such as icons
+- `data.json` -> config file (Optional since you can modify it in real time via the config page). If you map it, be sure to create it first or docker will create a folder insted.
 
 ## Use ssl 🔐
 
@@ -39,9 +44,10 @@ Bind a folder containing `cert.pem` (your certificate) and `private.pem` (your p
 ```bash
 docker run -d \
         -p 443:443 \
-        -v ~/dashboard/public:/app/client/public \
+        -v ~/dashboard/assets:/usr/share/nginx/html/assets \
+        -v ~/dashboard/data.json:/app/data.json \
         -v ~/dashboard/certs:/app/nginx/certs \
         -e USE_SSL=true \
         --name=dashboard \
-        ghcr.io/zareix/dashboard:latest
+        ghcr.io/zareix/dashed:latest
 ```
