@@ -32,10 +32,10 @@ services:
       - ./dashboard/data.json:/app/data.json
 ```
 
-### Notes
+### Notes on volumes
 
-- `assets/` -> all images assets such as icons
-- `data.json` -> config file (Optional since you can modify it in real time via the config page). If you map it, be sure to create it first or docker will create a folder insted.
+- `assets/` : all images assets such as icons
+- `data.json` : config file (Optional since you can modify it in real time via the config page). If you map it, be sure to create it first or docker will create a folder instead.
 
 ## Use ssl 🔐
 

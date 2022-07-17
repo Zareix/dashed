@@ -7,7 +7,7 @@ if [[ -z "${USE_SSL}" ]]; then
 else
     cp /app/nginx/https.conf /etc/nginx/conf.d/default.conf
 fi
-nginx -g "daemon off;" | sed -e 's/^/[NGINX] /;' > /app/nginx/.logs &
+nginx
 
 # Set defaults
 echo ">> Creating assets folder"
