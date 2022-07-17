@@ -10,12 +10,10 @@ fi
 nginx -g "daemon off;" | sed -e 's/^/[NGINX] /;' > /app/nginx/.logs &
 
 # Set defaults
-if [ ! -e /usr/share/nginx/html/assets ]; then    
-    echo ">> Creating assets folder"
-    mkdir -p /usr/share/nginx/html/assets
-    echo ">> Copying default assets"
-    cp -r /app/defaults/assets /usr/share/nginx/html
-fi
+echo ">> Creating assets folder"
+mkdir -p /usr/share/nginx/html/assets
+echo ">> Copying default assets"
+rsync -r --ignore-existing /app/defaults/assets /usr/share/nginx/html
 if [ ! -e /app/data.json ]; then
     echo ">> Creating default data.json file"
     cp /app/defaults/data.json /app/data.json

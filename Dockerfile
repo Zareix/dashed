@@ -17,7 +17,8 @@ FROM nginx:alpine
 RUN apk add \
     nodejs \
     npm \
-    yarn
+    yarn \
+    rsync
 
 WORKDIR /app
 COPY ./nginx ./nginx
