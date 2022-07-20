@@ -69,20 +69,36 @@ const Home = () => {
                 <DynamicIcon icon={cat.icon} className="mr-2" />
                 {cat.name}
               </h2>
-              <ul className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              <ul
+                className={`gap-3 ${
+                  cat.small
+                    ? "flex flex-wrap"
+                    : "grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+                }`}
+              >
                 {cat.apps.map((app: Application, j) => (
-                  <li className="group relative isolate" key={j}>
-                    <div className="absolute right-2 top-1/2 z-10 ml-auto mr-14 -translate-y-1/2 transition-all duration-300 md:mr-4 md:group-hover:mr-14 md:empty:group-hover:mr-0">
-                      <Service app={app} />
-                    </div>
-                    {!app.external && (
-                      <Link
-                        to={`/categories/${i}/apps/${j}`}
-                        className="absolute top-1/2 right-2 z-10 mr-3 -translate-y-1/2 overflow-hidden rounded border bg-base-100
+                  <li
+                    className={`group relative isolate ${
+                      cat.small ? "tooltip" : ""
+                    }`}
+                    key={j}
+                    data-tip={app.name}
+                  >
+                    {!cat.small && (
+                      <>
+                        <div className="absolute right-2 top-1/2 z-10 ml-auto mr-14 -translate-y-1/2 transition-all duration-300 md:mr-4 md:group-hover:mr-14 md:empty:group-hover:mr-0">
+                          <Service app={app} />
+                        </div>
+                        {!app.external && (
+                          <Link
+                            to={`/categories/${i}/apps/${j}`}
+                            className="absolute top-1/2 right-2 z-10 mr-3 -translate-y-1/2 overflow-hidden rounded border bg-base-100
                             py-2 px-2 transition-all md:w-0 md:border-0 md:px-0 md:group-hover:w-10 md:group-hover:border md:group-hover:px-2"
-                      >
-                        <RiFullscreenFill size={20} className="mx-auto" />
-                      </Link>
+                          >
+                            <RiFullscreenFill size={20} className="mx-auto" />
+                          </Link>
+                        )}
+                      </>
                     )}
                     <a href={app.url} id={i + "///" + j}>
                       <div className="card card-side h-full bg-base-200 transition-shadow duration-300 hover:shadow-lg">
@@ -95,20 +111,22 @@ const Home = () => {
                             iconSize={52}
                           />
                         </figure>
-                        <div className="card-body justify-center gap-0 p-5 pl-0">
-                          <h2
-                            className={`card-title m-0 ${
-                              app.external ? "italic" : ""
-                            }`}
-                          >
-                            {app.name}
-                          </h2>
-                          {app.subtitle && app.subtitle !== "" ? (
-                            <p>{app.subtitle}</p>
-                          ) : (
-                            <ServiceDetails app={app} />
-                          )}
-                        </div>
+                        {!cat.small && (
+                          <div className="card-body justify-center gap-0 p-5 pl-0">
+                            <h2
+                              className={`card-title m-0 ${
+                                app.external ? "italic" : ""
+                              }`}
+                            >
+                              {app.name}
+                            </h2>
+                            {app.subtitle && app.subtitle !== "" ? (
+                              <p>{app.subtitle}</p>
+                            ) : (
+                              <ServiceDetails app={app} />
+                            )}
+                          </div>
+                        )}
                       </div>
                     </a>
                   </li>

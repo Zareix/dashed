@@ -80,24 +80,24 @@ const Servarr = ({
     <div className="flex gap-2">
       {warnings.length > 0 && (
         <Indicator
-          className="bg-warning text-warning-content shadow-sm"
-          info={warnings.map((x) => x.message).join("\\A")}
+          className="tooltip-warning bg-warning text-warning-content shadow-sm"
+          info={warnings.map((x) => x.message).join(" / ")}
         >
           {warnings.length}
         </Indicator>
       )}
       {errors.length > 0 && (
         <Indicator
-          className="bg-error text-error-content shadow-sm"
-          info={errors.map((x) => x.message).join("\\A")}
+          className="tooltip-error bg-error text-error-content shadow-sm"
+          info={errors.map((x) => x.message).join(" / ")}
         >
           {errors.length}
         </Indicator>
       )}
       {activity.totalRecords > 0 && (
         <Indicator
-          className="bg-info text-info-content shadow-sm"
-          info={activity.records.map((x) => x.title).join("\\A")}
+          className="tooltip-info bg-info text-info-content shadow-sm"
+          info={activity.records.map((x) => x.title).join(" / ")}
         >
           {activity.totalRecords}
         </Indicator>

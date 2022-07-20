@@ -66,15 +66,15 @@ const Portainer = ({ app }: Props) => {
     <div className="flex gap-1">
       {runningContainers.length > 0 && (
         <Indicator
-          info={runningContainers.map((x) => x.Names[0].slice(1)).join("\\A ")}
-          className="bg-info text-info-content"
+          info={runningContainers.map((x) => x.Names[0].slice(1)).join(" / ")}
+          className="tooltip-info bg-info text-info-content"
         >
           {runningContainers.length}
         </Indicator>
       )}
       {idleContainers.length > 0 && (
         <Indicator
-          info={idleContainers.map((x) => x.Names[0].slice(1)).join("\\A ")}
+          info={idleContainers.map((x) => x.Names[0].slice(1)).join(" / ")}
           className="bg-neutral text-neutral-content"
         >
           {idleContainers.length}

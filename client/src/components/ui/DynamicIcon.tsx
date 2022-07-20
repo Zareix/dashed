@@ -1,5 +1,6 @@
 import { IconType } from "react-icons";
 import * as MaterialDesign from "react-icons/md";
+import { ImEarth } from "react-icons/im";
 
 type IProps = {
   icon: string;
@@ -11,7 +12,8 @@ const DynamicIcon = (props: IProps) => {
   // @ts-ignore
   const Icon: IconType = MaterialDesign[props.icon];
 
-  return <Icon {...props} />;
+  if (Icon) return <Icon {...props} />;
+  return <ImEarth {...props} />;
 };
 
 export default DynamicIcon;

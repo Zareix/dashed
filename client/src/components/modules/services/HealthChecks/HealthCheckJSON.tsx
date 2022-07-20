@@ -20,12 +20,12 @@ const HealthCheckJSON = ({ src }: Props) => {
     <Indicator
       className={`tooltip-bottom text-gray-50 shadow-sm ${
         data.down > 0
-          ? "bg-error text-error-content"
-          : "bg-warning text-warning-content"
+          ? "tooltip-error bg-error text-error-content"
+          : "tooltip-warning bg-warning text-warning-content"
       }`}
-      info={`${name.charAt(0).toUpperCase() + name.slice(1)} : ${
-        data.status
-      }\\A ${data.grace} grace\\A ${data.down} down`}
+      info={`${name.charAt(0).toUpperCase() + name.slice(1)} : ${data.status} ${
+        data.grace
+      } grace and ${data.down} down`}
     >
       {data.down + data.grace}
     </Indicator>

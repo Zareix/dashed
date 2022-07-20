@@ -2409,6 +2409,7 @@ __metadata:
     styled-components: ^5.3.5
     tailwindcss: ^3.1.6
     typescript: ^4.7.4
+    typescript-plugin-styled-components: ^2.0.0
     vite: ^3.0.0
     vite-plugin-pwa: ^0.12.3
     vite-tsconfig-paths: ^3.5.0
@@ -6064,6 +6065,15 @@ __metadata:
     media-typer: 0.3.0
     mime-types: ~2.1.24
   checksum: 2c8e47675d55f8b4e404bcf529abdf5036c537a04c2b20177bcf78c9e3c1da69da3942b1346e6edb09e823228c0ee656ef0e033765ec39a70d496ef601a0c657
+  languageName: node
+  linkType: hard
+
+"typescript-plugin-styled-components@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "typescript-plugin-styled-components@npm:2.0.0"
+  peerDependencies:
+    typescript: ^4.0
+  checksum: b4048b45e576ef01e0439f2f7fd6bddd96d83eb6fd91956b0952f56cfcbe952ab2a1330f1c46851b78f5bdf71821f43123145c0be1db6bb578257913a70ddd0b
   languageName: node
   linkType: hard
 

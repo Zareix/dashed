@@ -103,7 +103,7 @@ const ContextMenu = () => {
               </a>
             </li>
           )}
-          {path !== "" && (
+          {path !== "" && !app?.external && (
             <li>
               <Link
                 to={path}
