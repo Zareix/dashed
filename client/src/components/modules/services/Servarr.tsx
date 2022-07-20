@@ -80,7 +80,7 @@ const Servarr = ({
     <div className="flex gap-2">
       {warnings.length > 0 && (
         <Indicator
-          className="tooltip-warning bg-warning text-warning-content shadow-sm"
+          className="tooltip-warning bg-warning text-warning-content"
           info={warnings.map((x) => x.message).join(" / ")}
         >
           {warnings.length}
@@ -88,7 +88,7 @@ const Servarr = ({
       )}
       {errors.length > 0 && (
         <Indicator
-          className="tooltip-error bg-error text-error-content shadow-sm"
+          className="tooltip-error bg-error text-error-content"
           info={errors.map((x) => x.message).join(" / ")}
         >
           {errors.length}
@@ -96,7 +96,7 @@ const Servarr = ({
       )}
       {activity.totalRecords > 0 && (
         <Indicator
-          className="tooltip-info bg-info text-info-content shadow-sm"
+          className="tooltip-info bg-info text-info-content"
           info={activity.records.map((x) => x.title).join(" / ")}
         >
           {activity.totalRecords}

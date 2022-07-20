@@ -1,5 +1,4 @@
 import { useQuery } from "react-query";
-import styled from "styled-components";
 
 import { Application } from "../../../models/Applications";
 import { piholeFetchStats } from "../../../utils/api";

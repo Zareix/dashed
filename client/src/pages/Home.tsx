@@ -1,8 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { Link } from "react-router-dom";
 import { RiFullscreenFill } from "react-icons/ri";
-import { ImEarth } from "react-icons/im";
 
 import DynamicIcon from "../components/ui/DynamicIcon";
 import ServiceDetails from "../components/modules/services/_ServiceDetails";

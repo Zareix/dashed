@@ -1,11 +1,4 @@
-import axios, {
-  Axios,
-  AxiosError,
-  AxiosRequestHeaders,
-  AxiosResponse,
-} from "axios";
-import { useQueryClient } from "react-query";
-import { toast } from "react-toastify";
+import axios, { AxiosError, AxiosRequestHeaders, AxiosResponse } from "axios";
 
 import {
   PortainerContainer,

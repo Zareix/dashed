@@ -18,7 +18,7 @@ const HealthCheckJSON = ({ src }: Props) => {
 
   return (
     <Indicator
-      className={`tooltip-bottom text-gray-50 shadow-sm ${
+      className={`tooltip-bottom ${
         data.down > 0
           ? "tooltip-error bg-error text-error-content"
           : "tooltip-warning bg-warning text-warning-content"

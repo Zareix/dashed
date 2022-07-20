@@ -1,6 +1,8 @@
 import { useEffect } from "react";
+
 import { useLocation, useMatch, useResolvedPath } from "react-router-dom";
 import styled from "styled-components";
+
 import { Category } from "../../../models/Category";
 import DynamicIcon from "../../ui/DynamicIcon";
 

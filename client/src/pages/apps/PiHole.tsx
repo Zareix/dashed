@@ -1,4 +1,5 @@
 import { ReactNode, useState } from "react";
+
 import axios from "axios";
 import { useQuery, useQueryClient } from "react-query";
 import { FiCheck } from "react-icons/fi";
@@ -6,7 +7,7 @@ import { RiEarthLine } from "react-icons/ri";
 import { ImBlocked } from "react-icons/im";
 import { HiOutlineExternalLink } from "react-icons/hi";
 
-import { FlexCard, SimpleCard } from "../../components/ui/Cards";
+import { SimpleCard } from "../../components/ui/Cards";
 import { piholeFetchStats } from "../../utils/api";
 
 const FETCH_INTERVAL = 60 * 1000;

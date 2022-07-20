@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { MdSignalWifiConnectedNoInternet0 } from "react-icons/md";
 import { useQuery } from "react-query";
 import styled, { keyframes } from "styled-components";
 
 import { getApiHealth } from "../../utils/api";
+import { useAppDataContext } from "../context/AppDataContext";
 
 const fadeIn = keyframes`
     100% {
@@ -24,6 +25,11 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 const IsOffline = (props: Props) => {
   const { data, isLoading } = useQuery(["is_offline"], () => getApiHealth());
   const { size, ...rest } = props;
+  const { setIsOffline } = useAppDataContext();
+
+  useEffect(() => {
+    setIsOffline(!data?.healthy ?? false);
+  }, [data]);
 
   if (isLoading || !data?.healthy)
     return (

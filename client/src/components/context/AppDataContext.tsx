@@ -16,10 +16,14 @@ type Props = {
   children: ReactNode;
 };
 
-const DataContext = createContext<{
+type AppDataContextContent = {
   data: AppData;
   setData: (data: AppData) => void;
-} | null>(null);
+  setIsOffline: (value: boolean) => void;
+  isOffline: boolean;
+};
+
+const DataContext = createContext<AppDataContextContent | null>(null);
 
 const AppDataProvider = ({ children }: Props) => {
   const { data, isLoading } = useQuery("appData", () => getAppData(), {
@@ -28,6 +32,7 @@ const AppDataProvider = ({ children }: Props) => {
   const [appData, setAppData] = useState<AppData | null>(
     JSON.parse(localStorage.getItem("appData") ?? "null")
   );
+  const [isOffline, setIsOffline] = useState(false);
 
   const setData = (data: AppData) => {
     setAppData(data);
@@ -51,17 +56,16 @@ const AppDataProvider = ({ children }: Props) => {
     );
 
   return (
-    <DataContext.Provider value={{ data: appData, setData }}>
+    <DataContext.Provider
+      value={{ data: appData, setData, setIsOffline, isOffline }}
+    >
       {children}
     </DataContext.Provider>
   );
 };
 
 export const useAppDataContext = () => {
-  return useContext(DataContext) as {
-    data: AppData;
-    setData: (data: AppData) => void;
-  };
+  return useContext(DataContext) as AppDataContextContent;
 };
 
 export default AppDataProvider;

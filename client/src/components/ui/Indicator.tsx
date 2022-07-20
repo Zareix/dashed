@@ -5,6 +5,7 @@ type IndicatorAttrs = {
 };
 
 export const Indicator = styled.div.attrs<IndicatorAttrs>((props) => ({
+  className: "tooltip shadow-sm",
   "data-tip": props.info,
 }))<IndicatorAttrs>`
   position: relative;

@@ -161,6 +161,9 @@ export const schema = {
           name: {
             type: "string",
           },
+          small: {
+            type: "boolean",
+          },
         },
         type: "object",
       },

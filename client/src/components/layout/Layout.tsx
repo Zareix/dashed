@@ -20,6 +20,8 @@ import ThemeSelector from "./theme/ThemeSelector";
 import { useAppDataContext } from "../context/AppDataContext";
 
 const SideBar = styled.section`
+  isolation: isolate;
+  z-index: 30;
   position: sticky;
   display: flex;
   flex-direction: column;
@@ -40,7 +42,7 @@ type LayoutProps = {
 };
 
 const Layout = ({ children }: LayoutProps) => {
-  const { data } = useAppDataContext();
+  const { data, isOffline } = useAppDataContext();
   const navigate = useNavigate();
   useRegisterActions([
     ...data.categories.flatMap<Action>((category: Category, i) =>
@@ -152,12 +154,12 @@ const Layout = ({ children }: LayoutProps) => {
             </ul>
           </nav>
 
-          <div
-            className={`flex justify-end ${isWorkspace ? "m-auto" : "mt-auto"}`}
-          >
-            <Link to="/config" className="btn btn-square btn-sm m-1">
-              <MdSettings size={20} />
-            </Link>
+          <div className={`flex ${isWorkspace ? "m-auto" : "mt-auto"}`}>
+            {!isOffline && (
+              <Link to="/config" className="btn btn-square btn-sm m-1">
+                <MdSettings size={20} />
+              </Link>
+            )}
             {!isWorkspace && <ThemeSelector />}
           </div>
         </SideBar>
@@ -213,14 +215,18 @@ const Layout = ({ children }: LayoutProps) => {
                   />
                 </li>
               ))}
-              <li>
-                <NavLink link="/config" name="Config" icon="MdSettings" />
-              </li>
+              {!isOffline && (
+                <li>
+                  <NavLink link="/config" name="Config" icon="MdSettings" />
+                </li>
+              )}
             </ul>
-            <div className="mt-2 flex justify-end">
-              <Link to="/config" className="btn btn-square btn-sm m-1">
-                <MdSettings size={20} />
-              </Link>
+            <div className="mt-2 flex">
+              {!isOffline && (
+                <Link to="/config" className="btn btn-square btn-sm m-1">
+                  <MdSettings size={20} />
+                </Link>
+              )}
               <ThemeSelector />
             </div>
           </nav>
@@ -232,7 +238,7 @@ const Layout = ({ children }: LayoutProps) => {
           )}
         </>
       )}
-      <main className="min-h-screen w-full px-4 pb-10 sm:mx-4 sm:ml-0 sm:p-0 sm:pt-6">
+      <main className="isolate z-10 min-h-screen w-full px-4 pb-10 sm:mx-4 sm:ml-0 sm:p-0 sm:pt-6">
         {children}
       </main>
     </>
