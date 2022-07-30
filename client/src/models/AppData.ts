@@ -1,3 +1,4 @@
+import { SearchEngine } from "../components/modules/SearchBar";
 import { Category } from "./Category";
 
 export type AppData = {
@@ -7,6 +8,7 @@ export type AppData = {
       display: string;
       autofocus: string;
       inApp: boolean;
+      customs: SearchEngine[];
     };
   };
   modules: {
@@ -51,6 +53,20 @@ export const schema = {
             },
             inApp: {
               type: "boolean",
+            },
+            customs: {
+              type: "array",
+              items: {
+                type: "object",
+                required: ["name", "url", "emptyQueryUrl", "triggerOn", "icon"],
+                properties: {
+                  name: { type: "string" },
+                  url: { type: "string" },
+                  emptyQueryUrl: { type: "string" },
+                  triggerOn: { type: "string" },
+                  icon: { type: "string" },
+                },
+              },
             },
           },
         },

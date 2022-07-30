@@ -12,12 +12,12 @@ type Props = {
   isNewTab?: boolean;
 };
 
-type SearchEngine = {
+export type SearchEngine = {
   name: string;
   url: string;
   emptyQueryUrl: string;
   triggerOn: string;
-  icon: JSX.Element;
+  icon: string;
 };
 
 const Form = styled.form`
@@ -28,50 +28,36 @@ const Form = styled.form`
   padding: 0.25rem 0.5rem;
 `;
 
-const SEARCH_ENGINES: SearchEngine[] = [
+const DEFAULT_SEARCH_ENGINES: SearchEngine[] = [
   {
     name: "google",
     url: "https://google.fr/search?q=",
     emptyQueryUrl: "https://google.fr",
     triggerOn: "g ",
-    icon: (
-      <img
-        src="/assets/app/searchEngines/google_icon.png"
-        alt="search icon google"
-        className="aspect-square h-8 max-w-none object-contain"
-      />
-    ),
+    icon: "/assets/app/searchEngines/google_icon.png",
   },
   {
     name: "youtube",
     url: "https://www.youtube.com/results?search_query=",
     emptyQueryUrl: "https://www.youtube.com/",
     triggerOn: "y ",
-    icon: (
-      <img
-        src="/assets/app/searchEngines/yt_icon.png"
-        alt="search icon youtube"
-        className="aspect-square h-8 object-contain"
-      />
-    ),
+    icon: "/assets/app/searchEngines/yt_icon.png",
   },
   {
     name: "bitsearch",
     url: "https://bitsearch.to/search?q=",
     emptyQueryUrl: "https://bitsearch.to",
     triggerOn: "t ",
-    icon: (
-      <img
-        src="/assets/app/searchEngines/bitsearch_icon.png"
-        alt="search icon bitsearch"
-        className="aspect-square h-8 object-contain"
-      />
-    ),
+    icon: "/assets/app/searchEngines/bitsearch_icon.png",
   },
 ];
 
 const SearchBar = ({ isNewTab }: Props) => {
   const { data } = useAppDataContext();
+  const SEARCH_ENGINES = [
+    ...DEFAULT_SEARCH_ENGINES,
+    ...(data.settings.searchEngine.customs ?? []),
+  ];
   const [query, setQuery] = useState("");
   const [searchEngine, setSearchEngine] = useState<SearchEngine>(
     SEARCH_ENGINES.find((x) => x.name === data.settings.searchEngine.default) ??
@@ -100,6 +86,7 @@ const SearchBar = ({ isNewTab }: Props) => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+
     for (const se of SEARCH_ENGINES) {
       if (value.startsWith(se.triggerOn)) {
         setSearchEngine(se);
@@ -120,7 +107,11 @@ const SearchBar = ({ isNewTab }: Props) => {
       id="searchInput"
     >
       <button type="submit" className="mr-1 text-gray-500">
-        {searchEngine.icon}
+        <img
+          src={searchEngine.icon}
+          alt="search icon"
+          className="aspect-square h-8 object-contain"
+        />
       </button>
       <Combobox
         value={query}
