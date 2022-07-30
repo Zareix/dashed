@@ -1,8 +1,7 @@
-import { useEffect } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { ReactQueryDevtools } from "react-query/devtools";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ToastContainer } from "react-toastify";
 
 import Layout from "./components/layout/Layout";
@@ -11,7 +10,6 @@ import ScrollToTop from "./utils/scrollToTop";
 import App from "./pages/apps/App";
 import CommandPalette from "./components/modules/CommandPalette";
 import Config from "./pages/config/Config";
-import ThemeHandler from "./components/layout/theme/ThemeHandler";
 
 const MainApp = () => {
   useRegisterSW({

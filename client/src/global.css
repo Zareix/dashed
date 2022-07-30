@@ -19,3 +19,7 @@ h2 {
   aspect-ratio: 1/1;
   object-fit: contain;
 }
+
+.tip-bottom .tooltip {
+  @apply tooltip-bottom;
+}

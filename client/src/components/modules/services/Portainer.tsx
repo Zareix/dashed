@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { Application } from "../../../models/Applications";
 import {
@@ -67,7 +67,7 @@ const Portainer = ({ app }: Props) => {
       {runningContainers.length > 0 && (
         <Indicator
           info={runningContainers.map((x) => x.Names[0].slice(1)).join(" / ")}
-          className="tooltip-info bg-info text-info-content"
+          className="tooltip tooltip-info bg-info text-info-content"
         >
           {runningContainers.length}
         </Indicator>

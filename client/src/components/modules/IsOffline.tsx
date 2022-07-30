@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import { MdSignalWifiConnectedNoInternet0 } from "react-icons/md";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import styled, { keyframes } from "styled-components";
 
 import { getApiHealth } from "../../utils/api";

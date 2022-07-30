@@ -13,6 +13,6 @@
     "docker:start": "yarn workspace server start | awk '{ print \"[API]\", $0 }'"
   },
   "devDependencies": {
-    "concurrently": "^7.2.2"
+    "concurrently": "^7.3.0"
   }
 }

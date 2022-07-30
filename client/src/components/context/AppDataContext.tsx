@@ -6,7 +6,7 @@ import {
   useState,
 } from "react";
 
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { AppData } from "../../models/AppData";
 import { getAppData } from "../../utils/api";
@@ -26,7 +26,7 @@ type AppDataContextContent = {
 const DataContext = createContext<AppDataContextContent | null>(null);
 
 const AppDataProvider = ({ children }: Props) => {
-  const { data, isLoading } = useQuery("appData", () => getAppData(), {
+  const { data, isLoading } = useQuery(['appData'], () => getAppData(), {
     initialData: null,
   });
   const [appData, setAppData] = useState<AppData | null>(

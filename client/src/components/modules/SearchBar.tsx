@@ -2,7 +2,7 @@ import { ChangeEvent, Fragment, useEffect, useState } from "react";
 
 import styled from "styled-components";
 import { Combobox } from "@headlessui/react";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { fetchAutocompletions } from "../../utils/api";
 import { Autocompletion } from "../../models/Autocompletion";

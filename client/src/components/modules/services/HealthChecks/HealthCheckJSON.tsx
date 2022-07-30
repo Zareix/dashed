@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { fetchHealthCheck } from "../../../../utils/api";
 import { Indicator } from "../../../ui/Indicator";
@@ -18,11 +18,11 @@ const HealthCheckJSON = ({ src }: Props) => {
 
   return (
     <Indicator
-      className={`tooltip-bottom ${
+      className={
         data.down > 0
           ? "tooltip-error bg-error text-error-content"
           : "tooltip-warning bg-warning text-warning-content"
-      }`}
+      }
       info={`${name.charAt(0).toUpperCase() + name.slice(1)} : ${data.status} ${
         data.grace
       } grace and ${data.down} down`}

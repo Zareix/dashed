@@ -1,7 +1,7 @@
 import { ReactNode, useState } from "react";
 
 import axios from "axios";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { FiCheck } from "react-icons/fi";
 import { RiEarthLine } from "react-icons/ri";
 import { ImBlocked } from "react-icons/im";

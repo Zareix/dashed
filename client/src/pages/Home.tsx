@@ -35,7 +35,7 @@ const Home = () => {
         {!isMobile && (
           <>
             <h1 className="mb-0">Home</h1>
-            <div className="flex items-center justify-center gap-3">
+            <div className="tip-bottom flex items-center justify-center gap-3">
               {data.settings?.searchEngine?.display?.includes(
                 "large-screen"
               ) && <SearchBar />}
@@ -77,9 +77,7 @@ const Home = () => {
               >
                 {cat.apps.map((app: Application, j) => (
                   <li
-                    className={`group relative isolate ${
-                      cat.small ? "tooltip" : ""
-                    }`}
+                    className={`group relative ${cat.small ? "tooltip" : ""}`}
                     key={j}
                     data-tip={app.name}
                   >

@@ -8,6 +8,7 @@ import SearchBar from "../../components/modules/SearchBar";
 import useWindowWidth from "../../hooks/windowWidth";
 import AppIcon from "../../components/ui/AppIcon";
 import { useAppDataContext } from "../../components/context/AppDataContext";
+import Service from "../../components/modules/services/_Service";
 
 const App = () => {
   const { data } = useAppDataContext();
@@ -60,6 +61,9 @@ const App = () => {
                 <HiOutlineRefresh size={20} />
               </button>
             </h1>
+            <div className="tip-bottom ml-auto mr-3">
+              <Service app={app} />
+            </div>
             {data.settings?.searchEngine?.display?.includes(
               isMobile ? "mobile" : "large-screen"
             ) &&
