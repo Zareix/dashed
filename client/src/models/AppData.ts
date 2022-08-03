@@ -41,7 +41,6 @@ export const schema = {
           properties: {
             default: {
               type: "string",
-              enum: ["google", "youtube", "bitsearch"],
             },
             display: {
               type: "string",
