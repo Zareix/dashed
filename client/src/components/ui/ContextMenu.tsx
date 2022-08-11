@@ -23,6 +23,7 @@ type MenuProps = {
 };
 
 const Menu = styled.div`
+  z-index: 999;
   font-size: 14px;
   border-radius: 8px;
   height: auto;
