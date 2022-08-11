@@ -9,6 +9,7 @@ import useWindowWidth from "../../hooks/windowWidth";
 import AppIcon from "../../components/ui/AppIcon";
 import { useAppDataContext } from "../../components/context/AppDataContext";
 import Service from "../../components/modules/services/_Service";
+import DynamicIcon from "../../components/ui/DynamicIcon";
 
 const App = () => {
   const { data } = useAppDataContext();
@@ -26,6 +27,11 @@ const App = () => {
     setUrl(app.url + (searchParams.get("path") ?? ""));
   }, [params]);
 
+  const navigate = (path: string) => {
+    if (frame === null || frame.current === null) return;
+    frame.current.src = app.url + path;
+  };
+
   if (!app) return <div>App not found</div>;
 
   switch (app.type?.toLowerCase()) {
@@ -35,7 +41,7 @@ const App = () => {
     default:
       return (
         <>
-          <div className="mb-2 items-center justify-between md:-mt-4 md:flex">
+          <div className="tip-bottom mb-2 items-center justify-between md:-mt-4 md:flex">
             <h1 className="mb-0 flex items-center">
               <AppIcon
                 imgClassName="icon mr-2"
@@ -61,9 +67,25 @@ const App = () => {
                 <HiOutlineRefresh size={20} />
               </button>
             </h1>
-            <div className="tip-bottom ml-auto mr-3">
-              <Service app={app} />
-            </div>
+            {app.customLinks && app.customLinks.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {app.customLinks.map((link, index) => (
+                  <button
+                    key={index}
+                    className="btn btn-sm"
+                    onClick={() => navigate(link.path)}
+                  >
+                    {link.icon ? (
+                      <DynamicIcon icon={link.icon} className="mr-1" />
+                    ) : (
+                      <span className="mr-1">{index + 1}</span>
+                    )}
+                    {link.name}
+                  </button>
+                ))}
+              </div>
+            )}
+            <Service app={app} />
             {data.settings?.searchEngine?.display?.includes(
               isMobile ? "mobile" : "large-screen"
             ) &&
