@@ -3257,6 +3257,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"express-rate-limit@npm:^6.5.1":
+  version: 6.5.1
+  resolution: "express-rate-limit@npm:6.5.1"
+  peerDependencies:
+    express: ^4 || ^5
+  checksum: 2a57a3f774e8da26e7b10d5f99fc2c53adebbd8788ab2eff5f4aeb650fd1e099a8961d396b7ebd0c314c5d4a9b4b4ae69d52bb991355823fd7ff0522bdbfe854
+  languageName: node
+  linkType: hard
+
 "express@npm:^4.18.1":
   version: 4.18.1
   resolution: "express@npm:4.18.1"
@@ -5488,6 +5497,7 @@ __metadata:
     axios: ^0.27.2
     cors: ^2.8.5
     express: ^4.18.1
+    express-rate-limit: ^6.5.1
     nodemon: ^2.0.19
     ts-node: ^10.9.1
     typescript: ^4.7.4
