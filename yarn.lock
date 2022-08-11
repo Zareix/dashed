@@ -1774,10 +1774,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^18.6.2":
-  version: 18.6.2
-  resolution: "@types/node@npm:18.6.2"
-  checksum: 644c460baedb1fbbd55369ab621167cb39ddaa727fd4fcf4bc7080183cf936d7ff8c2c886ba93ff42768d6f7a579a540e6d1e63d3adba4e5758fb13671ae68ce
+"@types/node@npm:^18.7.1":
+  version: 18.7.1
+  resolution: "@types/node@npm:18.7.1"
+  checksum: f1e2b701b107f97be01da4c46845cd23bcdcb2865f9abbb2847546d09587e726ea207daca6f0d1e72196875ef8c62feeeff5f1c1f2070445acd6d1a61d815c7c
   languageName: node
   linkType: hard
 
@@ -1811,7 +1811,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^18.0.15":
+"@types/react@npm:*":
   version: 18.0.15
   resolution: "@types/react@npm:18.0.15"
   dependencies:
@@ -1819,6 +1819,17 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: e22cc388d1c145aa184787e44dc28db4789976c704cd5db475c170bb76a560eb81def5f346cfe750949bb3d43ad88822b8cbb9f19b1286e3795892a8263e7715
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^18.0.17":
+  version: 18.0.17
+  resolution: "@types/react@npm:18.0.17"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": "*"
+    csstype: ^3.0.2
+  checksum: 18cae64f5bfd6bb58fbd8ee2ba52ec82de844f114254e26de7b513e4b86621f643f9b71d7066958cd571b0d78cb86cbceda449c5289f9349ca573df29ab69252
   languageName: node
   linkType: hard
 
@@ -1848,14 +1859,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/styled-components@npm:^5.1.25":
-  version: 5.1.25
-  resolution: "@types/styled-components@npm:5.1.25"
+"@types/styled-components@npm:^5.1.26":
+  version: 5.1.26
+  resolution: "@types/styled-components@npm:5.1.26"
   dependencies:
     "@types/hoist-non-react-statics": "*"
     "@types/react": "*"
     csstype: ^3.0.2
-  checksum: 60ce64f13283b01da54fd3a4c5703769d8575c979d5ec6b67ad124c2d4df980c9b96bb91af87e03f6447a816a5d2b0270c63eefad60cfa885091b594984525f5
+  checksum: 84f53b3101739b20d1731554fb7735bc2f3f5d050a8b392e9845403c8c8bbd729737d033978649f9195a97b557875b010d46e35a4538564a2d0dbcce661dbf76
   languageName: node
   linkType: hard
 
@@ -2436,19 +2447,19 @@ __metadata:
     "@headlessui/react": ^1.6.6
     "@tanstack/react-query": ^4.0.10
     "@tanstack/react-query-devtools": ^4.0.10
-    "@types/node": ^18.6.2
-    "@types/react": ^18.0.15
+    "@types/node": ^18.7.1
+    "@types/react": ^18.0.17
     "@types/react-dom": ^18.0.6
-    "@types/styled-components": ^5.1.25
+    "@types/styled-components": ^5.1.26
     "@vitejs/plugin-react": ^2.0.0
     ajv: ^6.12.6
     autoprefixer: ^10.4.8
     axios: ^0.27.2
-    daisyui: ^2.20.0
+    daisyui: ^2.22.0
     jsoneditor: ^9.9.0
     jsoneditor-react: ^3.1.2
     kbar: 0.1.0-beta.36
-    postcss: ^8.4.14
+    postcss: ^8.4.16
     prettier: ^2.7.1
     prettier-plugin-tailwindcss: ^0.1.13
     react: ^18.2.0
@@ -2457,13 +2468,13 @@ __metadata:
     react-icons: ^4.4.0
     react-is: ^18.2.0
     react-router-dom: 6.3.0
-    react-toastify: ^9.0.7
-    sass: ^1.54.0
+    react-toastify: ^9.0.8
+    sass: ^1.54.4
     styled-components: ^5.3.5
-    tailwindcss: ^3.1.7
+    tailwindcss: ^3.1.8
     typescript: ^4.7.4
     typescript-plugin-styled-components: ^2.0.0
-    vite: ^3.0.4
+    vite: ^3.0.5
     vite-plugin-pwa: ^0.12.3
     vite-tsconfig-paths: ^3.5.0
     workbox-window: ^6.5.4
@@ -2729,9 +2740,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"daisyui@npm:^2.20.0":
-  version: 2.20.0
-  resolution: "daisyui@npm:2.20.0"
+"daisyui@npm:^2.22.0":
+  version: 2.22.0
+  resolution: "daisyui@npm:2.22.0"
   dependencies:
     color: ^4.2
     css-selector-tokenizer: ^0.8.0
@@ -2740,7 +2751,7 @@ __metadata:
   peerDependencies:
     autoprefixer: ^10.0.2
     postcss: ^8.1.6
-  checksum: 1641684dc2f0e776377ecb3d86c3d8963e6b09c8ea023e524459e7dd61c70945cabb4306d6654ab681c2a9d289c98ce970c2f7f14a657f3b9175a9af9e032504
+  checksum: b79940ca1c0d4c978a437c24b6add8d157e7996a4e4f9f126e0672307307a6232b9360dc3e9564b5a89a81eefd44932ae324c534280e19dca435e162c212d650
   languageName: node
   linkType: hard
 
@@ -4843,6 +4854,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"postcss@npm:^8.4.16":
+  version: 8.4.16
+  resolution: "postcss@npm:8.4.16"
+  dependencies:
+    nanoid: ^3.3.4
+    picocolors: ^1.0.0
+    source-map-js: ^1.0.2
+  checksum: 10eee25efd77868036403858577da0cefaf2e0905feeaba5770d5438ccdddba3d01cba8063e96b8aac4c6daa0ed413dd5ae0554a433a3c4db38df1d134cffc1f
+  languageName: node
+  linkType: hard
+
 "prettier-plugin-tailwindcss@npm:^0.1.13":
   version: 0.1.13
   resolution: "prettier-plugin-tailwindcss@npm:0.1.13"
@@ -5053,15 +5075,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-toastify@npm:^9.0.7":
-  version: 9.0.7
-  resolution: "react-toastify@npm:9.0.7"
+"react-toastify@npm:^9.0.8":
+  version: 9.0.8
+  resolution: "react-toastify@npm:9.0.8"
   dependencies:
     clsx: ^1.1.1
   peerDependencies:
     react: ">=16"
     react-dom: ">=16"
-  checksum: c10753ec242c0f91247633504a6ffc8199a8d4eff5f7e28edd63521236bffda57317438e8e1abe3a25c4296860375fe51d96361480232f1c8d86ed1fcf77ce62
+  checksum: d48fa369b3d19c63f9b6b1ecef076911aa97a43bb84ecdb1532e6f32932e3625c1c3e12a4c63e7eb211d33b8aa962e9b9a81ab6a47fef2c51185ce8c9a780336
   languageName: node
   linkType: hard
 
@@ -5354,16 +5376,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:^1.54.0":
-  version: 1.54.0
-  resolution: "sass@npm:1.54.0"
+"sass@npm:^1.54.4":
+  version: 1.54.4
+  resolution: "sass@npm:1.54.4"
   dependencies:
     chokidar: ">=3.0.0 <4.0.0"
     immutable: ^4.0.0
     source-map-js: ">=0.6.2 <2.0.0"
   bin:
     sass: sass.js
-  checksum: 7d3acf124d771e8811fce876ad37f786faafa9edce64b20dcf32bf6aed5116802c863d3311fd79e7e7682fcccc4dc684960be1365cffa7dad045be7251c40d70
+  checksum: bb6aead09764de450a02b9a66e4ee538f0ba6bc8f2fc3905c71b2c302b5f47e089b510b86cfa7ef2d4139c210c8abf99fe157e7a5bd356c057f10d29e6c4b44c
   languageName: node
   linkType: hard
 
@@ -5462,7 +5484,7 @@ __metadata:
   dependencies:
     "@types/cors": ^2.8.12
     "@types/express": ^4.17.13
-    "@types/node": ^18.6.2
+    "@types/node": ^18.7.1
     axios: ^0.27.2
     cors: ^2.8.5
     express: ^4.18.1
@@ -5782,7 +5804,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^3, tailwindcss@npm:^3.1.7":
+"tailwindcss@npm:^3":
   version: 3.1.7
   resolution: "tailwindcss@npm:3.1.7"
   dependencies:
@@ -5814,6 +5836,41 @@ __metadata:
     tailwind: lib/cli.js
     tailwindcss: lib/cli.js
   checksum: adbc9869b72f741e9a0fc281b79710863617a588fd5d897316b676f789b6482c79f46f324223300ca962afbe55bed3ec16a37a6ccf4bb2c99c53cf8c5dd9700d
+  languageName: node
+  linkType: hard
+
+"tailwindcss@npm:^3.1.8":
+  version: 3.1.8
+  resolution: "tailwindcss@npm:3.1.8"
+  dependencies:
+    arg: ^5.0.2
+    chokidar: ^3.5.3
+    color-name: ^1.1.4
+    detective: ^5.2.1
+    didyoumean: ^1.2.2
+    dlv: ^1.1.3
+    fast-glob: ^3.2.11
+    glob-parent: ^6.0.2
+    is-glob: ^4.0.3
+    lilconfig: ^2.0.6
+    normalize-path: ^3.0.0
+    object-hash: ^3.0.0
+    picocolors: ^1.0.0
+    postcss: ^8.4.14
+    postcss-import: ^14.1.0
+    postcss-js: ^4.0.0
+    postcss-load-config: ^3.1.4
+    postcss-nested: 5.0.6
+    postcss-selector-parser: ^6.0.10
+    postcss-value-parser: ^4.2.0
+    quick-lru: ^5.1.1
+    resolve: ^1.22.1
+  peerDependencies:
+    postcss: ^8.0.9
+  bin:
+    tailwind: lib/cli.js
+    tailwindcss: lib/cli.js
+  checksum: 86480301fc6ae1e392c2aba8264ab425bd919078176b010fda724518a7c265e950da5f4120c69c9041509c318207985fa9d680b6f5021e23f8214135a61a54b6
   languageName: node
   linkType: hard
 
@@ -6252,13 +6309,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^3.0.4":
-  version: 3.0.4
-  resolution: "vite@npm:3.0.4"
+"vite@npm:^3.0.5":
+  version: 3.0.5
+  resolution: "vite@npm:3.0.5"
   dependencies:
     esbuild: ^0.14.47
     fsevents: ~2.3.2
-    postcss: ^8.4.14
+    postcss: ^8.4.16
     resolve: ^1.22.1
     rollup: ^2.75.6
   peerDependencies:
@@ -6280,7 +6337,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: f13eceb94f7b399942ce5e7c10df73314f7b073171d6594228b078cc1203042c4cdb9e8356fe64ad444c3533c31437abb3c64ac56478f0865fab598e924cf68b
+  checksum: c00ec43356469032fa261872b028740526d5a5726132cb306741e2d9dca241dcb7b0b5d39181d5ebc39c5e82396511080640fa302c66e713a622e8bfa1f14a8d
   languageName: node
   linkType: hard
 
