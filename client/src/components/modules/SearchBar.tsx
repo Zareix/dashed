@@ -66,6 +66,9 @@ const SearchBar = ({ isNewTab }: Props) => {
   const [oldAutoCompletions, setOldAutoCompletions] = useState<
     Autocompletion[]
   >([]);
+  const [history, setHistory] = useState(
+    localStorage.getItem("history")?.split("$$$") ?? []
+  );
   const { data: autoCompletions } = useQuery(
     ["search_autocomplete", query],
     () => fetchAutocompletions(query),
@@ -81,7 +84,17 @@ const SearchBar = ({ isNewTab }: Props) => {
   const submit = (q?: string) => {
     q ??= query;
     const url = q === "" ? searchEngine.emptyQueryUrl : searchEngine.url + q;
+    saveHistory(q);
     window.open(url, isNewTab ? "_blank" : "_self")?.focus();
+  };
+
+  const saveHistory = (query: string) => {
+    const histo = localStorage.getItem("history");
+    if (histo) {
+      localStorage.setItem("history", histo + "$$$" + query);
+    } else {
+      localStorage.setItem("history", query);
+    }
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -141,6 +154,25 @@ const SearchBar = ({ isNewTab }: Props) => {
               </li>
             )}
           </Combobox.Option>
+          {query !== "" &&
+            history
+              ?.filter((h) => h.startsWith(query))
+              .map(
+                (h) =>
+                  query !== h && (
+                    <Combobox.Option key={h} value={h} as={Fragment}>
+                      {({ active, selected }) => (
+                        <li
+                          className={`px-3 py-1 ${
+                            active ? "bg-base-300" : "bg-base-200"
+                          } ${selected ? "font-semibold" : ""}`}
+                        >
+                          {h}
+                        </li>
+                      )}
+                    </Combobox.Option>
+                  )
+              )}
           {autoCompletions?.map(
             (completion) =>
               query !== completion.phrase && (

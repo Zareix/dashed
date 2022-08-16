@@ -9,12 +9,14 @@ import config from "./routes/config";
 const app = express();
 const port = 3001;
 
-app.use(
-  rateLimit({
-    windowMs: 1 * 60 * 1000,
-    max: 5,
-  })
-);
+if (!process.env.NODE_ENV) {
+  app.use(
+    rateLimit({
+      windowMs: 1 * 60 * 1000,
+      max: 5,
+    })
+  );
+}
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
