@@ -13,7 +13,7 @@ if (!process.env.NODE_ENV) {
   app.use(
     rateLimit({
       windowMs: 1 * 60 * 1000,
-      max: 5,
+      max: 10,
     })
   );
 }
