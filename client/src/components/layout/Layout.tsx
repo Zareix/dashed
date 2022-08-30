@@ -135,7 +135,7 @@ const Layout = ({ children }: LayoutProps) => {
                 <li
                   onClick={() => setOpened(-1)}
                   key={"link" + i}
-                  className="sticky top-0"
+                  className="sticky top-0 backdrop-blur-sm"
                 >
                   <NavLink {...link} isWorkspace={isWorkspace} />
                 </li>

@@ -67,16 +67,18 @@ const CatLink = ({
         nbItems={category.apps.length}
         opened={opened || isWorkspace}
       >
-        {category.apps.map((app, j) => (
-          <NavLink
-            key={`${index}/${j}`}
-            link={`categories/${index}/apps/${j}`}
-            name={app.name}
-            app={app}
-            image={app.image}
-            isWorkspace={isWorkspace}
-          />
-        ))}
+        {category.apps
+          .filter((a) => !a.external)
+          .map((app, j) => (
+            <NavLink
+              key={`${index}/${j}`}
+              link={`categories/${index}/apps/${j}`}
+              name={app.name}
+              app={app}
+              image={app.image}
+              isWorkspace={isWorkspace}
+            />
+          ))}
       </AppLinksList>
     </div>
   );

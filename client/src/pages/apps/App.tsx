@@ -44,9 +44,9 @@ const App = () => {
           <div className="tip-bottom mb-2 items-center justify-between md:-mt-4 md:flex">
             <h1 className="mb-0 flex items-center">
               <AppIcon
-                imgClassName="icon mr-2"
+                imgClassName="h-12 mr-2"
                 iconSize={32}
-                iconClassName="mr-2"
+                iconClassName="h-12 mr-2"
                 image={app.image}
                 appName={app.name}
               />

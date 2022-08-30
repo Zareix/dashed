@@ -21,17 +21,12 @@ const AppIcon = ({
   imgClassName = "",
   iconSize = 18,
 }: Props) => {
-  const [error, setError] = useState(false);
+  const [dashIconError, setDashIconError] = useState(false);
   const [imageError, setImageError] = useState(false);
-  const [autoImageUrl, setAutoImageUrl] = useState("");
 
   useEffect(() => {
-    setError(false);
-    setAutoImageUrl(
-      `https://raw.githubusercontent.com/walkxhub/dashboard-icons/master/png/${appName
-        .replaceAll(" ", "-")
-        .toLowerCase()}.png`
-    );
+    setDashIconError(false);
+    setImageError(false);
   }, [appName]);
 
   if (image && !imageError)
@@ -50,15 +45,18 @@ const AppIcon = ({
       </div>
     );
 
-  if (error) return <ImEarth size={iconSize} className={iconClassName} />;
+  if (!dashIconError)
+    return (
+      <img
+        src={`https://raw.githubusercontent.com/walkxhub/Dashboard-icons/master/png/${appName
+          .replaceAll(" ", "-")
+          .toLowerCase()}.png`}
+        onError={() => setDashIconError(true)}
+        className={imgClassName}
+      />
+    );
 
-  return (
-    <img
-      src={autoImageUrl}
-      onError={() => setError(true)}
-      className={imgClassName}
-    />
-  );
+  return <ImEarth size={iconSize} className={iconClassName} />;
 };
 
 export default AppIcon;
