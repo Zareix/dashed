@@ -23,5 +23,10 @@
   "search.exclude": {
     "**/.yarn": true,
     "**/.pnp.*": true
+  },
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.yarn": true
   }
 }
