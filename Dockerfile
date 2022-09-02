@@ -12,7 +12,7 @@ RUN yarn install
 COPY ./client .
 RUN yarn build
 
-# --- App setup stage ---
+# --- APP SETUP STAGE ---
 FROM nginx:alpine
 RUN apk add \
     nodejs \
