@@ -1,15 +1,9 @@
 {
   "name": "dashed",
-  "packageManager": "yarn@3.1.1",
   "private": true,
-  "workspaces": [
-    "client",
-    "server"
-  ],
   "scripts": {
-    "server:dev": "yarn workspace server start",
-    "client:dev": "yarn workspace client dev",
-    "develop": "concurrently 'yarn:server:dev' 'yarn:client:dev'",
+    "build": "pnpm -r run build",
+    "develop": "pnpm -r run develop",
     "docker:start": "yarn workspace server start | awk '{ print \"[API]\", $0 }'"
   }
 }
