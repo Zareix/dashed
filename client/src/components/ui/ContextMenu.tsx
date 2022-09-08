@@ -128,10 +128,10 @@ const ContextMenu = () => {
                     {x.name}
                   </a>
                 ) : (
-                  <div className="flex items-center gap-1 px-3 py-2 hover:bg-slate-200 dark:hover:bg-slate-600">
+                  <div className="flex items-center gap-2 px-3 py-2 hover:bg-slate-200 dark:hover:bg-slate-600">
                     <Link
                       to={`${path}?path=${x.path}`}
-                      className="nowrap mr-4 flex items-center gap-1 whitespace-nowrap"
+                      className="nowrap flex w-full items-center gap-1 whitespace-nowrap"
                     >
                       {x.icon ? (
                         <DynamicIcon icon={x.icon} size={22} />
@@ -140,12 +140,12 @@ const ContextMenu = () => {
                           {i}
                         </IconNumber>
                       )}
-                      {x.name}
+                      <span className="w-full">{x.name}</span>
                     </Link>
                     <a
                       target="_blank"
                       rel="noopener noreferrer"
-                      href={app.url}
+                      href={new URL(x.path, app.url).href}
                       className="ml-auto"
                     >
                       <FiExternalLink size={18} />
