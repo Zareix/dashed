@@ -128,19 +128,29 @@ const ContextMenu = () => {
                     {x.name}
                   </a>
                 ) : (
-                  <Link
-                    to={`${path}?path=${x.path}`}
-                    className="flex items-center gap-1 px-3 py-2 hover:bg-slate-200 dark:hover:bg-slate-600"
-                  >
-                    {x.icon ? (
-                      <DynamicIcon icon={x.icon} size={22} />
-                    ) : (
-                      <IconNumber className="bg-slate-200 dark:bg-slate-500">
-                        {i}
-                      </IconNumber>
-                    )}
-                    {x.name}
-                  </Link>
+                  <div className="flex items-center gap-1 px-3 py-2 hover:bg-slate-200 dark:hover:bg-slate-600">
+                    <Link
+                      to={`${path}?path=${x.path}`}
+                      className="nowrap mr-4 flex items-center gap-1 whitespace-nowrap"
+                    >
+                      {x.icon ? (
+                        <DynamicIcon icon={x.icon} size={22} />
+                      ) : (
+                        <IconNumber className="bg-slate-200 dark:bg-slate-500">
+                          {i}
+                        </IconNumber>
+                      )}
+                      {x.name}
+                    </Link>
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={app.url}
+                      className="ml-auto"
+                    >
+                      <FiExternalLink size={18} />
+                    </a>
+                  </div>
                 )}
               </li>
             ))}
