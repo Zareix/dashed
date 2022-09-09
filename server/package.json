@@ -5,8 +5,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "develop": "nodemon src/index.ts",
-    "start": "node src/index.ts"
+    "start": "nodemon src/index.ts"
   },
   "author": "",
   "license": "ISC",
