@@ -1,5 +1,5 @@
 # --- BUILD STAGE ---
-FROM nginx:alpine AS build
+FROM nginx AS build
 
 RUN apk add \
     nodejs \
@@ -13,7 +13,7 @@ COPY ./client .
 RUN yarn build
 
 # --- APP SETUP STAGE ---
-FROM nginx:alpine
+FROM nginx
 RUN apk add \
     nodejs \
     npm \
