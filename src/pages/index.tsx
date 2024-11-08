@@ -61,7 +61,7 @@ export default function Home({
     <main className="flex min-h-screen flex-col items-center bg-background">
       {categories.map((category) => (
         <section key={category.name} className="container mt-4 p-1">
-          <h2 className="text-xl font-bold">{category.name}</h2>
+          <h2 className="text-2xl font-bold">{category.name}</h2>
           <ul
             className={cn(
               "mt-1 grid grid-cols-2 gap-2",

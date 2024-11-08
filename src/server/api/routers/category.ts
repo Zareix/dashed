@@ -47,6 +47,22 @@ export const categoryRouter = createTRPCRouter({
     await ctx.db.delete(categoryTable).where(eq(categoryTable.name, input));
     refreshIndexPage().catch(console.error);
   }),
+  reorder: publicProcedure
+    .input(z.object({ order: z.array(z.string()) }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.transaction(async (tx) => {
+        await Promise.all(
+          input.order.map((name, index) => {
+            return tx
+              .update(categoryTable)
+              .set({ order: index + 1 })
+              .where(eq(categoryTable.name, name));
+          }),
+        );
+      });
+
+      refreshIndexPage().catch(console.error);
+    }),
   import: publicProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
     const parsed = yaml.load(input) as Array<
       Record<

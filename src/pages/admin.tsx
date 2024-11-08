@@ -34,6 +34,7 @@ import { HomeIcon } from "lucide-react";
 import Link from "next/link";
 import ImportButton from "~/components/ImportButton";
 import DeleteCategoryButton from "~/components/DeleteCategoryButton";
+import ReorderCategoriesButton from "~/components/ReorderCategoriesButton";
 
 export default function AdminPage() {
   const categoriesQuery = api.category.getAll.useQuery();
@@ -97,6 +98,9 @@ export default function AdminPage() {
             <HomeIcon size={24} />
           </Link>
           <Separator orientation="vertical" className="ml-auto" />
+          {categoriesQuery.data && (
+            <ReorderCategoriesButton categories={categoriesQuery.data} />
+          )}
           <CreateCategoryButton />
           <CreateServiceButton categories={categoriesQuery.data ?? []} />
           <Separator orientation="vertical" className="h-5" />
