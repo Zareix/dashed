@@ -1,9 +1,9 @@
-import { asc } from "drizzle-orm";
-import { PHASE_PRODUCTION_BUILD } from "next/dist/shared/lib/constants";
-import Image from "next/image";
-import { cn } from "~/lib/utils";
-import { db } from "~/server/db";
-import { categoryTable, servicesTable } from "~/server/db/schema";
+import { asc } from 'drizzle-orm'
+import { PHASE_PRODUCTION_BUILD } from 'next/dist/shared/lib/constants'
+import Image from 'next/image'
+import { cn } from '~/lib/utils'
+import { db } from '~/server/db'
+import { categoryTable, servicesTable } from '~/server/db/schema'
 
 export const getStaticProps = async () => {
   if (process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD) {
@@ -11,7 +11,7 @@ export const getStaticProps = async () => {
       props: {
         categories: [],
       },
-    };
+    }
   }
   const categories = await db.query.categoryTable.findMany({
     with: {
@@ -20,7 +20,7 @@ export const getStaticProps = async () => {
       },
     },
     orderBy: [asc(categoryTable.order)],
-  });
+  })
   return {
     props: {
       categories: categories.map((category) => ({
@@ -34,29 +34,29 @@ export const getStaticProps = async () => {
         })),
       })),
     },
-  };
-};
+  }
+}
 
 const getColsClassName = (cols: number) => {
   switch (cols) {
     case 1:
-      return "lg:grid-cols-1";
+      return 'lg:grid-cols-1'
     case 2:
-      return "lg:grid-cols-2";
+      return 'lg:grid-cols-2'
     case 3:
-      return "lg:grid-cols-3";
+      return 'lg:grid-cols-3'
     case 4:
-      return "lg:grid-cols-4";
+      return 'lg:grid-cols-4'
     case 5:
-      return "lg:grid-cols-5";
+      return 'lg:grid-cols-5'
     default:
-      return "lg:grid-cols-5";
+      return 'lg:grid-cols-5'
   }
-};
+}
 
 export default function Home({
   categories,
-}: Awaited<ReturnType<typeof getStaticProps>>["props"]) {
+}: Awaited<ReturnType<typeof getStaticProps>>['props']) {
   return (
     <main className="flex min-h-screen flex-col items-center bg-background">
       {categories.map((category) => (
@@ -64,7 +64,7 @@ export default function Home({
           <h2 className="text-2xl font-bold">{category.name}</h2>
           <ul
             className={cn(
-              "mt-1 grid grid-cols-2 gap-2",
+              'mt-1 grid grid-cols-2 gap-2',
               getColsClassName(category.maxCols),
             )}
           >
@@ -91,5 +91,5 @@ export default function Home({
         </section>
       ))}
     </main>
-  );
+  )
 }

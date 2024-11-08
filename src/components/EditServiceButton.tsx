@@ -1,7 +1,18 @@
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Input } from "~/components/ui/input";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { PencilIcon } from 'lucide-react'
+import Image from 'next/image'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
+import { Button } from '~/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '~/components/ui/dialog'
 import {
   Form,
   FormControl,
@@ -9,22 +20,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/components/ui/form";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "~/components/ui/dialog";
-import { PencilIcon } from "lucide-react";
-import { useState } from "react";
-import { api } from "~/utils/api";
-import { toast } from "sonner";
-import { Button } from "~/components/ui/button";
-import type { Service } from "~/server/db/schema";
-import Image from "next/image";
-import { isAuthorizedDomain } from "~/lib/utils";
+} from '~/components/ui/form'
+import { Input } from '~/components/ui/input'
+import { isAuthorizedDomain } from '~/lib/utils'
+import type { Service } from '~/server/db/schema'
+import { api } from '~/utils/api'
 
 const serviceEditSchema = z.object({
   id: z.number(),
@@ -32,37 +32,37 @@ const serviceEditSchema = z.object({
   url: z.string().min(1).url(),
   categoryName: z.string(),
   icon: z.string().min(1),
-});
+})
 
 const EditServiceButton = ({
   service,
   disabled = false,
 }: {
-  service: Pick<Service, "id" | "name" | "url" | "categoryName">;
-  disabled: boolean;
+  service: Pick<Service, 'id' | 'name' | 'url' | 'categoryName'>
+  disabled: boolean
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const utils = api.useUtils();
+  const [isOpen, setIsOpen] = useState(false)
+  const utils = api.useUtils()
   const editServiceMutation = (
     service ? api.service.edit : api.service.edit
   ).useMutation({
     onSuccess: async () => {
-      toast.success("Service edited");
-      setIsOpen(false);
-      form.reset();
-      await utils.category.getAll.invalidate();
+      toast.success('Service edited')
+      setIsOpen(false)
+      form.reset()
+      await utils.category.getAll.invalidate()
     },
     onError: () => {
-      toast.error("An error occurred while editing service");
+      toast.error('An error occurred while editing service')
     },
-  });
+  })
   const form = useForm<z.infer<typeof serviceEditSchema>>({
     resolver: zodResolver(serviceEditSchema),
     defaultValues: service,
-  });
+  })
 
   function onSubmit(values: z.infer<typeof serviceEditSchema>) {
-    editServiceMutation.mutate(values);
+    editServiceMutation.mutate(values)
   }
 
   return (
@@ -91,12 +91,12 @@ const EditServiceButton = ({
                       onBlur={(e) => {
                         if (!form.getValues().icon) {
                           const icon = e.target.value
-                            .replaceAll(" ", "-")
-                            .toLowerCase();
+                            .replaceAll(' ', '-')
+                            .toLowerCase()
                           form.setValue(
-                            "icon",
+                            'icon',
                             `https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/${icon}.png`,
-                          );
+                          )
                         }
                       }}
                     />
@@ -162,7 +162,7 @@ const EditServiceButton = ({
         </Form>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default EditServiceButton;
+export default EditServiceButton

@@ -1,10 +1,10 @@
-import { TRPCError } from "@trpc/server";
-import { count, eq } from "drizzle-orm";
-import { z } from "zod";
+import { TRPCError } from '@trpc/server'
+import { count, eq } from 'drizzle-orm'
+import { z } from 'zod'
 
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { servicesTable } from "~/server/db/schema";
-import { refreshIndexPage } from "~/utils/api";
+import { createTRPCRouter, publicProcedure } from '~/server/api/trpc'
+import { servicesTable } from '~/server/db/schema'
+import { refreshIndexPage } from '~/utils/api'
 
 export const serviceRouter = createTRPCRouter({
   create: publicProcedure
@@ -24,12 +24,12 @@ export const serviceRouter = createTRPCRouter({
             .select({ count: count() })
             .from(servicesTable)
             .where(eq(servicesTable.categoryName, input.categoryName))
-        )[0]?.count ?? -1;
+        )[0]?.count ?? -1
       await ctx.db.insert(servicesTable).values({
         ...input,
         order: getMaxOrder + 1,
-      });
-      refreshIndexPage().catch(console.error);
+      })
+      refreshIndexPage().catch(console.error)
     }),
   edit: publicProcedure
     .input(
@@ -44,21 +44,21 @@ export const serviceRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       if (!input.id) {
         throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Missing id",
-        });
+          code: 'BAD_REQUEST',
+          message: 'Missing id',
+        })
       }
       await ctx.db
         .update(servicesTable)
         .set(input)
-        .where(eq(servicesTable.id, input.id));
-      refreshIndexPage().catch(console.error);
+        .where(eq(servicesTable.id, input.id))
+      refreshIndexPage().catch(console.error)
     }),
   delete: publicProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.delete(servicesTable).where(eq(servicesTable.id, input.id));
-      refreshIndexPage().catch(console.error);
+      await ctx.db.delete(servicesTable).where(eq(servicesTable.id, input.id))
+      refreshIndexPage().catch(console.error)
     }),
   reorder: publicProcedure
     .input(z.object({ categoryName: z.string(), order: z.array(z.number()) }))
@@ -69,16 +69,16 @@ export const serviceRouter = createTRPCRouter({
             return tx
               .update(servicesTable)
               .set({ order: index + 1 })
-              .where(eq(servicesTable.id, id));
+              .where(eq(servicesTable.id, id))
           }),
-        );
-      });
+        )
+      })
 
-      refreshIndexPage().catch(console.error);
+      refreshIndexPage().catch(console.error)
     }),
   refresh: publicProcedure.mutation(async () => {
-    console.log("Refreshing index page...");
-    await refreshIndexPage();
-    return { message: "Refreshed index page" };
+    console.log('Refreshing index page...')
+    await refreshIndexPage()
+    return { message: 'Refreshed index page' }
   }),
-});
+})

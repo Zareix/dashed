@@ -49,9 +49,7 @@
       "indexes": {
         "category_name_idx": {
           "name": "category_name_idx",
-          "columns": [
-            "name"
-          ],
+          "columns": ["name"],
           "isUnique": false
         }
       },
@@ -125,9 +123,7 @@
       "indexes": {
         "service_name_idx": {
           "name": "service_name_idx",
-          "columns": [
-            "name"
-          ],
+          "columns": ["name"],
           "isUnique": false
         }
       },

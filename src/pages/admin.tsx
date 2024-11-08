@@ -1,94 +1,94 @@
-import { Button } from "~/components/ui/button";
+import {
+  DndContext,
+  type DragEndEvent,
+  KeyboardSensor,
+  PointerSensor,
+  closestCenter,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core'
+import {
+  SortableContext,
+  arrayMove,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
+import { Button } from '~/components/ui/button'
 import {
   Table,
   TableBody,
   TableHead,
   TableHeader,
   TableRow,
-} from "~/components/ui/table";
-import { api } from "~/utils/api";
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  type DragEndEvent,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
+} from '~/components/ui/table'
+import { api } from '~/utils/api'
 
-import { toast } from "sonner";
-import CreateServiceButton from "~/components/CreateServiceButton";
-import CreateCategoryButton from "~/components/CreateCategoryButton";
-import EditCategoryButton from "~/components/EditCategoryButton";
-import { Separator } from "~/components/ui/separator";
-import SortableServiceRow from "~/components/SortableServiceRow";
-import type { Category, Service } from "~/server/db/schema";
-import { HomeIcon } from "lucide-react";
-import Link from "next/link";
-import ImportButton from "~/components/ImportButton";
-import DeleteCategoryButton from "~/components/DeleteCategoryButton";
-import ReorderCategoriesButton from "~/components/ReorderCategoriesButton";
+import { HomeIcon } from 'lucide-react'
+import Link from 'next/link'
+import { toast } from 'sonner'
+import CreateCategoryButton from '~/components/CreateCategoryButton'
+import CreateServiceButton from '~/components/CreateServiceButton'
+import DeleteCategoryButton from '~/components/DeleteCategoryButton'
+import EditCategoryButton from '~/components/EditCategoryButton'
+import ImportButton from '~/components/ImportButton'
+import ReorderCategoriesButton from '~/components/ReorderCategoriesButton'
+import SortableServiceRow from '~/components/SortableServiceRow'
+import { Separator } from '~/components/ui/separator'
+import type { Category, Service } from '~/server/db/schema'
 
 export default function AdminPage() {
-  const categoriesQuery = api.category.getAll.useQuery();
-  const utils = api.useUtils();
+  const categoriesQuery = api.category.getAll.useQuery()
+  const utils = api.useUtils()
   const refreshIndexPageMutation = api.service.refresh.useMutation({
     onSuccess: async () => {
-      toast.success("Index page refreshed");
+      toast.success('Index page refreshed')
     },
     onError: () => {
-      toast.error("An error occurred while refreshing index page");
+      toast.error('An error occurred while refreshing index page')
     },
-  });
+  })
   const reorderServiceMutation = api.service.reorder.useMutation({
     onSuccess: async () => {
-      toast.success("Service reordered");
+      toast.success('Service reordered')
     },
     onError: () => {
-      toast.error("An error occurred while reordering service");
+      toast.error('An error occurred while reordering service')
     },
     onSettled: async () => {
-      return await utils.category.getAll.refetch();
+      return await utils.category.getAll.refetch()
     },
-  });
+  })
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     }),
-  );
+  )
 
   const refresh = () => {
-    refreshIndexPageMutation.mutate();
-  };
+    refreshIndexPageMutation.mutate()
+  }
 
   const handleDragEnd = (
     event: DragEndEvent,
-    categoryName: Category["name"],
+    categoryName: Category['name'],
     items: Service[],
   ) => {
-    const { active, over } = event;
+    const { active, over } = event
 
     if (active.id !== over?.id) {
-      const oldIndex = items.findIndex((item) => item.id === active.id);
-      const newIndex = items.findIndex((item) => item.id === over?.id);
+      const oldIndex = items.findIndex((item) => item.id === active.id)
+      const newIndex = items.findIndex((item) => item.id === over?.id)
 
       const sortedIds = arrayMove(items, oldIndex, newIndex).map(
         (item) => item.id,
-      );
+      )
       reorderServiceMutation.mutate({
         categoryName,
         order: sortedIds,
-      });
+      })
     }
-  };
+  }
 
   return (
     <main className="flex w-full flex-col items-center justify-center bg-background ">
@@ -178,5 +178,5 @@ export default function AdminPage() {
         )}
       </div>
     </main>
-  );
+  )
 }

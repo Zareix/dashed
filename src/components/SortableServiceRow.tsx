@@ -1,31 +1,31 @@
-import React from "react";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { TableCell, TableRow } from "~/components/ui/table";
-import { GripVertical } from "lucide-react";
-import type { Service } from "~/server/db/schema";
-import { cn, isAuthorizedDomain } from "~/lib/utils";
-import EditServiceButton from "~/components/EditServiceButton";
-import Image from "next/image";
-import DeleteServiceButton from "~/components/DeleteServiceButton";
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+import { GripVertical } from 'lucide-react'
+import Image from 'next/image'
+import React from 'react'
+import DeleteServiceButton from '~/components/DeleteServiceButton'
+import EditServiceButton from '~/components/EditServiceButton'
+import { TableCell, TableRow } from '~/components/ui/table'
+import { cn, isAuthorizedDomain } from '~/lib/utils'
+import type { Service } from '~/server/db/schema'
 
 function SortableServiceRow({
   item,
   loading = false,
 }: {
-  item?: Pick<Service, "id" | "name" | "url" | "icon" | "categoryName">;
-  loading?: boolean;
+  item?: Pick<Service, 'id' | 'name' | 'url' | 'icon' | 'categoryName'>
+  loading?: boolean
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: item?.id ?? "" });
+    useSortable({ id: item?.id ?? '' })
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-  };
+  }
 
   if (!item) {
-    return null;
+    return null
   }
 
   return (
@@ -33,7 +33,7 @@ function SortableServiceRow({
       ref={setNodeRef}
       style={loading ? {} : style}
       {...attributes}
-      className={cn(loading && "opacity-50")}
+      className={cn(loading && 'opacity-50')}
     >
       <TableCell>
         <span className="cursor-move" {...listeners}>
@@ -66,7 +66,7 @@ function SortableServiceRow({
         <DeleteServiceButton service={item} />
       </TableCell>
     </TableRow>
-  );
+  )
 }
 
-export default SortableServiceRow;
+export default SortableServiceRow

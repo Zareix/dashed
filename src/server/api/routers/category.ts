@@ -1,11 +1,11 @@
-import { asc, eq } from "drizzle-orm";
-import { z } from "zod";
+import { asc, eq } from 'drizzle-orm'
+import { z } from 'zod'
 
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { categoryTable, servicesTable } from "~/server/db/schema";
-import { refreshIndexPage } from "~/utils/api";
+import { createTRPCRouter, publicProcedure } from '~/server/api/trpc'
+import { categoryTable, servicesTable } from '~/server/db/schema'
+import { refreshIndexPage } from '~/utils/api'
 
-import yaml from "js-yaml";
+import yaml from 'js-yaml'
 
 export const categoryRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
@@ -16,7 +16,7 @@ export const categoryRouter = createTRPCRouter({
         },
       },
       orderBy: [asc(categoryTable.order)],
-    });
+    })
   }),
   create: publicProcedure
     .input(
@@ -26,8 +26,8 @@ export const categoryRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.insert(categoryTable).values(input);
-      refreshIndexPage().catch(console.error);
+      await ctx.db.insert(categoryTable).values(input)
+      refreshIndexPage().catch(console.error)
     }),
   edit: publicProcedure
     .input(
@@ -40,12 +40,12 @@ export const categoryRouter = createTRPCRouter({
       await ctx.db
         .update(categoryTable)
         .set(input)
-        .where(eq(categoryTable.name, input.name));
-      refreshIndexPage().catch(console.error);
+        .where(eq(categoryTable.name, input.name))
+      refreshIndexPage().catch(console.error)
     }),
   delete: publicProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
-    await ctx.db.delete(categoryTable).where(eq(categoryTable.name, input));
-    refreshIndexPage().catch(console.error);
+    await ctx.db.delete(categoryTable).where(eq(categoryTable.name, input))
+    refreshIndexPage().catch(console.error)
   }),
   reorder: publicProcedure
     .input(z.object({ order: z.array(z.string()) }))
@@ -56,12 +56,12 @@ export const categoryRouter = createTRPCRouter({
             return tx
               .update(categoryTable)
               .set({ order: index + 1 })
-              .where(eq(categoryTable.name, name));
+              .where(eq(categoryTable.name, name))
           }),
-        );
-      });
+        )
+      })
 
-      refreshIndexPage().catch(console.error);
+      refreshIndexPage().catch(console.error)
     }),
   import: publicProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
     const parsed = yaml.load(input) as Array<
@@ -71,24 +71,24 @@ export const categoryRouter = createTRPCRouter({
           Record<
             string,
             {
-              icon: string;
-              href: string;
+              icon: string
+              href: string
             }
           >
         >
       >
-    >;
+    >
     for (let index = 0; index < parsed.length; index++) {
-      const category = parsed[index];
-      if (!category) continue;
-      const _categorykeys = Object.keys(category);
-      if (!_categorykeys.length) continue;
-      const categoryName = _categorykeys[0];
-      if (!categoryName) continue;
-      const _categoryvalues = Object.values(category);
-      if (!_categoryvalues.length) continue;
-      const services = _categoryvalues[0];
-      if (!services) continue;
+      const category = parsed[index]
+      if (!category) continue
+      const _categorykeys = Object.keys(category)
+      if (!_categorykeys.length) continue
+      const categoryName = _categorykeys[0]
+      if (!categoryName) continue
+      const _categoryvalues = Object.values(category)
+      if (!_categoryvalues.length) continue
+      const services = _categoryvalues[0]
+      if (!services) continue
 
       const catId = (
         await ctx.db
@@ -98,33 +98,33 @@ export const categoryRouter = createTRPCRouter({
             order: index,
           })
           .returning({ name: categoryTable.name })
-      )[0]?.name;
-      if (!catId) continue;
+      )[0]?.name
+      if (!catId) continue
 
       for (let i = 0; i < services.length; i++) {
-        const service = services[i];
-        if (!service) continue;
-        const _servicekeys = Object.keys(service);
-        if (!_servicekeys.length) continue;
-        const serviceName = _servicekeys[0];
-        if (!serviceName) continue;
-        const _servicevalues = Object.values(service);
-        if (!_servicevalues.length) continue;
-        const serviceValues = _servicevalues[0];
-        if (!serviceValues) continue;
+        const service = services[i]
+        if (!service) continue
+        const _servicekeys = Object.keys(service)
+        if (!_servicekeys.length) continue
+        const serviceName = _servicekeys[0]
+        if (!serviceName) continue
+        const _servicevalues = Object.values(service)
+        if (!_servicevalues.length) continue
+        const serviceValues = _servicevalues[0]
+        if (!serviceValues) continue
 
         await ctx.db.insert(servicesTable).values({
           name: serviceName,
           url: serviceValues.href,
           icon: `https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/${serviceName
-            .replaceAll(" ", "-")
+            .replaceAll(' ', '-')
             .toLowerCase()}.png`,
           categoryName: catId,
           order: i,
-        });
+        })
       }
     }
 
-    refreshIndexPage().catch(console.error);
+    refreshIndexPage().catch(console.error)
   }),
-});
+})

@@ -1,7 +1,16 @@
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Input } from "~/components/ui/input";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
+import { Button } from '~/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '~/components/ui/dialog'
 import {
   Form,
   FormControl,
@@ -9,50 +18,41 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/components/ui/form";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "~/components/ui/dialog";
-import { useState } from "react";
-import { api } from "~/utils/api";
-import { toast } from "sonner";
-import { Button } from "~/components/ui/button";
-import type { Category } from "~/server/db/schema";
+} from '~/components/ui/form'
+import { Input } from '~/components/ui/input'
+import type { Category } from '~/server/db/schema'
+import { api } from '~/utils/api'
 
 const categoryEditSchema = z.object({
   name: z.string().min(1),
   maxCols: z.number().min(1).max(5),
-});
+})
 
 const EditCategoryButton = ({
   category,
 }: {
-  category: Pick<Category, "name" | "maxCols">;
+  category: Pick<Category, 'name' | 'maxCols'>
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const utils = api.useUtils();
+  const [isOpen, setIsOpen] = useState(false)
+  const utils = api.useUtils()
   const editCategoryMutation = api.category.edit.useMutation({
     onSuccess: async () => {
-      toast.success("Category edited");
-      setIsOpen(false);
-      form.reset();
-      await utils.category.getAll.invalidate();
+      toast.success('Category edited')
+      setIsOpen(false)
+      form.reset()
+      await utils.category.getAll.invalidate()
     },
     onError: () => {
-      toast.error("An error occurred while editings category");
+      toast.error('An error occurred while editings category')
     },
-  });
+  })
   const form = useForm<z.infer<typeof categoryEditSchema>>({
     resolver: zodResolver(categoryEditSchema),
     defaultValues: category,
-  });
+  })
 
   function onSubmit(values: z.infer<typeof categoryEditSchema>) {
-    editCategoryMutation.mutate(values);
+    editCategoryMutation.mutate(values)
   }
 
   return (
@@ -93,7 +93,7 @@ const EditCategoryButton = ({
                       placeholder="Max columns"
                       {...field}
                       onChange={(e) => {
-                        field.onChange(Number.parseInt(e.target.value));
+                        field.onChange(Number.parseInt(e.target.value))
                       }}
                     />
                   </FormControl>
@@ -112,7 +112,7 @@ const EditCategoryButton = ({
         </Form>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default EditCategoryButton;
+export default EditCategoryButton

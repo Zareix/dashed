@@ -1,20 +1,20 @@
-import React from "react";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { GripVerticalIcon } from "lucide-react";
-import type { Category } from "~/server/db/schema";
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+import { GripVerticalIcon } from 'lucide-react'
+import React from 'react'
+import type { Category } from '~/server/db/schema'
 
-function SortableCategoryRow({ item }: { item?: Category["name"] }) {
+function SortableCategoryRow({ item }: { item?: Category['name'] }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: item ?? "" });
+    useSortable({ id: item ?? '' })
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-  };
+  }
 
   if (!item) {
-    return null;
+    return null
   }
 
   return (
@@ -29,7 +29,7 @@ function SortableCategoryRow({ item }: { item?: Category["name"] }) {
       </span>
       <span>{item}</span>
     </li>
-  );
+  )
 }
 
-export default SortableCategoryRow;
+export default SortableCategoryRow

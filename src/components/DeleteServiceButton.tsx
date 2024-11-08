@@ -1,9 +1,9 @@
-"user client";
+'user client'
 
-import { TrashIcon } from "lucide-react";
-import React, { useState } from "react";
-import { toast } from "sonner";
-import { Button } from "~/components/ui/button";
+import { TrashIcon } from 'lucide-react'
+import React, { useState } from 'react'
+import { toast } from 'sonner'
+import { Button } from '~/components/ui/button'
 import {
   Dialog,
   DialogClose,
@@ -12,28 +12,28 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/components/ui/dialog";
-import type { Service } from "~/server/db/schema";
-import { api } from "~/utils/api";
+} from '~/components/ui/dialog'
+import type { Service } from '~/server/db/schema'
+import { api } from '~/utils/api'
 
 const DeleteServiceButton = ({
   service: { id, name },
 }: {
-  service: Pick<Service, "id" | "name">;
+  service: Pick<Service, 'id' | 'name'>
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const utils = api.useUtils();
+  const [isOpen, setIsOpen] = useState(false)
+  const utils = api.useUtils()
   const deleteServiceMutation = api.service.delete.useMutation({
     onSuccess: async () => {
-      setIsOpen(false);
-      toast("Service deleted");
-      await utils.category.getAll.invalidate();
+      setIsOpen(false)
+      toast('Service deleted')
+      await utils.category.getAll.invalidate()
     },
-  });
+  })
 
   const deleteService = () => {
-    deleteServiceMutation.mutate({ id });
-  };
+    deleteServiceMutation.mutate({ id })
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -64,7 +64,7 @@ const DeleteServiceButton = ({
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default DeleteServiceButton;
+export default DeleteServiceButton

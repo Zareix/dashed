@@ -1,7 +1,17 @@
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Input } from "~/components/ui/input";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { PlusIcon } from 'lucide-react'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
+import { Button } from '~/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '~/components/ui/dialog'
 import {
   Form,
   FormControl,
@@ -9,49 +19,39 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/components/ui/form";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "~/components/ui/dialog";
-import { PlusIcon } from "lucide-react";
-import { useState } from "react";
-import { api } from "~/utils/api";
-import { toast } from "sonner";
-import { Button } from "~/components/ui/button";
+} from '~/components/ui/form'
+import { Input } from '~/components/ui/input'
+import { api } from '~/utils/api'
 
 const categoryCreateSchema = z.object({
   name: z.string().min(1),
   maxCols: z.number().min(1).max(5),
-});
+})
 
 const CreateCategoryButton = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const utils = api.useUtils();
+  const [isOpen, setIsOpen] = useState(false)
+  const utils = api.useUtils()
   const createCategoryMutation = api.category.create.useMutation({
     onSuccess: async () => {
-      toast.success("Category created");
-      setIsOpen(false);
-      form.reset();
-      await utils.category.getAll.invalidate();
+      toast.success('Category created')
+      setIsOpen(false)
+      form.reset()
+      await utils.category.getAll.invalidate()
     },
     onError: () => {
-      toast.error("An error occurred while creating category");
+      toast.error('An error occurred while creating category')
     },
-  });
+  })
   const form = useForm<z.infer<typeof categoryCreateSchema>>({
     resolver: zodResolver(categoryCreateSchema),
     defaultValues: {
-      name: "",
+      name: '',
       maxCols: 5,
     },
-  });
+  })
 
   function onSubmit(values: z.infer<typeof categoryCreateSchema>) {
-    createCategoryMutation.mutate(values);
+    createCategoryMutation.mutate(values)
   }
 
   return (
@@ -95,7 +95,7 @@ const CreateCategoryButton = () => {
                       placeholder="Max columns"
                       {...field}
                       onChange={(e) => {
-                        field.onChange(Number.parseInt(e.target.value));
+                        field.onChange(Number.parseInt(e.target.value))
                       }}
                     />
                   </FormControl>
@@ -114,7 +114,7 @@ const CreateCategoryButton = () => {
         </Form>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default CreateCategoryButton;
+export default CreateCategoryButton

@@ -1,15 +1,15 @@
-import { type AppType } from "next/app";
-import { Inter } from "next/font/google";
+import { type AppType } from 'next/app'
+import { Inter } from 'next/font/google'
 
-import { api } from "~/utils/api";
+import { api } from '~/utils/api'
 
-import "~/styles/globals.css";
-import { Toaster } from "sonner";
+import '~/styles/globals.css'
+import { Toaster } from 'sonner'
 
 const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
+  subsets: ['latin'],
+  variable: '--font-sans',
+})
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <>
@@ -24,7 +24,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       <Component {...pageProps} />
       <Toaster />
     </>
-  );
-};
+  )
+}
 
-export default api.withTRPC(MyApp);
+export default api.withTRPC(MyApp)

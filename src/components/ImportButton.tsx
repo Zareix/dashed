@@ -1,7 +1,17 @@
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Input } from "~/components/ui/input";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { ImportIcon } from 'lucide-react'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
+import { Button } from '~/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '~/components/ui/dialog'
 import {
   Form,
   FormControl,
@@ -9,48 +19,38 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/components/ui/form";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "~/components/ui/dialog";
-import { ImportIcon } from "lucide-react";
-import { useState } from "react";
-import { api } from "~/utils/api";
-import { toast } from "sonner";
-import { Button } from "~/components/ui/button";
-import { Textarea } from "~/components/ui/textarea";
+} from '~/components/ui/form'
+import { Input } from '~/components/ui/input'
+import { Textarea } from '~/components/ui/textarea'
+import { api } from '~/utils/api'
 
 const importSchema = z.object({
   yml: z.string().min(1),
-});
+})
 
 const ImportButton = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const utils = api.useUtils();
+  const [isOpen, setIsOpen] = useState(false)
+  const utils = api.useUtils()
   const importMutation = api.category.import.useMutation({
     onSuccess: async () => {
-      toast.success("Service created");
-      setIsOpen(false);
-      form.reset();
-      await utils.category.getAll.invalidate();
+      toast.success('Service created')
+      setIsOpen(false)
+      form.reset()
+      await utils.category.getAll.invalidate()
     },
     onError: () => {
-      toast.error("An error occurred while creating service");
+      toast.error('An error occurred while creating service')
     },
-  });
+  })
   const form = useForm<z.infer<typeof importSchema>>({
     resolver: zodResolver(importSchema),
     defaultValues: {
-      yml: "",
+      yml: '',
     },
-  });
+  })
 
   function onSubmit(values: z.infer<typeof importSchema>) {
-    importMutation.mutate(values.yml);
+    importMutation.mutate(values.yml)
   }
 
   return (
@@ -90,7 +90,7 @@ const ImportButton = () => {
         </Form>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default ImportButton;
+export default ImportButton

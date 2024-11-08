@@ -1,9 +1,9 @@
-"user client";
+'user client'
 
-import { TrashIcon } from "lucide-react";
-import React, { useState } from "react";
-import { toast } from "sonner";
-import { Button } from "~/components/ui/button";
+import { TrashIcon } from 'lucide-react'
+import React, { useState } from 'react'
+import { toast } from 'sonner'
+import { Button } from '~/components/ui/button'
 import {
   Dialog,
   DialogClose,
@@ -12,28 +12,28 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "~/components/ui/dialog";
-import type { Category } from "~/server/db/schema";
-import { api } from "~/utils/api";
+} from '~/components/ui/dialog'
+import type { Category } from '~/server/db/schema'
+import { api } from '~/utils/api'
 
 const DeleteCategoryButton = ({
   category: { name },
 }: {
-  category: Pick<Category, "name">;
+  category: Pick<Category, 'name'>
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const utils = api.useUtils();
+  const [isOpen, setIsOpen] = useState(false)
+  const utils = api.useUtils()
   const deleteCategoryMutation = api.category.delete.useMutation({
     onSuccess: async () => {
-      setIsOpen(false);
-      toast("Category deleted");
-      await utils.category.getAll.invalidate();
+      setIsOpen(false)
+      toast('Category deleted')
+      await utils.category.getAll.invalidate()
     },
-  });
+  })
 
   const deleteCategory = () => {
-    deleteCategoryMutation.mutate(name);
-  };
+    deleteCategoryMutation.mutate(name)
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -64,7 +64,7 @@ const DeleteCategoryButton = ({
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default DeleteCategoryButton;
+export default DeleteCategoryButton
