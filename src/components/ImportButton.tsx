@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ImportIcon } from "lucide-react";
+import { ImportIcon, UploadIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -21,11 +21,19 @@ import {
 	FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "~/components/ui/select";
 import { Textarea } from "~/components/ui/textarea";
 import { api } from "~/utils/api";
 
 const importSchema = z.object({
-	yml: z.string().min(1),
+	type: z.enum(["dashed", "homepage"]),
+	data: z.string().min(1),
 });
 
 const ImportButton = () => {
@@ -45,19 +53,20 @@ const ImportButton = () => {
 	const form = useForm<z.infer<typeof importSchema>>({
 		resolver: zodResolver(importSchema),
 		defaultValues: {
-			yml: "",
+			type: "dashed",
+			data: "",
 		},
 	});
 
 	function onSubmit(values: z.infer<typeof importSchema>) {
-		importMutation.mutate(values.yml);
+		importMutation.mutate(values);
 	}
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
 			<DialogTrigger asChild>
 				<Button>
-					<ImportIcon />
+					<ImportIcon /> Import
 				</Button>
 			</DialogTrigger>
 			<DialogContent>
@@ -68,12 +77,33 @@ const ImportButton = () => {
 					<form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
 						<FormField
 							control={form.control}
-							name="yml"
+							name="type"
 							render={({ field }) => (
 								<FormItem>
 									<FormLabel>Yml</FormLabel>
 									<FormControl>
-										<Textarea placeholder="yml" {...field} />
+										<Select value={field.value} onValueChange={field.onChange}>
+											<SelectTrigger className="w-[180px]">
+												<SelectValue placeholder="Type" />
+											</SelectTrigger>
+											<SelectContent>
+												<SelectItem value="dashed">Dashed</SelectItem>
+												<SelectItem value="homepage">Homepage</SelectItem>
+											</SelectContent>
+										</Select>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="data"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Data</FormLabel>
+									<FormControl>
+										<Textarea placeholder="data" {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>

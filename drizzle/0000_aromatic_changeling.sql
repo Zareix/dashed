@@ -15,7 +15,8 @@ CREATE TABLE `service` (
 	`order` integer DEFAULT 0 NOT NULL,
 	`category_name` text(256) NOT NULL,
 	`created_at` integer DEFAULT (unixepoch()) NOT NULL,
-	`updated_at` integer
+	`updated_at` integer,
+	FOREIGN KEY (`category_name`) REFERENCES `category`(`name`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE INDEX `service_name_idx` ON `service` (`name`);

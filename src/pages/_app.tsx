@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
+import Head from "next/head";
 import { Toaster } from "sonner";
 
 const inter = Inter({
@@ -21,8 +22,17 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           font-family: ${inter.style.fontFamily};
         }
       `}</style>
+			<Head>
+				<title>Dashed</title>
+				<meta name="description" content="Dashed" />
+			</Head>
 			<Component {...pageProps} />
-			<Toaster />
+			<Toaster
+				toastOptions={{
+					className:
+						"bg-background/80 backdrop-blur border-border text-foreground",
+				}}
+			/>
 		</>
 	);
 };

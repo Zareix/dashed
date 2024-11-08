@@ -31,7 +31,11 @@ export const servicesTable = sqliteTable(
 		url: text("url", { length: 256 }).notNull(),
 		icon: text("icon", { length: 256 }).notNull(),
 		order: int("order", { mode: "number" }).notNull().default(sql`0`),
-		categoryName: text("category_name", { length: 256 }).notNull(),
+		categoryName: text("category_name", { length: 256 })
+			.references(() => categoryTable.name, {
+				onDelete: "cascade",
+			})
+			.notNull(),
 		createdAt: int("created_at", { mode: "timestamp" })
 			.default(sql`(unixepoch())`)
 			.notNull(),

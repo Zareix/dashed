@@ -30,6 +30,7 @@ import CreateCategoryButton from "~/components/CreateCategoryButton";
 import CreateServiceButton from "~/components/CreateServiceButton";
 import DeleteCategoryButton from "~/components/DeleteCategoryButton";
 import EditCategoryButton from "~/components/EditCategoryButton";
+import ExportButton from "~/components/ExportButton";
 import ImportButton from "~/components/ImportButton";
 import ReorderCategoriesButton from "~/components/ReorderCategoriesButton";
 import SortableServiceRow from "~/components/SortableServiceRow";
@@ -106,6 +107,7 @@ export default function AdminPage() {
 					<Separator orientation="vertical" className="h-5" />
 					<Button onClick={refresh}>Refresh homepage</Button>
 					<ImportButton />
+					<ExportButton />
 				</div>
 				{categoriesQuery.isLoading ? (
 					<div className="mt-4">Loading...</div>

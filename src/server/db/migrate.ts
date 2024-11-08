@@ -13,6 +13,8 @@ if (!(await Bun.file(env.DATABASE_PATH).exists())) {
 console.log("Migrating database...");
 
 const sqlite = new Database(env.DATABASE_PATH);
+sqlite.exec("PRAGMA journal_mode = WAL;");
+sqlite.exec("PRAGMA foreign_keys = ON;");
 const db = drizzle(sqlite);
 migrate(db, { migrationsFolder: "./drizzle" });
 
