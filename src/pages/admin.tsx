@@ -1,50 +1,42 @@
-"use client";
 import { Button } from "~/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "~/components/ui/form";
-
 import {
   Table,
   TableBody,
-  TableCaption,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
 import { api } from "~/utils/api";
-
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Input } from "~/components/ui/input";
-import { toast } from "sonner";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "~/components/ui/dialog";
-import { PlusIcon } from "lucide-react";
-import { useState } from "react";
-import DeleteServiceButton from "~/components/DeleteServiceButton";
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 
-const serviceCreateSchema = z.object({
-  name: z.string().min(1),
-  url: z.string().min(1).url(),
-  category: z.string().min(1),
-});
+import { toast } from "sonner";
+import CreateServiceButton from "~/components/CreateServiceButton";
+import CreateCategoryButton from "~/components/CreateCategoryButton";
+import EditCategoryButton from "~/components/EditCategoryButton";
+import { Separator } from "~/components/ui/separator";
+import SortableServiceRow from "~/components/SortableServiceRow";
+import type { Category, Service } from "~/server/db/schema";
+import { HomeIcon } from "lucide-react";
+import Link from "next/link";
+import ImportButton from "~/components/ImportButton";
+import DeleteCategoryButton from "~/components/DeleteCategoryButton";
 
 export default function AdminPage() {
-  const [isCreateFormOpen, setIsCreateFormOpen] = useState(false);
-  const servicesQuery = api.service.getAll.useQuery();
+  const categoriesQuery = api.category.getAll.useQuery();
   const utils = api.useUtils();
   const refreshIndexPageMutation = api.service.refresh.useMutation({
     onSuccess: async () => {
@@ -54,138 +46,131 @@ export default function AdminPage() {
       toast.error("An error occurred while refreshing index page");
     },
   });
-  const createServiceMutation = api.service.create.useMutation({
+  const reorderServiceMutation = api.service.reorder.useMutation({
     onSuccess: async () => {
-      toast.success("Service created");
-      setIsCreateFormOpen(false);
-      await utils.service.invalidate();
+      toast.success("Service reordered");
     },
     onError: () => {
-      toast.error("An error occurred while creating service");
+      toast.error("An error occurred while reordering service");
+    },
+    onSettled: async () => {
+      return await utils.category.getAll.refetch();
     },
   });
-  const form = useForm<z.infer<typeof serviceCreateSchema>>({
-    resolver: zodResolver(serviceCreateSchema),
-    defaultValues: {
-      name: "",
-      url: "",
-    },
-  });
-
-  function onSubmit(values: z.infer<typeof serviceCreateSchema>) {
-    createServiceMutation.mutate(values);
-  }
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
 
   const refresh = () => {
     refreshIndexPageMutation.mutate();
   };
 
+  const handleDragEnd = (
+    event: DragEndEvent,
+    categoryName: Category["name"],
+    items: Service[],
+  ) => {
+    const { active, over } = event;
+
+    if (active.id !== over?.id) {
+      const oldIndex = items.findIndex((item) => item.id === active.id);
+      const newIndex = items.findIndex((item) => item.id === over?.id);
+
+      const sortedIds = arrayMove(items, oldIndex, newIndex).map(
+        (item) => item.id,
+      );
+      reorderServiceMutation.mutate({
+        categoryName,
+        order: sortedIds,
+      });
+    }
+  };
+
   return (
-    <main className="flex w-full flex-col items-center justify-center">
+    <main className="flex w-full flex-col items-center justify-center bg-background ">
       <div className="container py-8">
-        <div className="flex items-center justify-end gap-4">
-          <Dialog open={isCreateFormOpen} onOpenChange={setIsCreateFormOpen}>
-            <DialogTrigger asChild>
-              <Button>
-                <PlusIcon />
-                Add service
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Add a new service</DialogTitle>
-              </DialogHeader>
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="grid gap-4"
-                >
-                  <FormField
-                    control={form.control}
-                    name="category"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Category</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Service category" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Service name" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="url"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>URL</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Service url" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button
-                    type="submit"
-                    disabled={createServiceMutation.isPending}
-                    className="ml-auto"
-                  >
-                    Submit
-                  </Button>
-                </form>
-              </Form>
-            </DialogContent>
-          </Dialog>
-          <Button onClick={refresh}>Refresh</Button>
+        <div className="flex items-center gap-4">
+          <Link href="/">
+            <HomeIcon size={24} />
+          </Link>
+          <Separator orientation="vertical" className="ml-auto" />
+          <CreateCategoryButton />
+          <CreateServiceButton categories={categoriesQuery.data ?? []} />
+          <Separator orientation="vertical" className="h-5" />
+          <Button onClick={refresh}>Refresh homepage</Button>
+          <ImportButton />
         </div>
-        {servicesQuery.isLoading ? (
-          <div className="mt-4 rounded-lg border border-gray-200">
-            <div className="flex items-center justify-center">Loading...</div>
-          </div>
-        ) : servicesQuery.isError || !servicesQuery.data ? (
-          <div className="mt-4 rounded-lg border border-gray-200">
-            <div className="flex items-center justify-center">
-              An error occurred while loading services.
-            </div>
-          </div>
+        {categoriesQuery.isLoading ? (
+          <div className="mt-4">Loading...</div>
+        ) : categoriesQuery.isError || !categoriesQuery.data ? (
+          <div className="mt-4">An error occurred while loading services.</div>
         ) : (
-          <Table className="mt-4 rounded-lg border border-gray-200">
-            <TableCaption>All services</TableCaption>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Category</TableHead>
-                <TableHead>Name</TableHead>
-                <TableHead>URL</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {servicesQuery.data.map((service) => (
-                <TableRow key={service.id}>
-                  <TableCell>{service.category}</TableCell>
-                  <TableCell>{service.name}</TableCell>
-                  <TableCell>{service.url}</TableCell>
-                  <TableCell>
-                    <DeleteServiceButton id={service.id} name={service.name} />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          categoriesQuery.data.map((category) => (
+            <div key={category.name} className="mt-4 p-1">
+              <div className="flex items-end gap-2">
+                <h2 className="text-xl font-bold">{category.name}</h2>
+                <Separator orientation="vertical" className="ml-auto" />
+                {category.maxCols !== 5 && (
+                  <div className="text-sm text-muted-foreground">
+                    Max cols: {category.maxCols}
+                  </div>
+                )}
+                <EditCategoryButton category={category} />
+                <DeleteCategoryButton category={category} />
+              </div>
+              <div className="mt-1 overflow-hidden rounded-lg border-2 border-border bg-foreground/5">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-[50px]"></TableHead>
+                      <TableHead>Icon</TableHead>
+                      <TableHead>Name</TableHead>
+                      <TableHead>URL</TableHead>
+                      <TableHead>Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <DndContext
+                      sensors={sensors}
+                      collisionDetection={closestCenter}
+                      onDragEnd={(event) =>
+                        handleDragEnd(event, category.name, category.services)
+                      }
+                    >
+                      <SortableContext
+                        items={category.services}
+                        strategy={verticalListSortingStrategy}
+                      >
+                        {reorderServiceMutation.isPending &&
+                        reorderServiceMutation.variables.categoryName ===
+                          category.name
+                          ? reorderServiceMutation.variables.order.map(
+                              (serviceId) => (
+                                <SortableServiceRow
+                                  key={serviceId}
+                                  item={category.services.find(
+                                    (service) => service.id === serviceId,
+                                  )}
+                                  loading
+                                />
+                              ),
+                            )
+                          : category.services.map((service) => (
+                              <SortableServiceRow
+                                key={service.id}
+                                item={service}
+                              />
+                            ))}
+                      </SortableContext>
+                    </DndContext>
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
+          ))
         )}
       </div>
     </main>

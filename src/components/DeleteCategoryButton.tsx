@@ -13,33 +13,33 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
-import type { Service } from "~/server/db/schema";
+import type { Category } from "~/server/db/schema";
 import { api } from "~/utils/api";
 
-const DeleteServiceButton = ({
-  service: { id, name },
+const DeleteCategoryButton = ({
+  category: { name },
 }: {
-  service: Pick<Service, "id" | "name">;
+  category: Pick<Category, "name">;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const utils = api.useUtils();
-  const deleteServiceMutation = api.service.delete.useMutation({
+  const deleteCategoryMutation = api.category.delete.useMutation({
     onSuccess: async () => {
       setIsOpen(false);
-      toast("Service deleted");
+      toast("Category deleted");
       await utils.category.getAll.invalidate();
     },
   });
 
-  const deleteService = () => {
-    deleteServiceMutation.mutate({ id });
+  const deleteCategory = () => {
+    deleteCategoryMutation.mutate(name);
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost">
-          <TrashIcon className="text-red-500" />
+        <Button variant="destructive">
+          <TrashIcon />
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -47,7 +47,7 @@ const DeleteServiceButton = ({
           <DialogTitle>Delete &quot;{name}&quot;</DialogTitle>
         </DialogHeader>
         <p>
-          Are you absolutely sure you want to delete service &quot;{name}
+          Are you absolutely sure you want to delete category &quot;{name}
           &quot;?
         </p>
         <DialogFooter>
@@ -56,8 +56,8 @@ const DeleteServiceButton = ({
           </DialogClose>
           <Button
             variant="destructive"
-            onClick={deleteService}
-            disabled={deleteServiceMutation.isPending}
+            onClick={deleteCategory}
+            disabled={deleteCategoryMutation.isPending}
           >
             Delete
           </Button>
@@ -67,4 +67,4 @@ const DeleteServiceButton = ({
   );
 };
 
-export default DeleteServiceButton;
+export default DeleteCategoryButton;
