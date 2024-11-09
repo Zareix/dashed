@@ -33,7 +33,7 @@ function SortableServiceRow({
 			ref={setNodeRef}
 			style={loading ? {} : style}
 			{...attributes}
-			className={cn(loading && "opacity-50")}
+			className={cn(loading && "opacity-50", "cursor-default")}
 		>
 			<TableCell>
 				<span className="cursor-move" {...listeners}>

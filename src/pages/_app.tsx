@@ -26,7 +26,9 @@ const MyApp: AppType = ({ Component, pageProps }) => {
 				<title>Dashed</title>
 				<meta name="description" content="Dashed" />
 			</Head>
-			<Component {...pageProps} />
+			<main className="flex min-h-screen flex-col items-center p-2 pb-16">
+				<Component {...pageProps} />
+			</main>
 			<Toaster
 				toastOptions={{
 					className:

@@ -50,7 +50,7 @@ export const categoryRouter = createTRPCRouter({
 		)
 		.mutation(async ({ ctx, input }) => {
 			await ctx.db.insert(categoryTable).values(input);
-			refreshIndexPage().catch(console.error);
+			refreshIndexPage();
 		}),
 	edit: publicProcedure
 		.input(
@@ -64,11 +64,11 @@ export const categoryRouter = createTRPCRouter({
 				.update(categoryTable)
 				.set(input)
 				.where(eq(categoryTable.name, input.name));
-			refreshIndexPage().catch(console.error);
+			refreshIndexPage();
 		}),
 	delete: publicProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
 		await ctx.db.delete(categoryTable).where(eq(categoryTable.name, input));
-		refreshIndexPage().catch(console.error);
+		refreshIndexPage();
 	}),
 	reorder: publicProcedure
 		.input(z.object({ order: z.array(z.string()) }))
@@ -84,7 +84,7 @@ export const categoryRouter = createTRPCRouter({
 				);
 			});
 
-			refreshIndexPage().catch(console.error);
+			refreshIndexPage();
 		}),
 	export: publicProcedure.mutation(async ({ ctx }) => {
 		const categories = await ctx.db.query.categoryTable.findMany({
@@ -208,6 +208,6 @@ export const categoryRouter = createTRPCRouter({
 				}
 			}
 
-			refreshIndexPage().catch(console.error);
+			refreshIndexPage();
 		}),
 });

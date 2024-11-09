@@ -11,7 +11,7 @@ To run using docker, run the following command :
 ```bash
 docker run -d \
         -p 3000:3000 \
-        -v ~/dashboard/db:/app/db
+        -v ./db_data:/app/db \
         --name=dashboard \
         ghcr.io/zareix/dashed:latest
 ```
@@ -26,7 +26,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./dashboard/db:/app/db
+      - ./db_data:/app/db
 ```
 
 ### Notes on volumes

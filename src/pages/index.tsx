@@ -1,6 +1,7 @@
 import { asc } from "drizzle-orm";
 import { PHASE_PRODUCTION_BUILD } from "next/dist/shared/lib/constants";
 import Image from "next/image";
+import MonitorService from "~/components/MonitorService";
 import { cn } from "~/lib/utils";
 import { db } from "~/server/db";
 import { categoryTable, servicesTable } from "~/server/db/schema";
@@ -37,6 +38,20 @@ export const getStaticProps = async () => {
 	};
 };
 
+const LinkWrapper = (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
+	return (
+		<>
+			<a {...props} className={cn("flex sm:hidden", props.className)} />
+			<a
+				{...props}
+				target="_blank"
+				rel="noopener noreferrer"
+				className={cn("hidden sm:flex", props.className)}
+			/>
+		</>
+	);
+};
+
 const getColsClassName = (cols: number) => {
 	switch (cols) {
 		case 1:
@@ -58,7 +73,7 @@ export default function Home({
 	categories,
 }: Awaited<ReturnType<typeof getStaticProps>>["props"]) {
 	return (
-		<main className="flex min-h-screen flex-col items-center bg-background">
+		<>
 			{categories.map((category) => (
 				<section key={category.name} className="container mt-4 p-1">
 					<h2 className="text-2xl font-bold">{category.name}</h2>
@@ -70,11 +85,9 @@ export default function Home({
 					>
 						{category.services.map((service) => (
 							<li key={service.id}>
-								<a
+								<LinkWrapper
 									href={service.url}
-									target="_blank"
-									rel="noreferrer"
-									className="flex h-full items-center gap-2 rounded-lg border border-border bg-foreground/5 p-2 shadow-sm"
+									className="h-full items-center gap-2 rounded-lg border border-border bg-foreground/5 p-2 shadow-sm relative"
 								>
 									<Image
 										src={service.icon}
@@ -84,12 +97,13 @@ export default function Home({
 										className="h-8 w-8 object-contain"
 									/>
 									{service.name}
-								</a>
+									<MonitorService service={service} />
+								</LinkWrapper>
 							</li>
 						))}
 					</ul>
 				</section>
 			))}
-		</main>
+		</>
 	);
 }

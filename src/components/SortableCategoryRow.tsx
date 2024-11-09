@@ -22,7 +22,7 @@ function SortableCategoryRow({ item }: { item?: Category["name"] }) {
 			ref={setNodeRef}
 			style={style}
 			{...attributes}
-			className="flex items-center gap-2 rounded border py-2"
+			className="flex items-center gap-2 rounded border p-2"
 		>
 			<span className="cursor-move" {...listeners}>
 				<GripVerticalIcon className="h-5 w-5 text-gray-500" />

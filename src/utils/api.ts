@@ -17,10 +17,15 @@ export const getBaseUrl = () => {
 	return `http://localhost:${process.env.PORT ?? 3000}`; // dev SSR should use localhost
 };
 
-export const refreshIndexPage = () =>
+export const refreshIndexPage = () => {
 	fetch(`${getBaseUrl()}/api/refresh`, {
 		method: "POST",
-	});
+	})
+		.catch(console.error)
+		.then(() => {
+			console.log("Index page refreshed");
+		});
+};
 
 /** A set of type-safe react-query hooks for your tRPC API. */
 export const api = createTRPCNext<AppRouter>({

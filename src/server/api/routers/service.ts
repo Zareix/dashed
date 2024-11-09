@@ -29,7 +29,7 @@ export const serviceRouter = createTRPCRouter({
 				...input,
 				order: getMaxOrder + 1,
 			});
-			refreshIndexPage().catch(console.error);
+			refreshIndexPage();
 		}),
 	edit: publicProcedure
 		.input(
@@ -52,13 +52,13 @@ export const serviceRouter = createTRPCRouter({
 				.update(servicesTable)
 				.set(input)
 				.where(eq(servicesTable.id, input.id));
-			refreshIndexPage().catch(console.error);
+			refreshIndexPage();
 		}),
 	delete: publicProcedure
 		.input(z.object({ id: z.number() }))
 		.mutation(async ({ ctx, input }) => {
 			await ctx.db.delete(servicesTable).where(eq(servicesTable.id, input.id));
-			refreshIndexPage().catch(console.error);
+			refreshIndexPage();
 		}),
 	reorder: publicProcedure
 		.input(z.object({ categoryName: z.string(), order: z.array(z.number()) }))
@@ -74,11 +74,22 @@ export const serviceRouter = createTRPCRouter({
 				);
 			});
 
-			refreshIndexPage().catch(console.error);
+			refreshIndexPage();
 		}),
 	refresh: publicProcedure.mutation(async () => {
 		console.log("Refreshing index page...");
-		await refreshIndexPage();
-		return { message: "Refreshed index page" };
+		refreshIndexPage();
 	}),
+	ping: publicProcedure
+		.input(z.object({ url: z.string().url() }))
+		.query(async ({ input }) => {
+			try {
+				const res = await fetch(input.url, {
+					signal: AbortSignal.timeout(2000),
+				});
+				return res.ok;
+			} catch (e) {
+				return false;
+			}
+		}),
 });

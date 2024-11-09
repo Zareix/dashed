@@ -41,8 +41,10 @@ const serviceCreateSchema = z.object({
 
 const CreateServiceButton = ({
 	categories,
+	category,
 }: {
 	categories: Array<Pick<Category, "name">>;
+	category?: Pick<Category, "name">;
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const utils = api.useUtils();
@@ -63,6 +65,7 @@ const CreateServiceButton = ({
 			name: "",
 			url: "",
 			icon: "",
+			categoryName: category?.name,
 		},
 	});
 

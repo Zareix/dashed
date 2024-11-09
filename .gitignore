@@ -42,3 +42,4 @@ yarn-error.log*
 *.tsbuildinfo
 
 db.sqlite*
+db_data
