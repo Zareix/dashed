@@ -85,7 +85,7 @@ export const serviceRouter = createTRPCRouter({
 		.query(async ({ input }) => {
 			try {
 				const res = await fetch(input.url, {
-					signal: AbortSignal.timeout(2000),
+					signal: AbortSignal.timeout(3000),
 				});
 				return res.ok;
 			} catch (e) {
