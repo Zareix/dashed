@@ -1,10 +1,13 @@
 import { asc } from "drizzle-orm";
 import { PHASE_PRODUCTION_BUILD } from "next/dist/shared/lib/constants";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import MonitorService from "~/components/MonitorService";
 import { cn } from "~/lib/utils";
 import { db } from "~/server/db";
 import { categoryTable, servicesTable } from "~/server/db/schema";
+import { api } from "~/utils/api";
 
 export const getStaticProps = async () => {
 	if (process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD) {
@@ -72,6 +75,36 @@ const getColsClassName = (cols: number) => {
 export default function Home({
 	categories,
 }: Awaited<ReturnType<typeof getStaticProps>>["props"]) {
+	const healthQuery = api.health.health.useQuery(undefined, {
+		retry: false,
+		refetchInterval: 1000 * 5,
+		select: (data) => data.status === "ok",
+	});
+	const [lastErrorToast, setLastErrorToast] = useState<
+		string | number | null
+	>();
+
+	useEffect(() => {
+		if (healthQuery.isPending) return;
+		if (healthQuery.isSuccess && lastErrorToast) {
+			setLastErrorToast(null);
+			toast.dismiss(lastErrorToast);
+			return;
+		}
+		if (healthQuery.data) return;
+
+		if (lastErrorToast) return;
+		const toastId = toast.error("Unable to connect to the server", {
+			duration: Number.POSITIVE_INFINITY,
+		});
+		setLastErrorToast(toastId);
+	}, [
+		healthQuery.data,
+		healthQuery.isPending,
+		healthQuery.isSuccess,
+		lastErrorToast,
+	]);
+
 	return (
 		<>
 			{categories.map((category) => (
@@ -97,7 +130,7 @@ export default function Home({
 										className="h-8 w-8 object-contain"
 									/>
 									{service.name}
-									<MonitorService service={service} />
+									{healthQuery.data && <MonitorService service={service} />}
 								</LinkWrapper>
 							</li>
 						))}

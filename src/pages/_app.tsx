@@ -6,12 +6,21 @@ import { api } from "~/utils/api";
 import "~/styles/globals.css";
 import Head from "next/head";
 import { Toaster } from "sonner";
+import { useEffect } from "react";
 
 const inter = Inter({
 	subsets: ["latin"],
 	variable: "--font-sans",
 });
 const MyApp: AppType = ({ Component, pageProps }) => {
+	useEffect(() => {
+		if ("serviceWorker" in navigator) {
+			navigator.serviceWorker
+				.register("/service-worker.js")
+				.then((registration) => console.log("scope is: ", registration.scope));
+		}
+	}, []);
+
 	return (
 		<>
 			<style jsx global>{`
