@@ -14,21 +14,28 @@ activateEvent();
 
 const cacheName = "v1";
 
-const cacheClone = async (e) => {
-	const res = await fetch(e.request);
-	const resClone = res.clone();
-
-	const cache = await caches.open(cacheName);
-	await cache.put(e.request, resClone);
-	return res;
+const handleFetch = async (e) => {
+	const res = await fetch(e.request, {
+		signal: AbortSignal.timeout(2000),
+	});
+	if (res.ok) {
+		const cache = await caches.open(cacheName);
+		await cache.put(e.request, res.clone());
+		return res;
+	}
+	throw new Error("Network response was not ok");
 };
 
 const fetchEvent = () => {
 	self.addEventListener("fetch", (e) => {
-		if (e.request.url.includes("/api/trpc") || e.request.url.includes("/admin"))
+		if (
+			e.request.url.includes("/api/trpc") ||
+			e.request.url.includes("/admin") ||
+			e.request.url.startsWith("chrome-extension")
+		)
 			return;
 		e.respondWith(
-			cacheClone(e)
+			handleFetch(e)
 				.catch(() => caches.match(e.request))
 				.then((res) => res),
 		);

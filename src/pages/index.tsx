@@ -1,9 +1,11 @@
 import { asc } from "drizzle-orm";
 import { PHASE_PRODUCTION_BUILD } from "next/dist/shared/lib/constants";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useEffect } from "react";
 import { toast } from "sonner";
 import MonitorService from "~/components/MonitorService";
+import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import { db } from "~/server/db";
 import { categoryTable, servicesTable } from "~/server/db/schema";
@@ -78,38 +80,37 @@ export default function Home({
 	const healthQuery = api.health.health.useQuery(undefined, {
 		retry: false,
 		refetchInterval: 1000 * 5,
-		select: (data) => data.status === "ok",
 	});
-	const [lastErrorToast, setLastErrorToast] = useState<
-		string | number | null
-	>();
 
 	useEffect(() => {
 		if (healthQuery.isPending) return;
-		if (healthQuery.isSuccess && lastErrorToast) {
-			setLastErrorToast(null);
-			toast.dismiss(lastErrorToast);
+		if (healthQuery.isSuccess && healthQuery.data?.status === "ok") {
+			toast.dismiss();
 			return;
 		}
-		if (healthQuery.data) return;
 
-		if (lastErrorToast) return;
-		const toastId = toast.error("Unable to connect to the server", {
+		toast.error("Unable to connect to the server", {
 			duration: Number.POSITIVE_INFINITY,
+			id: "health-error",
 		});
-		setLastErrorToast(toastId);
-	}, [
-		healthQuery.data,
-		healthQuery.isPending,
-		healthQuery.isSuccess,
-		lastErrorToast,
-	]);
+	}, [healthQuery.data, healthQuery.isPending, healthQuery.isSuccess]);
 
 	return (
 		<>
+			{categories.length === 0 && (
+				<p className="text-center text-lg m-auto">
+					Nothing here yet. Add links in the{" "}
+					<Link href="/admin">
+						<Button variant="link" className="text-lg mx-0 px-0">
+							<span className="font-bold">Admin panel</span>
+						</Button>
+					</Link>
+				</p>
+			)}
 			{categories.map((category) => (
 				<section key={category.name} className="container mt-4 p-1">
 					<h2 className="text-2xl font-bold">{category.name}</h2>
+
 					<ul
 						className={cn(
 							"mt-1 grid grid-cols-2 gap-2",
@@ -130,7 +131,9 @@ export default function Home({
 										className="h-8 w-8 object-contain"
 									/>
 									{service.name}
-									{healthQuery.data && <MonitorService service={service} />}
+									{healthQuery.data?.status === "ok" && (
+										<MonitorService service={service} />
+									)}
 								</LinkWrapper>
 							</li>
 						))}
