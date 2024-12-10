@@ -79,7 +79,7 @@ export default function Home({
 }: Awaited<ReturnType<typeof getStaticProps>>["props"]) {
 	const healthQuery = api.health.health.useQuery(undefined, {
 		retry: false,
-		refetchInterval: 1000 * 5,
+		refetchInterval: 1000 * 3,
 	});
 
 	useEffect(() => {
