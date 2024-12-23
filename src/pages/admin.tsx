@@ -104,7 +104,6 @@ export default function AdminPage() {
 				<CreateCategoryButton />
 				<CreateServiceButton categories={categoriesQuery.data ?? []} />
 				<Button onClick={refresh}>Refresh homepage</Button>
-				<Separator orientation="vertical" className="h-5" />
 				<ImportButton />
 				<ExportButton />
 			</div>
