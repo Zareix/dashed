@@ -140,6 +140,14 @@ export default function Home({
 					</ul>
 				</section>
 			))}
+			<div className="container pt-4 justify-end flex group">
+				<Link
+					href="/admin"
+					className="opacity-0 group-hover:opacity-5 hover:!opacity-100"
+				>
+					<Button>Admin</Button>
+				</Link>
+			</div>
 		</>
 	);
 }

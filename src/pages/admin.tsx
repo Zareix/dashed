@@ -93,20 +93,23 @@ export default function AdminPage() {
 
 	return (
 		<div className="container pt-4">
-			<div className="flex items-center justify-center gap-4 flex-wrap">
+			<div className="flex items-center justify-around gap-4 flex-wrap">
 				<Link href="/">
 					<HomeIcon size={24} />
 				</Link>
 				<Separator orientation="vertical" className="h-5" />
-				{categoriesQuery.data && (
-					<ReorderCategoriesButton categories={categoriesQuery.data} />
-				)}
-				<CreateCategoryButton />
-				<CreateServiceButton categories={categoriesQuery.data ?? []} />
-				<Button onClick={refresh}>Refresh homepage</Button>
+				<div className="flex gap-4">
+					{categoriesQuery.data && (
+						<ReorderCategoriesButton categories={categoriesQuery.data} />
+					)}
+					<CreateCategoryButton />
+					<Button onClick={refresh}>Refresh homepage</Button>
+				</div>
 				<Separator orientation="vertical" className="h-5" />
-				<ImportButton />
-				<ExportButton />
+				<div className="flex gap-4">
+					<ImportButton />
+					<ExportButton />
+				</div>
 			</div>
 			{categoriesQuery.isLoading ? (
 				<div className="mt-4">Loading...</div>

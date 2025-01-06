@@ -1,6 +1,6 @@
 import { categoryRouter } from "~/server/api/routers/category";
-import { serviceRouter } from "~/server/api/routers/service";
 import { healthRouter } from "~/server/api/routers/health";
+import { serviceRouter } from "~/server/api/routers/service";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
 /**

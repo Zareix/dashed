@@ -5,8 +5,8 @@ import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
 import Head from "next/head";
-import { Toaster } from "sonner";
 import { useEffect } from "react";
+import { Toaster } from "sonner";
 
 const inter = Inter({
 	subsets: ["latin"],

@@ -7,5 +7,9 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const isAuthorizedDomain = (url: string) => {
-	return AUTHORIZED_DOMAINS.includes(new URL(url).hostname);
+	try {
+		return AUTHORIZED_DOMAINS.includes(new URL(url).hostname);
+	} catch {
+		return false;
+	}
 };
