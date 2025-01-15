@@ -1,3 +1,5 @@
+const AUTHORIZED_DOMAINS = ["cdn.jsdelivr.net"];
+
 const installEvent = () => {
 	self.addEventListener("install", () => {
 		console.log("service worker installed");
@@ -12,7 +14,7 @@ const activateEvent = () => {
 };
 activateEvent();
 
-const cacheName = "v1";
+const cacheName = "v2";
 
 const handleFetch = async (e) => {
 	const res = await fetch(e.request, {
@@ -28,10 +30,15 @@ const handleFetch = async (e) => {
 
 const fetchEvent = () => {
 	self.addEventListener("fetch", (e) => {
+		const url = new URL(e.request.url);
+		console.log(url);
+
 		if (
 			e.request.url.includes("/api/trpc") ||
 			e.request.url.includes("/admin") ||
-			e.request.url.startsWith("chrome-extension")
+			e.request.url.startsWith("chrome-extension") ||
+			url.origin !== self.location.origin ||
+			!AUTHORIZED_DOMAINS.includes(url.hostname)
 		)
 			return;
 		e.respondWith(

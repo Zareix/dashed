@@ -5,6 +5,7 @@ import Image from "next/image";
 import React from "react";
 import DeleteServiceButton from "~/components/DeleteServiceButton";
 import EditServiceButton from "~/components/EditServiceButton";
+import { ServiceIcon } from "~/components/ServiceIcon";
 import { TableCell, TableRow } from "~/components/ui/table";
 import { cn, isAuthorizedDomain } from "~/lib/utils";
 import type { Service } from "~/server/db/schema";
@@ -41,23 +42,10 @@ function SortableServiceRow({
 				</span>
 			</TableCell>
 			<TableCell>
-				{isAuthorizedDomain(item.icon) ? (
-					<Image
-						src={item.icon}
-						alt={`${item.name} icon`}
-						width={32}
-						height={32}
-						className="h-8 w-8 object-contain"
-					/>
-				) : (
-					<img
-						src={item.icon}
-						alt={`${item.name} icon`}
-						width={32}
-						height={32}
-						className="h-8 w-8 object-contain"
-					/>
-				)}
+				<ServiceIcon
+					service={{ name: item.name, icon: item.icon }}
+					className="h-8 w-8 object-contain"
+				/>
 			</TableCell>
 			<TableCell>{item.name}</TableCell>
 			<TableCell>{item.url}</TableCell>

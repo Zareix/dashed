@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import MonitorService from "~/components/MonitorService";
+import { ServiceIcon } from "~/components/ServiceIcon";
 import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import { db } from "~/server/db";
@@ -123,11 +124,8 @@ export default function Home({
 									href={service.url}
 									className="h-full items-center gap-2 rounded-lg border border-border bg-foreground/5 p-2 shadow-sm relative"
 								>
-									<Image
-										src={service.icon}
-										alt={`${service.name} icon`}
-										width={32}
-										height={32}
+									<ServiceIcon
+										service={service}
 										className="h-8 w-8 object-contain"
 									/>
 									{service.name}
