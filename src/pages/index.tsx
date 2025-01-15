@@ -44,20 +44,6 @@ export const getStaticProps = async () => {
 	};
 };
 
-const LinkWrapper = (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
-	return (
-		<>
-			<a {...props} className={cn("flex sm:hidden", props.className)} />
-			<a
-				{...props}
-				target="_blank"
-				rel="noopener noreferrer"
-				className={cn("hidden sm:flex", props.className)}
-			/>
-		</>
-	);
-};
-
 const getColsClassName = (cols: number) => {
 	switch (cols) {
 		case 1:
@@ -120,9 +106,9 @@ export default function Home({
 					>
 						{category.services.map((service) => (
 							<li key={service.id}>
-								<LinkWrapper
+								<a
 									href={service.url}
-									className="h-full items-center gap-2 rounded-lg border border-border bg-foreground/5 p-2 shadow-sm relative"
+									className="h-full items-center gap-2 rounded-lg border border-border bg-foreground/5 p-2 shadow-sm relative flex"
 								>
 									<ServiceIcon
 										service={service}
@@ -132,7 +118,7 @@ export default function Home({
 									{healthQuery.data?.status === "ok" && (
 										<MonitorService service={service} />
 									)}
-								</LinkWrapper>
+								</a>
 							</li>
 						))}
 					</ul>
