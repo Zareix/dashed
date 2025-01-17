@@ -109,6 +109,7 @@ export default function Home({
 								<a
 									href={service.url}
 									className="h-full items-center gap-2 rounded-lg border border-border bg-foreground/5 p-2 shadow-sm relative flex"
+									rel="noopener noreferrer"
 								>
 									<ServiceIcon
 										service={service}
