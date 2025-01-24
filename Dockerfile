@@ -23,7 +23,7 @@ RUN bun run build
 
 ##### RUNNER
 
-FROM oven/bun:1.1.45-distroless AS runner
+FROM oven/bun:1.2.0-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
