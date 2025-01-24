@@ -41,7 +41,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
 			<Toaster
 				toastOptions={{
 					className:
-						"bg-background/80 backdrop-blur border-border text-foreground",
+						"bg-background/80 backdrop-blur-sm border-border text-foreground",
 				}}
 			/>
 		</>

@@ -108,7 +108,7 @@ export default function Home({
 							<li key={service.id}>
 								<a
 									href={service.url}
-									className="h-full items-center gap-2 rounded-lg border border-border bg-foreground/5 p-2 shadow-sm relative flex"
+									className="h-full items-center gap-2 rounded-lg border border-border bg-foreground/5 p-2 shadow-xs relative flex"
 									rel="noopener noreferrer"
 								>
 									<ServiceIcon
@@ -128,7 +128,7 @@ export default function Home({
 			<div className="container pt-4 justify-end flex group">
 				<Link
 					href="/admin"
-					className="opacity-0 group-hover:opacity-5 hover:!opacity-100"
+					className="opacity-0 group-hover:opacity-5 hover:opacity-100!"
 				>
 					<Button>Admin</Button>
 				</Link>
