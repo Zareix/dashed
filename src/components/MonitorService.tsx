@@ -15,7 +15,13 @@ const MonitorService = ({
 		},
 	);
 
-	if (pingQuery.isLoading || pingQuery.data) return <></>;
+	if (
+		pingQuery.isLoading ||
+		pingQuery.data ||
+		pingQuery.isFetching ||
+		pingQuery.isPaused
+	)
+		return <></>;
 
 	return (
 		<div className="text-red-500 absolute top-1/2 -translate-y-1/2 right-2">
