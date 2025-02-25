@@ -1,17 +1,11 @@
 import type { AppType } from "next/app";
-import { Inter } from "next/font/google";
-
-import { api } from "~/utils/api";
-
-import "~/styles/globals.css";
 import Head from "next/head";
 import { useEffect } from "react";
 import { Toaster } from "sonner";
+import { api } from "~/utils/api";
+import { GeistSans } from "geist/font/sans";
 
-const inter = Inter({
-	subsets: ["latin"],
-	variable: "--font-sans",
-});
+import "~/styles/globals.css";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
 	useEffect(() => {
@@ -26,10 +20,10 @@ const MyApp: AppType = ({ Component, pageProps }) => {
 		<>
 			<style jsx global>{`
         :root {
-          --font-sans: ${inter.variable};
+          --font-sans: ${GeistSans.variable};
         }
         html {
-          font-family: ${inter.style.fontFamily};
+          font-family: ${GeistSans.style.fontFamily};
         }
       `}</style>
 			<Head>
