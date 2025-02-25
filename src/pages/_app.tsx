@@ -12,6 +12,7 @@ const inter = Inter({
 	subsets: ["latin"],
 	variable: "--font-sans",
 });
+
 const MyApp: AppType = ({ Component, pageProps }) => {
 	useEffect(() => {
 		if ("serviceWorker" in navigator) {

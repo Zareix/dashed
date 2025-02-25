@@ -26,6 +26,7 @@ const config = {
 		locales: ["en"],
 		defaultLocale: "en",
 	},
+	transpilePackages: ["next/font"],
 };
 
 export default config;
