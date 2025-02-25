@@ -5,6 +5,10 @@
 		{
 			"matchUpdateTypes": ["minor", "patch", "pin", "digest"],
 			"automerge": true
+		},
+		{
+			"matchPackageNames": ["oven/bun"],
+			"automerge": false
 		}
 	]
 }
