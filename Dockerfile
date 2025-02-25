@@ -4,7 +4,7 @@ FROM oven/bun:1.2.2-alpine AS deps
 # RUN apk add --no-cache libc6-compat openssl
 WORKDIR /app
 
-COPY package.json bun.lockb ./
+COPY package.json bun.lock ./
 
 RUN bun install --frozen-lockfile
 
