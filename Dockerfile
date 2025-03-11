@@ -1,6 +1,6 @@
 ##### DEPENDENCIES
 
-FROM oven/bun:1.2.2-alpine AS deps
+FROM oven/bun:1.2.5-alpine AS deps
 RUN apk add --no-cache libc6-compat openssl
 WORKDIR /app
 
@@ -12,7 +12,7 @@ RUN bun install --frozen-lockfile
 
 ##### BUILDER
 
-FROM oven/bun:1.2.2-alpine AS builder
+FROM oven/bun:1.2.5-alpine AS builder
 
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
