@@ -196,7 +196,7 @@ export const categoryRouter = createTRPCRouter({
 							await ctx.db.insert(servicesTable).values({
 								name: serviceName,
 								url: serviceValues.href,
-								icon: `https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/${serviceName
+								icon: `https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/${serviceName
 									.replaceAll(" ", "-")
 									.toLowerCase()}.png`,
 								categoryName: catId,

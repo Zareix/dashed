@@ -95,7 +95,7 @@ const EditServiceButton = ({
 														.toLowerCase();
 													form.setValue(
 														"icon",
-														`https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/${icon}.png`,
+														`https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/${icon}.png`,
 													);
 												}
 											}}
