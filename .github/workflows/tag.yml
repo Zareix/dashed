@@ -19,6 +19,11 @@ jobs:
           fetch-depth: '0'
           ssh-key: '${{ secrets.COMMIT_KEY }}'
 
+      - name: Configure git identity
+        run: |
+          git config --global user.email "contact@raphael-catarino.fr"
+          git config --global user.name "[bot] zareix"
+
       - name: Get version from package.json
         id: get_version
         run: echo "::set-output name=version::$(node -p "require('./package.json').version")"
