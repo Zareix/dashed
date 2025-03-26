@@ -17,11 +17,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: '0'
-
-      - name: Configure git identity
-        run: |
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
+          ssh-key: '${{ secrets.COMMIT_KEY }}'
 
       - name: Get version from package.json
         id: get_version
