@@ -3,8 +3,8 @@ import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";
 import Image from "next/image";
 import React from "react";
-import DeleteServiceButton from "~/components/DeleteServiceButton";
-import EditServiceButton from "~/components/EditServiceButton";
+import DeleteServiceButton from "~/components/service/delete";
+import EditServiceButton from "~/components/service/edit";
 import { ServiceIcon } from "~/components/ServiceIcon";
 import { TableCell, TableRow } from "~/components/ui/table";
 import { cn, isAuthorizedDomain } from "~/lib/utils";
@@ -14,7 +14,10 @@ function SortableServiceRow({
 	item,
 	loading = false,
 }: {
-	item?: Pick<Service, "id" | "name" | "url" | "icon" | "categoryName">;
+	item?: Pick<
+		Service,
+		"id" | "name" | "url" | "icon" | "categoryName" | "openInNewTab"
+	>;
 	loading?: boolean;
 }) {
 	const { attributes, listeners, setNodeRef, transform, transition } =
@@ -49,6 +52,7 @@ function SortableServiceRow({
 			</TableCell>
 			<TableCell>{item.name}</TableCell>
 			<TableCell>{item.url}</TableCell>
+			<TableCell>{item.openInNewTab ? "Yes" : "No"}</TableCell>
 			<TableCell>
 				<EditServiceButton disabled={loading} service={item} />
 				<DeleteServiceButton service={item} />

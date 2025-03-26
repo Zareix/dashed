@@ -1,12 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PlusIcon } from "lucide-react";
+import { PencilIcon } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { ServiceIcon } from "~/components/ServiceIcon";
 import { Button } from "~/components/ui/button";
+import { Checkbox } from "~/components/ui/checkbox";
 import {
 	Dialog,
 	DialogContent,
@@ -23,100 +23,63 @@ import {
 	FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "~/components/ui/select";
-import type { Category } from "~/server/db/schema";
+import { isAuthorizedDomain } from "~/lib/utils";
+import type { Service } from "~/server/db/schema";
 import { api } from "~/utils/api";
 
-const serviceCreateSchema = z.object({
+const serviceEditSchema = z.object({
+	id: z.number(),
 	name: z.string().min(1),
 	url: z.string().min(1).url(),
 	categoryName: z.string(),
 	icon: z.string().min(1),
+	openInNewTab: z.boolean(),
 });
 
-const CreateServiceButton = ({
-	categories,
-	category,
+const EditServiceButton = ({
+	service,
+	disabled = false,
 }: {
-	categories: Array<Pick<Category, "name">>;
-	category?: Pick<Category, "name">;
+	service: Pick<Service, "id" | "name" | "url" | "categoryName">;
+	disabled: boolean;
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const utils = api.useUtils();
-	const createServiceMutation = api.service.create.useMutation({
+	const editServiceMutation = (
+		service ? api.service.edit : api.service.edit
+	).useMutation({
 		onSuccess: async () => {
-			toast.success("Service created");
+			toast.success("Service edited");
 			setIsOpen(false);
 			form.reset();
 			await utils.category.getAll.invalidate();
 		},
 		onError: () => {
-			toast.error("An error occurred while creating service");
+			toast.error("An error occurred while editing service");
 		},
 	});
-	const form = useForm<z.infer<typeof serviceCreateSchema>>({
-		resolver: zodResolver(serviceCreateSchema),
-		defaultValues: {
-			name: "",
-			url: "",
-			icon: "",
-			categoryName: category?.name,
-		},
+	const form = useForm<z.infer<typeof serviceEditSchema>>({
+		resolver: zodResolver(serviceEditSchema),
+		defaultValues: service,
 	});
 
-	function onSubmit(values: z.infer<typeof serviceCreateSchema>) {
-		createServiceMutation.mutate(values);
+	function onSubmit(values: z.infer<typeof serviceEditSchema>) {
+		editServiceMutation.mutate(values);
 	}
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
 			<DialogTrigger asChild>
-				<Button>
-					<PlusIcon />
-					Add service
+				<Button disabled={disabled} variant="ghost">
+					<PencilIcon />
 				</Button>
 			</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>Add a new service</DialogTitle>
+					<DialogTitle>Edit service</DialogTitle>
 				</DialogHeader>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
-						<FormField
-							control={form.control}
-							name="categoryName"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Category</FormLabel>
-									<FormControl>
-										<Select
-											onValueChange={(value) => {
-												field.onChange(Number.parseInt(value));
-											}}
-											value={field.value?.toString()}
-										>
-											<SelectTrigger className="w-[180px]">
-												<SelectValue placeholder="Select a category" />
-											</SelectTrigger>
-											<SelectContent>
-												{categories.map((cat) => (
-													<SelectItem value={cat.name} key={cat.name}>
-														{cat.name}
-													</SelectItem>
-												))}
-											</SelectContent>
-										</Select>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
 						<FormField
 							control={form.control}
 							name="name"
@@ -152,11 +115,24 @@ const CreateServiceButton = ({
 									<FormLabel>Icon</FormLabel>
 									<FormControl>
 										<div className="flex items-center gap-2">
-											{field.value && (
-												<ServiceIcon
-													service={{ name: "New Service", icon: field.value }}
-												/>
-											)}
+											{field.value &&
+												(isAuthorizedDomain(field.value) ? (
+													<Image
+														src={field.value}
+														alt="service icon"
+														width={32}
+														height={32}
+														className="h-8 w-8 object-contain"
+													/>
+												) : (
+													<img
+														src={field.value}
+														alt="service icon"
+														width={32}
+														height={32}
+														className="h-8 w-8 object-contain"
+													/>
+												))}
 											<Input placeholder="Service icon" {...field} />
 										</div>
 									</FormControl>
@@ -177,9 +153,26 @@ const CreateServiceButton = ({
 								</FormItem>
 							)}
 						/>
+						<FormField
+							control={form.control}
+							name="openInNewTab"
+							render={({ field }) => (
+								<FormItem className="flex items-start space-x-3 space-y-0 rounded-md border p-3">
+									<FormControl>
+										<Checkbox
+											checked={field.value}
+											onCheckedChange={field.onChange}
+										/>
+									</FormControl>
+									<div className="space-y-1 leading-none">
+										<FormLabel>Open in new tab</FormLabel>
+									</div>
+								</FormItem>
+							)}
+						/>
 						<Button
 							type="submit"
-							disabled={createServiceMutation.isPending}
+							disabled={editServiceMutation.isPending}
 							className="ml-auto"
 						>
 							Submit
@@ -191,4 +184,4 @@ const CreateServiceButton = ({
 	);
 };
 
-export default CreateServiceButton;
+export default EditServiceButton;

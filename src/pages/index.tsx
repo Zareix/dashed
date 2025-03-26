@@ -1,6 +1,5 @@
 import { asc } from "drizzle-orm";
 import { PHASE_PRODUCTION_BUILD } from "next/dist/shared/lib/constants";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
 import { toast } from "sonner";
@@ -38,6 +37,7 @@ export const getStaticProps = async () => {
 					name: service.name,
 					url: service.url,
 					icon: service.icon,
+					openInNewTab: service.openInNewTab,
 				})),
 			})),
 		},
@@ -109,7 +109,8 @@ export default function Home({
 								<a
 									href={service.url}
 									className="h-full items-center gap-2 rounded-lg border border-border bg-foreground/5 p-2 shadow-xs relative flex"
-									rel="noopener noreferrer"
+									rel={service.openInNewTab ? "noopener noreferrer" : ""}
+									target={service.openInNewTab ? "_blank" : ""}
 								>
 									<ServiceIcon
 										service={service}

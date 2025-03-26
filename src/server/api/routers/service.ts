@@ -15,6 +15,7 @@ export const serviceRouter = createTRPCRouter({
 				url: z.string().url(),
 				icon: z.string().min(1),
 				categoryName: z.string(),
+				openInNewTab: z.boolean(),
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
@@ -39,6 +40,7 @@ export const serviceRouter = createTRPCRouter({
 				url: z.string().url(),
 				categoryName: z.string(),
 				icon: z.string().min(1),
+				openInNewTab: z.boolean(),
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {

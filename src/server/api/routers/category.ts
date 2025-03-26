@@ -23,6 +23,7 @@ const exportSchema = z.array(
 				url: z.string().min(1),
 				icon: z.string().min(1),
 				order: z.number(),
+				openInNewTab: z.boolean(),
 			}),
 		),
 	}),
@@ -100,6 +101,7 @@ export const categoryRouter = createTRPCRouter({
 						url: true,
 						icon: true,
 						order: true,
+						openInNewTab: true,
 					},
 					orderBy: [asc(servicesTable.order)],
 				},
@@ -126,6 +128,7 @@ export const categoryRouter = createTRPCRouter({
 								.values({
 									name: category.name,
 									order: category.order,
+									maxCols: category.maxCols ?? 5,
 								})
 								.returning({ name: categoryTable.name })
 						)[0]?.name;
@@ -133,11 +136,8 @@ export const categoryRouter = createTRPCRouter({
 
 						for (const service of category.services) {
 							await ctx.db.insert(servicesTable).values({
-								name: service.name,
-								url: service.url,
-								icon: service.icon,
+								...service,
 								categoryName: catId,
-								order: service.order,
 							});
 						}
 					}

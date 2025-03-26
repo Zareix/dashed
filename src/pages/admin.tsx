@@ -26,10 +26,10 @@ import { api } from "~/utils/api";
 import { HomeIcon } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
-import CreateCategoryButton from "~/components/CreateCategoryButton";
-import CreateServiceButton from "~/components/CreateServiceButton";
-import DeleteCategoryButton from "~/components/DeleteCategoryButton";
-import EditCategoryButton from "~/components/EditCategoryButton";
+import CreateCategoryButton from "~/components/category/create";
+import CreateServiceButton from "~/components/service/create";
+import DeleteCategoryButton from "~/components/category/delete";
+import EditCategoryButton from "~/components/category/edit";
 import ExportButton from "~/components/ExportButton";
 import ImportButton from "~/components/ImportButton";
 import ReorderCategoriesButton from "~/components/ReorderCategoriesButton";
@@ -141,6 +141,7 @@ export default function AdminPage() {
 										<TableHead>Icon</TableHead>
 										<TableHead>Name</TableHead>
 										<TableHead>URL</TableHead>
+										<TableHead>Open in new tab</TableHead>
 										<TableHead>Actions</TableHead>
 									</TableRow>
 								</TableHeader>

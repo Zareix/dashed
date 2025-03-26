@@ -14,9 +14,7 @@ export const categoryTable = sqliteTable(
 			() => new Date(),
 		),
 	},
-	(category) => ({
-		categoryNameIndex: index("category_name_idx").on(category.name),
-	}),
+	(category) => [index("category_name_idx").on(category.name)],
 );
 
 export const categoriesRelation = relations(categoryTable, ({ many }) => ({
@@ -31,6 +29,9 @@ export const servicesTable = sqliteTable(
 		url: text("url", { length: 256 }).notNull(),
 		icon: text("icon", { length: 256 }).notNull(),
 		order: int("order", { mode: "number" }).notNull().default(sql`0`),
+		openInNewTab: int("open_in_new_tab", { mode: "boolean" })
+			.notNull()
+			.default(sql`0`),
 		categoryName: text("category_name", { length: 256 })
 			.references(() => categoryTable.name, {
 				onDelete: "cascade",
@@ -43,9 +44,7 @@ export const servicesTable = sqliteTable(
 			() => new Date(),
 		),
 	},
-	(service) => ({
-		serviceNameIndex: index("service_name_idx").on(service.name),
-	}),
+	(service) => [index("service_name_idx").on(service.name)],
 );
 
 export const servicesRelations = relations(servicesTable, ({ one }) => ({
