@@ -54,9 +54,10 @@ jobs:
       TAG: ${{ needs.tag.outputs.tag }}
     steps:
       - uses: actions/checkout@v4
-      - uses: ncipollo/release-action@v1
+      - uses: softprops/action-gh-release@v2
         with:
-          tag: ${{ env.TAG }}
+          tag_name: ${{ env.TAG }}
+          generate_release_notes: true
 
   docker-build-push:
     name: Build and push docker image
@@ -97,12 +98,12 @@ jobs:
             type=raw,value=latest
             type=semver,pattern={{raw}},value=${{ env.TAG }}
 
-      - name: Build and push Docker image
+      - name: Build and push Docker image for amd64
         id: build-and-push
         uses: docker/build-push-action@v6
         with:
           context: ${{ env.working-directory }}
-          push: ${{ github.event_name != 'pull_request' }}
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
