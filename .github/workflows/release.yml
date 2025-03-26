@@ -11,9 +11,12 @@ env:
 
 jobs:
   tag:
+    name: Create Tag
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    outputs:
+      tag: v${{ steps.get_version.outputs.version }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -40,9 +43,9 @@ jobs:
         run: |
           git tag -a v${{ steps.get_version.outputs.version }} -m "Version ${{ steps.get_version.outputs.version }}"
           git push origin v${{ steps.get_version.outputs.version }}
-          echo "tag=v${{ steps.get_version.outputs.version }}" >> $GITHUB_OUTPUT
 
   release:
+    name: Create Github release
     runs-on: ubuntu-latest
     needs: tag
     permissions:
