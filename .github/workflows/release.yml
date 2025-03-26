@@ -95,7 +95,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=raw,value=latest
-            type=semver,pattern=${{ env.TAG }}
+            type=semver,pattern={{raw}},value=${{ env.TAG }}
 
       - name: Build and push Docker image
         id: build-and-push
