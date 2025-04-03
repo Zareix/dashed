@@ -1,5 +1,6 @@
 import { asc, eq } from "drizzle-orm";
 import { z } from "zod";
+import type { WIDGETS } from "~/utils/constants";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import {
@@ -33,14 +34,22 @@ type ExportType = z.infer<typeof exportSchema>;
 
 export const categoryRouter = createTRPCRouter({
 	getAll: publicProcedure.query(async ({ ctx }) => {
-		return ctx.db.query.categoryTable.findMany({
-			with: {
-				services: {
-					orderBy: [asc(servicesTable.order)],
+		return (
+			await ctx.db.query.categoryTable.findMany({
+				with: {
+					services: {
+						orderBy: [asc(servicesTable.order)],
+					},
 				},
-			},
-			orderBy: [asc(categoryTable.order)],
-		});
+				orderBy: [asc(categoryTable.order)],
+			})
+		).map((category) => ({
+			...category,
+			services: category.services.map((service) => ({
+				...service,
+				widget: service.widget as z.infer<typeof WIDGETS>,
+			})),
+		}));
 	}),
 	create: publicProcedure
 		.input(

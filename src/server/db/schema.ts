@@ -1,5 +1,7 @@
 import { relations, sql } from "drizzle-orm";
 import { index, int, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import type { z } from "zod";
+import type { WIDGETS } from "~/utils/constants";
 
 export const categoryTable = sqliteTable(
 	"category",
@@ -29,6 +31,9 @@ export const servicesTable = sqliteTable(
 		url: text("url", { length: 256 }).notNull(),
 		icon: text("icon", { length: 256 }).notNull(),
 		order: int("order", { mode: "number" }).notNull().default(sql`0`),
+		widget: text("widget", { mode: "json" })
+			.default(sql`{"type":"none","config":{}}`)
+			.notNull(),
 		openInNewTab: int("open_in_new_tab", { mode: "boolean" })
 			.notNull()
 			.default(sql`0`),
@@ -54,5 +59,7 @@ export const servicesRelations = relations(servicesTable, ({ one }) => ({
 	}),
 }));
 
-export type Service = typeof servicesTable.$inferSelect;
+export type Service = Omit<typeof servicesTable.$inferSelect, "widget"> & {
+	widget: z.infer<typeof WIDGETS>;
+};
 export type Category = typeof categoryTable.$inferSelect;

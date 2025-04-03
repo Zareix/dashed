@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import WidgetFormConfig from "~/components/service/widget/form-config";
 import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
 import {
@@ -26,6 +27,7 @@ import { Input } from "~/components/ui/input";
 import { isAuthorizedDomain } from "~/lib/utils";
 import type { Service } from "~/server/db/schema";
 import { api } from "~/utils/api";
+import { WIDGETS } from "~/utils/constants";
 
 const serviceEditSchema = z.object({
 	id: z.number(),
@@ -34,6 +36,7 @@ const serviceEditSchema = z.object({
 	categoryName: z.string(),
 	icon: z.string().min(1),
 	openInNewTab: z.boolean(),
+	widget: WIDGETS,
 });
 
 const EditServiceButton = ({
@@ -170,6 +173,7 @@ const EditServiceButton = ({
 								</FormItem>
 							)}
 						/>
+						<WidgetFormConfig />
 						<Button
 							type="submit"
 							disabled={editServiceMutation.isPending}

@@ -1,8 +1,8 @@
 {
 	"version": "6",
 	"dialect": "sqlite",
-	"id": "a5d1448b-8156-4d6a-a95c-4d83a6eb4dc3",
-	"prevId": "1f9f002f-e88c-4ae2-9e64-3d4e160b7696",
+	"id": "c918a26d-f088-4ea4-ba81-fdd2c55d790e",
+	"prevId": "a5d1448b-8156-4d6a-a95c-4d83a6eb4dc3",
 	"tables": {
 		"category": {
 			"name": "category",
@@ -96,6 +96,14 @@
 					"notNull": true,
 					"autoincrement": false,
 					"default": "0"
+				},
+				"widget": {
+					"name": "widget",
+					"type": "text",
+					"primaryKey": false,
+					"autoincrement": false,
+					"notNull": true,
+					"default": "{\"type\":\"none\",\"config\":{}}"
 				},
 				"open_in_new_tab": {
 					"name": "open_in_new_tab",

@@ -5,6 +5,7 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { servicesTable } from "~/server/db/schema";
 import { refreshIndexPage } from "~/utils/api";
+import { WIDGETS } from "~/utils/constants";
 
 export const serviceRouter = createTRPCRouter({
 	create: publicProcedure
@@ -16,6 +17,7 @@ export const serviceRouter = createTRPCRouter({
 				icon: z.string().min(1),
 				categoryName: z.string(),
 				openInNewTab: z.boolean(),
+				widget: WIDGETS,
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
@@ -41,6 +43,7 @@ export const serviceRouter = createTRPCRouter({
 				categoryName: z.string(),
 				icon: z.string().min(1),
 				openInNewTab: z.boolean(),
+				widget: WIDGETS,
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {

@@ -1,20 +1,27 @@
 {
-  "version": "7",
-  "dialect": "sqlite",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "6",
-      "when": 1731109080060,
-      "tag": "0000_aromatic_changeling",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1743004255560,
-      "tag": "0001_eager_wolfpack",
-      "breakpoints": true
-    }
-  ]
+	"version": "7",
+	"dialect": "sqlite",
+	"entries": [
+		{
+			"idx": 0,
+			"version": "6",
+			"when": 1731109080060,
+			"tag": "0000_aromatic_changeling",
+			"breakpoints": true
+		},
+		{
+			"idx": 1,
+			"version": "6",
+			"when": 1743004255560,
+			"tag": "0001_eager_wolfpack",
+			"breakpoints": true
+		},
+		{
+			"idx": 2,
+			"version": "6",
+			"when": 1743539824047,
+			"tag": "0002_small_newton_destine",
+			"breakpoints": true
+		}
+	]
 }

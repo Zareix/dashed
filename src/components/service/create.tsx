@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { ServiceIcon } from "~/components/ServiceIcon";
+import WidgetFormConfig from "~/components/service/widget/form-config";
 import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
 import {
@@ -33,6 +34,7 @@ import {
 } from "~/components/ui/select";
 import type { Category } from "~/server/db/schema";
 import { api } from "~/utils/api";
+import { WIDGETS } from "~/utils/constants";
 
 const serviceCreateSchema = z.object({
 	name: z.string().min(1),
@@ -40,7 +42,10 @@ const serviceCreateSchema = z.object({
 	categoryName: z.string(),
 	icon: z.string().min(1),
 	openInNewTab: z.boolean(),
+	widget: WIDGETS,
 });
+
+export type ServiceCreateFormData = z.infer<typeof serviceCreateSchema>;
 
 const CreateServiceButton = ({
 	categories,
@@ -62,18 +67,22 @@ const CreateServiceButton = ({
 			toast.error("An error occurred while creating service");
 		},
 	});
-	const form = useForm<z.infer<typeof serviceCreateSchema>>({
-		resolver: zodResolver(serviceCreateSchema),
+	const form = useForm<ServiceCreateFormData>({
+		// resolver: zodResolver(serviceCreateSchema),
 		defaultValues: {
 			name: "",
 			url: "",
 			icon: "",
 			categoryName: category?.name,
 			openInNewTab: false,
+			widget: {
+				type: "none",
+				config: {},
+			},
 		},
 	});
 
-	function onSubmit(values: z.infer<typeof serviceCreateSchema>) {
+	function onSubmit(values: ServiceCreateFormData) {
 		createServiceMutation.mutate(values);
 	}
 
@@ -197,6 +206,7 @@ const CreateServiceButton = ({
 								</FormItem>
 							)}
 						/>
+						<WidgetFormConfig />
 						<Button
 							type="submit"
 							disabled={createServiceMutation.isPending}

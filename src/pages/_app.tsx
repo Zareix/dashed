@@ -1,9 +1,9 @@
+import { GeistSans } from "geist/font/sans";
 import type { AppType } from "next/app";
 import Head from "next/head";
 import { useEffect } from "react";
 import { Toaster } from "sonner";
 import { api } from "~/utils/api";
-import { GeistSans } from "geist/font/sans";
 
 import "~/styles/globals.css";
 

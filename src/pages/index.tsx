@@ -3,13 +3,21 @@ import { PHASE_PRODUCTION_BUILD } from "next/dist/shared/lib/constants";
 import Link from "next/link";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import type { z } from "zod";
 import MonitorService from "~/components/MonitorService";
 import { ServiceIcon } from "~/components/ServiceIcon";
+import Widget from "~/components/service/widget";
 import { Button } from "~/components/ui/button";
+import {
+	HoverCard,
+	HoverCardContent,
+	HoverCardTrigger,
+} from "~/components/ui/hover-card";
 import { cn } from "~/lib/utils";
 import { db } from "~/server/db";
 import { categoryTable, servicesTable } from "~/server/db/schema";
 import { api } from "~/utils/api";
+import type { WIDGETS } from "~/utils/constants";
 
 export const getStaticProps = async () => {
 	if (process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD) {
@@ -38,6 +46,7 @@ export const getStaticProps = async () => {
 					url: service.url,
 					icon: service.icon,
 					openInNewTab: service.openInNewTab,
+					widget: service.widget as z.infer<typeof WIDGETS>,
 				})),
 			})),
 		},
@@ -106,21 +115,23 @@ export default function Home({
 					>
 						{category.services.map((service) => (
 							<li key={service.id}>
-								<a
-									href={service.url}
-									className="h-full items-center gap-2 rounded-lg border border-border bg-foreground/5 p-2 shadow-xs relative flex"
-									rel={service.openInNewTab ? "noopener noreferrer" : ""}
-									target={service.openInNewTab ? "_blank" : ""}
-								>
-									<ServiceIcon
-										service={service}
-										className="h-8 w-8 object-contain"
-									/>
-									{service.name}
-									{healthQuery.data?.status === "ok" && (
-										<MonitorService service={service} />
-									)}
-								</a>
+								<ServiceWrapper widget={service.widget}>
+									<a
+										href={service.url}
+										className="h-full items-center gap-2 rounded-lg border border-border bg-foreground/5 p-2 shadow-xs relative flex"
+										rel={service.openInNewTab ? "noopener noreferrer" : ""}
+										target={service.openInNewTab ? "_blank" : ""}
+									>
+										<ServiceIcon
+											service={service}
+											className="h-8 w-8 object-contain"
+										/>
+										{service.name}
+										{healthQuery.data?.status === "ok" && (
+											<MonitorService service={service} />
+										)}
+									</a>
+								</ServiceWrapper>
 							</li>
 						))}
 					</ul>
@@ -137,3 +148,26 @@ export default function Home({
 		</>
 	);
 }
+
+const ServiceWrapper = ({
+	widget,
+	children,
+}: {
+	children: React.ReactNode;
+	widget: Awaited<
+		ReturnType<typeof getStaticProps>
+	>["props"]["categories"][0]["services"][0]["widget"];
+}) => {
+	if (widget.type === "none") {
+		return <>{children}</>;
+	}
+
+	return (
+		<HoverCard openDelay={0} closeDelay={100}>
+			<HoverCardTrigger asChild>{children}</HoverCardTrigger>
+			<HoverCardContent>
+				<Widget widget={widget} />
+			</HoverCardContent>
+		</HoverCard>
+	);
+};
