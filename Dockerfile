@@ -19,6 +19,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV DEBUG=1 
 
 RUN SKIP_ENV_VALIDATION=1 bun run build;
 
