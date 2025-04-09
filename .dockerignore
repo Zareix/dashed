@@ -7,3 +7,4 @@ README.md
 .next
 .git
 db.sqlite*
+!.gitignore
