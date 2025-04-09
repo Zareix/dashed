@@ -25,9 +25,9 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { isAuthorizedDomain } from "~/lib/utils";
+import { WIDGETS } from "~/lib/widgets";
 import type { Service } from "~/server/db/schema";
 import { api } from "~/utils/api";
-import { WIDGETS } from "~/utils/constants";
 
 const serviceEditSchema = z.object({
 	id: z.number(),

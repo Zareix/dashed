@@ -1,7 +1,7 @@
 import { relations, sql } from "drizzle-orm";
 import { index, int, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import type { z } from "zod";
-import type { WIDGETS } from "~/utils/constants";
+import type { WIDGETS } from "~/lib/widgets";
 
 export const categoryTable = sqliteTable(
 	"category",
@@ -60,6 +60,6 @@ export const servicesRelations = relations(servicesTable, ({ one }) => ({
 }));
 
 export type Service = Omit<typeof servicesTable.$inferSelect, "widget"> & {
-	widget: z.infer<typeof WIDGETS>;
+	widget: WIDGETS;
 };
 export type Category = typeof categoryTable.$inferSelect;

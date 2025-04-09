@@ -1,9 +1,8 @@
-import type { z } from "zod";
+import type { WIDGETS } from "~/lib/widgets";
 import { api } from "~/utils/api";
-import type { WIDGETS } from "~/utils/constants";
 
 type Props = {
-	config: Extract<z.infer<typeof WIDGETS>, { type: "cup" }>["config"];
+	config: Extract<WIDGETS, { type: "cup" }>["config"];
 };
 
 const CupWidget = ({ config }: Props) => {

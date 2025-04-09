@@ -1,15 +1,21 @@
 import type { z } from "zod";
 import CupWidget from "~/components/service/widget/widgets/cup";
-import type { WIDGETS } from "~/utils/constants";
+import RadarrWidget from "~/components/service/widget/widgets/radarr";
+import SonarrWidget from "~/components/service/widget/widgets/sonarr";
+import type { WIDGETS } from "~/lib/widgets";
 
 type Props = {
-	widget: z.infer<typeof WIDGETS>;
+	widget: WIDGETS;
 };
 
 const Widget = ({ widget }: Props) => {
 	switch (widget.type) {
 		case "cup":
 			return <CupWidget config={widget.config} />;
+		case "sonarr":
+			return <SonarrWidget config={widget.config} />;
+		case "radarr":
+			return <RadarrWidget config={widget.config} />;
 		default:
 			return <></>;
 	}
@@ -18,5 +24,5 @@ const Widget = ({ widget }: Props) => {
 export default Widget;
 
 export type WidgetProps = {
-	config: z.infer<typeof WIDGETS>;
+	config: WIDGETS;
 };

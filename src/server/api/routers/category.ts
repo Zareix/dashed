@@ -1,6 +1,6 @@
 import { asc, eq } from "drizzle-orm";
 import { z } from "zod";
-import type { WIDGETS } from "~/utils/constants";
+import type { WIDGETS } from "~/lib/widgets";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import {
@@ -47,7 +47,7 @@ export const categoryRouter = createTRPCRouter({
 			...category,
 			services: category.services.map((service) => ({
 				...service,
-				widget: service.widget as z.infer<typeof WIDGETS>,
+				widget: service.widget as WIDGETS,
 			})),
 		}));
 	}),

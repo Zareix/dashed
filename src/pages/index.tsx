@@ -14,10 +14,10 @@ import {
 	HoverCardTrigger,
 } from "~/components/ui/hover-card";
 import { cn } from "~/lib/utils";
+import type { WIDGETS } from "~/lib/widgets";
 import { db } from "~/server/db";
 import { categoryTable, servicesTable } from "~/server/db/schema";
 import { api } from "~/utils/api";
-import type { WIDGETS } from "~/utils/constants";
 
 export const getStaticProps = async () => {
 	if (process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD) {
@@ -46,7 +46,7 @@ export const getStaticProps = async () => {
 					url: service.url,
 					icon: service.icon,
 					openInNewTab: service.openInNewTab,
-					widget: service.widget as z.infer<typeof WIDGETS>,
+					widget: service.widget as WIDGETS,
 				})),
 			})),
 		},

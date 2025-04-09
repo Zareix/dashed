@@ -32,9 +32,9 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "~/components/ui/select";
+import { WIDGETS } from "~/lib/widgets";
 import type { Category } from "~/server/db/schema";
 import { api } from "~/utils/api";
-import { WIDGETS } from "~/utils/constants";
 
 const serviceCreateSchema = z.object({
 	name: z.string().min(1),

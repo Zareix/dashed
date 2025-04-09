@@ -2,10 +2,10 @@ import { TRPCError } from "@trpc/server";
 import { count, eq } from "drizzle-orm";
 import { z } from "zod";
 
+import { WIDGETS } from "~/lib/widgets";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { servicesTable } from "~/server/db/schema";
 import { refreshIndexPage } from "~/utils/api";
-import { WIDGETS } from "~/utils/constants";
 
 export const serviceRouter = createTRPCRouter({
 	create: publicProcedure
