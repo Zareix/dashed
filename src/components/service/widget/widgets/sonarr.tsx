@@ -17,7 +17,7 @@ const SonarrWidget = ({ config }: Props) => {
 		return <div>Error</div>;
 	}
 
-	if (Object.keys(data.missingSeriesEpisodes)) {
+	if (Object.keys(data.missingSeriesEpisodes).length === 0) {
 		return <div>No missing episodes</div>;
 	}
 
