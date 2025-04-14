@@ -13,6 +13,7 @@ import {
 	HoverCardContent,
 	HoverCardTrigger,
 } from "~/components/ui/hover-card";
+import { useIsMobile } from "~/lib/hooks/use-mobile";
 import { cn } from "~/lib/utils";
 import type { WIDGETS } from "~/lib/widgets";
 import { db } from "~/server/db";

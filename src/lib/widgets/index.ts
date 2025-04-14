@@ -25,5 +25,12 @@ export const WIDGETS = z.discriminatedUnion("type", [
 			apiKey: z.string(),
 		}),
 	}),
+	z.object({
+		type: z.literal("uptime-kuma"),
+		config: z.object({
+			url: z.string().url(),
+			apiKey: z.string(),
+		}),
+	}),
 ]);
 export type WIDGETS = z.infer<typeof WIDGETS>;

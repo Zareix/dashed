@@ -5,6 +5,7 @@ import type {
 	SonarrMissingEpisodesResponse,
 	SonarrSeriesResponse,
 } from "~/lib/widgets/sonarr";
+import { parseMonitorStatusFromMetrics } from "~/lib/widgets/uptime-kuma";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const widgetRouter = createTRPCRouter({
@@ -89,6 +90,29 @@ export const widgetRouter = createTRPCRouter({
 				return false;
 			} catch (e) {
 				console.log("Error sonarr", e);
+				return false;
+			}
+		}),
+	uptimeKuma: publicProcedure
+		.input(z.object({ url: z.string().url(), apiKey: z.string() }))
+		.query(async ({ input }) => {
+			try {
+				const res = await fetch(`${input.url}/metrics`, {
+					headers: {
+						Authorization: `Basic ${Buffer.from(`:${input.apiKey}`).toString("base64")}`,
+					},
+				});
+				if (res.ok) {
+					const metrics = await res.text();
+					const parseMetrics = parseMonitorStatusFromMetrics(metrics);
+					return {
+						metrics: parseMetrics,
+					};
+				}
+				console.log("Error uptimeKuma", res);
+				return false;
+			} catch (e) {
+				console.log("Error uptimeKuma", e);
 				return false;
 			}
 		}),
