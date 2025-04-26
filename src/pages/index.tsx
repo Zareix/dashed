@@ -3,7 +3,6 @@ import { PHASE_PRODUCTION_BUILD } from "next/dist/shared/lib/constants";
 import Link from "next/link";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import type { z } from "zod";
 import MonitorService from "~/components/MonitorService";
 import { ServiceIcon } from "~/components/ServiceIcon";
 import Widget from "~/components/service/widget";
@@ -13,7 +12,6 @@ import {
 	HoverCardContent,
 	HoverCardTrigger,
 } from "~/components/ui/hover-card";
-import { useIsMobile } from "~/lib/hooks/use-mobile";
 import { cn } from "~/lib/utils";
 import type { WIDGETS } from "~/lib/widgets";
 import { db } from "~/server/db";
@@ -166,7 +164,7 @@ const ServiceWrapper = ({
 	return (
 		<HoverCard openDelay={0} closeDelay={100}>
 			<HoverCardTrigger asChild>{children}</HoverCardTrigger>
-			<HoverCardContent>
+			<HoverCardContent className="w-fit">
 				<Widget widget={widget} />
 			</HoverCardContent>
 		</HoverCard>

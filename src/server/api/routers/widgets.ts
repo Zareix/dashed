@@ -1,4 +1,16 @@
 import { z } from "zod";
+import {
+	WIDGETS,
+	beszelSchema,
+	cupSchema,
+	radarrSchema,
+	sonarrSchema,
+	uptimeKumaSchema,
+} from "~/lib/widgets";
+import type {
+	BeszelAuthResponse,
+	BeszelSystemResponse,
+} from "~/lib/widgets/beszel";
 import type { CupResponse } from "~/lib/widgets/cup";
 import type { RadarrMissingMoviesResponse } from "~/lib/widgets/radarr";
 import type {
@@ -10,7 +22,7 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const widgetRouter = createTRPCRouter({
 	cup: publicProcedure
-		.input(z.object({ url: z.string().url() }))
+		.input(cupSchema.shape.config)
 		.query(async ({ input }) => {
 			try {
 				const res = await fetch(`${input.url}/api/v3/json`);
@@ -28,7 +40,7 @@ export const widgetRouter = createTRPCRouter({
 			}
 		}),
 	sonarr: publicProcedure
-		.input(z.object({ url: z.string().url(), apiKey: z.string() }))
+		.input(sonarrSchema.shape.config)
 		.query(async ({ input }) => {
 			try {
 				const [seriesRes, missingRes] = await Promise.all([
@@ -72,7 +84,7 @@ export const widgetRouter = createTRPCRouter({
 			}
 		}),
 	radarr: publicProcedure
-		.input(z.object({ url: z.string().url(), apiKey: z.string() }))
+		.input(radarrSchema.shape.config)
 		.query(async ({ input }) => {
 			try {
 				const res = await fetch(
@@ -94,7 +106,7 @@ export const widgetRouter = createTRPCRouter({
 			}
 		}),
 	uptimeKuma: publicProcedure
-		.input(z.object({ url: z.string().url(), apiKey: z.string() }))
+		.input(uptimeKumaSchema.shape.config)
 		.query(async ({ input }) => {
 			try {
 				const res = await fetch(`${input.url}/metrics`, {
@@ -113,6 +125,52 @@ export const widgetRouter = createTRPCRouter({
 				return false;
 			} catch (e) {
 				console.log("Error uptimeKuma", e);
+				return false;
+			}
+		}),
+	beszel: publicProcedure
+		.input(beszelSchema.shape.config)
+		.query(async ({ input }) => {
+			try {
+				const res = await fetch(
+					`${input.url}/api/collections/users/auth-with-password`,
+					{
+						headers: {
+							"Content-Type": "application/json",
+						},
+						method: "POST",
+						body: JSON.stringify({
+							identity: input.email,
+							password: input.password,
+						}),
+					},
+				)
+					.then(async (res) => {
+						if (res.ok) {
+							return res.json() as Promise<BeszelAuthResponse>;
+						}
+						throw new Error(`Login failed : ${await res.text()}`);
+					})
+					.then((auth) => {
+						return fetch(
+							`${input.url}/api/collections/systems/records?page=1&perPage=500&skipTotal=1&sort=+name&fields=id,name,host,port,info,status`,
+							{
+								headers: {
+									"Content-Type": "application/json",
+									Authorization: `Bearer ${auth.token}`,
+								},
+							},
+						);
+					})
+					.then((res) => {
+						if (res.ok) {
+							return res.json() as Promise<BeszelSystemResponse>;
+						}
+						throw new Error("Failed to fetch systems");
+					});
+				return res;
+			} catch (e) {
+				console.log("Error beszel", e);
 				return false;
 			}
 		}),

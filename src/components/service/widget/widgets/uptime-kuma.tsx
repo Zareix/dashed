@@ -30,7 +30,7 @@ const UptimeKumaWidget = ({ config }: Props) => {
 		<div>
 			<div
 				className="grid grid-cols-2 gap-2 text-sm [&>div]:bg-background [&>div]:rounded-md [&>div]:flex [&>div]:flex-col
-		 [&>div]:text-center [&>div]:text-base [&>div>p]:font-medium [&>div>p]:mt-auto"
+		 [&>div]:text-center [&>div]:text-base [&>div>p]:font-medium [&>div>p]:mt-auto min-w-[150px] max-w-[300px]"
 			>
 				<div>
 					<div>{upServices.length}</div>

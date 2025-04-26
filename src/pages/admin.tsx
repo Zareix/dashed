@@ -133,7 +133,7 @@ export default function AdminPage() {
 							<EditCategoryButton category={category} />
 							<DeleteCategoryButton category={category} />
 						</div>
-						<div className="mt-1 overflow-hidden rounded-lg border-2 border-border bg-foreground/5">
+						<div className="mt-1 overflow-hidden">
 							<Table>
 								<TableHeader>
 									<TableRow>

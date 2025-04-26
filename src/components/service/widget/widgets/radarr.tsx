@@ -21,7 +21,7 @@ const RadarrWidget = ({ config }: Props) => {
 	}
 
 	return (
-		<div className="text-sm grid gap-1">
+		<div className="text-sm grid gap-1 max-w-[300px]">
 			{data.missingMovies.map((movie) => (
 				<div key={movie.id} className="font-bold">
 					{movie.title}

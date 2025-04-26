@@ -1,4 +1,5 @@
 import type { z } from "zod";
+import BeszelWidget from "~/components/service/widget/widgets/beszel";
 import CupWidget from "~/components/service/widget/widgets/cup";
 import RadarrWidget from "~/components/service/widget/widgets/radarr";
 import SonarrWidget from "~/components/service/widget/widgets/sonarr";
@@ -19,6 +20,8 @@ const Widget = ({ widget }: Props) => {
 			return <RadarrWidget config={widget.config} />;
 		case "uptime-kuma":
 			return <UptimeKumaWidget config={widget.config} />;
+		case "beszel":
+			return <BeszelWidget config={widget.config} />;
 		default:
 			return <></>;
 	}

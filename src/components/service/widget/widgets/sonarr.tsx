@@ -22,7 +22,7 @@ const SonarrWidget = ({ config }: Props) => {
 	}
 
 	return (
-		<div className="text-sm grid gap-1">
+		<div className="text-sm grid gap-1 max-w-[300px]">
 			{Object.entries(data.missingSeriesEpisodes).map(([seriesId, series]) => (
 				<div key={seriesId}>
 					<div className="font-bold">{series.seriesTitle}</div>

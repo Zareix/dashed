@@ -33,20 +33,32 @@ const WidgetFormConfig = () => {
 					<FormItem>
 						<FormLabel>Widget</FormLabel>
 						<FormControl>
-							<Select onValueChange={field.onChange} value={field.value}>
+							<Select
+								onValueChange={(v) => {
+									field.onChange(v);
+									form.setValue("widget.config.url", form.getValues().url);
+								}}
+								value={field.value}
+							>
 								<SelectTrigger className="w-[180px] capitalize">
 									<SelectValue placeholder="Select a widget" />
 								</SelectTrigger>
 								<SelectContent>
-									{WIDGETS.options.map((widget) => (
-										<SelectItem
-											value={widget.shape.type.value}
-											key={widget.shape.type.value}
-											className="capitalize"
-										>
-											{widget.shape.type.value}
-										</SelectItem>
-									))}
+									{WIDGETS.options
+										.sort((a, b) =>
+											a.shape.type.value === "none"
+												? -1
+												: a.shape.type.value.localeCompare(b.shape.type.value),
+										)
+										.map((widget) => (
+											<SelectItem
+												value={widget.shape.type.value}
+												key={widget.shape.type.value}
+												className="capitalize"
+											>
+												{widget.shape.type.value}
+											</SelectItem>
+										))}
 								</SelectContent>
 							</Select>
 						</FormControl>
@@ -79,7 +91,14 @@ const WidgetFormConfig = () => {
 									<FormLabel className="capitalize">{key}</FormLabel>
 									<FormControl>
 										{/* @ts-ignore */}
-										<Input {...field} />
+										<Input
+											type={
+												["apiKey", "password"].includes(key)
+													? "password"
+													: "text"
+											}
+											{...field}
+										/>
 									</FormControl>
 									<FormMessage />
 								</FormItem>
