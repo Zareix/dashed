@@ -8,6 +8,8 @@ on:
 jobs:
   get-version:
     uses: zareix/gh-actions/.github/workflows/get-version.yml@main
+    with:
+      type: node
 
   docker:
     name: Docker
