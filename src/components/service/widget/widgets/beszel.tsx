@@ -29,8 +29,6 @@ const BeszelWidget = ({ config }: Props) => {
 		return <div>Error</div>;
 	}
 
-	console.log(data);
-
 	return (
 		<Table className="w-[500px]">
 			<TableCaption className="hidden">Beszel systems</TableCaption>
@@ -43,12 +41,12 @@ const BeszelWidget = ({ config }: Props) => {
 				</TableRow>
 			</TableHeader>
 			<TableBody>
-				{data.items.map((system) => (
+				{data.map((system) => (
 					<TableRow key={system.id}>
 						<TableCell className="font-medium">{system.name}</TableCell>
-						<TableCell>{system.info.cpu}%</TableCell>
-						<TableCell>{system.info.mp}%</TableCell>
-						<TableCell>{system.info.dp}%</TableCell>
+						<TableCell>{system.info.cpuUsagePercent}%</TableCell>
+						<TableCell>{system.info.memoryUsagePercent}%</TableCell>
+						<TableCell>{system.info.diskUsagePercent}%</TableCell>
 					</TableRow>
 				))}
 			</TableBody>

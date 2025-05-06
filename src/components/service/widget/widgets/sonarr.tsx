@@ -23,19 +23,27 @@ const SonarrWidget = ({ config }: Props) => {
 
 	return (
 		<div className="text-sm grid gap-1 max-w-[300px]">
-			{Object.entries(data.missingSeriesEpisodes).map(([seriesId, series]) => (
-				<div key={seriesId}>
-					<div className="font-bold">{series.seriesTitle}</div>
-					<div>
-						{series.episodes
-							.map(
-								(episode) =>
-									`S${episode.seasonNumber}E${episode.episodeNumber}`,
-							)
-							.join(", ")}
+			{Object.entries(data.missingSeriesEpisodes)
+				.sort((a, b) => a[1].seriesTitle.localeCompare(b[1].seriesTitle))
+				.map(([seriesId, series]) => (
+					<div key={seriesId}>
+						<div className="font-bold">{series.seriesTitle}</div>
+						<div>
+							{series.episodes
+								.sort((a, b) => {
+									if (a.seasonNumber === b.seasonNumber) {
+										return a.episodeNumber - b.episodeNumber;
+									}
+									return a.seasonNumber - b.seasonNumber;
+								})
+								.map(
+									(episode) =>
+										`S${episode.seasonNumber}E${episode.episodeNumber}`,
+								)
+								.join(", ")}
+						</div>
 					</div>
-				</div>
-			))}
+				))}
 		</div>
 	);
 };

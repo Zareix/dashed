@@ -93,10 +93,12 @@ export const widgetRouter = createTRPCRouter({
 				if (res.ok) {
 					const data = (await res.json()) as RadarrMissingMoviesResponse;
 					return {
-						missingMovies: data.records.map((record) => ({
-							id: record.id,
-							title: record.title,
-						})),
+						missingMovies: data.records
+							.map((record) => ({
+								id: record.id,
+								title: record.title,
+							}))
+							.sort((a, b) => a.title.localeCompare(b.title)),
 					};
 				}
 				return false;
@@ -151,8 +153,8 @@ export const widgetRouter = createTRPCRouter({
 						}
 						throw new Error(`Login failed : ${await res.text()}`);
 					})
-					.then((auth) => {
-						return fetch(
+					.then((auth) =>
+						fetch(
 							`${input.url}/api/collections/systems/records?page=1&perPage=500&skipTotal=1&sort=+name&fields=id,name,host,port,info,status`,
 							{
 								headers: {
@@ -160,15 +162,27 @@ export const widgetRouter = createTRPCRouter({
 									Authorization: `Bearer ${auth.token}`,
 								},
 							},
-						);
-					})
+						),
+					)
 					.then((res) => {
 						if (res.ok) {
 							return res.json() as Promise<BeszelSystemResponse>;
 						}
 						throw new Error("Failed to fetch systems");
 					});
-				return res;
+				return res.items
+					.map((system) => ({
+						id: system.id,
+						name: system.name,
+						host: system.host,
+						info: {
+							cpuUsagePercent: system.info.cpu,
+							memoryUsagePercent: system.info.mp,
+							diskUsagePercent: system.info.dp,
+						},
+						status: system.status,
+					}))
+					.sort((a, b) => a.name.localeCompare(b.name));
 			} catch (e) {
 				console.log("Error beszel", e);
 				return false;
