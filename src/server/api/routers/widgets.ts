@@ -179,6 +179,7 @@ export const widgetRouter = createTRPCRouter({
 							cpuUsagePercent: system.info.cpu,
 							memoryUsagePercent: system.info.mp,
 							diskUsagePercent: system.info.dp,
+							temperature: system.info.dt,
 						},
 						status: system.status,
 					}))
