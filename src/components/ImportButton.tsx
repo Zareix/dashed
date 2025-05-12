@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ImportIcon, UploadIcon } from "lucide-react";
+import { ImportIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -20,7 +20,6 @@ import {
 	FormLabel,
 	FormMessage,
 } from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
 import {
 	Select,
 	SelectContent,

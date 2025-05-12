@@ -1,6 +1,4 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon } from "lucide-react";
-import Image from "next/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";

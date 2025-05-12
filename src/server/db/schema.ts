@@ -1,6 +1,5 @@
 import { relations, sql } from "drizzle-orm";
 import { index, int, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import type { z } from "zod";
 import type { WIDGETS } from "~/lib/widgets";
 
 export const categoryTable = sqliteTable(

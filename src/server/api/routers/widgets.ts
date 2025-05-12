@@ -1,6 +1,4 @@
-import { z } from "zod";
 import {
-	WIDGETS,
 	beszelSchema,
 	cupSchema,
 	radarrSchema,

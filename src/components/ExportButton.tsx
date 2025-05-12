@@ -1,4 +1,4 @@
-import { DownloadIcon, Upload, UploadIcon } from "lucide-react";
+import { UploadIcon } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
 import { api } from "~/utils/api";

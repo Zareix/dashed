@@ -1,7 +1,6 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { GripVerticalIcon } from "lucide-react";
-import React from "react";
 import type { Category } from "~/server/db/schema";
 
 function SortableCategoryRow({ item }: { item?: Category["name"] }) {

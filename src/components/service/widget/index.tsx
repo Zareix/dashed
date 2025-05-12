@@ -1,4 +1,3 @@
-import type { z } from "zod";
 import BeszelWidget from "~/components/service/widget/widgets/beszel";
 import CupWidget from "~/components/service/widget/widgets/cup";
 import RadarrWidget from "~/components/service/widget/widgets/radarr";

@@ -1,13 +1,11 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";
-import Image from "next/image";
-import React from "react";
 import { ServiceIcon } from "~/components/ServiceIcon";
 import DeleteServiceButton from "~/components/service/delete";
 import EditServiceButton from "~/components/service/edit";
 import { TableCell, TableRow } from "~/components/ui/table";
-import { cn, isAuthorizedDomain } from "~/lib/utils";
+import { cn } from "~/lib/utils";
 import type { Service } from "~/server/db/schema";
 
 function SortableServiceRow({

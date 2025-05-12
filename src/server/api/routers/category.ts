@@ -3,12 +3,7 @@ import { z } from "zod";
 import type { WIDGETS } from "~/lib/widgets";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import {
-	type Category,
-	type Service,
-	categoryTable,
-	servicesTable,
-} from "~/server/db/schema";
+import { categoryTable, servicesTable } from "~/server/db/schema";
 import { refreshIndexPage } from "~/utils/api";
 
 import yaml from "js-yaml";
