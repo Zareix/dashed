@@ -54,7 +54,6 @@ const EditServiceButton = ({
 		onSuccess: async () => {
 			toast.success("Service edited");
 			setIsOpen(false);
-			form.reset();
 			await utils.category.getAll.invalidate();
 		},
 		onError: () => {

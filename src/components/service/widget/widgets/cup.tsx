@@ -8,6 +8,7 @@ type Props = {
 const CupWidget = ({ config }: Props) => {
 	const { isLoading, data, isError } = api.widget.cup.useQuery({
 		url: config.url,
+		onlyInUse: config.onlyInUse,
 	});
 
 	if (isLoading) {

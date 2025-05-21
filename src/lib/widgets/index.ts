@@ -8,6 +8,7 @@ export const cupSchema = z.object({
 	type: z.literal("cup"),
 	config: z.object({
 		url: z.string().url(),
+		onlyInUse: z.boolean(),
 	}),
 });
 export const sonarrSchema = z.object({

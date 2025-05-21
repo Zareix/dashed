@@ -26,6 +26,17 @@ export const widgetRouter = createTRPCRouter({
 				const res = await fetch(`${input.url}/api/v3/json`);
 				if (res.ok) {
 					const data = (await res.json()) as CupResponse;
+					if (input.onlyInUse) {
+						return {
+							monitoredImages: data.images.filter((x) => x.in_use).length,
+							updatesAvailable: data.images.filter(
+								(x) => x.in_use && x.result.has_update,
+							).length,
+							upToDate: data.images.filter(
+								(x) => x.in_use && !x.result.has_update,
+							).length,
+						};
+					}
 					return {
 						monitoredImages: data.metrics.monitored_images,
 						updatesAvailable: data.metrics.updates_available,

@@ -11,6 +11,7 @@ export type Image = {
 	server: string | null;
 	time: number;
 	url: null | string;
+	in_use: boolean;
 };
 
 export type Parts = {

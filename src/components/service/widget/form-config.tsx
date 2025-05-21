@@ -1,4 +1,5 @@
 import { useFormContext } from "react-hook-form";
+import { Checkbox } from "~/components/ui/checkbox";
 import {
 	FormControl,
 	FormField,
@@ -90,15 +91,25 @@ const WidgetFormConfig = () => {
 								<FormItem>
 									<FormLabel className="capitalize">{key}</FormLabel>
 									<FormControl>
-										{/* @ts-ignore */}
-										<Input
-											type={
-												["apiKey", "password"].includes(key)
-													? "password"
-													: "text"
-											}
-											{...field}
-										/>
+										{schema._def.typeName === "ZodBoolean" ? (
+											<div className="flex items-center gap-2">
+												<Checkbox
+													checked={field.value as boolean}
+													onCheckedChange={field.onChange}
+												/>
+												<span>{(field.value as boolean) ? "Yes" : "No"}</span>
+											</div>
+										) : (
+											<Input
+												type={
+													["apiKey", "password"].includes(key)
+														? "password"
+														: "text"
+												}
+												{...field}
+												value={field.value as string}
+											/>
+										)}
 									</FormControl>
 									<FormMessage />
 								</FormItem>
