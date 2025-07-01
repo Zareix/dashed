@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 import { Button } from "~/components/ui/button";
 import {
 	Dialog,
@@ -24,8 +24,11 @@ import type { Category } from "~/server/db/schema";
 import { api } from "~/utils/api";
 
 const categoryEditSchema = z.object({
-	name: z.string().min(1),
-	maxCols: z.number().min(1).max(5),
+	name: z.string().check(z.minLength(1, "Name is required")),
+	maxCols: z
+		.number()
+		.check(z.minimum(1, "Max columns must be at least 1"))
+		.check(z.maximum(5, "Max columns cannot exceed 5")),
 });
 
 const EditCategoryButton = ({
@@ -46,7 +49,7 @@ const EditCategoryButton = ({
 			toast.error("An error occurred while editings category");
 		},
 	});
-	const form = useForm<z.infer<typeof categoryEditSchema>>({
+	const form = useForm({
 		resolver: zodResolver(categoryEditSchema),
 		defaultValues: category,
 	});

@@ -3,7 +3,7 @@ import { PlusIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 import { Button } from "~/components/ui/button";
 import {
 	Dialog,
@@ -24,8 +24,11 @@ import { Input } from "~/components/ui/input";
 import { api } from "~/utils/api";
 
 const categoryCreateSchema = z.object({
-	name: z.string().min(1),
-	maxCols: z.number().min(1).max(5),
+	name: z.string().check(z.minLength(1, "Name is required")),
+	maxCols: z
+		.number()
+		.check(z.minimum(1, "Max columns must be at least 1"))
+		.check(z.maximum(5, "Max columns cannot exceed 5")),
 });
 
 const CreateCategoryButton = () => {
@@ -42,7 +45,7 @@ const CreateCategoryButton = () => {
 			toast.error("An error occurred while creating category");
 		},
 	});
-	const form = useForm<z.infer<typeof categoryCreateSchema>>({
+	const form = useForm({
 		resolver: zodResolver(categoryCreateSchema),
 		defaultValues: {
 			name: "",

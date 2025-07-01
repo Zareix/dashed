@@ -3,7 +3,7 @@ import { ImportIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
+import { z } from "zod/v4-mini";
 import { Button } from "~/components/ui/button";
 import {
 	Dialog,
@@ -32,7 +32,7 @@ import { api } from "~/utils/api";
 
 const importSchema = z.object({
 	type: z.enum(["dashed", "homepage"]),
-	data: z.string().min(1),
+	data: z.string().check(z.minLength(1, "Data is required")),
 });
 
 const ImportButton = () => {
