@@ -1,6 +1,7 @@
-import { PlusIcon } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { PlusIcon, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { ServiceIcon } from "~/components/ServiceIcon";
@@ -37,6 +38,14 @@ import { api } from "~/utils/api";
 const serviceCreateSchema = z.object({
 	name: z.string().min(1),
 	url: z.string().min(1).url(),
+	alternativeUrls: z
+		.array(
+			z.object({
+				url: z.string().url(),
+				name: z.string().min(1),
+			}),
+		)
+		.optional(),
 	categoryName: z.string(),
 	icon: z.string().min(1),
 	openInNewTab: z.boolean(),
@@ -65,11 +74,12 @@ const CreateServiceButton = ({
 			toast.error("An error occurred while creating service");
 		},
 	});
-	const form = useForm<ServiceCreateFormData>({
-		// resolver: zodResolver(serviceCreateSchema),
+	const form = useForm({
+		resolver: zodResolver(serviceCreateSchema),
 		defaultValues: {
 			name: "",
 			url: "",
+			alternativeUrls: [],
 			icon: "",
 			categoryName: category?.name,
 			openInNewTab: false,
@@ -78,6 +88,11 @@ const CreateServiceButton = ({
 				config: {},
 			},
 		},
+	});
+
+	const { fields, append, remove } = useFieldArray({
+		control: form.control,
+		name: "alternativeUrls",
 	});
 
 	function onSubmit(values: ServiceCreateFormData) {
@@ -187,6 +202,71 @@ const CreateServiceButton = ({
 								</FormItem>
 							)}
 						/>
+
+						<div className="space-y-4">
+							<div className="flex items-center justify-between">
+								<FormLabel>Alternative URLs</FormLabel>
+								<Button
+									type="button"
+									variant="outline"
+									size="sm"
+									onClick={() => append({ url: "", name: "" })}
+								>
+									<PlusIcon className="h-4 w-4 mr-1" />
+									Add Alternative URL
+								</Button>
+							</div>
+							{fields.map((field, index) => (
+								<div
+									key={field.id}
+									className="grid grid-cols-1 md:grid-cols-2 gap-2 p-3 border rounded-md"
+								>
+									<FormField
+										control={form.control}
+										name={`alternativeUrls.${index}.name`}
+										render={({ field: nameField }) => (
+											<FormItem>
+												<FormLabel>Name</FormLabel>
+												<FormControl>
+													<Input
+														placeholder="Alternative name"
+														{...nameField}
+													/>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+									<FormField
+										control={form.control}
+										name={`alternativeUrls.${index}.url`}
+										render={({ field: urlField }) => (
+											<FormItem>
+												<FormLabel>URL</FormLabel>
+												<FormControl>
+													<div className="flex items-center gap-2">
+														<Input
+															placeholder="Alternative URL"
+															{...urlField}
+														/>
+														<Button
+															type="button"
+															variant="outline"
+															size="sm"
+															onClick={() => remove(index)}
+														>
+															<Trash2 className="h-4 w-4" />
+														</Button>
+													</div>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+								</div>
+							))}
+						</div>
+
 						<FormField
 							control={form.control}
 							name="openInNewTab"

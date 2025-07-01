@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PencilIcon } from "lucide-react";
+import { PencilIcon, PlusIcon, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import WidgetFormConfig from "~/components/service/widget/form-config";
@@ -33,17 +33,38 @@ const serviceEditSchema = z.object({
 	id: z.number(),
 	name: z.string().min(1),
 	url: z.string().min(1).url(),
+	alternativeUrls: z
+		.array(
+			z.object({
+				url: z.string().url(),
+				name: z.string().min(1),
+			}),
+		)
+		.optional()
+		.default([]),
 	categoryName: z.string(),
 	icon: z.string().min(1),
 	openInNewTab: z.boolean(),
 	widget: WIDGETS,
 });
 
+export type ServiceEditFormData = z.infer<typeof serviceEditSchema>;
+
 const EditServiceButton = ({
 	service,
 	disabled = false,
 }: {
-	service: Pick<Service, "id" | "name" | "url" | "categoryName">;
+	service: Pick<
+		Service,
+		| "id"
+		| "name"
+		| "url"
+		| "alternativeUrls"
+		| "categoryName"
+		| "icon"
+		| "openInNewTab"
+		| "widget"
+	>;
 	disabled: boolean;
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -60,12 +81,17 @@ const EditServiceButton = ({
 			toast.error("An error occurred while editing service");
 		},
 	});
-	const form = useForm<z.infer<typeof serviceEditSchema>>({
+	const form = useForm({
 		resolver: zodResolver(serviceEditSchema),
 		defaultValues: service,
 	});
 
-	function onSubmit(values: z.infer<typeof serviceEditSchema>) {
+	const { fields, append, remove } = useFieldArray({
+		control: form.control,
+		name: "alternativeUrls",
+	});
+
+	function onSubmit(values: ServiceEditFormData) {
 		editServiceMutation.mutate(values);
 	}
 
@@ -76,7 +102,7 @@ const EditServiceButton = ({
 					<PencilIcon />
 				</Button>
 			</DialogTrigger>
-			<DialogContent>
+			<DialogContent className="overflow-y-auto max-h-[90vh]">
 				<DialogHeader>
 					<DialogTitle>Edit service</DialogTitle>
 				</DialogHeader>
@@ -155,6 +181,70 @@ const EditServiceButton = ({
 								</FormItem>
 							)}
 						/>
+
+						<div className="space-y-4">
+							<div className="flex items-center justify-between">
+								<FormLabel>Alternative URLs</FormLabel>
+								<Button
+									type="button"
+									variant="outline"
+									size="sm"
+									onClick={() => append({ url: "", name: "" })}
+								>
+									<PlusIcon className="h-4 w-4 mr-1" />
+									Add Alternative URL
+								</Button>
+							</div>
+							{fields.map((field, index) => (
+								<div
+									key={field.id}
+									className="grid grid-cols-1 md:grid-cols-2 gap-2 p-3 border rounded-md"
+								>
+									<FormField
+										control={form.control}
+										name={`alternativeUrls.${index}.name`}
+										render={({ field: nameField }) => (
+											<FormItem>
+												<FormLabel>Name</FormLabel>
+												<FormControl>
+													<Input
+														placeholder="Alternative name"
+														{...nameField}
+													/>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+									<FormField
+										control={form.control}
+										name={`alternativeUrls.${index}.url`}
+										render={({ field: urlField }) => (
+											<FormItem>
+												<FormLabel>URL</FormLabel>
+												<FormControl>
+													<div className="flex items-center gap-2">
+														<Input
+															placeholder="Alternative URL"
+															{...urlField}
+														/>
+														<Button
+															type="button"
+															variant="outline"
+															size="sm"
+															onClick={() => remove(index)}
+														>
+															<Trash2 className="h-4 w-4" />
+														</Button>
+													</div>
+												</FormControl>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+								</div>
+							))}
+						</div>
 						<FormField
 							control={form.control}
 							name="openInNewTab"

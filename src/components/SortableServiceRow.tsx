@@ -14,7 +14,14 @@ function SortableServiceRow({
 }: {
 	item?: Pick<
 		Service,
-		"id" | "name" | "url" | "icon" | "categoryName" | "openInNewTab" | "widget"
+		| "id"
+		| "name"
+		| "url"
+		| "alternativeUrls"
+		| "icon"
+		| "categoryName"
+		| "openInNewTab"
+		| "widget"
 	>;
 	loading?: boolean;
 }) {

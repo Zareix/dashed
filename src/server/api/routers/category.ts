@@ -3,7 +3,11 @@ import { z } from "zod";
 import type { WIDGETS } from "~/lib/widgets";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { categoryTable, servicesTable } from "~/server/db/schema";
+import {
+	type AlternativeUrl,
+	categoryTable,
+	servicesTable,
+} from "~/server/db/schema";
 import { refreshIndexPage } from "~/utils/api";
 
 import yaml from "js-yaml";
@@ -43,6 +47,7 @@ export const categoryRouter = createTRPCRouter({
 			services: category.services.map((service) => ({
 				...service,
 				widget: service.widget as WIDGETS,
+				alternativeUrls: service.alternativeUrls as Array<AlternativeUrl>,
 			})),
 		}));
 	}),

@@ -1,4 +1,5 @@
 import { asc } from "drizzle-orm";
+import { EllipsisVerticalIcon } from "lucide-react";
 import { PHASE_PRODUCTION_BUILD } from "next/dist/shared/lib/constants";
 import Link from "next/link";
 import { useEffect } from "react";
@@ -8,6 +9,13 @@ import { ServiceIcon } from "~/components/ServiceIcon";
 import Widget from "~/components/service/widget";
 import { Button } from "~/components/ui/button";
 import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuTrigger,
+} from "~/components/ui/dropdown-menu";
+import {
 	HoverCard,
 	HoverCardContent,
 	HoverCardTrigger,
@@ -15,7 +23,11 @@ import {
 import { cn } from "~/lib/utils";
 import type { WIDGETS } from "~/lib/widgets";
 import { db } from "~/server/db";
-import { categoryTable, servicesTable } from "~/server/db/schema";
+import {
+	type AlternativeUrl,
+	categoryTable,
+	servicesTable,
+} from "~/server/db/schema";
 import { api } from "~/utils/api";
 
 export const getStaticProps = async () => {
@@ -46,6 +58,7 @@ export const getStaticProps = async () => {
 					icon: service.icon,
 					openInNewTab: service.openInNewTab,
 					widget: service.widget as WIDGETS,
+					alternativeUrls: service.alternativeUrls as Array<AlternativeUrl>,
 				})),
 			})),
 		},
@@ -117,7 +130,7 @@ export default function Home({
 								<ServiceWrapper widget={service.widget}>
 									<a
 										href={service.url}
-										className="h-full items-center gap-2 rounded-lg border border-border bg-foreground/5 p-2 shadow-xs relative flex"
+										className="h-full items-center gap-2 rounded-lg border border-border bg-foreground/5 p-2 shadow-xs relative flex has-[.ping-error]:border-red-500"
 										rel={service.openInNewTab ? "noopener noreferrer" : ""}
 										target={service.openInNewTab ? "_blank" : ""}
 									>
@@ -125,10 +138,15 @@ export default function Home({
 											service={service}
 											className="h-8 w-8 object-contain"
 										/>
-										{service.name}
+										<div className="overflow-hidden whitespace-nowrap text-ellipsis">
+											{service.name}
+										</div>
 										{healthQuery.data?.status === "ok" && (
 											<MonitorService service={service} />
 										)}
+										<AlternativeUrls
+											alternativeUrls={service.alternativeUrls}
+										/>
 									</a>
 								</ServiceWrapper>
 							</li>
@@ -147,6 +165,41 @@ export default function Home({
 		</>
 	);
 }
+
+const AlternativeUrls = ({
+	alternativeUrls,
+}: {
+	alternativeUrls?: Array<AlternativeUrl>;
+}) => {
+	if (!alternativeUrls || alternativeUrls.length === 0) {
+		return <></>;
+	}
+	return (
+		<DropdownMenu>
+			<DropdownMenuTrigger
+				onClick={(e) => e.preventDefault()}
+				className="ml-auto"
+			>
+				<EllipsisVerticalIcon />
+			</DropdownMenuTrigger>
+			<DropdownMenuContent>
+				<DropdownMenuLabel>Alternative URLs</DropdownMenuLabel>
+				{alternativeUrls.map((url) => (
+					<DropdownMenuItem key={url.url} className="flex items-center gap-2">
+						<a
+							href={url.url}
+							className="flex items-center gap-2 w-full"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							{url.name}
+						</a>
+					</DropdownMenuItem>
+				))}
+			</DropdownMenuContent>
+		</DropdownMenu>
+	);
+};
 
 const ServiceWrapper = ({
 	widget,

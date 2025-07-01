@@ -23,11 +23,7 @@ const MonitorService = ({
 	)
 		return <></>;
 
-	return (
-		<div className="text-red-500 absolute top-1/2 -translate-y-1/2 right-2">
-			❌
-		</div>
-	);
+	return <div className="ping-error" />;
 };
 
 export default MonitorService;

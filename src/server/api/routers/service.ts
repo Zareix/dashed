@@ -14,6 +14,15 @@ export const serviceRouter = createTRPCRouter({
 				id: z.number().optional(),
 				name: z.string().min(1),
 				url: z.string().url(),
+				alternativeUrls: z
+					.array(
+						z.object({
+							url: z.string().url(),
+							name: z.string().min(1),
+						}),
+					)
+					.optional()
+					.default([]),
 				icon: z.string().min(1),
 				categoryName: z.string(),
 				openInNewTab: z.boolean(),
@@ -40,6 +49,15 @@ export const serviceRouter = createTRPCRouter({
 				id: z.number().optional(),
 				name: z.string().min(1),
 				url: z.string().url(),
+				alternativeUrls: z
+					.array(
+						z.object({
+							url: z.string().url(),
+							name: z.string().min(1),
+						}),
+					)
+					.optional()
+					.default([]),
 				categoryName: z.string(),
 				icon: z.string().min(1),
 				openInNewTab: z.boolean(),

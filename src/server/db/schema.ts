@@ -28,6 +28,11 @@ export const servicesTable = sqliteTable(
 		id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
 		name: text("name", { length: 256 }).notNull(),
 		url: text("url", { length: 256 }).notNull(),
+		alternativeUrls: text("alternative_urls", {
+			mode: "json",
+		})
+			.default(sql`[]`)
+			.notNull(),
 		icon: text("icon", { length: 256 }).notNull(),
 		order: int("order", { mode: "number" }).notNull().default(sql`0`),
 		widget: text("widget", { mode: "json" })
@@ -58,7 +63,16 @@ export const servicesRelations = relations(servicesTable, ({ one }) => ({
 	}),
 }));
 
-export type Service = Omit<typeof servicesTable.$inferSelect, "widget"> & {
+export type AlternativeUrl = {
+	url: string;
+	name: string;
+};
+
+export type Service = Omit<
+	typeof servicesTable.$inferSelect,
+	"widget" | "alternativeUrls"
+> & {
 	widget: WIDGETS;
+	alternativeUrls: Array<AlternativeUrl>;
 };
 export type Category = typeof categoryTable.$inferSelect;
