@@ -40,6 +40,14 @@ export const beszelSchema = z.object({
 		password: z.string(),
 	}),
 });
+export const komodoSchema = z.object({
+	type: z.literal("komodo"),
+	config: z.object({
+		url: z.string().url(),
+		apiKey: z.string(),
+		apiSecret: z.string(),
+	}),
+});
 
 export const WIDGETS = z.discriminatedUnion("type", [
 	noneSchema,
@@ -48,5 +56,6 @@ export const WIDGETS = z.discriminatedUnion("type", [
 	radarrSchema,
 	uptimeKumaSchema,
 	beszelSchema,
+	komodoSchema,
 ]);
 export type WIDGETS = z.infer<typeof WIDGETS>;

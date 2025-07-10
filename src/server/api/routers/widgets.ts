@@ -1,6 +1,7 @@
 import {
 	beszelSchema,
 	cupSchema,
+	komodoSchema,
 	radarrSchema,
 	sonarrSchema,
 	uptimeKumaSchema,
@@ -10,6 +11,10 @@ import type {
 	BeszelSystemResponse,
 } from "~/lib/widgets/beszel";
 import type { CupResponse } from "~/lib/widgets/cup";
+import type {
+	KomodoListServersResponse,
+	KomodoListStacksResponse,
+} from "~/lib/widgets/komodo";
 import type { RadarrMissingMoviesResponse } from "~/lib/widgets/radarr";
 import type {
 	SonarrMissingEpisodesResponse,
@@ -195,6 +200,60 @@ export const widgetRouter = createTRPCRouter({
 					.sort((a, b) => a.name.localeCompare(b.name));
 			} catch (e) {
 				console.log("Error beszel", e);
+				return false;
+			}
+		}),
+	komodo: publicProcedure
+		.input(komodoSchema.shape.config)
+		.query(async ({ input }) => {
+			try {
+				const [listServerResponse, listStacksResponse] = await Promise.all([
+					await fetch(`${input.url}/read`, {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+							"X-API-Key": input.apiKey,
+							"X-API-Secret": input.apiSecret,
+						},
+						body: JSON.stringify({
+							type: "ListServers",
+							params: {},
+						}),
+					}),
+					await fetch(`${input.url}/read`, {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+							"X-API-Key": input.apiKey,
+							"X-API-Secret": input.apiSecret,
+						},
+						body: JSON.stringify({
+							type: "ListStacks",
+							params: {},
+						}),
+					}),
+				]);
+				if (listServerResponse.ok && listStacksResponse.ok) {
+					const serversData =
+						(await listServerResponse.json()) as KomodoListServersResponse;
+					const stacksData =
+						(await listStacksResponse.json()) as KomodoListStacksResponse;
+					return {
+						servers: serversData.map((server) => ({
+							id: server.id,
+							name: server.name,
+							state: server.info.state,
+						})),
+						stacks: stacksData.map((stack) => ({
+							id: stack.id,
+							name: stack.name,
+							state: stack.info.state,
+						})),
+					};
+				}
+				return false;
+			} catch (e) {
+				console.log("Error komodo", e);
 				return false;
 			}
 		}),
