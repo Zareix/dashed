@@ -2,6 +2,7 @@ import {
 	beszelSchema,
 	cupSchema,
 	komodoSchema,
+	nextdnsSchema,
 	radarrSchema,
 	sonarrSchema,
 	uptimeKumaSchema,
@@ -15,6 +16,7 @@ import type {
 	KomodoListServersResponse,
 	KomodoListStacksResponse,
 } from "~/lib/widgets/komodo";
+import type { NextDNSStatusResponse } from "~/lib/widgets/nextdns";
 import type { RadarrMissingMoviesResponse } from "~/lib/widgets/radarr";
 import type {
 	SonarrMissingEpisodesResponse,
@@ -254,6 +256,40 @@ export const widgetRouter = createTRPCRouter({
 				return false;
 			} catch (e) {
 				console.log("Error komodo", e);
+				return false;
+			}
+		}),
+	nextdns: publicProcedure
+		.input(nextdnsSchema.shape.config)
+		.query(async ({ input }) => {
+			try {
+				const res = await fetch(
+					`https://api.nextdns.io/profiles/${input.profile}/analytics/status`,
+					{
+						headers: {
+							"X-API-Key": input.apiKey,
+						},
+					},
+				);
+				if (res.ok) {
+					const data = (await res.json()) as NextDNSStatusResponse;
+					console.log(data);
+
+					return {
+						allowed: data.data
+							.filter((item) => item.status === "allowed")
+							.reduce((acc, cur) => acc + cur.queries, 0),
+						blocked: data.data
+							.filter((item) => item.status === "blocked")
+							.reduce((acc, cur) => acc + cur.queries, 0),
+						default: data.data
+							.filter((item) => item.status === "default")
+							.reduce((acc, cur) => acc + cur.queries, 0),
+					};
+				}
+				return false;
+			} catch (e) {
+				console.log("Error sonarr", e);
 				return false;
 			}
 		}),

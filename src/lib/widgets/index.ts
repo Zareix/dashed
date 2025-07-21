@@ -48,6 +48,13 @@ export const komodoSchema = z.object({
 		apiSecret: z.string(),
 	}),
 });
+export const nextdnsSchema = z.object({
+	type: z.literal("nextdns"),
+	config: z.object({
+		profile: z.string(),
+		apiKey: z.string(),
+	}),
+});
 
 export const WIDGETS = z.discriminatedUnion("type", [
 	noneSchema,
@@ -57,5 +64,6 @@ export const WIDGETS = z.discriminatedUnion("type", [
 	uptimeKumaSchema,
 	beszelSchema,
 	komodoSchema,
+	nextdnsSchema,
 ]);
 export type WIDGETS = z.infer<typeof WIDGETS>;

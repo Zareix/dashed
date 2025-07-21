@@ -1,6 +1,7 @@
 import BeszelWidget from "~/components/service/widget/widgets/beszel";
 import CupWidget from "~/components/service/widget/widgets/cup";
 import { KomodoWidget } from "~/components/service/widget/widgets/komodo";
+import { NextDNSWidget } from "~/components/service/widget/widgets/nextdns";
 import RadarrWidget from "~/components/service/widget/widgets/radarr";
 import SonarrWidget from "~/components/service/widget/widgets/sonarr";
 import UptimeKumaWidget from "~/components/service/widget/widgets/uptime-kuma";
@@ -24,6 +25,8 @@ const Widget = ({ widget }: Props) => {
 			return <BeszelWidget config={widget.config} />;
 		case "komodo":
 			return <KomodoWidget config={widget.config} />;
+		case "nextdns":
+			return <NextDNSWidget config={widget.config} />;
 		default:
 			return <></>;
 	}
