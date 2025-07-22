@@ -53,7 +53,7 @@ export const widgetRouter = createTRPCRouter({
 					};
 				}
 				return null;
-			} catch (e) {
+			} catch {
 				return false;
 			}
 		}),

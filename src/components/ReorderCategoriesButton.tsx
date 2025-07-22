@@ -1,6 +1,22 @@
+import {
+	closestCenter,
+	DndContext,
+	type DragEndEvent,
+	KeyboardSensor,
+	PointerSensor,
+	useSensor,
+	useSensors,
+} from "@dnd-kit/core";
+import {
+	arrayMove,
+	SortableContext,
+	sortableKeyboardCoordinates,
+	verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { useState } from "react";
 import { toast } from "sonner";
-
+import SortableCategoryRow from "~/components/SortableCategoryRow";
+import { Button } from "~/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
@@ -11,24 +27,6 @@ import {
 } from "~/components/ui/dialog";
 import type { Category } from "~/server/db/schema";
 import { api } from "~/utils/api";
-
-import {
-	DndContext,
-	type DragEndEvent,
-	KeyboardSensor,
-	PointerSensor,
-	closestCenter,
-	useSensor,
-	useSensors,
-} from "@dnd-kit/core";
-import {
-	SortableContext,
-	arrayMove,
-	sortableKeyboardCoordinates,
-	verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import SortableCategoryRow from "~/components/SortableCategoryRow";
-import { Button } from "~/components/ui/button";
 
 const ReorderCategoriesButton = ({
 	categories,

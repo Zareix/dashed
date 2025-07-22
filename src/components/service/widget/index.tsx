@@ -31,7 +31,7 @@ const Widget = ({ widget }: Props) => {
 		case "gatus":
 			return <GatusWidget config={widget.config} />;
 		default:
-			return <></>;
+			return null;
 	}
 };
 

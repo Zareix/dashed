@@ -1,19 +1,31 @@
 import {
+	closestCenter,
 	DndContext,
 	type DragEndEvent,
 	KeyboardSensor,
 	PointerSensor,
-	closestCenter,
 	useSensor,
 	useSensors,
 } from "@dnd-kit/core";
 import {
-	SortableContext,
 	arrayMove,
+	SortableContext,
 	sortableKeyboardCoordinates,
 	verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { HomeIcon } from "lucide-react";
+import Link from "next/link";
+import { toast } from "sonner";
+import CreateCategoryButton from "~/components/category/create";
+import DeleteCategoryButton from "~/components/category/delete";
+import EditCategoryButton from "~/components/category/edit";
+import ExportButton from "~/components/ExportButton";
+import ImportButton from "~/components/ImportButton";
+import ReorderCategoriesButton from "~/components/ReorderCategoriesButton";
+import SortableServiceRow from "~/components/SortableServiceRow";
+import CreateServiceButton from "~/components/service/create";
 import { Button } from "~/components/ui/button";
+import { Separator } from "~/components/ui/separator";
 import {
 	Table,
 	TableBody,
@@ -21,21 +33,8 @@ import {
 	TableHeader,
 	TableRow,
 } from "~/components/ui/table";
-import { api } from "~/utils/api";
-
-import { HomeIcon } from "lucide-react";
-import Link from "next/link";
-import { toast } from "sonner";
-import ExportButton from "~/components/ExportButton";
-import ImportButton from "~/components/ImportButton";
-import ReorderCategoriesButton from "~/components/ReorderCategoriesButton";
-import SortableServiceRow from "~/components/SortableServiceRow";
-import CreateCategoryButton from "~/components/category/create";
-import DeleteCategoryButton from "~/components/category/delete";
-import EditCategoryButton from "~/components/category/edit";
-import CreateServiceButton from "~/components/service/create";
-import { Separator } from "~/components/ui/separator";
 import type { Category, Service } from "~/server/db/schema";
+import { api } from "~/utils/api";
 
 export default function AdminPage() {
 	const categoriesQuery = api.category.getAll.useQuery();

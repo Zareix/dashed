@@ -21,6 +21,7 @@ export const ServiceIcon = ({ service, className }: Props) => {
 
 	if (!isAuthorizedDomain(new URL(service.icon).hostname)) {
 		return (
+			// biome-ignore lint/performance/noImgElement: External icons are not optimized
 			<img
 				src={service.icon}
 				alt={`${service.name} icon`}

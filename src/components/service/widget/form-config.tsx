@@ -91,7 +91,7 @@ const WidgetFormConfig = () => {
 								<FormItem>
 									<FormLabel className="capitalize">{key}</FormLabel>
 									<FormControl>
-										{schema._def.typeName === "ZodBoolean" ? (
+										{schema.def.type === "boolean" ? (
 											<div className="flex items-center gap-2">
 												<Checkbox
 													checked={field.value as boolean}
@@ -102,7 +102,9 @@ const WidgetFormConfig = () => {
 										) : (
 											<Input
 												type={
-													["apiKey", "password"].includes(key)
+													["apiKey", "apiSecret", "token", "password"].includes(
+														key,
+													)
 														? "password"
 														: "text"
 												}

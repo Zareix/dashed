@@ -111,7 +111,7 @@ export const serviceRouter = createTRPCRouter({
 					signal: AbortSignal.timeout(3000),
 				});
 				return res.ok;
-			} catch (e) {
+			} catch {
 				return false;
 			}
 		}),

@@ -32,11 +32,11 @@ import { api } from "~/utils/api";
 const serviceEditSchema = z.object({
 	id: z.number(),
 	name: z.string().min(1),
-	url: z.string().min(1).url(),
+	url: z.url(),
 	alternativeUrls: z
 		.array(
 			z.object({
-				url: z.string().url(),
+				url: z.url(),
 				name: z.string().min(1),
 			}),
 		)
@@ -153,6 +153,7 @@ const EditServiceButton = ({
 														className="h-8 w-8 object-contain"
 													/>
 												) : (
+													// biome-ignore lint/performance/noImgElement: Here we use an img tag to avoid Next Image issues with external images
 													<img
 														src={field.value}
 														alt="service icon"

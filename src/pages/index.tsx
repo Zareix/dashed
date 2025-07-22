@@ -172,7 +172,7 @@ const AlternativeUrls = ({
 	alternativeUrls?: Array<AlternativeUrl>;
 }) => {
 	if (!alternativeUrls || alternativeUrls.length === 0) {
-		return <></>;
+		return null;
 	}
 	return (
 		<DropdownMenu>

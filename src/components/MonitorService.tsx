@@ -21,7 +21,7 @@ const MonitorService = ({
 		pingQuery.isFetching ||
 		pingQuery.isPaused
 	)
-		return <></>;
+		return null;
 
 	return <div className="ping-error" />;
 };

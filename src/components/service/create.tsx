@@ -37,11 +37,11 @@ import { api } from "~/utils/api";
 
 const serviceCreateSchema = z.object({
 	name: z.string().min(1),
-	url: z.string().min(1).url(),
+	url: z.url(),
 	alternativeUrls: z
 		.array(
 			z.object({
-				url: z.string().url(),
+				url: z.url(),
 				name: z.string().min(1),
 			}),
 		)

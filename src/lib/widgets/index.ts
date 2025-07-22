@@ -7,7 +7,7 @@ export const noneSchema = z.object({
 export const cupSchema = z.object({
 	type: z.literal("cup"),
 	config: z.object({
-		url: z.string().url(),
+		url: z.url(),
 		onlyInUse: z.boolean(),
 	}),
 });
