@@ -56,6 +56,13 @@ export const nextdnsSchema = z.object({
 	}),
 });
 
+export const gatusSchema = z.object({
+	type: z.literal("gatus"),
+	config: z.object({
+		url: z.string(),
+	}),
+});
+
 export const WIDGETS = z.discriminatedUnion("type", [
 	noneSchema,
 	cupSchema,
@@ -65,5 +72,6 @@ export const WIDGETS = z.discriminatedUnion("type", [
 	beszelSchema,
 	komodoSchema,
 	nextdnsSchema,
+	gatusSchema,
 ]);
 export type WIDGETS = z.infer<typeof WIDGETS>;

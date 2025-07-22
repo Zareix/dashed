@@ -1,5 +1,6 @@
 import BeszelWidget from "~/components/service/widget/widgets/beszel";
 import CupWidget from "~/components/service/widget/widgets/cup";
+import GatusWidget from "~/components/service/widget/widgets/gatus";
 import { KomodoWidget } from "~/components/service/widget/widgets/komodo";
 import { NextDNSWidget } from "~/components/service/widget/widgets/nextdns";
 import RadarrWidget from "~/components/service/widget/widgets/radarr";
@@ -27,6 +28,8 @@ const Widget = ({ widget }: Props) => {
 			return <KomodoWidget config={widget.config} />;
 		case "nextdns":
 			return <NextDNSWidget config={widget.config} />;
+		case "gatus":
+			return <GatusWidget config={widget.config} />;
 		default:
 			return <></>;
 	}

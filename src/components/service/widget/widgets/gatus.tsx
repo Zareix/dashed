@@ -2,13 +2,12 @@ import type { WIDGETS } from "~/lib/widgets";
 import { api } from "~/utils/api";
 
 type Props = {
-	config: Extract<WIDGETS, { type: "uptime-kuma" }>["config"];
+	config: Extract<WIDGETS, { type: "gatus" }>["config"];
 };
 
-const UptimeKumaWidget = ({ config }: Props) => {
-	const { data, isError, isLoading } = api.widget.uptimeKuma.useQuery({
+const GatusWidget = ({ config }: Props) => {
+	const { data, isError, isLoading } = api.widget.gatus.useQuery({
 		url: config.url,
-		apiKey: config.apiKey,
 	});
 
 	if (isLoading) {
@@ -19,8 +18,8 @@ const UptimeKumaWidget = ({ config }: Props) => {
 		return <div>Error</div>;
 	}
 
-	const upServices = data.metrics.filter((service) => service.status === 1);
-	const downServices = data.metrics.filter((service) => service.status === 0);
+	const upServices = data.filter((service) => service.success);
+	const downServices = data.filter((service) => !service.success);
 
 	return (
 		<div className="max-w-[300px]">
@@ -39,11 +38,11 @@ const UptimeKumaWidget = ({ config }: Props) => {
 			</div>
 			{downServices.length > 0 && (
 				<div className="border-t mt-1 pt-1 text-center">
-					🚨 {downServices.map((x) => x.monitor_name).join(", ")}
+					🚨 {downServices.map((x) => `${x.group}/${x.name}`).join(", ")}
 				</div>
 			)}
 		</div>
 	);
 };
 
-export default UptimeKumaWidget;
+export default GatusWidget;

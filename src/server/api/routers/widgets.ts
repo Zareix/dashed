@@ -1,6 +1,7 @@
 import {
 	beszelSchema,
 	cupSchema,
+	gatusSchema,
 	komodoSchema,
 	nextdnsSchema,
 	radarrSchema,
@@ -12,6 +13,7 @@ import type {
 	BeszelSystemResponse,
 } from "~/lib/widgets/beszel";
 import type { CupResponse } from "~/lib/widgets/cup";
+import type { GatusStatusesResponse } from "~/lib/widgets/gatus";
 import type {
 	KomodoListServersResponse,
 	KomodoListStacksResponse,
@@ -273,8 +275,6 @@ export const widgetRouter = createTRPCRouter({
 				);
 				if (res.ok) {
 					const data = (await res.json()) as NextDNSStatusResponse;
-					console.log(data);
-
 					return {
 						allowed: data.data
 							.filter((item) => item.status === "allowed")
@@ -289,7 +289,26 @@ export const widgetRouter = createTRPCRouter({
 				}
 				return false;
 			} catch (e) {
-				console.log("Error sonarr", e);
+				console.log("Error nextdns", e);
+				return false;
+			}
+		}),
+	gatus: publicProcedure
+		.input(gatusSchema.shape.config)
+		.query(async ({ input }) => {
+			try {
+				const res = await fetch(`${input.url}/api/v1/endpoints/statuses`);
+				if (res.ok) {
+					const data = (await res.json()) as GatusStatusesResponse;
+					return data.map((d) => ({
+						name: d.name,
+						group: d.group,
+						success: d.results.pop()?.success ?? false,
+					}));
+				}
+				return false;
+			} catch (e) {
+				console.log("Error gatus", e);
 				return false;
 			}
 		}),
