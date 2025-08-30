@@ -1,0 +1,128 @@
+---
+import '~/styles/global.css';
+
+import { asc } from 'drizzle-orm';
+import { db } from '~/server/db';
+import { cn } from '~/lib/utils';
+import {
+  categoryTable,
+  servicesTable,
+  type AlternativeUrl,
+} from '~/server/db/schema';
+import { Button } from '~/components/ui/button';
+import ServiceIcon from '~/components/ServiceIcon.astro';
+
+export const prerender = false;
+
+const categoriesDb = await db.query.categoryTable.findMany({
+  with: {
+    services: {
+      orderBy: [asc(servicesTable.order)],
+    },
+  },
+  orderBy: [asc(categoryTable.order)],
+});
+const categories = categoriesDb.map((category) => ({
+  name: category.name,
+  maxCols: category.maxCols,
+  services: category.services.map((service) => ({
+    id: service.id,
+    name: service.name,
+    url: service.url,
+    icon: service.icon,
+    openInNewTab: service.openInNewTab,
+    // widget: service.widget as WIDGETS,
+    alternativeUrls: service.alternativeUrls as Array<AlternativeUrl>,
+  })),
+}));
+
+const getColsclass = (cols: number) => {
+  switch (cols) {
+    case 1:
+      return 'lg:grid-cols-1';
+    case 2:
+      return 'lg:grid-cols-2';
+    case 3:
+      return 'lg:grid-cols-3';
+    case 4:
+      return 'lg:grid-cols-4';
+    case 5:
+      return 'lg:grid-cols-5';
+    default:
+      return 'lg:grid-cols-5';
+  }
+};
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro</title>
+  </head>
+  <body>
+    {
+      categories.length === 0 && (
+        <p class="text-center text-lg m-auto">
+          Nothing here yet. Add links in the{' '}
+          <a href="/admin" class="text-lg mx-0 px-0">
+            <Button variant="link" className="text-lg mx-0 px-0 font-bold">
+              Admin panel
+            </Button>
+          </a>
+        </p>
+      )
+    }
+    {
+      categories.map((category) => (
+        <section class="container mt-4 p-1">
+          <h2 class="text-2xl font-bold">{category.name}</h2>
+
+          <ul
+            class={cn(
+              'mt-1 grid grid-cols-2 gap-2',
+              getColsclass(category.maxCols)
+            )}
+          >
+            {category.services.map((service) => (
+              <li>
+                {/* <ServiceWrapper widget={service.widget}> */}
+                <a
+                  href={service.url}
+                  class="h-full items-center gap-2 rounded-lg border border-border bg-foreground/5 p-2 shadow-xs relative flex has-[.ping-error]:border-red-500"
+                  rel={service.openInNewTab ? 'noopener noreferrer' : ''}
+                  target={service.openInNewTab ? '_blank' : ''}
+                >
+                  <ServiceIcon
+                    service={service}
+                    class="h-8 w-8 object-contain"
+                  />
+                  <div class="overflow-hidden whitespace-nowrap text-ellipsis">
+                    {service.name}
+                  </div>
+                  {/* {healthQuery.data?.status === 'ok' && (
+                      <MonitorService service={service} />
+                    )} */}
+                  {/* <AlternativeUrls
+                      alternativeUrls={service.alternativeUrls}
+                    /> */}
+                </a>
+                {/* </ServiceWrapper> */}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+    <div class="container pt-4 justify-end flex group">
+      <a
+        href="/admin"
+        class="opacity-0 group-hover:opacity-5 hover:opacity-100!"
+      >
+        <Button>Admin</Button>
+      </a>
+    </div>
+  </body>
+</html>

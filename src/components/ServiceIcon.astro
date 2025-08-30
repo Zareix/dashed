@@ -1,0 +1,19 @@
+---
+import { Image } from 'astro:assets';
+import type { Service } from '~/server/db/schema';
+
+export type Props = {
+  service: Pick<Service, 'icon' | 'name'>;
+  class?: string;
+};
+
+const { service, class: className } = Astro.props;
+---
+
+<Image
+  src={service.icon}
+  alt={`${service.name} icon`}
+  width={32}
+  height={32}
+  class={className}
+/>

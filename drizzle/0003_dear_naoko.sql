@@ -1,0 +1,1 @@
+ALTER TABLE `service` ADD `alternative_urls` text DEFAULT [] NOT NULL;
