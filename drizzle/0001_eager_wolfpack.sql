@@ -1,1 +1,0 @@
-ALTER TABLE `service` ADD `open_in_new_tab` integer DEFAULT 0 NOT NULL;
