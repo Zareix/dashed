@@ -18,13 +18,13 @@ export const getBaseUrl = () => {
 };
 
 export const refreshIndexPage = () => {
-	fetch(`${getBaseUrl()}/api/refresh`, {
-		method: "POST",
-	})
-		.catch(console.error)
-		.then(() => {
-			console.log("Index page refreshed");
-		});
+	// fetch(`${getBaseUrl()}/api/refresh`, {
+	// 	method: "POST",
+	// })
+	// 	.catch(console.error)
+	// 	.then(() => {
+	// 		console.log("Index page refreshed");
+	// 	});
 };
 
 /** A set of type-safe react-query hooks for your tRPC API. */

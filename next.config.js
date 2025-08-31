@@ -9,7 +9,7 @@ await import("./src/env.js");
 /** @type {import("next").NextConfig} */
 const config = {
 	reactStrictMode: true,
-	output: "standalone",
+	// output: "standalone",
 
 	images: {
 		remotePatterns: AUTHORIZED_DOMAINS.map((x) => ({

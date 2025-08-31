@@ -1,3 +1,5 @@
+"use client";
+
 import BeszelWidget from "~/components/service/widget/widgets/beszel";
 import CupWidget from "~/components/service/widget/widgets/cup";
 import GatusWidget from "~/components/service/widget/widgets/gatus";

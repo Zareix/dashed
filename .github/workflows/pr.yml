@@ -1,0 +1,18 @@
+name: PR check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  docker:
+    name: Docker
+    permissions:
+      contents: read
+      packages: read
+    uses: zareix/gh-actions/.github/workflows/docker.yml@main
+    with:
+      tag: pr-${{ github.event.number }}
+      push-image: false
+      platforms: linux/amd64,linux/arm64
