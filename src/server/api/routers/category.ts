@@ -8,7 +8,7 @@ import {
 	categoryTable,
 	servicesTable,
 } from "~/server/db/schema";
-import { refreshIndexPage } from "~/utils/api";
+import { refreshIndexPage } from "~/server/lib";
 
 const exportSchema = z.array(
 	z.object({
@@ -58,7 +58,7 @@ export const categoryRouter = createTRPCRouter({
 		)
 		.mutation(async ({ ctx, input }) => {
 			await ctx.db.insert(categoryTable).values(input);
-			refreshIndexPage();
+			await refreshIndexPage();
 		}),
 	edit: publicProcedure
 		.input(
@@ -72,11 +72,11 @@ export const categoryRouter = createTRPCRouter({
 				.update(categoryTable)
 				.set(input)
 				.where(eq(categoryTable.name, input.name));
-			refreshIndexPage();
+			await refreshIndexPage();
 		}),
 	delete: publicProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
 		await ctx.db.delete(categoryTable).where(eq(categoryTable.name, input));
-		refreshIndexPage();
+		await refreshIndexPage();
 	}),
 	reorder: publicProcedure
 		.input(z.object({ order: z.array(z.string()) }))
@@ -92,7 +92,7 @@ export const categoryRouter = createTRPCRouter({
 				);
 			});
 
-			refreshIndexPage();
+			await refreshIndexPage();
 		}),
 	export: publicProcedure.mutation(async ({ ctx }) => {
 		const categories = await ctx.db.query.categoryTable.findMany({
@@ -215,6 +215,6 @@ export const categoryRouter = createTRPCRouter({
 				}
 			}
 
-			refreshIndexPage();
+			await refreshIndexPage();
 		}),
 });

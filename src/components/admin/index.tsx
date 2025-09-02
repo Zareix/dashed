@@ -1,3 +1,5 @@
+"use client";
+
 import {
 	closestCenter,
 	DndContext,
@@ -16,13 +18,13 @@ import {
 import { HomeIcon } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
+import ExportButton from "~/components/admin/export";
+import ImportButton from "~/components/admin/import";
+import ReorderCategoriesButton from "~/components/admin/reorder-categories";
+import SortableServiceRow from "~/components/admin/sortable-service-row";
 import CreateCategoryButton from "~/components/category/create";
 import DeleteCategoryButton from "~/components/category/delete";
 import EditCategoryButton from "~/components/category/edit";
-import ExportButton from "~/components/ExportButton";
-import ImportButton from "~/components/ImportButton";
-import ReorderCategoriesButton from "~/components/ReorderCategoriesButton";
-import SortableServiceRow from "~/components/SortableServiceRow";
 import CreateServiceButton from "~/components/service/create";
 import { Button } from "~/components/ui/button";
 import { Separator } from "~/components/ui/separator";
@@ -34,9 +36,9 @@ import {
 	TableRow,
 } from "~/components/ui/table";
 import type { Category, Service } from "~/server/db/schema";
-import { api } from "~/utils/api";
+import { api } from "~/trpc/react";
 
-export default function AdminPage() {
+export function AdminPage() {
 	const categoriesQuery = api.category.getAll.useQuery();
 	const utils = api.useUtils();
 	const refreshIndexPageMutation = api.service.refresh.useMutation({

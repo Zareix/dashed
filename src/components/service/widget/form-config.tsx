@@ -85,7 +85,7 @@ const WidgetFormConfig = () => {
 									return "Invalid value";
 								},
 							}}
-							// @ts-ignore
+							// @ts-expect-error
 							name={`widget.config.${key}`}
 							render={({ field }) => (
 								<FormItem>

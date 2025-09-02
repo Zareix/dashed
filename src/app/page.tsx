@@ -1,9 +1,8 @@
-import { asc } from "drizzle-orm";
-import { PHASE_PRODUCTION_BUILD } from "next/dist/shared/lib/constants";
 import Link from "next/link";
 import { AlternativeUrls } from "~/components/alternative-urls";
-import Widget from "~/components/service/widget";
+import MonitorService from "~/components/MonitorService";
 import { ServiceIcon } from "~/components/ServiceIcon";
+import Widget from "~/components/service/widget";
 import { Button } from "~/components/ui/button";
 import {
 	HoverCard,
@@ -11,42 +10,7 @@ import {
 	HoverCardTrigger,
 } from "~/components/ui/hover-card";
 import { cn } from "~/lib/utils";
-import type { WIDGETS } from "~/lib/widgets";
-import { db } from "~/server/db";
-import {
-	type AlternativeUrl,
-	categoryTable,
-	servicesTable,
-} from "~/server/db/schema";
-
-export const revalidate = 10;
-
-const getData = async () => {
-	if (process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD) {
-		return [];
-	}
-	const categories = await db.query.categoryTable.findMany({
-		with: {
-			services: {
-				orderBy: [asc(servicesTable.order)],
-			},
-		},
-		orderBy: [asc(categoryTable.order)],
-	});
-	return categories.map((category) => ({
-		name: category.name,
-		maxCols: category.maxCols,
-		services: category.services.map((service) => ({
-			id: service.id,
-			name: service.name,
-			url: service.url,
-			icon: service.icon,
-			openInNewTab: service.openInNewTab,
-			widget: service.widget as WIDGETS,
-			alternativeUrls: service.alternativeUrls as Array<AlternativeUrl>,
-		})),
-	}));
-};
+import { getData } from "~/server/data";
 
 const getColsClassName = (cols: number) => {
 	switch (cols) {
@@ -67,23 +31,6 @@ const getColsClassName = (cols: number) => {
 
 export default async function Home() {
 	const categories = await getData();
-	// const healthQuery = api.health.health.useQuery(undefined, {
-	// 	retry: false,
-	// 	refetchInterval: 1000 * 3,
-	// });
-
-	// useEffect(() => {
-	// 	if (healthQuery.isPending) return;
-	// 	if (healthQuery.isSuccess && healthQuery.data?.status === "ok") {
-	// 		toast.dismiss();
-	// 		return;
-	// 	}
-
-	// 	toast.error("Unable to connect to the server", {
-	// 		duration: Number.POSITIVE_INFINITY,
-	// 		id: "health-error",
-	// 	});
-	// }, [healthQuery.data, healthQuery.isPending, healthQuery.isSuccess]);
 
 	return (
 		<>
@@ -126,6 +73,7 @@ export default async function Home() {
 										{/* {healthQuery.data?.status === "ok" && (
 											<MonitorService service={service} />
 										)} */}
+										<MonitorService service={service} />
 										<AlternativeUrls
 											alternativeUrls={service.alternativeUrls}
 										/>

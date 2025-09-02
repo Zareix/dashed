@@ -5,7 +5,7 @@ import { z } from "zod";
 import { WIDGETS } from "~/lib/widgets";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { servicesTable } from "~/server/db/schema";
-import { refreshIndexPage } from "~/utils/api";
+import { refreshIndexPage } from "~/server/lib";
 
 export const serviceRouter = createTRPCRouter({
 	create: publicProcedure
@@ -41,7 +41,7 @@ export const serviceRouter = createTRPCRouter({
 				...input,
 				order: getMaxOrder + 1,
 			});
-			refreshIndexPage();
+			await refreshIndexPage();
 		}),
 	edit: publicProcedure
 		.input(
@@ -75,13 +75,13 @@ export const serviceRouter = createTRPCRouter({
 				.update(servicesTable)
 				.set(input)
 				.where(eq(servicesTable.id, input.id));
-			refreshIndexPage();
+			await refreshIndexPage();
 		}),
 	delete: publicProcedure
 		.input(z.object({ id: z.number() }))
 		.mutation(async ({ ctx, input }) => {
 			await ctx.db.delete(servicesTable).where(eq(servicesTable.id, input.id));
-			refreshIndexPage();
+			await refreshIndexPage();
 		}),
 	reorder: publicProcedure
 		.input(z.object({ categoryName: z.string(), order: z.array(z.number()) }))
@@ -97,11 +97,10 @@ export const serviceRouter = createTRPCRouter({
 				);
 			});
 
-			refreshIndexPage();
+			await refreshIndexPage();
 		}),
 	refresh: publicProcedure.mutation(async () => {
-		console.log("Refreshing index page...");
-		refreshIndexPage();
+		await refreshIndexPage();
 	}),
 	ping: publicProcedure
 		.input(z.object({ url: z.string().url() }))

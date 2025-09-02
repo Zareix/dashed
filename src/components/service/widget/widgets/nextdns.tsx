@@ -1,5 +1,5 @@
 import type { WIDGETS } from "~/lib/widgets";
-import { api } from "~/utils/api";
+import { api } from "~/trpc/react";
 
 type Props = {
 	config: Extract<WIDGETS, { type: "nextdns" }>["config"];

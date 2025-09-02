@@ -14,7 +14,7 @@ import {
 	DialogTrigger,
 } from "~/components/ui/dialog";
 import type { Service } from "~/server/db/schema";
-import { api } from "~/utils/api";
+import { api } from "~/trpc/react";
 
 const DeleteServiceButton = ({
 	service: { id, name },

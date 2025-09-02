@@ -1,3 +1,5 @@
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon } from "lucide-react";
 import { useState } from "react";
@@ -21,7 +23,7 @@ import {
 	FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { api } from "~/utils/api";
+import { api } from "~/trpc/react";
 
 const categoryCreateSchema = z.object({
 	name: z.string().check(z.minLength(1, "Name is required")),
@@ -98,7 +100,7 @@ const CreateCategoryButton = () => {
 											placeholder="Max columns"
 											{...field}
 											onChange={(e) => {
-												field.onChange(Number.parseInt(e.target.value));
+												field.onChange(Number.parseInt(e.target.value, 10));
 											}}
 										/>
 									</FormControl>

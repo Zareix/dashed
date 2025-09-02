@@ -1,3 +1,5 @@
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -21,7 +23,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import type { Category } from "~/server/db/schema";
-import { api } from "~/utils/api";
+import { api } from "~/trpc/react";
 
 const categoryEditSchema = z.object({
 	name: z.string().check(z.minLength(1, "Name is required")),
@@ -96,7 +98,7 @@ const EditCategoryButton = ({
 											placeholder="Max columns"
 											{...field}
 											onChange={(e) => {
-												field.onChange(Number.parseInt(e.target.value));
+												field.onChange(Number.parseInt(e.target.value, 10));
 											}}
 										/>
 									</FormControl>

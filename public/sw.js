@@ -1,4 +1,4 @@
-const AUTHORIZED_DOMAINS = ["cdn.jsdelivr.net"];
+console.log("Service worker script loaded!");
 
 const installEvent = () => {
 	self.addEventListener("install", () => {
@@ -14,7 +14,7 @@ const activateEvent = () => {
 };
 activateEvent();
 
-const cacheName = "v2";
+const cacheName = "v3";
 
 const handleFetch = async (e) => {
 	const res = await fetch(e.request, {
@@ -31,22 +31,35 @@ const handleFetch = async (e) => {
 const fetchEvent = () => {
 	self.addEventListener("fetch", (e) => {
 		const url = new URL(e.request.url);
-		console.log(url);
+		console.log("Service Worker intercepting:", url.href);
 
+		// Special test endpoint
+		if (url.pathname === "/sw-test") {
+			console.log("Service Worker: Handling test request!");
+			e.respondWith(
+				new Response("Service Worker is working!", {
+					headers: { "Content-Type": "text/plain" },
+				}),
+			);
+			return;
+		}
+
+		// Skip certain requests
 		if (
 			e.request.url.includes("/api/trpc") ||
 			e.request.url.includes("/admin") ||
 			e.request.url.startsWith("chrome-extension") ||
-			url.origin !== self.location.origin ||
-			!AUTHORIZED_DOMAINS.includes(url.hostname)
-		)
+			url.origin !== self.location.origin
+		) {
+			console.log("Skipping request:", url.href);
 			return;
+		}
+
 		e.respondWith(
 			handleFetch(e)
 				.catch(() => caches.match(e.request))
-				.then((res) => res),
+				.then((res) => res || fetch(e.request)),
 		);
 	});
 };
-
 fetchEvent();

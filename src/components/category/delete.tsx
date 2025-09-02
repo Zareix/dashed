@@ -1,3 +1,5 @@
+"use client";
+
 import { TrashIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -12,7 +14,7 @@ import {
 	DialogTrigger,
 } from "~/components/ui/dialog";
 import type { Category } from "~/server/db/schema";
-import { api } from "~/utils/api";
+import { api } from "~/trpc/react";
 
 const DeleteCategoryButton = ({
 	category: { name },

@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { isAuthorizedDomain } from "~/lib/utils";
 import type { Service } from "~/server/db/schema";
 
 type Props = {
@@ -20,20 +19,6 @@ export const ServiceIcon = ({ service, className }: Props) => {
 	}, [service.icon]);
 
 	if (isError) return <p className="w-8 h-8 bg-gray-300" />;
-
-	if (!isAuthorizedDomain(new URL(service.icon).hostname)) {
-		return (
-			// biome-ignore lint/performance/noImgElement: External icons are not optimized
-			<img
-				src={service.icon}
-				alt={`${service.name} icon`}
-				width={32}
-				height={32}
-				className={className}
-				onError={() => setIsError(true)}
-			/>
-		);
-	}
 
 	return (
 		<Image

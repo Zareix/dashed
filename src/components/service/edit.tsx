@@ -24,10 +24,9 @@ import {
 	FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { isAuthorizedDomain } from "~/lib/utils";
 import { WIDGETS } from "~/lib/widgets";
 import type { Service } from "~/server/db/schema";
-import { api } from "~/utils/api";
+import { api } from "~/trpc/react";
 
 const serviceEditSchema = z.object({
 	id: z.number(),
@@ -143,25 +142,15 @@ const EditServiceButton = ({
 									<FormLabel>Icon</FormLabel>
 									<FormControl>
 										<div className="flex items-center gap-2">
-											{field.value &&
-												(isAuthorizedDomain(field.value) ? (
-													<Image
-														src={field.value}
-														alt="service icon"
-														width={32}
-														height={32}
-														className="h-8 w-8 object-contain"
-													/>
-												) : (
-													// biome-ignore lint/performance/noImgElement: Here we use an img tag to avoid Next Image issues with external images
-													<img
-														src={field.value}
-														alt="service icon"
-														width={32}
-														height={32}
-														className="h-8 w-8 object-contain"
-													/>
-												))}
+											{field.value && (
+												<Image
+													src={field.value}
+													alt="service icon"
+													width={32}
+													height={32}
+													className="h-8 w-8 object-contain"
+												/>
+											)}
 											<Input placeholder="Service icon" {...field} />
 										</div>
 									</FormControl>

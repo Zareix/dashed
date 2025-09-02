@@ -1,3 +1,5 @@
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon, Trash2 } from "lucide-react";
 import { useState } from "react";
@@ -33,7 +35,7 @@ import {
 } from "~/components/ui/select";
 import { WIDGETS } from "~/lib/widgets";
 import type { Category } from "~/server/db/schema";
-import { api } from "~/utils/api";
+import { api } from "~/trpc/react";
 
 const serviceCreateSchema = z.object({
 	name: z.string().min(1),
@@ -122,7 +124,7 @@ const CreateServiceButton = ({
 									<FormControl>
 										<Select
 											onValueChange={(value) => {
-												field.onChange(Number.parseInt(value));
+												field.onChange(Number.parseInt(value, 10));
 											}}
 											value={field.value?.toString()}
 										>

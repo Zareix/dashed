@@ -1,3 +1,5 @@
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImportIcon } from "lucide-react";
 import { useState } from "react";
@@ -28,7 +30,7 @@ import {
 	SelectValue,
 } from "~/components/ui/select";
 import { Textarea } from "~/components/ui/textarea";
-import { api } from "~/utils/api";
+import { api } from "~/trpc/react";
 
 const importSchema = z.object({
 	type: z.enum(["dashed", "homepage"]),

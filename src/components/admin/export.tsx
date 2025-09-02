@@ -1,7 +1,9 @@
+"use client";
+
 import { UploadIcon } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
-import { api } from "~/utils/api";
+import { api } from "~/trpc/react";
 
 const ExportButton = () => {
 	const exportMutation = api.category.export.useMutation({

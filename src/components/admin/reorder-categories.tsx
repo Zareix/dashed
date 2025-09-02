@@ -1,3 +1,5 @@
+"use client";
+
 import {
 	closestCenter,
 	DndContext,
@@ -15,7 +17,7 @@ import {
 } from "@dnd-kit/sortable";
 import { useState } from "react";
 import { toast } from "sonner";
-import SortableCategoryRow from "~/components/SortableCategoryRow";
+import SortableCategoryRow from "~/components/admin/sortable-cat-row";
 import { Button } from "~/components/ui/button";
 import {
 	Dialog,
@@ -26,7 +28,7 @@ import {
 	DialogTrigger,
 } from "~/components/ui/dialog";
 import type { Category } from "~/server/db/schema";
-import { api } from "~/utils/api";
+import { api } from "~/trpc/react";
 
 const ReorderCategoriesButton = ({
 	categories,
