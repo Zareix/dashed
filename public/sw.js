@@ -21,8 +21,9 @@ const handleFetch = async (e) => {
 		signal: AbortSignal.timeout(2000),
 	});
 	if (res.ok) {
-		const cache = await caches.open(cacheName);
-		await cache.put(e.request, res.clone());
+		caches.open(cacheName).then((cache) => {
+			cache.put(e.request, res.clone());
+		});
 		return res;
 	}
 	throw new Error("Network response was not ok");
@@ -33,18 +34,6 @@ const fetchEvent = () => {
 		const url = new URL(e.request.url);
 		console.log("Service Worker intercepting:", url.href);
 
-		// Special test endpoint
-		if (url.pathname === "/sw-test") {
-			console.log("Service Worker: Handling test request!");
-			e.respondWith(
-				new Response("Service Worker is working!", {
-					headers: { "Content-Type": "text/plain" },
-				}),
-			);
-			return;
-		}
-
-		// Skip certain requests
 		if (
 			e.request.url.includes("/api/trpc") ||
 			e.request.url.includes("/admin") ||

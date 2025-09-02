@@ -15,7 +15,7 @@ import {
 	sortableKeyboardCoordinates,
 	verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { toast } from "sonner";
 import SortableCategoryRow from "~/components/admin/sortable-cat-row";
 import { Button } from "~/components/ui/button";
@@ -27,14 +27,18 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "~/components/ui/dialog";
-import type { Category } from "~/server/db/schema";
 import { api } from "~/trpc/react";
 
-const ReorderCategoriesButton = ({
-	categories,
-}: {
-	categories: Array<Pick<Category, "name">>;
-}) => {
+export const ReorderCategoriesButton = () => {
+	return (
+		<Suspense fallback={<Button disabled>Reorder categories</Button>}>
+			<Content />
+		</Suspense>
+	);
+};
+
+const Content = () => {
+	const [categories] = api.category.getAll.useSuspenseQuery();
 	const [categoriesOrder, setCategoriesOrder] = useState(
 		categories.map((c) => c.name),
 	);
@@ -114,5 +118,3 @@ const ReorderCategoriesButton = ({
 		</Dialog>
 	);
 };
-
-export default ReorderCategoriesButton;
