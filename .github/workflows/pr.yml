@@ -10,7 +10,8 @@ jobs:
     name: Docker
     permissions:
       contents: read
-      packages: read
+      packages: write
+      id-token: write
     uses: zareix/gh-actions/.github/workflows/docker.yml@main
     with:
       tag: pr-${{ github.event.number }}

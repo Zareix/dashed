@@ -23,7 +23,7 @@ jobs:
     with:
       tag: ${{ needs.get-version.outputs.version }}
       push-image: true
-      platforms: linux/amd64,linux/arm64
+      platforms: linux/amd64 #,linux/arm64
 
   release:
     name: Create release
