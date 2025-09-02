@@ -1,5 +1,6 @@
 import {
 	beszelSchema,
+	controldSchema,
 	cupSchema,
 	gatusSchema,
 	komodoSchema,
@@ -12,6 +13,7 @@ import type {
 	BeszelAuthResponse,
 	BeszelSystemResponse,
 } from "~/lib/widgets/beszel";
+import type { ControlDStatusResponse } from "~/lib/widgets/controld";
 import type { CupResponse } from "~/lib/widgets/cup";
 import type { GatusStatusesResponse } from "~/lib/widgets/gatus";
 import type {
@@ -290,6 +292,46 @@ export const widgetRouter = createTRPCRouter({
 				return false;
 			} catch (e) {
 				console.log("Error nextdns", e);
+				return false;
+			}
+		}),
+	controld: publicProcedure
+		.input(controldSchema.shape.config)
+		.query(async ({ input }) => {
+			try {
+				const yesterdayTs = Date.now() - 24 * 60 * 60 * 1000;
+				console.log(yesterdayTs);
+				const res = await fetch(
+					`https://europe.analytics.controld.com/reports/dns-queries/all-by-verdict/time-series?&startTs=${yesterdayTs}&granularity=hour&tz=Europe%2FLondon`,
+					{
+						headers: {
+							Authorization: `Bearer ${input.apiKey}`,
+						},
+					},
+				);
+				if (res.ok) {
+					const data = (await res.json()) as ControlDStatusResponse;
+					const queries = data.body.queries
+						.map((d) => ({
+							blocked: d.count[0],
+							allowed: d.count[1],
+						}))
+						.reduce(
+							(acc, cur) => ({
+								blocked: acc.blocked + cur.blocked,
+								allowed: acc.allowed + cur.allowed,
+							}),
+							{ blocked: 0, allowed: 0 },
+						);
+					return {
+						allowed: queries.allowed,
+						blocked: queries.blocked,
+						total: queries.allowed + queries.blocked,
+					};
+				}
+				return false;
+			} catch (e) {
+				console.log("Error controld", e);
 				return false;
 			}
 		}),
