@@ -14,28 +14,28 @@ export const cupSchema = z.object({
 export const sonarrSchema = z.object({
 	type: z.literal("sonarr"),
 	config: z.object({
-		url: z.string().url(),
+		url: z.url(),
 		apiKey: z.string(),
 	}),
 });
 export const radarrSchema = z.object({
 	type: z.literal("radarr"),
 	config: z.object({
-		url: z.string().url(),
+		url: z.url(),
 		apiKey: z.string(),
 	}),
 });
 export const uptimeKumaSchema = z.object({
 	type: z.literal("uptime-kuma"),
 	config: z.object({
-		url: z.string().url(),
+		url: z.url(),
 		apiKey: z.string(),
 	}),
 });
 export const beszelSchema = z.object({
 	type: z.literal("beszel"),
 	config: z.object({
-		url: z.string().url(),
+		url: z.url(),
 		email: z.string(),
 		password: z.string(),
 	}),
@@ -43,7 +43,7 @@ export const beszelSchema = z.object({
 export const komodoSchema = z.object({
 	type: z.literal("komodo"),
 	config: z.object({
-		url: z.string().url(),
+		url: z.url(),
 		apiKey: z.string(),
 		apiSecret: z.string(),
 	}),

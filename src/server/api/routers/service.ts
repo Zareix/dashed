@@ -13,17 +13,17 @@ export const serviceRouter = createTRPCRouter({
 			z.object({
 				id: z.number().optional(),
 				name: z.string().min(1),
-				url: z.string().url(),
+				url: z.url(),
 				alternativeUrls: z
 					.array(
 						z.object({
-							url: z.string().url(),
+							url: z.url(),
 							name: z.string().min(1),
 						}),
 					)
 					.optional()
 					.default([]),
-				icon: z.string().min(1),
+				icon: z.url(),
 				categoryName: z.string(),
 				openInNewTab: z.boolean(),
 				widget: WIDGETS,
@@ -48,11 +48,11 @@ export const serviceRouter = createTRPCRouter({
 			z.object({
 				id: z.number().optional(),
 				name: z.string().min(1),
-				url: z.string().url(),
+				url: z.url(),
 				alternativeUrls: z
 					.array(
 						z.object({
-							url: z.string().url(),
+							url: z.url(),
 							name: z.string().min(1),
 						}),
 					)
@@ -103,7 +103,7 @@ export const serviceRouter = createTRPCRouter({
 		await refreshIndexPage();
 	}),
 	ping: publicProcedure
-		.input(z.object({ url: z.string().url() }))
+		.input(z.object({ url: z.url() }))
 		.query(async ({ input }) => {
 			try {
 				const res = await fetch(input.url, {

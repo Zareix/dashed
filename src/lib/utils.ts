@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { AUTHORIZED_DOMAINS } from "~/utils/constants";
+import { OPTIMIZED_IMAGES_DOMAINS } from "~/utils/constants";
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
@@ -8,7 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export const isAuthorizedDomain = (url: string) => {
 	try {
-		return AUTHORIZED_DOMAINS.includes(new URL(url).hostname);
+		return OPTIMIZED_IMAGES_DOMAINS.includes(new URL(url).hostname);
 	} catch {
 		return false;
 	}

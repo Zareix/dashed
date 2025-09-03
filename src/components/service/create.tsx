@@ -49,7 +49,7 @@ const serviceCreateSchema = z.object({
 		)
 		.optional(),
 	categoryName: z.string(),
-	icon: z.string().min(1),
+	icon: z.url(),
 	openInNewTab: z.boolean(),
 	widget: WIDGETS,
 });
@@ -181,7 +181,8 @@ const CreateServiceButton = ({
 										<div className="flex items-center gap-2">
 											{field.value && (
 												<ServiceIcon
-													service={{ name: "New Service", icon: field.value }}
+													service={{ icon: field.value, name: "service" }}
+													className="h-8 w-8 object-contain"
 												/>
 											)}
 											<Input placeholder="Service icon" {...field} />

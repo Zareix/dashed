@@ -1,10 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PencilIcon, PlusIcon, Trash2 } from "lucide-react";
-import Image from "next/image";
 import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { ServiceIcon } from "~/components/ServiceIcon";
 import WidgetFormConfig from "~/components/service/widget/form-config";
 import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
@@ -42,7 +42,7 @@ const serviceEditSchema = z.object({
 		.optional()
 		.default([]),
 	categoryName: z.string(),
-	icon: z.string().min(1),
+	icon: z.url(),
 	openInNewTab: z.boolean(),
 	widget: WIDGETS,
 });
@@ -143,11 +143,8 @@ const EditServiceButton = ({
 									<FormControl>
 										<div className="flex items-center gap-2">
 											{field.value && (
-												<Image
-													src={field.value}
-													alt="service icon"
-													width={32}
-													height={32}
+												<ServiceIcon
+													service={{ icon: field.value, name: "service" }}
 													className="h-8 w-8 object-contain"
 												/>
 											)}
