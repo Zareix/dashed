@@ -14,7 +14,6 @@ const MonitorService = ({
 		retry: false,
 		refetchInterval: 1000 * 3,
 	});
-
 	const pingQuery = api.service.ping.useQuery(
 		{
 			url: service.url,

@@ -1,5 +1,4 @@
 import { Geist } from "next/font/google";
-import { ServiceWorkerRegister } from "~/components/sw";
 import { Toaster } from "~/components/ui/sonner";
 import { TRPCReactProvider } from "~/trpc/react";
 
@@ -48,7 +47,6 @@ export default function RootLayout({
 							"bg-background/80 backdrop-blur-sm border-border text-foreground",
 					}}
 				/>
-				<ServiceWorkerRegister />
 			</body>
 		</html>
 	);

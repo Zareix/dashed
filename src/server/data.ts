@@ -29,6 +29,7 @@ export const getData = cache(async () => {
 			name: service.name,
 			url: service.url,
 			icon: service.icon,
+			iconDark: service.iconDark,
 			openInNewTab: service.openInNewTab,
 			widget: service.widget as WIDGETS,
 			alternativeUrls: service.alternativeUrls as Array<AlternativeUrl>,

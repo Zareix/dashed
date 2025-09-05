@@ -11,8 +11,10 @@ import type { AlternativeUrl } from "~/server/db/schema";
 
 export const AlternativeUrls = ({
 	alternativeUrls,
+	openInNewTab,
 }: {
 	alternativeUrls?: Array<AlternativeUrl>;
+	openInNewTab: boolean;
 }) => {
 	if (!alternativeUrls || alternativeUrls.length === 0) {
 		return null;
@@ -20,7 +22,7 @@ export const AlternativeUrls = ({
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger
-				onClick={(e) => e.preventDefault()}
+				onClick={(e) => e.stopPropagation}
 				className="ml-auto"
 			>
 				<EllipsisVerticalIcon />
@@ -32,8 +34,8 @@ export const AlternativeUrls = ({
 						<a
 							href={url.url}
 							className="flex items-center gap-2 w-full"
-							target="_blank"
-							rel="noopener noreferrer"
+							target={openInNewTab ? "_blank" : undefined}
+							rel={openInNewTab ? "noopener noreferrer" : undefined}
 						>
 							{url.name}
 						</a>

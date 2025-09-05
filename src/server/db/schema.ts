@@ -34,6 +34,7 @@ export const servicesTable = sqliteTable(
 			.default(sql`[]`)
 			.notNull(),
 		icon: text("icon", { length: 256 }).notNull(),
+		iconDark: text("icon_dark", { length: 256 }),
 		order: int("order", { mode: "number" }).notNull().default(sql`0`),
 		widget: text("widget", { mode: "json" })
 			.default(sql`{"type":"none","config":{}}`)

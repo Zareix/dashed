@@ -50,6 +50,7 @@ const serviceCreateSchema = z.object({
 		.optional(),
 	categoryName: z.string(),
 	icon: z.url(),
+	iconDark: z.url().nullable(),
 	openInNewTab: z.boolean(),
 	widget: WIDGETS,
 });
@@ -186,6 +187,31 @@ const CreateServiceButton = ({
 												/>
 											)}
 											<Input placeholder="Service icon" {...field} />
+										</div>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="iconDark"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Icon Dark</FormLabel>
+									<FormControl>
+										<div className="flex items-center gap-2">
+											{field.value && (
+												<ServiceIcon
+													service={{ icon: field.value, name: "service dark" }}
+													className="h-8 w-8 object-contain"
+												/>
+											)}
+											<Input
+												placeholder="Service dark icon"
+												{...field}
+												value={field.value ?? undefined}
+											/>
 										</div>
 									</FormControl>
 									<FormMessage />

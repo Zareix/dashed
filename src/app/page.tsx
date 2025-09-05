@@ -60,8 +60,10 @@ export default async function Home() {
 									<a
 										href={service.url}
 										className="h-full items-center gap-2 rounded-lg border border-border bg-foreground/5 p-2 shadow-xs relative flex has-[.ping-error]:border-red-500"
-										rel={service.openInNewTab ? "noopener noreferrer" : ""}
-										target={service.openInNewTab ? "_blank" : ""}
+										rel={
+											service.openInNewTab ? "noopener noreferrer" : undefined
+										}
+										target={service.openInNewTab ? "_blank" : undefined}
 									>
 										<ServiceIcon
 											service={service}
@@ -70,12 +72,10 @@ export default async function Home() {
 										<div className="overflow-hidden whitespace-nowrap text-ellipsis">
 											{service.name}
 										</div>
-										{/* {healthQuery.data?.status === "ok" && (
-											<MonitorService service={service} />
-										)} */}
 										<MonitorService service={service} />
 										<AlternativeUrls
 											alternativeUrls={service.alternativeUrls}
+											openInNewTab={service.openInNewTab}
 										/>
 									</a>
 								</ServiceWrapper>

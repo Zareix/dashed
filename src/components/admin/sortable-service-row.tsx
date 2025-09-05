@@ -19,6 +19,7 @@ function SortableServiceRow({
 		| "url"
 		| "alternativeUrls"
 		| "icon"
+		| "iconDark"
 		| "categoryName"
 		| "openInNewTab"
 		| "widget"
@@ -51,7 +52,11 @@ function SortableServiceRow({
 			</TableCell>
 			<TableCell>
 				<ServiceIcon
-					service={{ name: item.name, icon: item.icon }}
+					service={{
+						name: item.name,
+						icon: item.icon,
+						iconDark: item.iconDark,
+					}}
 					className="h-8 w-8 object-contain"
 				/>
 			</TableCell>

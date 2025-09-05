@@ -24,6 +24,7 @@ export const serviceRouter = createTRPCRouter({
 					.optional()
 					.default([]),
 				icon: z.url(),
+				iconDark: z.string().nullable(),
 				categoryName: z.string(),
 				openInNewTab: z.boolean(),
 				widget: WIDGETS,
@@ -60,6 +61,7 @@ export const serviceRouter = createTRPCRouter({
 					.default([]),
 				categoryName: z.string(),
 				icon: z.string().min(1),
+				iconDark: z.string().nullable(),
 				openInNewTab: z.boolean(),
 				widget: WIDGETS,
 			}),
