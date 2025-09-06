@@ -15,8 +15,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "~/components/ui/select";
+import type { ServiceCreateFormData } from "~/lib/schemas";
 import { WIDGETS } from "~/lib/widgets";
-import type { ServiceCreateFormData } from "../create";
 
 const WidgetFormConfig = () => {
 	const form = useFormContext<ServiceCreateFormData>();

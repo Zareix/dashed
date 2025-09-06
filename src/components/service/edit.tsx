@@ -3,7 +3,6 @@ import { PencilIcon, PlusIcon, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
 import { ServiceIcon } from "~/components/ServiceIcon";
 import WidgetFormConfig from "~/components/service/widget/form-config";
 import { Button } from "~/components/ui/button";
@@ -24,31 +23,9 @@ import {
 	FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { WIDGETS } from "~/lib/widgets";
+import { type ServiceEditFormData, serviceEditSchema } from "~/lib/schemas";
 import type { Service } from "~/server/db/schema";
 import { api } from "~/trpc/react";
-
-const serviceEditSchema = z.object({
-	id: z.number(),
-	name: z.string().min(1),
-	url: z.url(),
-	alternativeUrls: z
-		.array(
-			z.object({
-				url: z.url(),
-				name: z.string().min(1),
-			}),
-		)
-		.optional()
-		.default([]),
-	categoryName: z.string(),
-	icon: z.url(),
-	iconDark: z.url().nullable(),
-	openInNewTab: z.boolean(),
-	widget: WIDGETS,
-});
-
-export type ServiceEditFormData = z.infer<typeof serviceEditSchema>;
 
 const EditServiceButton = ({
 	service,
@@ -70,11 +47,9 @@ const EditServiceButton = ({
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const utils = api.useUtils();
-	const editServiceMutation = (
-		service ? api.service.edit : api.service.edit
-	).useMutation({
-		onSuccess: async () => {
-			toast.success("Service edited");
+	const editServiceMutation = api.service.edit.useMutation({
+		onSuccess: async (data) => {
+			toast.success(`Service ${data?.name} edited`);
 			setIsOpen(false);
 			await utils.category.getAll.invalidate();
 		},

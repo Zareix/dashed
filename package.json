@@ -1,6 +1,6 @@
 {
 	"name": "dashboard",
-	"version": "2.9.2",
+	"version": "2.9.3",
 	"private": true,
 	"type": "module",
 	"scripts": {
@@ -25,7 +25,7 @@
 		"@radix-ui/react-separator": "^1.1.7",
 		"@radix-ui/react-slot": "^1.2.3",
 		"@t3-oss/env-nextjs": "^0.13.8",
-		"@tanstack/react-query": "^5.85.9",
+		"@tanstack/react-query": "^5.87.1",
 		"@trpc/client": "11.5.1",
 		"@trpc/next": "11.5.1",
 		"@trpc/react-query": "11.5.1",
@@ -34,7 +34,7 @@
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"drizzle-orm": "^0.44.5",
-		"geist": "^1.4.2",
+		"geist": "^1.5.1",
 		"js-yaml": "^4.1.0",
 		"lucide-react": "^0.542.0",
 		"next": "15.5.2",
@@ -51,18 +51,21 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.2.3",
-		"@tailwindcss/postcss": "^4.1.12",
+		"@tailwindcss/postcss": "^4.1.13",
 		"@total-typescript/ts-reset": "^0.6.1",
 		"@types/bun": "^1.2.21",
 		"@types/react": "^19.1.12",
 		"@types/react-dom": "^19.1.9",
 		"drizzle-kit": "^0.31.4",
 		"postcss": "^8.5.6",
-		"tailwindcss": "^4.1.12",
-		"tw-animate-css": "^1.3.7",
+		"tailwindcss": "^4.1.13",
+		"tw-animate-css": "^1.3.8",
 		"typescript": "^5.9.2"
 	},
 	"ct3aMetadata": {
 		"initVersion": "7.32.0"
-	}
+	},
+	"trustedDependencies": [
+		"@tailwindcss/oxide"
+	]
 }

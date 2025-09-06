@@ -5,7 +5,6 @@ import { PlusIcon, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
 import { ServiceIcon } from "~/components/ServiceIcon";
 import WidgetFormConfig from "~/components/service/widget/form-config";
 import { Button } from "~/components/ui/button";
@@ -33,29 +32,9 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "~/components/ui/select";
-import { WIDGETS } from "~/lib/widgets";
+import { type ServiceCreateFormData, serviceCreateSchema } from "~/lib/schemas";
 import type { Category } from "~/server/db/schema";
 import { api } from "~/trpc/react";
-
-const serviceCreateSchema = z.object({
-	name: z.string().min(1),
-	url: z.url(),
-	alternativeUrls: z
-		.array(
-			z.object({
-				url: z.url(),
-				name: z.string().min(1),
-			}),
-		)
-		.optional(),
-	categoryName: z.string(),
-	icon: z.url(),
-	iconDark: z.url().nullable(),
-	openInNewTab: z.boolean(),
-	widget: WIDGETS,
-});
-
-export type ServiceCreateFormData = z.infer<typeof serviceCreateSchema>;
 
 const CreateServiceButton = ({
 	categories,

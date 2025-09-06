@@ -1,18 +1,25 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { GripVertical } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { ServiceIcon } from "~/components/ServiceIcon";
 import DeleteServiceButton from "~/components/service/delete";
 import EditServiceButton from "~/components/service/edit";
+import { Checkbox } from "~/components/ui/checkbox";
+import { Input } from "~/components/ui/input";
 import { TableCell, TableRow } from "~/components/ui/table";
+import { serviceEditSchema } from "~/lib/schemas";
 import { cn } from "~/lib/utils";
 import type { Service } from "~/server/db/schema";
+import { api } from "~/trpc/react";
 
 function SortableServiceRow({
-	item,
+	service,
 	loading = false,
 }: {
-	item?: Pick<
+	service?: Pick<
 		Service,
 		| "id"
 		| "name"
@@ -26,15 +33,33 @@ function SortableServiceRow({
 	>;
 	loading?: boolean;
 }) {
+	const utils = api.useUtils();
+	const editServiceMutation = api.service.edit.useMutation({
+		onSuccess: async (data) => {
+			toast.success(`Service '${data?.name}' edited`);
+			await utils.category.getAll.invalidate();
+		},
+		onError: () => {
+			toast.error("An error occurred while editing service");
+		},
+	});
+	const form = useForm({
+		resolver: zodResolver(serviceEditSchema),
+		defaultValues: service,
+	});
 	const { attributes, listeners, setNodeRef, transform, transition } =
-		useSortable({ id: item?.id ?? "" });
+		useSortable({ id: service?.id ?? "" });
 
 	const style = {
 		transform: CSS.Transform.toString(transform),
 		transition,
 	};
 
-	if (!item) {
+	const editSubmit = form.handleSubmit((data) => {
+		editServiceMutation.mutate(data);
+	});
+
+	if (!service) {
 		return null;
 	}
 
@@ -53,20 +78,49 @@ function SortableServiceRow({
 			<TableCell>
 				<ServiceIcon
 					service={{
-						name: item.name,
-						icon: item.icon,
-						iconDark: item.iconDark,
+						name: service.name,
+						icon: service.icon,
+						iconDark: service.iconDark,
 					}}
 					className="h-8 w-8 object-contain"
 				/>
 			</TableCell>
-			<TableCell>{item.name}</TableCell>
-			<TableCell>{item.url}</TableCell>
-			<TableCell>{item.openInNewTab ? "Yes" : "No"}</TableCell>
-			<TableCell className="capitalize">{item.widget.type}</TableCell>
 			<TableCell>
-				<EditServiceButton disabled={loading} service={item} />
-				<DeleteServiceButton service={item} />
+				<Input
+					placeholder="Service name"
+					{...form.register("name", { required: true })}
+					onBlur={() => {
+						editSubmit();
+					}}
+				/>
+			</TableCell>
+			<TableCell>
+				<Input
+					placeholder="Service url"
+					{...form.register("url", { required: true })}
+					onBlur={() => {
+						editSubmit();
+					}}
+				/>
+			</TableCell>
+			<TableCell>
+				<div className="flex items-center gap-2">
+					<Checkbox
+						checked={form.watch("openInNewTab")}
+						onCheckedChange={(checked) => {
+							form.setValue("openInNewTab", Boolean(checked));
+							setTimeout(() => {
+								editSubmit();
+							}, 100);
+						}}
+					/>
+					<div>Open in new tab</div>
+				</div>
+			</TableCell>
+			<TableCell className="capitalize">{service.widget.type}</TableCell>
+			<TableCell>
+				<EditServiceButton disabled={loading} service={service} />
+				<DeleteServiceButton service={service} />
 			</TableCell>
 		</TableRow>
 	);

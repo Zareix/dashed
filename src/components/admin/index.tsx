@@ -124,7 +124,7 @@ export function AdminPage() {
 													(serviceId) => (
 														<SortableServiceRow
 															key={serviceId}
-															item={category.services.find(
+															service={category.services.find(
 																(service) => service.id === serviceId,
 															)}
 															loading
@@ -132,7 +132,10 @@ export function AdminPage() {
 													),
 												)
 											: category.services.map((service) => (
-													<SortableServiceRow key={service.id} item={service} />
+													<SortableServiceRow
+														key={service.id}
+														service={service}
+													/>
 												))}
 									</SortableContext>
 								</DndContext>

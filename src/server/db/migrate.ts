@@ -1,4 +1,3 @@
-import { Database } from "bun:sqlite";
 import { writeFile } from "node:fs/promises";
 import { drizzle } from "drizzle-orm/bun-sqlite";
 import { migrate } from "drizzle-orm/bun-sqlite/migrator";
@@ -11,10 +10,10 @@ if (!(await Bun.file(env.DATABASE_PATH).exists())) {
 
 console.log("Migrating database...");
 
-const sqlite = new Database(env.DATABASE_PATH);
-sqlite.exec("PRAGMA journal_mode = WAL;");
-sqlite.exec("PRAGMA foreign_keys = ON;");
-const db = drizzle(sqlite);
+const db = drizzle(env.DATABASE_PATH);
+db.run("PRAGMA journal_mode = WAL;");
+db.run("PRAGMA foreign_keys = ON;");
+
 migrate(db, { migrationsFolder: "./drizzle" });
 
 console.log("Database migrated");

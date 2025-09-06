@@ -1,35 +1,15 @@
 import { TRPCError } from "@trpc/server";
 import { count, eq } from "drizzle-orm";
 import { z } from "zod";
+import { serviceCreateSchema, serviceEditSchema } from "~/lib/schemas";
 
-import { WIDGETS } from "~/lib/widgets";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { servicesTable } from "~/server/db/schema";
 import { refreshIndexPage } from "~/server/lib";
 
 export const serviceRouter = createTRPCRouter({
 	create: publicProcedure
-		.input(
-			z.object({
-				id: z.number().optional(),
-				name: z.string().min(1),
-				url: z.url(),
-				alternativeUrls: z
-					.array(
-						z.object({
-							url: z.url(),
-							name: z.string().min(1),
-						}),
-					)
-					.optional()
-					.default([]),
-				icon: z.url(),
-				iconDark: z.string().nullable(),
-				categoryName: z.string(),
-				openInNewTab: z.boolean(),
-				widget: WIDGETS,
-			}),
-		)
+		.input(serviceCreateSchema)
 		.mutation(async ({ ctx, input }) => {
 			const getMaxOrder =
 				(
@@ -45,27 +25,7 @@ export const serviceRouter = createTRPCRouter({
 			await refreshIndexPage();
 		}),
 	edit: publicProcedure
-		.input(
-			z.object({
-				id: z.number().optional(),
-				name: z.string().min(1),
-				url: z.url(),
-				alternativeUrls: z
-					.array(
-						z.object({
-							url: z.url(),
-							name: z.string().min(1),
-						}),
-					)
-					.optional()
-					.default([]),
-				categoryName: z.string(),
-				icon: z.string().min(1),
-				iconDark: z.string().nullable(),
-				openInNewTab: z.boolean(),
-				widget: WIDGETS,
-			}),
-		)
+		.input(serviceEditSchema)
 		.mutation(async ({ ctx, input }) => {
 			if (!input.id) {
 				throw new TRPCError({
@@ -73,11 +33,14 @@ export const serviceRouter = createTRPCRouter({
 					message: "Missing id",
 				});
 			}
-			await ctx.db
+			const res = await ctx.db
 				.update(servicesTable)
 				.set(input)
-				.where(eq(servicesTable.id, input.id));
+				.where(eq(servicesTable.id, input.id))
+				.returning();
 			await refreshIndexPage();
+
+			return res[0];
 		}),
 	delete: publicProcedure
 		.input(z.object({ id: z.number() }))

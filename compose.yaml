@@ -1,0 +1,11 @@
+services:
+  app:
+    build: .
+    container_name: dashed_app
+    ports:
+      - 4265:3000
+    restart: unless-stopped
+    volumes:
+      - ./db.sqlite:/app/db/db.sqlite
+      - ./db.sqlite-wal:/app/db/db.sqlite-wal
+      - ./db.sqlite-shm:/app/db/db.sqlite-shm

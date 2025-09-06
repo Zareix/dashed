@@ -14,7 +14,7 @@ const globalForDb = globalThis as unknown as {
 
 export const client = globalForDb.client ?? new Database(env.DATABASE_PATH);
 if (env.NODE_ENV !== "production") globalForDb.client = client;
-client.exec("PRAGMA journal_mode = WAL;");
-client.exec("PRAGMA foreign_keys = ON;");
+client.run("PRAGMA journal_mode = WAL;");
+client.run("PRAGMA foreign_keys = ON;");
 
 export const db = drizzle(client, { schema });
