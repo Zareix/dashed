@@ -77,8 +77,6 @@ const WidgetFormConfig = () => {
 								required: true,
 								validate: (value) => {
 									const res = schema.safeParse(value);
-									console.log(res);
-
 									if (res.success) {
 										return true;
 									}

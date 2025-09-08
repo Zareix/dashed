@@ -300,7 +300,6 @@ export const widgetRouter = createTRPCRouter({
 		.query(async ({ input }) => {
 			try {
 				const yesterdayTs = Date.now() - 24 * 60 * 60 * 1000;
-				console.log(yesterdayTs);
 				const res = await fetch(
 					`https://europe.analytics.controld.com/reports/dns-queries/all-by-verdict/time-series?&startTs=${yesterdayTs}&granularity=hour&tz=Europe%2FLondon`,
 					{

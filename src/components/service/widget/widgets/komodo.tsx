@@ -25,6 +25,7 @@ export const KomodoWidget = ({ config }: Props) => {
 		(stack) =>
 			stack.state === "down" ||
 			stack.state === "unhealthy" ||
+			stack.state === "stopped" ||
 			stack.state === "dead" ||
 			stack.state === "unknown",
 	);
