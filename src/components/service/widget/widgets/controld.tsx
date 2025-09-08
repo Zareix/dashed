@@ -19,8 +19,17 @@ export const ControlDWidget = ({ config }: Props) => {
 	}
 
 	const percentageBlocked = data.blocked
-		? ((data.blocked / (data.total + data.blocked)) * 100).toFixed(2)
-		: "0.00";
+		? data.blocked / (data.total + data.blocked)
+		: 0;
+
+	const numberFormatter = new Intl.NumberFormat(window.navigator.language, {
+		style: "decimal",
+	});
+	const percentFormatter = new Intl.NumberFormat(window.navigator.language, {
+		style: "percent",
+		minimumFractionDigits: 2,
+		maximumFractionDigits: 2,
+	});
 
 	return (
 		<div className="max-w-[300px]">
@@ -29,15 +38,15 @@ export const ControlDWidget = ({ config }: Props) => {
 		 [&>div]:text-center [&>div>p]:font-medium [&>div>p]:mt-auto"
 			>
 				<div>
-					<div>{data.total}</div>
+					<div>{numberFormatter.format(data.total)}</div>
 					<p>Total</p>
 				</div>
 				<div>
-					<div>{data.blocked}</div>
+					<div>{numberFormatter.format(data.blocked)}</div>
 					<p>Blocked</p>
 				</div>
 				<div>
-					<div>{percentageBlocked}</div>
+					<div>{percentFormatter.format(percentageBlocked)}</div>
 					<p>% Blocked</p>
 				</div>
 			</div>
