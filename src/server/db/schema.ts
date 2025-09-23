@@ -32,12 +32,14 @@ export const servicesTable = sqliteTable(
 			mode: "json",
 		})
 			.default(sql`[]`)
+			.$type<Array<AlternativeUrl>>()
 			.notNull(),
 		icon: text("icon", { length: 256 }).notNull(),
 		iconDark: text("icon_dark", { length: 256 }),
 		order: int("order", { mode: "number" }).notNull().default(sql`0`),
 		widget: text("widget", { mode: "json" })
-			.default(sql`{"type":"none","config":{}}`)
+			.default(sql`'{"type":"none","config":{}}'`)
+			.$type<WIDGETS>()
 			.notNull(),
 		openInNewTab: int("open_in_new_tab", { mode: "boolean" })
 			.notNull()

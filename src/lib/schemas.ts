@@ -16,7 +16,7 @@ export const serviceEditSchema = z.object({
 		.default([]),
 	categoryName: z.string(),
 	icon: z.url(),
-	iconDark: z.url().nullable(),
+	iconDark: z.url().nullish(),
 	openInNewTab: z.boolean(),
 	widget: WIDGETS,
 });
@@ -36,7 +36,7 @@ export const serviceCreateSchema = z.object({
 		.optional()
 		.default([]),
 	icon: z.url(),
-	iconDark: z.string().nullable(),
+	iconDark: z.string().nullish(),
 	categoryName: z.string(),
 	openInNewTab: z.boolean(),
 	widget: WIDGETS,

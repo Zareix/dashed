@@ -31,9 +31,11 @@ import {
 } from "~/components/ui/select";
 import { Textarea } from "~/components/ui/textarea";
 import { api } from "~/trpc/react";
+import { Checkbox } from "../ui/checkbox";
 
 const importSchema = z.object({
 	type: z.enum(["dashed", "homepage"]),
+	eraseExisting: z.boolean(),
 	data: z.string().check(z.minLength(1, "Data is required")),
 });
 
@@ -55,6 +57,7 @@ const ImportButton = () => {
 		resolver: zodResolver(importSchema),
 		defaultValues: {
 			type: "dashed",
+			eraseExisting: false,
 			data: "",
 		},
 	});
@@ -94,6 +97,23 @@ const ImportButton = () => {
 										</Select>
 									</FormControl>
 									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							control={form.control}
+							name="eraseExisting"
+							render={({ field }) => (
+								<FormItem className="flex items-start space-x-3 space-y-0 rounded-md border p-3">
+									<FormControl>
+										<Checkbox
+											checked={field.value}
+											onCheckedChange={field.onChange}
+										/>
+									</FormControl>
+									<div className="space-y-1 leading-none">
+										<FormLabel>Erase existing</FormLabel>
+									</div>
 								</FormItem>
 							)}
 						/>

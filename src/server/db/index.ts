@@ -18,3 +18,19 @@ client.run("PRAGMA journal_mode = WAL;");
 client.run("PRAGMA foreign_keys = ON;");
 
 export const db = drizzle(client, { schema });
+
+export const runTransaction = async <T>(
+	database: typeof db,
+	callback: () => Promise<T>,
+): Promise<T> => {
+	database.run("BEGIN");
+
+	try {
+		const result = await callback();
+		database.run("COMMIT");
+		return result;
+	} catch (error) {
+		database.run("ROLLBACK");
+		throw error;
+	}
+};
