@@ -1,5 +1,12 @@
 import { z } from "zod";
 
+const baseConfig = z.object({
+	url: z.url(),
+});
+const withApiKey = baseConfig.extend({
+	apiKey: z.string(),
+});
+
 export const noneSchema = z.object({
 	type: z.literal("none"),
 	config: z.object({}),
@@ -13,24 +20,15 @@ export const cupSchema = z.object({
 });
 export const sonarrSchema = z.object({
 	type: z.literal("sonarr"),
-	config: z.object({
-		url: z.url(),
-		apiKey: z.string(),
-	}),
+	config: withApiKey,
 });
 export const radarrSchema = z.object({
 	type: z.literal("radarr"),
-	config: z.object({
-		url: z.url(),
-		apiKey: z.string(),
-	}),
+	config: withApiKey,
 });
 export const uptimeKumaSchema = z.object({
 	type: z.literal("uptime-kuma"),
-	config: z.object({
-		url: z.url(),
-		apiKey: z.string(),
-	}),
+	config: withApiKey,
 });
 export const beszelSchema = z.object({
 	type: z.literal("beszel"),
@@ -63,9 +61,11 @@ export const controldSchema = z.object({
 });
 export const gatusSchema = z.object({
 	type: z.literal("gatus"),
-	config: z.object({
-		url: z.string(),
-	}),
+	config: baseConfig,
+});
+export const subtrackerSchema = z.object({
+	type: z.literal("subtracker"),
+	config: withApiKey,
 });
 
 export const WIDGETS = z.discriminatedUnion("type", [
@@ -79,5 +79,6 @@ export const WIDGETS = z.discriminatedUnion("type", [
 	nextdnsSchema,
 	controldSchema,
 	gatusSchema,
+	subtrackerSchema,
 ]);
 export type WIDGETS = z.infer<typeof WIDGETS>;

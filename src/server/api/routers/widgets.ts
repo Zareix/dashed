@@ -7,6 +7,7 @@ import {
 	nextdnsSchema,
 	radarrSchema,
 	sonarrSchema,
+	subtrackerSchema,
 	uptimeKumaSchema,
 } from "~/lib/widgets";
 import type {
@@ -26,6 +27,7 @@ import type {
 	SonarrMissingEpisodesResponse,
 	SonarrSeriesResponse,
 } from "~/lib/widgets/sonarr";
+import type { SubtrackerStatsResponse } from "~/lib/widgets/subtracker";
 import { parseMonitorStatusFromMetrics } from "~/lib/widgets/uptime-kuma";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
@@ -350,6 +352,24 @@ export const widgetRouter = createTRPCRouter({
 				return false;
 			} catch (e) {
 				console.log("Error gatus", e);
+				return false;
+			}
+		}),
+	subtracker: publicProcedure
+		.input(subtrackerSchema.shape.config)
+		.query(async ({ input }) => {
+			try {
+				const searchParams = new URLSearchParams();
+				searchParams.append("apiKey", input.apiKey);
+				const res = await fetch(
+					`${input.url}/api/stats?${searchParams.toString()}`,
+				);
+				if (res.ok) {
+					return (await res.json()) as SubtrackerStatsResponse;
+				}
+				return false;
+			} catch (e) {
+				console.log("Error subtracker", e);
 				return false;
 			}
 		}),

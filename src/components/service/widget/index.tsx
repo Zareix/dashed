@@ -8,6 +8,7 @@ import { KomodoWidget } from "~/components/service/widget/widgets/komodo";
 import { NextDNSWidget } from "~/components/service/widget/widgets/nextdns";
 import RadarrWidget from "~/components/service/widget/widgets/radarr";
 import SonarrWidget from "~/components/service/widget/widgets/sonarr";
+import { SubtrackerWidget } from "~/components/service/widget/widgets/subtracker";
 import UptimeKumaWidget from "~/components/service/widget/widgets/uptime-kuma";
 import type { WIDGETS } from "~/lib/widgets";
 
@@ -35,6 +36,8 @@ const Widget = ({ widget }: Props) => {
 			return <ControlDWidget config={widget.config} />;
 		case "gatus":
 			return <GatusWidget config={widget.config} />;
+		case "subtracker":
+			return <SubtrackerWidget config={widget.config} />;
 		default:
 			return null;
 	}
