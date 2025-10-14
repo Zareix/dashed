@@ -359,14 +359,15 @@ export const widgetRouter = createTRPCRouter({
 		.input(subtrackerSchema.shape.config)
 		.query(async ({ input }) => {
 			try {
-				const searchParams = new URLSearchParams();
-				searchParams.append("apiKey", input.apiKey);
-				const res = await fetch(
-					`${input.url}/api/stats?${searchParams.toString()}`,
-				);
+				let searchParams = `?apiKey=${input.apiKey}`;
+				if (input.filters && input.filters.length > 0) {
+					searchParams = searchParams.concat(`&${input.filters}`);
+				}
+				const res = await fetch(`${input.url}/api/stats${searchParams}`);
 				if (res.ok) {
 					return (await res.json()) as SubtrackerStatsResponse;
 				}
+				console.log("Error subtracker:", await res.text());
 				return false;
 			} catch (e) {
 				console.log("Error subtracker", e);

@@ -65,7 +65,9 @@ export const gatusSchema = z.object({
 });
 export const subtrackerSchema = z.object({
 	type: z.literal("subtracker"),
-	config: withApiKey,
+	config: withApiKey.extend({
+		filters: z.string().optional(),
+	}),
 });
 
 export const WIDGETS = z.discriminatedUnion("type", [

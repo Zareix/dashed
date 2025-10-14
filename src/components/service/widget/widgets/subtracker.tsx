@@ -6,10 +6,7 @@ type Props = {
 };
 
 export const SubtrackerWidget = ({ config }: Props) => {
-	const { isLoading, data, isError } = api.widget.subtracker.useQuery({
-		url: config.url,
-		apiKey: config.apiKey,
-	});
+	const { isLoading, data, isError } = api.widget.subtracker.useQuery(config);
 
 	if (isLoading) {
 		return <div>Loading...</div>;
