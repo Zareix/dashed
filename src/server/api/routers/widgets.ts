@@ -3,6 +3,7 @@ import {
 	controldSchema,
 	cupSchema,
 	gatusSchema,
+	karakeepSchema,
 	komodoSchema,
 	nextdnsSchema,
 	radarrSchema,
@@ -17,6 +18,7 @@ import type {
 import type { ControlDStatusResponse } from "~/lib/widgets/controld";
 import type { CupResponse } from "~/lib/widgets/cup";
 import type { GatusStatusesResponse } from "~/lib/widgets/gatus";
+import type { KarakeepListsResponse } from "~/lib/widgets/karakeep";
 import type {
 	KomodoListServersResponse,
 	KomodoListStacksResponse,
@@ -371,6 +373,28 @@ export const widgetRouter = createTRPCRouter({
 				return false;
 			} catch (e) {
 				console.log("Error subtracker", e);
+				return false;
+			}
+		}),
+	karakeep: publicProcedure
+		.input(karakeepSchema.shape.config)
+		.query(async ({ input }) => {
+			try {
+				const options = {
+					headers: {
+						Authorization: `Bearer ${input.apiKey}`,
+					},
+				};
+				const res = await fetch(`${input.url}/api/v1/lists`, options);
+				if (!res.ok) {
+					throw new Error(`Failed to fetch karakeep lists: ${res.statusText}`);
+				}
+				const data = (await res.json()) as KarakeepListsResponse;
+				return {
+					lists: data.lists,
+				};
+			} catch (e) {
+				console.log("Error karakeep", e);
 				return false;
 			}
 		}),

@@ -69,6 +69,10 @@ export const subtrackerSchema = z.object({
 		filters: z.string().optional(),
 	}),
 });
+export const karakeepSchema = z.object({
+	type: z.literal("karakeep"),
+	config: withApiKey,
+});
 
 export const WIDGETS = z.discriminatedUnion("type", [
 	noneSchema,
@@ -82,5 +86,6 @@ export const WIDGETS = z.discriminatedUnion("type", [
 	controldSchema,
 	gatusSchema,
 	subtrackerSchema,
+	karakeepSchema,
 ]);
 export type WIDGETS = z.infer<typeof WIDGETS>;
