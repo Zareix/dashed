@@ -11,6 +11,7 @@ import SonarrWidget from "~/components/service/widget/widgets/sonarr";
 import { SubtrackerWidget } from "~/components/service/widget/widgets/subtracker";
 import UptimeKumaWidget from "~/components/service/widget/widgets/uptime-kuma";
 import type { WIDGETS } from "~/lib/widgets";
+import { KarakeepWidget } from "./widgets/karakeep";
 
 type Props = {
 	widget: WIDGETS;
@@ -38,6 +39,8 @@ const Widget = ({ widget }: Props) => {
 			return <GatusWidget config={widget.config} />;
 		case "subtracker":
 			return <SubtrackerWidget config={widget.config} />;
+		case "karakeep":
+			return <KarakeepWidget config={widget.config} />;
 		default:
 			return null;
 	}

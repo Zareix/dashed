@@ -3,6 +3,7 @@ import {
 	controldSchema,
 	cupSchema,
 	gatusSchema,
+	karakeepSchema,
 	komodoSchema,
 	nextdnsSchema,
 	radarrSchema,
@@ -17,6 +18,10 @@ import type {
 import type { ControlDStatusResponse } from "~/lib/widgets/controld";
 import type { CupResponse } from "~/lib/widgets/cup";
 import type { GatusStatusesResponse } from "~/lib/widgets/gatus";
+import type {
+	KarakeepBookmarksResponse,
+	KarakeepListsResponse,
+} from "~/lib/widgets/karakeep";
 import type {
 	KomodoListServersResponse,
 	KomodoListStacksResponse,
@@ -371,6 +376,56 @@ export const widgetRouter = createTRPCRouter({
 				return false;
 			} catch (e) {
 				console.log("Error subtracker", e);
+				return false;
+			}
+		}),
+	karakeep: publicProcedure
+		.input(karakeepSchema.shape.config)
+		.query(async ({ input }) => {
+			try {
+				const options = {
+					headers: {
+						Authorization: `Bearer ${input.apiKey}`,
+					},
+				};
+				const [allBookmarks, allLists] = await Promise.all([
+					await fetch(`${input.url}/api/v1/bookmarks`, options).then((res) =>
+						res.ok
+							? (res.json() as Promise<KarakeepBookmarksResponse>)
+							: Promise.reject(res),
+					),
+					await fetch(`${input.url}/api/v1/lists`, options).then(
+						async (res) => {
+							if (!res.ok) {
+								Promise.reject(res);
+							}
+							const data = (await res.json()) as KarakeepListsResponse;
+							const listsDetails = await Promise.all(
+								data.lists.map((l) =>
+									fetch(
+										`${input.url}/api/v1/lists/${l.id}/bookmarks`,
+										options,
+									).then((response) =>
+										response.ok
+											? (response.json() as Promise<KarakeepBookmarksResponse>)
+											: Promise.reject(response),
+									),
+								),
+							);
+							return listsDetails.map((list, index) => ({
+								// biome-ignore lint: Sure it exists
+								...data.lists[index]!,
+								bookmarksCount: list.bookmarks.length,
+							}));
+						},
+					),
+				]);
+				return {
+					bookmarksCount: allBookmarks.bookmarks.length,
+					lists: allLists,
+				};
+			} catch (e) {
+				console.log("Error karakeep", e);
 				return false;
 			}
 		}),
