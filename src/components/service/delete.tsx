@@ -27,7 +27,7 @@ const DeleteServiceButton = ({
 		onSuccess: async () => {
 			setIsOpen(false);
 			toast("Service deleted");
-			await utils.category.getAll.invalidate();
+			await utils.category.getAllWithServices.invalidate();
 		},
 	});
 

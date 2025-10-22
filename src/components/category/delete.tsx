@@ -27,7 +27,7 @@ const DeleteCategoryButton = ({
 		onSuccess: async () => {
 			setIsOpen(false);
 			toast("Category deleted");
-			await utils.category.getAll.invalidate();
+			await utils.category.getAllWithServices.invalidate();
 		},
 	});
 

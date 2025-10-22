@@ -38,7 +38,7 @@ export const ReorderCategoriesButton = () => {
 };
 
 const Content = () => {
-	const [categories] = api.category.getAll.useSuspenseQuery();
+	const [categories] = api.category.getAllWithServices.useSuspenseQuery();
 	const [categoriesOrder, setCategoriesOrder] = useState(
 		categories.map((c) => c.name),
 	);
@@ -48,7 +48,7 @@ const Content = () => {
 		onSuccess: async () => {
 			toast.success("Categories reordered");
 			setIsOpen(false);
-			await utils.category.getAll.invalidate();
+			await utils.category.getAllWithServices.invalidate();
 		},
 		onError: () => {
 			toast.error("An error occurred while reordering categories");

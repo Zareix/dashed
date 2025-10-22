@@ -2,6 +2,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GripVertical } from "lucide-react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { ServiceIcon } from "~/components/ServiceIcon";
@@ -37,7 +38,7 @@ function SortableServiceRow({
 	const editServiceMutation = api.service.edit.useMutation({
 		onSuccess: async (data) => {
 			toast.success(`Service '${data?.name}' edited`);
-			await utils.category.getAll.invalidate();
+			await utils.category.getAllWithServices.invalidate();
 		},
 		onError: () => {
 			toast.error("An error occurred while editing service");
@@ -50,14 +51,14 @@ function SortableServiceRow({
 	const { attributes, listeners, setNodeRef, transform, transition } =
 		useSortable({ id: service?.id ?? "" });
 
-	const style = {
-		transform: CSS.Transform.toString(transform),
-		transition,
-	};
-
 	const editSubmit = form.handleSubmit((data) => {
 		editServiceMutation.mutate(data);
 	});
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: only watching service
+	useEffect(() => {
+		form.reset(service);
+	}, [service]);
 
 	if (!service) {
 		return null;
@@ -66,7 +67,14 @@ function SortableServiceRow({
 	return (
 		<TableRow
 			ref={setNodeRef}
-			style={loading ? {} : style}
+			style={
+				loading
+					? {}
+					: {
+							transform: CSS.Transform.toString(transform),
+							transition,
+						}
+			}
 			{...attributes}
 			className={cn(loading && "opacity-50", "cursor-default")}
 		>
@@ -114,7 +122,7 @@ function SortableServiceRow({
 							}, 100);
 						}}
 					/>
-					<div>Open in new tab</div>
+					<div>{form.watch("openInNewTab") ? "Yes" : "No"}</div>
 				</div>
 			</TableCell>
 			<TableCell className="capitalize">{service.widget.type}</TableCell>

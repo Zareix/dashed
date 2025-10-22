@@ -1,10 +1,6 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod/v4-mini";
 import { Button } from "~/components/ui/button";
 import {
 	Dialog,
@@ -13,25 +9,8 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "~/components/ui/dialog";
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
 import type { Category } from "~/server/db/schema";
-import { api } from "~/trpc/react";
-
-const categoryEditSchema = z.object({
-	name: z.string().check(z.minLength(1, "Name is required")),
-	maxCols: z
-		.number()
-		.check(z.minimum(1, "Max columns must be at least 1"))
-		.check(z.maximum(5, "Max columns cannot exceed 5")),
-});
+import { EditCreateCategoryForm } from "./edit-create-form";
 
 const EditCategoryButton = ({
 	category,
@@ -39,26 +18,6 @@ const EditCategoryButton = ({
 	category: Pick<Category, "name" | "maxCols">;
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
-	const utils = api.useUtils();
-	const editCategoryMutation = api.category.edit.useMutation({
-		onSuccess: async () => {
-			toast.success("Category edited");
-			setIsOpen(false);
-			form.reset();
-			await utils.category.getAll.invalidate();
-		},
-		onError: () => {
-			toast.error("An error occurred while editings category");
-		},
-	});
-	const form = useForm({
-		resolver: zodResolver(categoryEditSchema),
-		defaultValues: category,
-	});
-
-	function onSubmit(values: z.infer<typeof categoryEditSchema>) {
-		editCategoryMutation.mutate(values);
-	}
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -69,52 +28,10 @@ const EditCategoryButton = ({
 				<DialogHeader>
 					<DialogTitle>Edit category</DialogTitle>
 				</DialogHeader>
-				<Form {...form}>
-					<form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
-						<FormField
-							control={form.control}
-							name="name"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Name</FormLabel>
-									<FormControl>
-										<Input placeholder="Category name" {...field} />
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="maxCols"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Max columns</FormLabel>
-									<FormControl>
-										<Input
-											type="number"
-											min={1}
-											max={5}
-											placeholder="Max columns"
-											{...field}
-											onChange={(e) => {
-												field.onChange(Number.parseInt(e.target.value, 10));
-											}}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<Button
-							type="submit"
-							disabled={editCategoryMutation.isPending}
-							className="ml-auto"
-						>
-							Submit
-						</Button>
-					</form>
-				</Form>
+				<EditCreateCategoryForm
+					category={category}
+					onFinish={() => setIsOpen(false)}
+				/>
 			</DialogContent>
 		</Dialog>
 	);

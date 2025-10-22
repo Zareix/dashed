@@ -32,7 +32,7 @@ import type { Category, Service } from "~/server/db/schema";
 import { api } from "~/trpc/react";
 
 export function AdminPage() {
-	const [categories] = api.category.getAll.useSuspenseQuery();
+	const [categories] = api.category.getAllWithServices.useSuspenseQuery();
 	const utils = api.useUtils();
 	const reorderServiceMutation = api.service.reorder.useMutation({
 		onSuccess: async () => {
@@ -42,7 +42,7 @@ export function AdminPage() {
 			toast.error("An error occurred while reordering service");
 		},
 		onSettled: async () => {
-			return await utils.category.getAll.refetch();
+			return await utils.category.getAllWithServices.refetch();
 		},
 	});
 	const sensors = useSensors(
@@ -78,17 +78,12 @@ export function AdminPage() {
 			{categories.map((category) => (
 				<div key={category.name} className="mt-4 p-1">
 					<div className="flex items-end gap-2">
-						<h2 className="text-xl font-bold">{category.name}</h2>
+						<h2 className="text-xl font-bold -m-0.5">{category.name}</h2>
+						<div className="text-sm text-muted-foreground">
+							Max cols: {category.maxCols}
+						</div>
 						<Separator orientation="vertical" className="ml-auto" />
-						{category.maxCols !== 5 && (
-							<div className="text-sm text-muted-foreground">
-								Max cols: {category.maxCols}
-							</div>
-						)}
-						<CreateServiceButton
-							categories={categories ?? []}
-							category={category}
-						/>
+						<CreateServiceButton category={category} />
 						<EditCategoryButton category={category} />
 						<DeleteCategoryButton category={category} />
 					</div>

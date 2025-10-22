@@ -23,13 +23,18 @@ const exportSchema = z.array(
 type ExportType = z.infer<typeof exportSchema>;
 
 export const categoryRouter = createTRPCRouter({
-	getAll: publicProcedure.query(async ({ ctx }) => {
+	getAllWithServices: publicProcedure.query(async ({ ctx }) => {
 		return await ctx.db.query.categoryTable.findMany({
 			with: {
 				services: {
 					orderBy: [asc(servicesTable.order)],
 				},
 			},
+			orderBy: [asc(categoryTable.order)],
+		});
+	}),
+	getAll: publicProcedure.query(async ({ ctx }) => {
+		return await ctx.db.query.categoryTable.findMany({
 			orderBy: [asc(categoryTable.order)],
 		});
 	}),
@@ -52,10 +57,16 @@ export const categoryRouter = createTRPCRouter({
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
-			await ctx.db
+			const updated = await ctx.db
 				.update(categoryTable)
-				.set(input)
-				.where(eq(categoryTable.name, input.name));
+				.set({
+					maxCols: input.maxCols,
+				})
+				.where(eq(categoryTable.name, input.name))
+				.returning();
+			if (updated.length === 0) {
+				throw new Error("Category not found");
+			}
 			await refreshIndexPage();
 		}),
 	delete: publicProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
