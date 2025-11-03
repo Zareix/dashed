@@ -4,6 +4,7 @@ import BeszelWidget from "~/components/service/widget/widgets/beszel";
 import { ControlDWidget } from "~/components/service/widget/widgets/controld";
 import CupWidget from "~/components/service/widget/widgets/cup";
 import GatusWidget from "~/components/service/widget/widgets/gatus";
+import { KarakeepWidget } from "~/components/service/widget/widgets/karakeep";
 import { KomodoWidget } from "~/components/service/widget/widgets/komodo";
 import { NextDNSWidget } from "~/components/service/widget/widgets/nextdns";
 import RadarrWidget from "~/components/service/widget/widgets/radarr";
@@ -11,13 +12,12 @@ import SonarrWidget from "~/components/service/widget/widgets/sonarr";
 import { SubtrackerWidget } from "~/components/service/widget/widgets/subtracker";
 import UptimeKumaWidget from "~/components/service/widget/widgets/uptime-kuma";
 import type { WIDGETS } from "~/lib/widgets";
-import { KarakeepWidget } from "./widgets/karakeep";
 
 type Props = {
 	widget: WIDGETS;
 };
 
-const Widget = ({ widget }: Props) => {
+export const Widget = ({ widget }: Props) => {
 	switch (widget.type) {
 		case "cup":
 			return <CupWidget config={widget.config} />;
@@ -39,14 +39,13 @@ const Widget = ({ widget }: Props) => {
 			return <GatusWidget config={widget.config} />;
 		case "subtracker":
 			return <SubtrackerWidget config={widget.config} />;
-		case "karakeep":
+		case "karakeep": {
 			return <KarakeepWidget config={widget.config} />;
+		}
 		default:
 			return null;
 	}
 };
-
-export default Widget;
 
 export type WidgetProps = {
 	config: WIDGETS;

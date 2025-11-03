@@ -34,6 +34,9 @@ import { parseMonitorStatusFromMetrics } from "~/lib/widgets/uptime-kuma";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const widgetRouter = createTRPCRouter({
+	none: publicProcedure.input(cupSchema.shape.config).query(() => {
+		return { message: "This is a placeholder widget." };
+	}),
 	cup: publicProcedure
 		.input(cupSchema.shape.config)
 		.query(async ({ input }) => {
@@ -131,7 +134,7 @@ export const widgetRouter = createTRPCRouter({
 				return false;
 			}
 		}),
-	uptimeKuma: publicProcedure
+	"uptime-kuma": publicProcedure
 		.input(uptimeKumaSchema.shape.config)
 		.query(async ({ input }) => {
 			try {

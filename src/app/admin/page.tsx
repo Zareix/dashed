@@ -13,9 +13,10 @@ import { api, HydrateClient } from "~/trpc/server";
 
 export const dynamic = "force-dynamic";
 
-export default async function Admin() {
+export default function Admin() {
 	void api.category.getAllWithServices.prefetch();
 	void api.category.getAll.prefetch();
+
 	return (
 		<HydrateClient>
 			<ErrorBoundary fallback={<div>Something went wrong</div>}>

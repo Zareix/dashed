@@ -7,7 +7,7 @@ type Props = {
 };
 
 export const KarakeepWidget: React.FC<Props> = ({ config }) => {
-	const { data, isError, isLoading } = api.widget.karakeep.useQuery(config);
+	const { data, isLoading, isError } = api.widget.karakeep.useQuery(config);
 
 	if (isLoading) {
 		return <div>Loading...</div>;
