@@ -1,3 +1,5 @@
+"use client";
+
 import type { WIDGETS } from "~/lib/widgets";
 import { api } from "~/trpc/react";
 
@@ -6,7 +8,7 @@ type Props = {
 };
 
 const UptimeKumaWidget = ({ config }: Props) => {
-	const { data, isError, isLoading } = api.widget.uptimeKuma.useQuery({
+	const { data, isError, isLoading } = api.widget["uptime-kuma"].useQuery({
 		url: config.url,
 		apiKey: config.apiKey,
 	});

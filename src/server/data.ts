@@ -1,6 +1,6 @@
 import { asc } from "drizzle-orm";
+import { cacheLife } from "next/cache";
 import { PHASE_PRODUCTION_BUILD } from "next/dist/shared/lib/constants";
-import { cache } from "react";
 import type { WIDGETS } from "~/lib/widgets";
 import { db } from "~/server/db";
 import {
@@ -9,10 +9,14 @@ import {
 	servicesTable,
 } from "~/server/db/schema";
 
-export const getData = cache(async () => {
+export const getData = async () => {
+	"use cache";
+	cacheLife("weeks");
+
 	if (process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD) {
 		return [];
 	}
+
 	const categories = await db.query.categoryTable.findMany({
 		with: {
 			services: {
@@ -35,4 +39,4 @@ export const getData = cache(async () => {
 			alternativeUrls: service.alternativeUrls as Array<AlternativeUrl>,
 		})),
 	}));
-});
+};

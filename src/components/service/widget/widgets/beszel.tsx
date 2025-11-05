@@ -1,3 +1,5 @@
+"use client";
+
 import {
 	Table,
 	TableBody,
@@ -15,19 +17,20 @@ type Props = {
 };
 
 const BeszelWidget = ({ config }: Props) => {
-	const { isLoading, data, isError } = api.widget.beszel.useQuery({
-		url: config.url,
-		email: config.email,
-		password: config.password,
-	});
+	const [data] = api.widget.beszel.useSuspenseQuery(
+		{
+			url: config.url,
+			email: config.email,
+			password: config.password,
+		},
+		{
+			refetchInterval: 5000,
+		},
+	);
 
 	const rounded = (num: number) => Math.round(num * 10) / 10;
 
-	if (isLoading) {
-		return <div>Loading...</div>;
-	}
-
-	if (isError || !data) {
+	if (!data) {
 		return <div>Error</div>;
 	}
 

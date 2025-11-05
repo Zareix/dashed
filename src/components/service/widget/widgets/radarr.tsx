@@ -1,3 +1,5 @@
+"use client";
+
 import type { WIDGETS } from "~/lib/widgets";
 import { api } from "~/trpc/react";
 
@@ -6,13 +8,9 @@ type Props = {
 };
 
 const RadarrWidget = ({ config }: Props) => {
-	const { isLoading, data, isError } = api.widget.radarr.useQuery(config);
+	const [data] = api.widget.radarr.useSuspenseQuery(config);
 
-	if (isLoading) {
-		return <div>Loading...</div>;
-	}
-
-	if (isError || !data) {
+	if (!data) {
 		return <div>Error</div>;
 	}
 

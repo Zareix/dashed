@@ -9,6 +9,7 @@ await import("./src/env.js");
 const config = {
 	reactStrictMode: true,
 	output: "standalone",
+	cacheComponents: true,
 
 	images: {
 		remotePatterns: OPTIMIZED_IMAGES_DOMAINS.map((domain) => new URL(domain)),
@@ -18,9 +19,6 @@ const config = {
 
 	typescript: {
 		ignoreBuildErrors: !!process.env.SKIP_LINT,
-	},
-	eslint: {
-		ignoreDuringBuilds: !!process.env.SKIP_LINT,
 	},
 };
 

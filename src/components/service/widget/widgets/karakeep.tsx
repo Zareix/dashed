@@ -1,3 +1,4 @@
+"use client";
 import { ExternalLinkIcon } from "lucide-react";
 import type { WIDGETS } from "~/lib/widgets";
 import { api } from "~/trpc/react";
@@ -7,13 +8,9 @@ type Props = {
 };
 
 export const KarakeepWidget: React.FC<Props> = ({ config }) => {
-	const { data, isError, isLoading } = api.widget.karakeep.useQuery(config);
+	const [data] = api.widget.karakeep.useSuspenseQuery(config);
 
-	if (isLoading) {
-		return <div>Loading...</div>;
-	}
-
-	if (isError || !data) {
+	if (!data) {
 		return <div>Error</div>;
 	}
 

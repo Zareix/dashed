@@ -2,13 +2,8 @@ import Link from "next/link";
 import { AlternativeUrls } from "~/components/alternative-urls";
 import MonitorService from "~/components/MonitorService";
 import { ServiceIcon } from "~/components/ServiceIcon";
-import Widget from "~/components/service/widget";
+import { ServiceWrapper } from "~/components/service/widget";
 import { Button } from "~/components/ui/button";
-import {
-	HoverCard,
-	HoverCardContent,
-	HoverCardTrigger,
-} from "~/components/ui/hover-card";
 import { cn } from "~/lib/utils";
 import { getData } from "~/server/data";
 
@@ -95,24 +90,3 @@ export default async function Home() {
 		</>
 	);
 }
-
-const ServiceWrapper = ({
-	widget,
-	children,
-}: {
-	children: React.ReactNode;
-	widget: Awaited<ReturnType<typeof getData>>[0]["services"][0]["widget"];
-}) => {
-	if (widget.type === "none") {
-		return <>{children}</>;
-	}
-
-	return (
-		<HoverCard openDelay={0} closeDelay={100}>
-			<HoverCardTrigger asChild>{children}</HoverCardTrigger>
-			<HoverCardContent className="w-fit">
-				<Widget widget={widget} />
-			</HoverCardContent>
-		</HoverCard>
-	);
-};

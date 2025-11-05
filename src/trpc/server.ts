@@ -1,9 +1,7 @@
 import "server-only";
 
 import { createHydrationHelpers } from "@trpc/react-query/rsc";
-import { headers } from "next/headers";
 import { cache } from "react";
-
 import { type AppRouter, createCaller } from "~/server/api/root";
 import { createTRPCContext } from "~/server/api/trpc";
 import { createQueryClient } from "./query-client";
@@ -13,11 +11,12 @@ import { createQueryClient } from "./query-client";
  * handling a tRPC call from a React Server Component.
  */
 const createContext = cache(async () => {
-	const heads = new Headers(await headers());
-	heads.set("x-trpc-source", "rsc");
+	// TODO This might need to be commented out to works with PPR, check github issue: https://github.com/TanStack/query/discussions/8286
+	// const heads = new Headers(await headers());
+	// heads.set("x-trpc-source", "rsc");
 
 	return createTRPCContext({
-		headers: heads,
+		// headers: heads,
 	});
 });
 
