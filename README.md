@@ -1,6 +1,6 @@
 # Dashed
 
-Dashed is selfhosted dashboard for your homelab. It's designed to be dead simple to use and setup, while still offering a admin interface to edit the dashboard.
+testDashed is selfhosted dashboard for your homelab. It's designed to be dead simple to use and setup, while still offering a admin interface to edit the dashboard.
 
 See how to use it in our [wiki](https://github.com/Zareix/dashed/wiki)
 
