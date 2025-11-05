@@ -1,4 +1,5 @@
 import { HomeIcon } from "lucide-react";
+import { cacheLife } from "next/cache";
 import Link from "next/link";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
@@ -11,9 +12,10 @@ import CreateCategoryButton from "~/components/category/create";
 import { Separator } from "~/components/ui/separator";
 import { api, HydrateClient } from "~/trpc/server";
 
-export const dynamic = "force-dynamic";
+export default async function Admin() {
+	"use cache";
+	cacheLife("seconds");
 
-export default function Admin() {
 	void api.category.getAllWithServices.prefetch();
 	void api.category.getAll.prefetch();
 

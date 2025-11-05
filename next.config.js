@@ -9,6 +9,7 @@ await import("./src/env.js");
 const config = {
 	reactStrictMode: true,
 	output: "standalone",
+	cacheComponents: true,
 
 	images: {
 		remotePatterns: OPTIMIZED_IMAGES_DOMAINS.map((domain) => new URL(domain)),

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { AlternativeUrls } from "~/components/alternative-urls";
 import MonitorService from "~/components/MonitorService";
 import { ServiceIcon } from "~/components/ServiceIcon";
-import { ServiceWrapper } from "~/components/service/widget/wrapper";
+import { ServiceWrapper } from "~/components/service/widget";
 import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import { getData } from "~/server/data";

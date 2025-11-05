@@ -1,3 +1,4 @@
+"use client";
 import type { WIDGETS } from "~/lib/widgets";
 import { api } from "~/trpc/react";
 
