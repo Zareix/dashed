@@ -18,7 +18,6 @@ import {
 	HoverCardTrigger,
 } from "~/components/ui/hover-card";
 import type { WIDGETS } from "~/lib/widgets";
-import type { getData } from "~/server/data";
 import { api, HydrateClient } from "~/trpc/server";
 
 export const ServiceWrapper = ({
@@ -26,7 +25,7 @@ export const ServiceWrapper = ({
 	children,
 }: {
 	children: React.ReactNode;
-	widget: Awaited<ReturnType<typeof getData>>[0]["services"][0]["widget"];
+	widget: WIDGETS;
 }) => {
 	if (!widget || widget.type === "none") {
 		return <div>{children}</div>;

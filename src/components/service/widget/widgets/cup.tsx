@@ -23,7 +23,7 @@ const CupWidget = ({ config }: Props) => {
 
 	return (
 		<div
-			className="grid grid-cols-3 gap-2 text-sm [&>div]:bg-background [&>div]:rounded-md [&>div]:flex [&>div]:flex-col
+			className="grid grid-cols-3 gap-2 text-sm [&>div]:rounded-md [&>div]:flex [&>div]:flex-col
 		 [&>div]:text-center [&>div>p]:font-medium [&>div>p]:mt-auto w-[300px]"
 		>
 			<div>
