@@ -1,17 +1,24 @@
-"use client";
-
+import { actions } from "astro:actions";
+import { useQuery } from "@tanstack/react-query";
+import { queryClient } from "~/lib/store";
 import type { WIDGETS } from "~/lib/widgets";
-import { api } from "~/trpc/react";
 
 type Props = {
 	config: Extract<WIDGETS, { type: "uptime-kuma" }>["config"];
 };
 
 const UptimeKumaWidget = ({ config }: Props) => {
-	const { data, isError, isLoading } = api.widget["uptime-kuma"].useQuery({
-		url: config.url,
-		apiKey: config.apiKey,
-	});
+	const { data, isError, isLoading } = useQuery(
+		{
+			queryKey: ["widget", "uptime-kuma", config],
+			queryFn: () => actions.widget["uptime-kuma"](config),
+			select: (res) => {
+				if (res.error) throw new Error(res.error.message);
+				return res.data;
+			},
+		},
+		queryClient,
+	);
 
 	if (isLoading) {
 		return <div>Loading...</div>;

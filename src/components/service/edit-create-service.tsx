@@ -1,4 +1,6 @@
+import { actions } from "astro:actions";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { PlusIcon, Trash2 } from "lucide-react";
 import {
 	Controller,
@@ -7,8 +9,7 @@ import {
 	useForm,
 } from "react-hook-form";
 import { toast } from "sonner";
-import { ServiceIcon } from "~/components/ServiceIcon";
-import WidgetFormConfig from "~/components/service/widget/form-config";
+import { WidgetFormConfig } from "~/components/service/widget/form-config";
 import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
 import { Input } from "~/components/ui/input";
@@ -19,20 +20,20 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "~/components/ui/select";
-import { type ServiceCreateFormData, serviceCreateSchema } from "~/lib/schemas";
-import type { Category, Service } from "~/server/db/schema";
-import { api } from "~/trpc/react";
+import type { Category, Service } from "~/lib/db/schema";
+import { type ServiceCreateFormData, serviceCreateSchema } from "~/lib/schema";
+import { queryClient } from "~/lib/store";
 import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
 
 type Props = {
-	category?: Pick<Category, "name">;
+	category?: Pick<Category, "id">;
 	service?: Pick<
 		Service,
 		| "id"
 		| "name"
 		| "url"
 		| "alternativeUrls"
-		| "categoryName"
+		| "categoryId"
 		| "icon"
 		| "iconDark"
 		| "openInNewTab"
@@ -46,38 +47,67 @@ export const EditCreateServiceForm: React.FC<Props> = ({
 	service,
 	onFinish,
 }) => {
-	const utils = api.useUtils();
-	const categoriesQuery = api.category.getAll.useQuery();
-	const createServiceMutation = api.service.create.useMutation({
-		onSuccess: async () => {
-			toast.success("Service created");
-			onFinish?.();
-			form.reset();
-			await utils.category.getAllWithServices.invalidate();
+	const categoriesQuery = useQuery(
+		{
+			queryKey: ["categories"],
+			queryFn: actions.category.getAll,
+			select: (res) => {
+				if (res.error) {
+					throw new Error(res.error.message);
+				}
+				return res.data;
+			},
 		},
-		onError: () => {
-			toast.error("An error occurred while creating service");
+		queryClient,
+	);
+	const createServiceMutation = useMutation(
+		{
+			mutationFn: actions.service.create,
+			onSuccess: async (res) => {
+				if (res.error) {
+					throw new Error(res.error.message);
+				}
+				toast.success(`Service ${res.data.name} created`);
+				onFinish?.();
+				form.reset();
+				queryClient.invalidateQueries({
+					queryKey: ["categories", "with-services"],
+				});
+			},
+			onError: () => {
+				toast.error("An error occurred while creating service");
+			},
 		},
-	});
-	const editServiceMutation = api.service.edit.useMutation({
-		onSuccess: async (data) => {
-			toast.success(`Service ${data?.name} edited`);
-			onFinish?.();
-			form.reset();
-			await utils.category.getAllWithServices.invalidate();
+		queryClient,
+	);
+	const editServiceMutation = useMutation(
+		{
+			mutationFn: actions.service.edit,
+			onSuccess: async (res) => {
+				if (res.error) {
+					throw new Error(res.error.message);
+				}
+				toast.success(`Service ${res.data.name} edited`);
+				onFinish?.();
+				form.reset();
+				queryClient.invalidateQueries({
+					queryKey: ["categories", "with-services"],
+				});
+			},
+			onError: () => {
+				toast.error("An error occurred while editing service");
+			},
 		},
-		onError: () => {
-			toast.error("An error occurred while editing service");
-		},
-	});
+		queryClient,
+	);
 	const form = useForm({
 		resolver: zodResolver(serviceCreateSchema),
 		defaultValues: {
 			name: service?.name ?? "",
-			url: service?.url ?? "",
+			url: service?.url ?? "https://",
 			alternativeUrls: service?.alternativeUrls ?? [],
 			icon: service?.icon ?? "",
-			categoryName: service?.categoryName ?? category?.name,
+			categoryId: service?.categoryId ?? category?.id,
 			openInNewTab: service?.openInNewTab ?? false,
 			widget: service?.widget ?? {
 				type: "none",
@@ -106,11 +136,16 @@ export const EditCreateServiceForm: React.FC<Props> = ({
 			<FieldGroup>
 				<Controller
 					control={form.control}
-					name="categoryName"
+					name="categoryId"
 					render={({ field, fieldState }) => (
 						<Field data-invalid={fieldState.invalid}>
 							<FieldLabel htmlFor={field.name}>Category</FieldLabel>
-							<Select onValueChange={field.onChange} value={field.value}>
+							<Select
+								onValueChange={(value) => {
+									field.onChange(Number(value));
+								}}
+								value={field.value ? String(field.value) : undefined}
+							>
 								<SelectTrigger
 									id={field.name}
 									aria-invalid={fieldState.invalid}
@@ -121,7 +156,7 @@ export const EditCreateServiceForm: React.FC<Props> = ({
 								</SelectTrigger>
 								<SelectContent>
 									{(categoriesQuery.data ?? []).map((cat) => (
-										<SelectItem value={cat.name} key={cat.name}>
+										<SelectItem value={String(cat.id)} key={cat.name}>
 											{cat.name}
 										</SelectItem>
 									))}
@@ -167,9 +202,10 @@ export const EditCreateServiceForm: React.FC<Props> = ({
 							<FieldLabel htmlFor={field.name}>Icon</FieldLabel>
 							<div className="flex items-center gap-2">
 								{field.value && (
-									<ServiceIcon
-										service={{ icon: field.value, name: "service" }}
-										className="h-8 w-8 object-contain"
+									<img
+										src={field.value}
+										alt="Service icon"
+										className="h-6 w-6"
 									/>
 								)}
 								<Input
@@ -191,9 +227,10 @@ export const EditCreateServiceForm: React.FC<Props> = ({
 							<FieldLabel htmlFor={field.name}>Icon Dark</FieldLabel>
 							<div className="flex items-center gap-2">
 								{field.value && (
-									<ServiceIcon
-										service={{ icon: field.value, name: "service dark" }}
-										className="h-8 w-8 object-contain"
+									<img
+										src={field.value}
+										alt="Service dark icon"
+										className="h-6 w-6"
 									/>
 								)}
 								<Input

@@ -1,0 +1,36 @@
+---
+import { Image } from "astro:assets";
+import type { Service } from "~/lib/db/schema";
+import { cn } from "~/lib/utils";
+
+type Props = {
+  service: Pick<Service, "name" | "icon"> & {
+    iconDark?: string | null;
+  };
+};
+
+const { service } = Astro.props;
+---
+
+<Image
+  src={service.icon}
+  alt={`${service.name} icon`}
+  width={32}
+  height={32}
+  layout="fixed"
+  fit="contain"
+  class={cn(service.iconDark && "dark:hidden", "h-8 w-8")}
+/>
+{
+  service.iconDark && (
+    <Image
+      src={service.iconDark}
+      alt={`${service.name} icon dark`}
+      width={32}
+      height={32}
+      layout="fixed"
+      fit="contain"
+      class="h-8 w-8 hidden dark:block"
+    />
+  )
+}

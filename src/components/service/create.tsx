@@ -1,5 +1,3 @@
-"use client";
-
 import { PlusIcon } from "lucide-react";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
@@ -10,14 +8,14 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "~/components/ui/dialog";
-import type { Category } from "~/server/db/schema";
+import type { Category } from "~/lib/db/schema";
 import { ScrollArea } from "../ui/scroll-area";
 import { EditCreateServiceForm } from "./edit-create-service";
 
-const CreateServiceButton = ({
+export const CreateServiceButton = ({
 	category,
 }: {
-	category?: Pick<Category, "name">;
+	category?: Pick<Category, "id">;
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -43,5 +41,3 @@ const CreateServiceButton = ({
 		</Dialog>
 	);
 };
-
-export default CreateServiceButton;

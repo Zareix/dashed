@@ -1,0 +1,29 @@
+---
+import HouseIcon from "@lucide/astro/icons/house";
+import { AdminPage } from "~/components/admin";
+import { ImportButton } from "~/components/admin/import";
+import { ExportButton } from "~/components/admin/export";
+import { CreateCategoryButton } from "~/components/category/create";
+import { ReorderCategoriesButton } from "~/components/category/reorder";
+import Layout from "~/layouts/Layout.astro";
+
+export const prerender = true;
+---
+
+<Layout>
+  <div class="container pt-4">
+    <div class="flex items-center gap-4 flex-wrap">
+      <a href="/">
+        <HouseIcon size={24} />
+      </a>
+      <div class="flex gap-4 ml-auto">
+        <ReorderCategoriesButton client:load />
+        <CreateCategoryButton client:load />
+        <div class="h-5 bg-foreground w-px"></div>
+        <ImportButton client:load />
+        <ExportButton client:load />
+      </div>
+    </div>
+    <AdminPage client:load />
+  </div>
+</Layout>

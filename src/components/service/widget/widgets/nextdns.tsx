@@ -1,17 +1,24 @@
-"use client";
-
+import { actions } from "astro:actions";
+import { useQuery } from "@tanstack/react-query";
+import { queryClient } from "~/lib/store";
 import type { WIDGETS } from "~/lib/widgets";
-import { api } from "~/trpc/react";
 
 type Props = {
 	config: Extract<WIDGETS, { type: "nextdns" }>["config"];
 };
 
 export const NextDNSWidget = ({ config }: Props) => {
-	const { isLoading, data, isError } = api.widget.nextdns.useQuery({
-		profile: config.profile,
-		apiKey: config.apiKey,
-	});
+	const { isLoading, data, isError } = useQuery(
+		{
+			queryKey: ["widget", "nextdns", config],
+			queryFn: () => actions.widget.nextdns(config),
+			select: (res) => {
+				if (res.error) throw new Error(res.error.message);
+				return res.data;
+			},
+		},
+		queryClient,
+	);
 
 	if (isLoading) {
 		return <div>Loading...</div>;

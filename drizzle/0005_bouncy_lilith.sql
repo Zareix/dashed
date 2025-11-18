@@ -1,1 +1,0 @@
-ALTER TABLE `service` ADD `icon_dark` text(256);

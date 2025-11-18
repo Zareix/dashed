@@ -1,5 +1,3 @@
-"use client";
-
 import { PlusIcon } from "lucide-react";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
@@ -12,7 +10,7 @@ import {
 } from "~/components/ui/dialog";
 import { EditCreateCategoryForm } from "./edit-create-form";
 
-const CreateCategoryButton = () => {
+export const CreateCategoryButton = () => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	return (
@@ -32,5 +30,3 @@ const CreateCategoryButton = () => {
 		</Dialog>
 	);
 };
-
-export default CreateCategoryButton;

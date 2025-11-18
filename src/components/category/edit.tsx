@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import {
@@ -9,13 +7,13 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "~/components/ui/dialog";
-import type { Category } from "~/server/db/schema";
+import type { Category } from "~/lib/db/schema";
 import { EditCreateCategoryForm } from "./edit-create-form";
 
-const EditCategoryButton = ({
+export const EditCategoryButton = ({
 	category,
 }: {
-	category: Pick<Category, "name" | "maxCols">;
+	category: Pick<Category, "id" | "name" | "maxCols">;
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -36,5 +34,3 @@ const EditCategoryButton = ({
 		</Dialog>
 	);
 };
-
-export default EditCategoryButton;

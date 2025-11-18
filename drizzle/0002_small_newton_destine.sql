@@ -1,1 +1,0 @@
-ALTER TABLE `service` ADD `widget` text DEFAULT '{"type":"none","config":{}}' NOT NULL;

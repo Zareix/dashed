@@ -1,7 +1,7 @@
-import { z } from "zod";
+import { z } from "astro:schema";
 
 const baseConfig = z.object({
-	url: z.url(),
+	url: z.string().url(),
 });
 const withApiKey = baseConfig.extend({
 	apiKey: z.string(),
@@ -14,7 +14,7 @@ export const noneSchema = z.object({
 export const cupSchema = z.object({
 	type: z.literal("cup"),
 	config: z.object({
-		url: z.url(),
+		url: z.string().url(),
 		onlyInUse: z.boolean(),
 	}),
 });
@@ -33,7 +33,7 @@ export const uptimeKumaSchema = z.object({
 export const beszelSchema = z.object({
 	type: z.literal("beszel"),
 	config: z.object({
-		url: z.url(),
+		url: z.string().url(),
 		email: z.string(),
 		password: z.string(),
 	}),
@@ -41,7 +41,7 @@ export const beszelSchema = z.object({
 export const komodoSchema = z.object({
 	type: z.literal("komodo"),
 	config: z.object({
-		url: z.url(),
+		url: z.string().url(),
 		apiKey: z.string(),
 		apiSecret: z.string(),
 	}),

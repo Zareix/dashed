@@ -1,50 +1,35 @@
 ##### DEPENDENCIES
-
-FROM oven/bun:1.3.1-alpine AS deps
-RUN apk add --no-cache libc6-compat openssl
+FROM oven/bun:1.3.2-debian AS deps
 WORKDIR /app
-
-# Install dependencies based on the preferred package manager
 
 COPY package.json bun.lock ./
 
 RUN bun install --frozen-lockfile
 
 ##### BUILDER
-
-FROM oven/bun:1.3.1-alpine AS builder
+FROM oven/bun:1.3.2-debian AS builder
 
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-ENV NEXT_TELEMETRY_DISABLED=1
-ENV SKIP_LINT=true
-ENV DEBUG=1
-ENV SKIP_ENV_VALIDATION=1
-
 RUN bun run build;
 
-##### RUNNER
+RUN bun run compile
 
-FROM oven/bun:1.3.1-alpine AS runner
+##### RUNNER
+FROM gcr.io/distroless/base-debian13 AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
 
-ENV NEXT_TELEMETRY_DISABLED=1
-
 COPY --from=builder /app/drizzle ./drizzle
-COPY --from=builder /app/next.config.js ./
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/package.json ./package.json
-
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/dist/client ./dist/client
+COPY --from=builder /app/dashed ./dashed
 
 EXPOSE 3000
+ENV HOST=0.0.0.0
 ENV PORT=3000
-ENV HOSTNAME=0.0.0.0
 ENV DATABASE_PATH=/app/db/db.sqlite
 
-CMD ["server.js"]
+CMD ["./dashed"]

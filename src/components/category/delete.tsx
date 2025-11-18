@@ -1,5 +1,5 @@
-"use client";
-
+import { actions } from "astro:actions";
+import { useMutation } from "@tanstack/react-query";
 import { TrashIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -13,26 +13,34 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "~/components/ui/dialog";
-import type { Category } from "~/server/db/schema";
-import { api } from "~/trpc/react";
+import type { Category } from "~/lib/db/schema";
+import { queryClient } from "~/lib/store";
 
-const DeleteCategoryButton = ({
-	category: { name },
+export const DeleteCategoryButton = ({
+	category: { id, name },
 }: {
-	category: Pick<Category, "name">;
+	category: Pick<Category, "id" | "name">;
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
-	const utils = api.useUtils();
-	const deleteCategoryMutation = api.category.delete.useMutation({
-		onSuccess: async () => {
-			setIsOpen(false);
-			toast("Category deleted");
-			await utils.category.getAllWithServices.invalidate();
+	const deleteCategoryMutation = useMutation(
+		{
+			mutationFn: actions.category.delete,
+			onSuccess: async (res) => {
+				if (res.error) {
+					throw new Error(res.error.message);
+				}
+				setIsOpen(false);
+				toast("Category deleted");
+				queryClient.invalidateQueries({
+					queryKey: ["categories"],
+				});
+			},
 		},
-	});
+		queryClient,
+	);
 
 	const deleteCategory = () => {
-		deleteCategoryMutation.mutate(name);
+		deleteCategoryMutation.mutate({ id });
 	};
 
 	return (
@@ -66,5 +74,3 @@ const DeleteCategoryButton = ({
 		</Dialog>
 	);
 };
-
-export default DeleteCategoryButton;

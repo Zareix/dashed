@@ -1,5 +1,5 @@
-"use client";
-
+import { actions } from "astro:actions";
+import { useQuery } from "@tanstack/react-query";
 import {
 	Table,
 	TableBody,
@@ -9,28 +9,34 @@ import {
 	TableHeader,
 	TableRow,
 } from "~/components/ui/table";
+import { queryClient } from "~/lib/store";
 import type { WIDGETS } from "~/lib/widgets";
-import { api } from "~/trpc/react";
 
 type Props = {
 	config: Extract<WIDGETS, { type: "beszel" }>["config"];
 };
 
-const BeszelWidget = ({ config }: Props) => {
-	const [data] = api.widget.beszel.useSuspenseQuery(
+export const BeszelWidget = ({ config }: Props) => {
+	const beszelQuery = useQuery(
 		{
-			url: config.url,
-			email: config.email,
-			password: config.password,
-		},
-		{
+			queryKey: ["widget", "beszel", config],
+			queryFn: () => actions.widget.beszel(config),
+			select: (res) => {
+				if (res.error) throw new Error(res.error.message);
+				return res.data;
+			},
 			refetchInterval: 5000,
 		},
+		queryClient,
 	);
 
 	const rounded = (num: number) => Math.round(num * 10) / 10;
 
-	if (!data) {
+	if (beszelQuery.isLoading) {
+		return <div>Loading...</div>;
+	}
+
+	if (beszelQuery.isError || !beszelQuery.data) {
 		return <div>Error</div>;
 	}
 
@@ -47,7 +53,7 @@ const BeszelWidget = ({ config }: Props) => {
 				</TableRow>
 			</TableHeader>
 			<TableBody>
-				{data.map((system) => (
+				{beszelQuery.data.map((system) => (
 					<TableRow key={system.id}>
 						<TableCell className="font-medium">{system.name}</TableCell>
 						<TableCell>{rounded(system.info.cpuUsagePercent)}%</TableCell>
@@ -60,5 +66,3 @@ const BeszelWidget = ({ config }: Props) => {
 		</Table>
 	);
 };
-
-export default BeszelWidget;

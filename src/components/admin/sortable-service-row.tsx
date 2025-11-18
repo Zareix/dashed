@@ -1,22 +1,23 @@
+import { actions } from "astro:actions";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { GripVertical } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { ServiceIcon } from "~/components/ServiceIcon";
-import DeleteServiceButton from "~/components/service/delete";
-import EditServiceButton from "~/components/service/edit";
+import { DeleteServiceButton } from "~/components/service/delete";
+import { EditServiceButton } from "~/components/service/edit";
 import { Checkbox } from "~/components/ui/checkbox";
 import { Input } from "~/components/ui/input";
 import { TableCell, TableRow } from "~/components/ui/table";
-import { serviceEditSchema } from "~/lib/schemas";
+import type { Service } from "~/lib/db/schema";
+import { serviceEditSchema } from "~/lib/schema";
+import { queryClient } from "~/lib/store";
 import { cn } from "~/lib/utils";
-import type { Service } from "~/server/db/schema";
-import { api } from "~/trpc/react";
 
-function SortableServiceRow({
+export function SortableServiceRow({
 	service,
 	loading = false,
 }: {
@@ -28,22 +29,30 @@ function SortableServiceRow({
 		| "alternativeUrls"
 		| "icon"
 		| "iconDark"
-		| "categoryName"
+		| "categoryId"
 		| "openInNewTab"
 		| "widget"
 	>;
 	loading?: boolean;
 }) {
-	const utils = api.useUtils();
-	const editServiceMutation = api.service.edit.useMutation({
-		onSuccess: async (data) => {
-			toast.success(`Service '${data?.name}' edited`);
-			await utils.category.getAllWithServices.invalidate();
+	const editServiceMutation = useMutation(
+		{
+			mutationFn: actions.service.edit,
+			onSuccess: async (res) => {
+				if (res.error) {
+					throw new Error(res.error.message);
+				}
+				toast.success(`Service '${res.data.name}' edited`);
+				queryClient.invalidateQueries({
+					queryKey: ["categories", "with-services"],
+				});
+			},
+			onError: () => {
+				toast.error("An error occurred while editing service");
+			},
 		},
-		onError: () => {
-			toast.error("An error occurred while editing service");
-		},
-	});
+		queryClient,
+	);
 	const form = useForm({
 		resolver: zodResolver(serviceEditSchema),
 		defaultValues: service,
@@ -84,14 +93,7 @@ function SortableServiceRow({
 				</span>
 			</TableCell>
 			<TableCell>
-				<ServiceIcon
-					service={{
-						name: service.name,
-						icon: service.icon,
-						iconDark: service.iconDark,
-					}}
-					className="h-8 w-8 object-contain"
-				/>
+				<img src={service.icon} alt={service.name} className="h-6 w-6" />
 			</TableCell>
 			<TableCell>
 				<Input
@@ -133,5 +135,3 @@ function SortableServiceRow({
 		</TableRow>
 	);
 }
-
-export default SortableServiceRow;

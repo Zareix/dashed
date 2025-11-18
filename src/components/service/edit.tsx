@@ -8,11 +8,11 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "~/components/ui/dialog";
-import type { Service } from "~/server/db/schema";
-import { ScrollArea } from "../ui/scroll-area";
+import { ScrollArea } from "~/components/ui/scroll-area";
+import type { Service } from "~/lib/db/schema";
 import { EditCreateServiceForm } from "./edit-create-service";
 
-const EditServiceButton = ({
+export const EditServiceButton = ({
 	service,
 	disabled = false,
 }: {
@@ -22,7 +22,7 @@ const EditServiceButton = ({
 		| "name"
 		| "url"
 		| "alternativeUrls"
-		| "categoryName"
+		| "categoryId"
 		| "icon"
 		| "iconDark"
 		| "openInNewTab"
@@ -53,5 +53,3 @@ const EditServiceButton = ({
 		</Dialog>
 	);
 };
-
-export default EditServiceButton;

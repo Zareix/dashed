@@ -1,15 +1,24 @@
-"use client";
+import { actions } from "astro:actions";
+import { useQuery } from "@tanstack/react-query";
+import { queryClient } from "~/lib/store";
 import type { WIDGETS } from "~/lib/widgets";
-import { api } from "~/trpc/react";
 
 type Props = {
 	config: Extract<WIDGETS, { type: "controld" }>["config"];
 };
 
 export const ControlDWidget = ({ config }: Props) => {
-	const { isLoading, data, isError } = api.widget.controld.useQuery({
-		apiKey: config.apiKey,
-	});
+	const { isLoading, data, isError } = useQuery(
+		{
+			queryKey: ["widget", "controld", config],
+			queryFn: () => actions.widget.controld(config),
+			select: (res) => {
+				if (res.error) throw new Error(res.error.message);
+				return res.data;
+			},
+		},
+		queryClient,
+	);
 
 	if (isLoading) {
 		return <div>Loading...</div>;

@@ -1,0 +1,81 @@
+---
+import { actions } from "astro:actions";
+import ServiceIcon from "~/components/service/ServiceIcon.astro";
+import { AlternativeUrls } from "~/components/service/alternative-urls";
+import { ServiceWrapper } from "~/components/service/widget";
+import { MonitorService } from "~/components/service/monitor";
+import { cn } from "~/lib/utils";
+
+const getColsClass = (cols: number) => {
+  switch (cols) {
+    case 1:
+      return "lg:grid-cols-1";
+    case 2:
+      return "lg:grid-cols-2";
+    case 3:
+      return "lg:grid-cols-3";
+    case 4:
+      return "lg:grid-cols-4";
+    case 5:
+      return "lg:grid-cols-5";
+    default:
+      return "lg:grid-cols-5";
+  }
+};
+
+const categories = await Astro.callAction(
+  actions.category.getAllWithServices,
+  null,
+);
+---
+
+{
+  categories.data && categories.data.length === 0 && (
+    <p class="text-center text-lg m-auto">
+      Nothing here yet. Add links in the{" "}
+      <a href="/admin">
+        <button class="text-lg mx-0 px-0">
+          <span class="font-bold">Admin panel</span>
+        </button>
+      </a>
+    </p>
+  )
+}
+{
+  categories.data &&
+    categories.data.map((category) => (
+      <section class="container mt-4 p-1">
+        <h2 class="text-2xl font-bold">{category.name}</h2>
+        <ul
+          class={cn(
+            "mt-1 grid grid-cols-2 gap-2",
+            getColsClass(category.maxCols),
+          )}
+        >
+          {category.services.map((service) => (
+            <li>
+              <ServiceWrapper widget={service.widget} client:idle>
+                <a
+                  href={service.url}
+                  class="h-full items-center gap-2 rounded-lg border border-border bg-foreground/5 p-2 shadow-xs relative flex has-[.ping-error]:border-red-500"
+                  rel={service.openInNewTab ? "noopener noreferrer" : undefined}
+                  target={service.openInNewTab ? "_blank" : undefined}
+                >
+                  <ServiceIcon service={service} />
+                  <div class="overflow-hidden whitespace-nowrap text-ellipsis">
+                    {service.name}
+                  </div>
+                  <MonitorService service={service} client:idle />
+                  <AlternativeUrls
+                    alternativeUrls={service.alternativeUrls}
+                    openInNewTab={service.openInNewTab}
+                    client:idle
+                  />
+                </a>
+              </ServiceWrapper>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+}

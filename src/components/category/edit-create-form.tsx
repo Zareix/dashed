@@ -1,12 +1,19 @@
+import { actions } from "astro:actions";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod/v4-mini";
 import { Button } from "~/components/ui/button";
+import {
+	Field,
+	FieldError,
+	FieldGroup,
+	FieldLabel,
+} from "~/components/ui/field";
 import { Input } from "~/components/ui/input";
-import type { Category } from "~/server/db/schema";
-import { api } from "~/trpc/react";
-import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
+import type { Category } from "~/lib/db/schema";
+import { queryClient } from "~/lib/store";
 
 const categoryCreateSchema = z.object({
 	name: z.string().check(z.minLength(1, "Name is required")),
@@ -17,7 +24,7 @@ const categoryCreateSchema = z.object({
 });
 
 type Props = {
-	category?: Pick<Category, "name" | "maxCols">;
+	category?: Pick<Category, "id" | "name" | "maxCols">;
 	onFinish?: () => void;
 };
 
@@ -25,31 +32,40 @@ export const EditCreateCategoryForm: React.FC<Props> = ({
 	category,
 	onFinish,
 }) => {
-	const utils = api.useUtils();
-	const createCategoryMutation = api.category.create.useMutation({
-		onSuccess: async () => {
-			toast.success("Category created");
-			onFinish?.();
-			form.reset();
-			await utils.category.getAllWithServices.invalidate();
-			await utils.category.getAll.invalidate();
+	const createCategoryMutation = useMutation(
+		{
+			mutationFn: actions.category.create,
+			onSuccess: async () => {
+				toast.success("Category created");
+				onFinish?.();
+				form.reset();
+				queryClient.invalidateQueries({
+					queryKey: ["categories"],
+				});
+			},
+			onError: () => {
+				toast.error("An error occurred while creating category");
+			},
 		},
-		onError: () => {
-			toast.error("An error occurred while creating category");
+		queryClient,
+	);
+	const editCategoryMutation = useMutation(
+		{
+			mutationFn: actions.category.edit,
+			onSuccess: async () => {
+				toast.success("Category edited");
+				onFinish?.();
+				form.reset();
+				queryClient.invalidateQueries({
+					queryKey: ["categories"],
+				});
+			},
+			onError: () => {
+				toast.error("An error occurred while editings category");
+			},
 		},
-	});
-	const editCategoryMutation = api.category.edit.useMutation({
-		onSuccess: async () => {
-			toast.success("Category edited");
-			onFinish?.();
-			form.reset();
-			await utils.category.getAllWithServices.invalidate();
-			await utils.category.getAll.invalidate();
-		},
-		onError: () => {
-			toast.error("An error occurred while editings category");
-		},
-	});
+		queryClient,
+	);
 	const form = useForm({
 		resolver: zodResolver(categoryCreateSchema),
 		defaultValues: {
@@ -62,7 +78,7 @@ export const EditCreateCategoryForm: React.FC<Props> = ({
 		if (category) {
 			editCategoryMutation.mutate({
 				...values,
-				name: category.name,
+				id: category.id,
 			});
 		} else {
 			createCategoryMutation.mutate(values);

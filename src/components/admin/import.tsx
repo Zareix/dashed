@@ -1,12 +1,13 @@
-"use client";
-
+import { actions } from "astro:actions";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { ImportIcon } from "lucide-react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod/v4-mini";
 import { Button } from "~/components/ui/button";
+import { Checkbox } from "~/components/ui/checkbox";
 import {
 	Dialog,
 	DialogContent,
@@ -15,6 +16,12 @@ import {
 	DialogTrigger,
 } from "~/components/ui/dialog";
 import {
+	Field,
+	FieldError,
+	FieldGroup,
+	FieldLabel,
+} from "~/components/ui/field";
+import {
 	Select,
 	SelectContent,
 	SelectItem,
@@ -22,9 +29,7 @@ import {
 	SelectValue,
 } from "~/components/ui/select";
 import { Textarea } from "~/components/ui/textarea";
-import { api } from "~/trpc/react";
-import { Checkbox } from "../ui/checkbox";
-import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
+import { queryClient } from "~/lib/store";
 
 const importSchema = z.object({
 	type: z.enum(["dashed", "homepage"]),
@@ -32,20 +37,28 @@ const importSchema = z.object({
 	data: z.string().check(z.minLength(1, "Data is required")),
 });
 
-const ImportButton = () => {
+export const ImportButton = () => {
 	const [isOpen, setIsOpen] = useState(false);
-	const utils = api.useUtils();
-	const importMutation = api.category.import.useMutation({
-		onSuccess: async () => {
-			toast.success("Service created");
-			setIsOpen(false);
-			form.reset();
-			await utils.category.getAllWithServices.invalidate();
+	const importMutation = useMutation(
+		{
+			mutationFn: actions.importExport.import,
+			onSuccess: (res) => {
+				if (res.error) {
+					throw new Error(res.error.message);
+				}
+				toast.success("Service created");
+				setIsOpen(false);
+				form.reset();
+				queryClient.invalidateQueries({
+					queryKey: ["categories"],
+				});
+			},
+			onError: () => {
+				toast.error("An error occurred while creating service");
+			},
 		},
-		onError: () => {
-			toast.error("An error occurred while creating service");
-		},
-	});
+		queryClient,
+	);
 	const form = useForm<z.infer<typeof importSchema>>({
 		resolver: zodResolver(importSchema),
 		defaultValues: {
@@ -149,5 +162,3 @@ const ImportButton = () => {
 		</Dialog>
 	);
 };
-
-export default ImportButton;

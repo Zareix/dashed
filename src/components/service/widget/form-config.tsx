@@ -14,10 +14,10 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "~/components/ui/select";
-import type { ServiceCreateFormData } from "~/lib/schemas";
+import type { ServiceCreateFormData } from "~/lib/schema";
 import { WIDGETS } from "~/lib/widgets";
 
-const WidgetFormConfig = () => {
+export const WidgetFormConfig = () => {
 	const form = useFormContext<ServiceCreateFormData>();
 
 	const selectedWidget = WIDGETS.options.find(
@@ -83,14 +83,14 @@ const WidgetFormConfig = () => {
 									return "Invalid value";
 								},
 							}}
-							// @ts-expect-error
+							// @ts-expect-error Key can't be narrowed here
 							name={`widget.config.${key}`}
 							render={({ field, fieldState }) => (
 								<Field data-invalid={fieldState.invalid}>
 									<FieldLabel htmlFor={field.name} className="capitalize">
 										{key}
 									</FieldLabel>
-									{schema.def.type === "boolean" ? (
+									{schema._def.typeName === "ZodBoolean" ? (
 										<div className="flex items-center gap-2">
 											<Checkbox
 												checked={field.value as boolean}
@@ -122,5 +122,3 @@ const WidgetFormConfig = () => {
 		</FieldGroup>
 	);
 };
-
-export default WidgetFormConfig;

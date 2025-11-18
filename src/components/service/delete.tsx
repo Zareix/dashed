@@ -1,5 +1,5 @@
-"user client";
-
+import { actions } from "astro:actions";
+import { useMutation } from "@tanstack/react-query";
 import { TrashIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -13,23 +13,28 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "~/components/ui/dialog";
-import type { Service } from "~/server/db/schema";
-import { api } from "~/trpc/react";
+import type { Service } from "~/lib/db/schema";
+import { queryClient } from "~/lib/store";
 
-const DeleteServiceButton = ({
+export const DeleteServiceButton = ({
 	service: { id, name },
 }: {
 	service: Pick<Service, "id" | "name">;
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
-	const utils = api.useUtils();
-	const deleteServiceMutation = api.service.delete.useMutation({
-		onSuccess: async () => {
-			setIsOpen(false);
-			toast("Service deleted");
-			await utils.category.getAllWithServices.invalidate();
+	const deleteServiceMutation = useMutation(
+		{
+			mutationFn: actions.service.delete,
+			onSuccess: async () => {
+				setIsOpen(false);
+				toast("Service deleted");
+				queryClient.invalidateQueries({
+					queryKey: ["categories", "with-services"],
+				});
+			},
 		},
-	});
+		queryClient,
+	);
 
 	const deleteService = () => {
 		deleteServiceMutation.mutate({ id });
@@ -66,5 +71,3 @@ const DeleteServiceButton = ({
 		</Dialog>
 	);
 };
-
-export default DeleteServiceButton;

@@ -4,11 +4,13 @@
 	"rsc": false,
 	"tsx": true,
 	"tailwind": {
-		"css": "src/styles/globals.css",
+		"config": "",
+		"css": "src/styles/global.css",
 		"baseColor": "neutral",
 		"cssVariables": true,
 		"prefix": ""
 	},
+	"iconLibrary": "lucide",
 	"aliases": {
 		"components": "~/components",
 		"utils": "~/lib/utils",
@@ -16,5 +18,5 @@
 		"lib": "~/lib",
 		"hooks": "~/hooks"
 	},
-	"iconLibrary": "lucide"
+	"registries": {}
 }

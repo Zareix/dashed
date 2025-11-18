@@ -1,5 +1,4 @@
-"use client";
-
+import { actions } from "astro:actions";
 import {
 	closestCenter,
 	DndContext,
@@ -15,11 +14,12 @@ import {
 	sortableKeyboardCoordinates,
 	verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
-import SortableServiceRow from "~/components/admin/sortable-service-row";
-import DeleteCategoryButton from "~/components/category/delete";
-import EditCategoryButton from "~/components/category/edit";
-import CreateServiceButton from "~/components/service/create";
+import { SortableServiceRow } from "~/components/admin/sortable-service-row";
+import { DeleteCategoryButton } from "~/components/category/delete";
+import { EditCategoryButton } from "~/components/category/edit";
+import { CreateServiceButton } from "~/components/service/create";
 import { Separator } from "~/components/ui/separator";
 import {
 	Table,
@@ -28,23 +28,43 @@ import {
 	TableHeader,
 	TableRow,
 } from "~/components/ui/table";
-import type { Category, Service } from "~/server/db/schema";
-import { api } from "~/trpc/react";
+import type { Category, Service } from "~/lib/db/schema";
+import { queryClient } from "~/lib/store";
 
 export function AdminPage() {
-	const [categories] = api.category.getAllWithServices.useSuspenseQuery();
-	const utils = api.useUtils();
-	const reorderServiceMutation = api.service.reorder.useMutation({
-		onSuccess: async () => {
-			toast.success("Service reordered");
+	const categoriesQuery = useQuery(
+		{
+			queryKey: ["categories", "with-services"],
+			queryFn: () => actions.category.getAllWithServices(),
+			select: (res) => {
+				if (res.error) {
+					throw new Error(res.error.message);
+				}
+				return res.data;
+			},
 		},
-		onError: () => {
-			toast.error("An error occurred while reordering service");
+		queryClient,
+	);
+	const reorderServiceMutation = useMutation(
+		{
+			mutationFn: actions.service.reorder,
+			onSuccess: async (res) => {
+				if (res.error) {
+					throw new Error(res.error.message);
+				}
+				toast.success("Service reordered");
+			},
+			onError: () => {
+				toast.error("An error occurred while reordering service");
+			},
+			onSettled: () => {
+				queryClient.invalidateQueries({
+					queryKey: ["categories", "with-services"],
+				});
+			},
 		},
-		onSettled: async () => {
-			return await utils.category.getAllWithServices.refetch();
-		},
-	});
+		queryClient,
+	);
 	const sensors = useSensors(
 		useSensor(PointerSensor),
 		useSensor(KeyboardSensor, {
@@ -54,7 +74,7 @@ export function AdminPage() {
 
 	const handleDragEnd = (
 		event: DragEndEvent,
-		categoryName: Category["name"],
+		categoryId: Category["id"],
 		items: Service[],
 	) => {
 		const { active, over } = event;
@@ -67,11 +87,23 @@ export function AdminPage() {
 				(item) => item.id,
 			);
 			reorderServiceMutation.mutate({
-				categoryName,
+				categoryId,
 				order: sortedIds,
 			});
 		}
 	};
+
+	if (categoriesQuery.isLoading) {
+		return <div>Loading...</div>;
+	}
+
+	if (categoriesQuery.isError || !categoriesQuery.data) {
+		return (
+			<div>Error loading categories : {categoriesQuery.error?.message}</div>
+		);
+	}
+
+	const categories = categoriesQuery.data;
 
 	return (
 		<div>
@@ -105,7 +137,7 @@ export function AdminPage() {
 									sensors={sensors}
 									collisionDetection={closestCenter}
 									onDragEnd={(event) =>
-										handleDragEnd(event, category.name, category.services)
+										handleDragEnd(event, category.id, category.services)
 									}
 								>
 									<SortableContext
@@ -113,8 +145,7 @@ export function AdminPage() {
 										strategy={verticalListSortingStrategy}
 									>
 										{reorderServiceMutation.isPending &&
-										reorderServiceMutation.variables.categoryName ===
-											category.name
+										reorderServiceMutation.variables.categoryId === category.id
 											? reorderServiceMutation.variables.order.map(
 													(serviceId) => (
 														<SortableServiceRow

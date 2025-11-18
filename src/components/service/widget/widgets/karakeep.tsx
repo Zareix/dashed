@@ -1,16 +1,31 @@
-"use client";
+import { actions } from "astro:actions";
+import { useQuery } from "@tanstack/react-query";
 import { ExternalLinkIcon } from "lucide-react";
+import { queryClient } from "~/lib/store";
 import type { WIDGETS } from "~/lib/widgets";
-import { api } from "~/trpc/react";
 
 type Props = {
 	config: Extract<WIDGETS, { type: "karakeep" }>["config"];
 };
 
 export const KarakeepWidget: React.FC<Props> = ({ config }) => {
-	const [data] = api.widget.karakeep.useSuspenseQuery(config);
+	const karakeepQuery = useQuery(
+		{
+			queryKey: ["widget", "karakeep", config],
+			queryFn: () => actions.widget.karakeep(config),
+			select: (res) => {
+				if (res.error) throw new Error(res.error.message);
+				return res.data;
+			},
+		},
+		queryClient,
+	);
 
-	if (!data) {
+	if (karakeepQuery.isLoading) {
+		return <div>Loading...</div>;
+	}
+
+	if (karakeepQuery.isError || !karakeepQuery.data) {
 		return <div>Error</div>;
 	}
 
@@ -25,7 +40,7 @@ export const KarakeepWidget: React.FC<Props> = ({ config }) => {
 				⭐<span className="group-hover:underline">Favourites</span>
 				<ExternalLinkIcon size={10} />
 			</a>
-			{data.lists.map((list) => (
+			{karakeepQuery.data.lists.map((list) => (
 				<a
 					key={list.id}
 					href={`${config.url}/dashboard/lists/${list.id}`}

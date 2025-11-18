@@ -1,16 +1,23 @@
 {
 	"version": "6",
 	"dialect": "sqlite",
-	"id": "1f9f002f-e88c-4ae2-9e64-3d4e160b7696",
+	"id": "a97ae730-d140-4085-92ab-d2e0fb9ff961",
 	"prevId": "00000000-0000-0000-0000-000000000000",
 	"tables": {
 		"category": {
 			"name": "category",
 			"columns": {
+				"id": {
+					"name": "id",
+					"type": "integer",
+					"primaryKey": true,
+					"notNull": true,
+					"autoincrement": true
+				},
 				"name": {
 					"name": "name",
 					"type": "text(256)",
-					"primaryKey": true,
+					"primaryKey": false,
 					"notNull": true,
 					"autoincrement": false
 				},
@@ -46,13 +53,7 @@
 					"autoincrement": false
 				}
 			},
-			"indexes": {
-				"category_name_idx": {
-					"name": "category_name_idx",
-					"columns": ["name"],
-					"isUnique": false
-				}
-			},
+			"indexes": {},
 			"foreignKeys": {},
 			"compositePrimaryKeys": {},
 			"uniqueConstraints": {},
@@ -82,11 +83,26 @@
 					"notNull": true,
 					"autoincrement": false
 				},
+				"alternative_urls": {
+					"name": "alternative_urls",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": "[]"
+				},
 				"icon": {
 					"name": "icon",
 					"type": "text(256)",
 					"primaryKey": false,
 					"notNull": true,
+					"autoincrement": false
+				},
+				"icon_dark": {
+					"name": "icon_dark",
+					"type": "text(256)",
+					"primaryKey": false,
+					"notNull": false,
 					"autoincrement": false
 				},
 				"order": {
@@ -97,9 +113,25 @@
 					"autoincrement": false,
 					"default": "0"
 				},
-				"category_name": {
-					"name": "category_name",
-					"type": "text(256)",
+				"widget": {
+					"name": "widget",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": "'{\"type\":\"none\",\"config\":{}}'"
+				},
+				"open_in_new_tab": {
+					"name": "open_in_new_tab",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": "0"
+				},
+				"category_id": {
+					"name": "category_id",
+					"type": "integer",
 					"primaryKey": false,
 					"notNull": true,
 					"autoincrement": false
@@ -128,12 +160,12 @@
 				}
 			},
 			"foreignKeys": {
-				"service_category_name_category_name_fk": {
-					"name": "service_category_name_category_name_fk",
+				"service_category_id_category_id_fk": {
+					"name": "service_category_id_category_id_fk",
 					"tableFrom": "service",
 					"tableTo": "category",
-					"columnsFrom": ["category_name"],
-					"columnsTo": ["name"],
+					"columnsFrom": ["category_id"],
+					"columnsTo": ["id"],
 					"onDelete": "cascade",
 					"onUpdate": "no action"
 				}

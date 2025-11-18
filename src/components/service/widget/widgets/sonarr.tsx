@@ -1,16 +1,30 @@
-"use client";
-
+import { actions } from "astro:actions";
+import { useQuery } from "@tanstack/react-query";
+import { queryClient } from "~/lib/store";
 import type { WIDGETS } from "~/lib/widgets";
-import { api } from "~/trpc/react";
 
 type Props = {
 	config: Extract<WIDGETS, { type: "sonarr" }>["config"];
 };
 
 const SonarrWidget = ({ config }: Props) => {
-	const [data] = api.widget.sonarr.useSuspenseQuery(config);
+	const { isLoading, data, isError } = useQuery(
+		{
+			queryKey: ["widget", "sonarr", config],
+			queryFn: () => actions.widget.sonarr(config),
+			select: (res) => {
+				if (res.error) throw new Error(res.error.message);
+				return res.data;
+			},
+		},
+		queryClient,
+	);
 
-	if (!data) {
+	if (isLoading) {
+		return <div>Loading...</div>;
+	}
+
+	if (isError || !data) {
 		return <div>Error</div>;
 	}
 
