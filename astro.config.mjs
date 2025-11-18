@@ -38,6 +38,10 @@ export default defineConfig({
 		],
 	},
 
+	security: {
+		checkOrigin: false,
+	},
+
 	adapter: bun(),
 	output: "server",
 });

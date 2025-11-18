@@ -91,7 +91,6 @@ export const EditCreateCategoryForm: React.FC<Props> = ({
 				<Controller
 					control={form.control}
 					name="name"
-					disabled={!!category}
 					render={({ field, fieldState }) => (
 						<Field data-invalid={fieldState.invalid}>
 							<FieldLabel htmlFor={field.name}>Name</FieldLabel>
