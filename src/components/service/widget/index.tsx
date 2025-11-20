@@ -1,3 +1,5 @@
+import { actions } from "astro:actions";
+import { useQuery } from "@tanstack/react-query";
 import { BeszelWidget } from "~/components/service/widget/widgets/beszel";
 import { ControlDWidget } from "~/components/service/widget/widgets/controld";
 import { CupWidget } from "~/components/service/widget/widgets/cup";
@@ -14,6 +16,7 @@ import {
 	HoverCardContent,
 	HoverCardTrigger,
 } from "~/components/ui/hover-card";
+import { queryClient } from "~/lib/store";
 import type { WIDGETS } from "~/lib/widgets";
 
 export const ServiceWrapper = ({
@@ -23,6 +26,25 @@ export const ServiceWrapper = ({
 	children: React.ReactNode;
 	widget: WIDGETS;
 }) => {
+	useQuery(
+		{
+			queryKey: ["widget", widget.type, widget.config],
+			queryFn: async () => {
+				if (!widget || widget.type === "none") return null;
+				return actions.widget[widget.type](
+					// @ts-expect-error Can't infer type properly but checked with `actions.widget[widget.type]`
+					widget.config,
+				);
+			},
+			select: (res) => {
+				if (!res || res.error)
+					throw new Error(res?.error.message ?? "Unknown error");
+				return res.data;
+			},
+			notifyOnChangeProps: [],
+		},
+		queryClient,
+	);
 	if (!widget || widget.type === "none") {
 		return <div>{children}</div>;
 	}
