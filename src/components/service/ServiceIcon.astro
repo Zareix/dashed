@@ -19,7 +19,7 @@ const { service } = Astro.props;
   height={32}
   layout="fixed"
   fit="contain"
-  class={cn(service.iconDark && "dark:hidden", "h-8 w-8")}
+  class={cn(service.iconDark && "dark:hidden", "h-8 w-8 object-contain")}
 />
 {
   service.iconDark && (
@@ -30,7 +30,7 @@ const { service } = Astro.props;
       height={32}
       layout="fixed"
       fit="contain"
-      class="h-8 w-8 hidden dark:block"
+      class="hidden dark:block h-8 w-8 object-contain"
     />
   )
 }
