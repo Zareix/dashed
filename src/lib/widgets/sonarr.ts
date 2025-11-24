@@ -1,18 +1,21 @@
-export type SonarrSeriesResponse = Array<{
+import { tryCatch } from "~/lib/try-catch";
+import type { WidgetConfig } from "~/lib/widgets";
+
+type SonarrSeriesResponse = Array<{
 	id: number;
 	title: string;
 }>;
 
-export type SonarrMissingEpisodesResponse = {
+type SonarrMissingEpisodesResponse = {
 	page: number;
 	pageSize: number;
 	sortKey: string;
 	sortDirection: string;
 	totalRecords: number;
-	records: Record[];
+	records: SonarrRecord[];
 };
 
-export type Record = {
+type SonarrRecord = {
 	seriesId: number;
 	tvdbId: number;
 	episodeFileId: number;
@@ -30,4 +33,46 @@ export type Record = {
 	id: number;
 	finaleType?: string;
 	absoluteEpisodeNumber?: number;
+};
+
+export const getWidgetData = async (config: WidgetConfig<"sonarr">) => {
+	const res = await tryCatch(
+		Promise.all([
+			fetch(`${config.url}/api/v3/series?apikey=${config.apiKey}`).then(
+				(res) => res.json() as Promise<SonarrSeriesResponse>,
+			),
+			fetch(
+				`${config.url}/api/v3/wanted/missing?page=1&pageSize=100&includeSeries=false&includeImages=false&monitored=true&apikey=${config.apiKey}`,
+			).then((res) => res.json() as Promise<SonarrMissingEpisodesResponse>),
+		]),
+	);
+	if (res.error) {
+		throw new Error(`Failed to fetch Sonarr data: ${res.error.message}`);
+	}
+	const [seriesRes, missingRes] = res.data;
+	return {
+		missingSeriesEpisodes: missingRes.records.reduce(
+			(acc, cur) => {
+				const entry = acc[cur.seriesId];
+				if (entry) {
+					entry.episodes.push(cur);
+				} else {
+					acc[cur.seriesId] = {
+						seriesTitle:
+							seriesRes.find((series) => series.id === cur.seriesId)?.title ??
+							"Unknown",
+						episodes: [cur],
+					};
+				}
+				return acc;
+			},
+			{} as Record<
+				SonarrMissingEpisodesResponse["records"][number]["seriesId"],
+				{
+					seriesTitle: SonarrSeriesResponse[number]["title"];
+					episodes: Array<SonarrMissingEpisodesResponse["records"][number]>;
+				}
+			>,
+		),
+	};
 };

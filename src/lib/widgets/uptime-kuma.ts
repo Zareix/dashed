@@ -1,4 +1,7 @@
-export const parseMonitorStatusFromMetrics = (metricsContent: string) => {
+import { tryCatch } from "~/lib/try-catch";
+import type { WidgetConfig } from "~/lib/widgets";
+
+const parseMonitorStatusFromMetrics = (metricsContent: string) => {
 	const lines = metricsContent.split("\n");
 	const parsedData = [];
 
@@ -25,4 +28,29 @@ export const parseMonitorStatusFromMetrics = (metricsContent: string) => {
 	}
 
 	return parsedData;
+};
+
+export const getWidgetData = async (config: WidgetConfig<"uptime-kuma">) => {
+	const res = await tryCatch(
+		fetch(`${config.url}/metrics`, {
+			headers: {
+				Authorization: `Basic ${Buffer.from(`:${config.apiKey}`).toString("base64")}`,
+			},
+		}).then(async (res) => {
+			if (!res.ok) {
+				throw new Error(
+					`Failed to fetch Uptime Kuma metrics: ${await res.text()}`,
+				);
+			}
+			return res.text();
+		}),
+	);
+	if (res.error) {
+		throw res.error;
+	}
+
+	const parseMetrics = parseMonitorStatusFromMetrics(res.data);
+	return {
+		metrics: parseMetrics,
+	};
 };

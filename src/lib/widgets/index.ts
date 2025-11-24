@@ -89,3 +89,7 @@ export const WIDGETS = z.discriminatedUnion("type", [
 	karakeepSchema,
 ]);
 export type WIDGETS = z.infer<typeof WIDGETS>;
+export type WidgetConfig<T extends WIDGETS["type"]> = Extract<
+	WIDGETS,
+	{ type: T }
+>["config"];

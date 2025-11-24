@@ -1,70 +1,7 @@
-type Bookmark = {
-	id: string;
-	createdAt: string;
-	modifiedAt: string;
-	title: string;
-	archived: true;
-	favourited: true;
-	taggingStatus: string;
-	summarizationStatus: string;
-	note: string;
-	summary: string;
-	tags: Array<{
-		id: string;
-		name: string;
-		attachedBy: string;
-	}>;
-	content:
-		| {
-				type: "link";
-				url: string;
-				title: string;
-				description: string;
-				imageUrl: string;
-				imageAssetId: string;
-				screenshotAssetId: string;
-				fullPageArchiveAssetId: string;
-				precrawledArchiveAssetId: string;
-				videoAssetId: string;
-				favicon: string;
-				htmlContent: string;
-				contentAssetId: string;
-				crawledAt: string;
-				author: string;
-				publisher: string;
-				datePublished: string;
-				dateModified: string;
-		  }
-		| {
-				type: "text";
-				text: string;
-				sourceUrl: string;
-		  }
-		| {
-				type: "asset";
-				assetId: string;
-				fileName: string;
-				sourceUrl: string;
-				size: number;
-				content: string;
-		  }
-		| {
-				type: "unknown";
-		  };
-	assets: [
-		{
-			id: string;
-			assetType: string;
-		},
-	];
-};
+import { tryCatch } from "~/lib/try-catch";
+import type { WIDGETS } from "~/lib/widgets";
 
-export type KarakeepBookmarksResponse = {
-	bookmarks: Array<Bookmark>;
-	nextCursor: string;
-};
-
-export type KarakeepListsResponse = {
+type KarakeepListsResponse = {
 	lists: Array<{
 		type: "manual" | "smart";
 		id: string;
@@ -75,4 +12,28 @@ export type KarakeepListsResponse = {
 		query?: string;
 		public: boolean;
 	}>;
+};
+
+export const getWidgetData = async (
+	config: Extract<WIDGETS, { type: "karakeep" }>["config"],
+) => {
+	const res = await tryCatch(
+		fetch(`${config.url}/api/v1/lists`, {
+			headers: {
+				Authorization: `Bearer ${config.apiKey}`,
+			},
+		}).then((res) => {
+			if (!res.ok) {
+				throw new Error(`Failed to fetch karakeep lists: ${res.statusText}`);
+			}
+			return res.json() as Promise<KarakeepListsResponse>;
+		}),
+	);
+	if (res.error) {
+		throw res.error;
+	}
+
+	return {
+		lists: res.data.lists.toSorted((a, b) => a.name.localeCompare(b.name)),
+	};
 };

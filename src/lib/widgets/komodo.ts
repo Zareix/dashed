@@ -1,4 +1,7 @@
-export type KomodoListServersResponse = Array<{
+import { tryCatch } from "~/lib/try-catch";
+import type { WidgetConfig } from "~/lib/widgets";
+
+type KomodoListServersResponse = Array<{
 	id: string;
 	type: "Server";
 	name: string;
@@ -17,7 +20,7 @@ export type KomodoListServersResponse = Array<{
 	};
 }>;
 
-export type KomodoListStacksResponse = Array<{
+type KomodoListStacksResponse = Array<{
 	id: string;
 	type: "Stack";
 	name: string;
@@ -56,3 +59,60 @@ export type KomodoListStacksResponse = Array<{
 		latest_hash: null;
 	};
 }>;
+
+export const getWidgetData = async (config: WidgetConfig<"komodo">) => {
+	const res = await tryCatch(
+		Promise.all([
+			fetch(`${config.url}/read`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					"X-API-Key": config.apiKey,
+					"X-API-Secret": config.apiSecret,
+				},
+				body: JSON.stringify({
+					type: "ListServers",
+					params: {},
+				}),
+			}).then((res) => {
+				if (!res.ok) {
+					throw new Error(`Failed to fetch komodo servers: ${res.statusText}`);
+				}
+				return res.json() as Promise<KomodoListServersResponse>;
+			}),
+			fetch(`${config.url}/read`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					"X-API-Key": config.apiKey,
+					"X-API-Secret": config.apiSecret,
+				},
+				body: JSON.stringify({
+					type: "ListStacks",
+					params: {},
+				}),
+			}).then((res) => {
+				if (!res.ok) {
+					throw new Error(`Failed to fetch komodo stacks: ${res.statusText}`);
+				}
+				return res.json() as Promise<KomodoListStacksResponse>;
+			}),
+		]),
+	);
+	if (res.error) {
+		throw res.error;
+	}
+	const [serversData, stacksData] = res.data;
+	return {
+		servers: serversData.map((server) => ({
+			id: server.id,
+			name: server.name,
+			state: server.info.state,
+		})),
+		stacks: stacksData.map((stack) => ({
+			id: stack.id,
+			name: stack.name,
+			state: stack.info.state,
+		})),
+	};
+};
