@@ -59,7 +59,11 @@ export const BeszelWidget = ({ config }: Props) => {
 						<TableCell>{rounded(system.info.cpuUsagePercent)}%</TableCell>
 						<TableCell>{rounded(system.info.memoryUsagePercent)}%</TableCell>
 						<TableCell>{rounded(system.info.diskUsagePercent)}%</TableCell>
-						<TableCell>{rounded(system.info.temperature)}°C</TableCell>
+						<TableCell>
+							{system.info.temperature
+								? `${rounded(system.info.temperature)}°C`
+								: "N/A"}
+						</TableCell>
 					</TableRow>
 				))}
 			</TableBody>

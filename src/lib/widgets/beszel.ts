@@ -16,7 +16,7 @@ type BeszelSystemResponse = {
 			c: number;
 			cpu: number;
 			dp: number;
-			dt: number;
+			dt?: number;
 			h: string;
 			k: string;
 			m: string;
@@ -79,7 +79,7 @@ export const getWidgetData = async (config: WidgetConfig<"beszel">) => {
 				cpuUsagePercent: system.info.cpu,
 				memoryUsagePercent: system.info.mp,
 				diskUsagePercent: system.info.dp,
-				temperature: system.info.dt,
+				temperature: system.info.dt ?? null,
 			},
 			status: system.status,
 		}))
