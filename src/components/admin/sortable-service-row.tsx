@@ -26,6 +26,7 @@ export function SortableServiceRow({
 		| "id"
 		| "name"
 		| "url"
+		| "pingUrl"
 		| "alternativeUrls"
 		| "icon"
 		| "iconDark"

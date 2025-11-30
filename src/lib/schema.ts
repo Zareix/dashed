@@ -5,6 +5,9 @@ export const serviceCreateSchema = z.object({
 	id: z.number().optional(),
 	name: z.string().min(1),
 	url: z.string().url(),
+	pingUrl: z
+		.union([z.string().url(), z.literal(""), z.null(), z.undefined()])
+		.transform((v) => (v === "" || v == null ? null : v)),
 	alternativeUrls: z
 		.array(
 			z.object({

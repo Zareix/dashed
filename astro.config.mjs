@@ -4,45 +4,45 @@ import react from "@astrojs/react";
 import bun from "@nurodev/astro-bun";
 import tailwindcss from "@tailwindcss/vite";
 import {
-    defineConfig,
-    fontProviders,
-    passthroughImageService,
+	defineConfig,
+	fontProviders,
+	passthroughImageService,
 } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [react()],
+	integrations: [react()],
 
-  vite: {
-      plugins: [tailwindcss()],
+	vite: {
+		plugins: [tailwindcss()],
 	},
 
-  image: {
-      service: passthroughImageService(),
-      remotePatterns: [
-          {
-              protocol: "https",
-              hostname: "cdn.jsdelivr.net",
-              pathname: "/gh/homarr-labs/dashboard-icons/**",
-          },
-      ],
+	image: {
+		service: passthroughImageService(),
+		remotePatterns: [
+			{
+				protocol: "https",
+				hostname: "cdn.jsdelivr.net",
+				pathname: "/gh/homarr-labs/dashboard-icons/**",
+			},
+		],
 	},
 
-  experimental: {
-      fonts: [
-          {
-              provider: fontProviders.google(),
-              name: "Geist",
-              cssVariable: "--font-sans",
-          },
-      ],
+	experimental: {
+		fonts: [
+			{
+				provider: fontProviders.google(),
+				name: "Geist",
+				cssVariable: "--font-sans",
+			},
+		],
 	},
 
-  security: {
-      checkOrigin: false,
+	security: {
+		checkOrigin: false,
 	},
 
-  output: "server",
+	output: "server",
 
-  adapter: bun()
+	adapter: bun(),
 });

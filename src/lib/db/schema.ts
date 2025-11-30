@@ -25,6 +25,7 @@ export const serviceTable = sqliteTable(
 		id: int("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
 		name: text("name", { length: 256 }).notNull(),
 		url: text("url", { length: 256 }).notNull(),
+		pingUrl: text("ping_url", { length: 256 }),
 		alternativeUrls: text("alternative_urls", {
 			mode: "json",
 		})

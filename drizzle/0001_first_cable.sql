@@ -1,0 +1,1 @@
+ALTER TABLE `service` ADD `ping_url` text(256);

@@ -32,6 +32,7 @@ type Props = {
 		| "id"
 		| "name"
 		| "url"
+		| "pingUrl"
 		| "alternativeUrls"
 		| "categoryId"
 		| "icon"
@@ -105,6 +106,7 @@ export const EditCreateServiceForm: React.FC<Props> = ({
 		defaultValues: {
 			name: service?.name ?? "",
 			url: service?.url ?? "https://",
+			pingUrl: service?.pingUrl ?? "",
 			alternativeUrls: service?.alternativeUrls ?? [],
 			icon: service?.icon ?? "",
 			categoryId: service?.categoryId ?? category?.id,
@@ -255,6 +257,22 @@ export const EditCreateServiceForm: React.FC<Props> = ({
 								{...field}
 								placeholder="Service url"
 								aria-invalid={fieldState.invalid}
+							/>
+							{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+						</Field>
+					)}
+				/>
+				<Controller
+					control={form.control}
+					name="pingUrl"
+					render={({ field, fieldState }) => (
+						<Field data-invalid={fieldState.invalid}>
+							<FieldLabel htmlFor={field.name}>Ping URL (optional)</FieldLabel>
+							<Input
+								{...field}
+								placeholder="Custom ping URL"
+								aria-invalid={fieldState.invalid}
+								value={field.value ?? ""}
 							/>
 							{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
 						</Field>

@@ -8,6 +8,7 @@ Dashed is a self-hosted dashboard application built with Astro, React, and Bun. 
 
 - **Framework**: Astro 5.x with SSR (server-side rendering)
 - **Runtime**: Bun
+  - You must use bun commands (`bun` and `bunx`) instead of npm/yarn/pnpm
 - **UI Framework**: React 19
 - **Database**: SQLite with Drizzle ORM
 - **Styling**: Tailwind CSS 4.x
