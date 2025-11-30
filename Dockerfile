@@ -13,6 +13,8 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+ENV ASTRO_TELEMETRY_DISABLED=1
+
 RUN bun run build;
 
 RUN bun run compile
