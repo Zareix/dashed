@@ -270,7 +270,7 @@ export const EditCreateServiceForm: React.FC<Props> = ({
 							<FieldLabel htmlFor={field.name}>Ping URL (optional)</FieldLabel>
 							<Input
 								{...field}
-								placeholder="Custom ping url"
+								placeholder="Custom ping URL"
 								aria-invalid={fieldState.invalid}
 								value={field.value ?? ""}
 							/>
