@@ -8,7 +8,7 @@ import { queryClient } from "~/lib/store";
 export const MonitorService = ({
 	service,
 }: {
-	service: Pick<Service, "id" | "url">;
+	service: Pick<Service, "id" | "url" | "pingUrl">;
 }) => {
 	const healthQuery = useQuery(
 		{
@@ -23,10 +23,11 @@ export const MonitorService = ({
 		},
 		queryClient,
 	);
+	const pingUrl = service.pingUrl ?? service.url;
 	const pingQuery = useQuery(
 		{
-			queryKey: ["service-ping", service.url],
-			queryFn: () => actions.service.ping({ url: service.url }),
+			queryKey: ["service-ping", pingUrl],
+			queryFn: () => actions.service.ping({ url: pingUrl }),
 			select: (res) => {
 				if (res.error) throw res.error;
 				return res.data;
