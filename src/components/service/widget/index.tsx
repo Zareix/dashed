@@ -9,6 +9,7 @@ import { KavitaWidget } from "~/components/service/widget/widgets/kavita";
 import { KomodoWidget } from "~/components/service/widget/widgets/komodo";
 import { NextDNSWidget } from "~/components/service/widget/widgets/nextdns";
 import { ProwlarrWidget } from "~/components/service/widget/widgets/prowlarr";
+import { QBittorrentWidget } from "~/components/service/widget/widgets/qbittorrent";
 import { RadarrWidget } from "~/components/service/widget/widgets/radarr";
 import SonarrWidget from "~/components/service/widget/widgets/sonarr";
 import { SubtrackerWidget } from "~/components/service/widget/widgets/subtracker";
@@ -91,6 +92,8 @@ export const Widget = ({ widget }: { widget: WIDGETS }) => {
 			return <KavitaWidget config={widget.config} />;
 		case "prowlarr":
 			return <ProwlarrWidget config={widget.config} />;
+		case "qbittorrent":
+			return <QBittorrentWidget config={widget.config} />;
 		default:
 			return null;
 	}

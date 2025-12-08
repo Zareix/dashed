@@ -6,6 +6,10 @@ const baseConfig = z.object({
 const withApiKey = baseConfig.extend({
 	apiKey: z.string(),
 });
+const withUserPass = baseConfig.extend({
+	username: z.string(),
+	password: z.string(),
+});
 
 export const noneSchema = z.object({
 	type: z.literal("none"),
@@ -81,6 +85,10 @@ export const prowlarrSchema = z.object({
 	type: z.literal("prowlarr"),
 	config: withApiKey,
 });
+export const qbittorrentSchema = z.object({
+	type: z.literal("qbittorrent"),
+	config: withUserPass,
+});
 
 export const WIDGETS = z.discriminatedUnion("type", [
 	noneSchema,
@@ -97,6 +105,7 @@ export const WIDGETS = z.discriminatedUnion("type", [
 	karakeepSchema,
 	kavitaSchema,
 	prowlarrSchema,
+	qbittorrentSchema,
 ]);
 export type WIDGETS = z.infer<typeof WIDGETS>;
 export type WidgetConfig<T extends WIDGETS["type"]> = Extract<
