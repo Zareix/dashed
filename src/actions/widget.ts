@@ -5,6 +5,7 @@ import {
 	cupSchema,
 	gatusSchema,
 	karakeepSchema,
+	kavitaSchema,
 	komodoSchema,
 	nextdnsSchema,
 	radarrSchema,
@@ -18,6 +19,7 @@ import * as controld from "../lib/widgets/controld";
 import * as cup from "../lib/widgets/cup";
 import * as gatus from "../lib/widgets/gatus";
 import * as karakeep from "../lib/widgets/karakeep";
+import * as kavita from "../lib/widgets/kavita";
 import * as komodo from "../lib/widgets/komodo";
 import * as nextdns from "../lib/widgets/nextdns";
 import * as radarr from "../lib/widgets/radarr";
@@ -45,6 +47,10 @@ export const widget = {
 	karakeep: defineAction({
 		input: karakeepSchema.shape.config,
 		handler: karakeep.getWidgetData,
+	}),
+	kavita: defineAction({
+		input: kavitaSchema.shape.config,
+		handler: kavita.getWidgetData,
 	}),
 	komodo: defineAction({
 		input: komodoSchema.shape.config,

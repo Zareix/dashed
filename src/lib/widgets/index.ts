@@ -73,6 +73,10 @@ export const karakeepSchema = z.object({
 	type: z.literal("karakeep"),
 	config: withApiKey,
 });
+export const kavitaSchema = z.object({
+	type: z.literal("kavita"),
+	config: withApiKey,
+});
 
 export const WIDGETS = z.discriminatedUnion("type", [
 	noneSchema,
@@ -87,6 +91,7 @@ export const WIDGETS = z.discriminatedUnion("type", [
 	gatusSchema,
 	subtrackerSchema,
 	karakeepSchema,
+	kavitaSchema,
 ]);
 export type WIDGETS = z.infer<typeof WIDGETS>;
 export type WidgetConfig<T extends WIDGETS["type"]> = Extract<

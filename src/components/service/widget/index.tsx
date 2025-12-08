@@ -5,6 +5,7 @@ import { ControlDWidget } from "~/components/service/widget/widgets/controld";
 import { CupWidget } from "~/components/service/widget/widgets/cup";
 import { GatusWidget } from "~/components/service/widget/widgets/gatus";
 import { KarakeepWidget } from "~/components/service/widget/widgets/karakeep";
+import { KavitaWidget } from "~/components/service/widget/widgets/kavita";
 import { KomodoWidget } from "~/components/service/widget/widgets/komodo";
 import { NextDNSWidget } from "~/components/service/widget/widgets/nextdns";
 import { RadarrWidget } from "~/components/service/widget/widgets/radarr";
@@ -85,6 +86,8 @@ export const Widget = ({ widget }: { widget: WIDGETS }) => {
 			return <SubtrackerWidget config={widget.config} />;
 		case "karakeep":
 			return <KarakeepWidget config={widget.config} />;
+		case "kavita":
+			return <KavitaWidget config={widget.config} />;
 		default:
 			return null;
 	}
