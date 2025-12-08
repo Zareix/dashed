@@ -11,7 +11,12 @@ type QBittorrentTransferInfo = {
 export const getWidgetData = async (config: WidgetConfig<"qbittorrent">) => {
 	// First, attempt to login if credentials are provided
 	let cookie = "";
-	if (config.username && config.password) {
+	if (
+		config.username &&
+		config.password &&
+		config.username.trim() !== "" &&
+		config.password.trim() !== ""
+	) {
 		const loginRes = await tryCatch(
 			fetch(`${config.url}/api/v2/auth/login`, {
 				method: "POST",
@@ -26,9 +31,16 @@ export const getWidgetData = async (config: WidgetConfig<"qbittorrent">) => {
 				// Extract the SID cookie from response
 				const setCookie = res.headers.get("set-cookie");
 				if (setCookie) {
-					const match = setCookie.match(/SID=([^;]+)/);
-					if (match) {
-						return match[0];
+					// Parse all cookies and find SID
+					const cookies = setCookie
+						.split(",")
+						.flatMap((cookie) => cookie.split(";"));
+					for (const cookie of cookies) {
+						const trimmed = cookie.trim();
+						if (trimmed.startsWith("SID=")) {
+							const parts = trimmed.split("=");
+							return `${parts[0]}=${parts[1]}`;
+						}
 					}
 				}
 				return "";
