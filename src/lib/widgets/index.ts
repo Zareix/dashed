@@ -6,6 +6,10 @@ const baseConfig = z.object({
 const withApiKey = baseConfig.extend({
 	apiKey: z.string(),
 });
+const withUserPass = baseConfig.extend({
+	username: z.string(),
+	password: z.string(),
+});
 
 export const noneSchema = z.object({
 	type: z.literal("none"),
@@ -83,11 +87,7 @@ export const prowlarrSchema = z.object({
 });
 export const qbittorrentSchema = z.object({
 	type: z.literal("qbittorrent"),
-	config: z.object({
-		url: z.string().url(),
-		username: z.string().optional(),
-		password: z.string().optional(),
-	}),
+	config: withUserPass,
 });
 
 export const WIDGETS = z.discriminatedUnion("type", [

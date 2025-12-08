@@ -8,53 +8,54 @@ type QBittorrentTransferInfo = {
 	up_info_data: number; // Data uploaded this session (bytes)
 };
 
-export const getWidgetData = async (config: WidgetConfig<"qbittorrent">) => {
-	// First, attempt to login if credentials are provided
-	let cookie = "";
-	if (
-		config.username &&
-		config.password &&
-		config.username.trim() !== "" &&
-		config.password.trim() !== ""
-	) {
-		const loginRes = await tryCatch(
-			fetch(`${config.url}/api/v2/auth/login`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/x-www-form-urlencoded",
-				},
-				body: `username=${encodeURIComponent(config.username)}&password=${encodeURIComponent(config.password)}`,
-			}).then((res) => {
-				if (!res.ok) {
-					throw new Error(`Failed to login to qBittorrent: ${res.statusText}`);
-				}
-				// Extract the SID cookie from response
-				const setCookie = res.headers.get("set-cookie");
-				if (setCookie) {
-					// Parse SID cookie by looking for SID= and extracting until ; or end
-					const sidMatch = setCookie.match(/SID=([^;]+)/);
-					if (sidMatch) {
-						return `SID=${sidMatch[1]}`;
-					}
-				}
-				return "";
-			}),
-		);
-		if (loginRes.error) {
-			throw loginRes.error;
-		}
-		cookie = loginRes.data;
-	}
+const formatBytes = (bytes: number): string => {
+	if (bytes < 0) return "0 B";
+	if (bytes === 0) return "0 B";
+	const k = 1024;
+	const sizes = ["B", "KB", "MB", "GB", "TB", "PB"];
+	const i = Math.min(
+		Math.floor(Math.log(bytes) / Math.log(k)),
+		sizes.length - 1,
+	);
+	return `${(bytes / k ** i).toFixed(2)} ${sizes[i]}`;
+};
 
-	// Fetch transfer info
-	const headers: Record<string, string> = {};
-	if (cookie) {
-		headers.Cookie = cookie;
+const formatSpeed = (bytesPerSecond: number): string => {
+	return `${formatBytes(bytesPerSecond)}/s`;
+};
+
+export const getWidgetData = async (config: WidgetConfig<"qbittorrent">) => {
+	const loginRes = await tryCatch(
+		fetch(`${config.url}/api/v2/auth/login`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/x-www-form-urlencoded",
+			},
+			body: `username=${encodeURIComponent(config.username)}&password=${encodeURIComponent(config.password)}`,
+		}).then((res) => {
+			if (!res.ok) {
+				throw new Error(`Failed to login to qBittorrent: ${res.statusText}`);
+			}
+			const setCookie = res.headers.get("set-cookie");
+			if (!setCookie) {
+				throw new Error("No set-cookie header received from qBittorrent");
+			}
+			const sidMatch = setCookie.match(/SID=([^;]+)/);
+			if (!sidMatch) {
+				throw new Error("No SID cookie found in qBittorrent response");
+			}
+			return `SID=${sidMatch[1]}`;
+		}),
+	);
+	if (loginRes.error) {
+		throw loginRes.error;
 	}
 
 	const res = await tryCatch(
 		fetch(`${config.url}/api/v2/transfer/info`, {
-			headers,
+			headers: {
+				Cookie: loginRes.data,
+			},
 		}).then((res) => {
 			if (!res.ok) {
 				throw new Error(
@@ -70,9 +71,9 @@ export const getWidgetData = async (config: WidgetConfig<"qbittorrent">) => {
 	}
 
 	return {
-		downloadSpeed: res.data.dl_info_speed,
-		downloadData: res.data.dl_info_data,
-		uploadSpeed: res.data.up_info_speed,
-		uploadData: res.data.up_info_data,
+		downloadSpeed: formatSpeed(res.data.dl_info_speed),
+		downloadData: formatBytes(res.data.dl_info_data),
+		uploadSpeed: formatSpeed(res.data.up_info_speed),
+		uploadData: formatBytes(res.data.up_info_data),
 	};
 };
