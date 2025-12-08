@@ -77,6 +77,10 @@ export const kavitaSchema = z.object({
 	type: z.literal("kavita"),
 	config: withApiKey,
 });
+export const prowlarrSchema = z.object({
+	type: z.literal("prowlarr"),
+	config: withApiKey,
+});
 
 export const WIDGETS = z.discriminatedUnion("type", [
 	noneSchema,
@@ -92,6 +96,7 @@ export const WIDGETS = z.discriminatedUnion("type", [
 	subtrackerSchema,
 	karakeepSchema,
 	kavitaSchema,
+	prowlarrSchema,
 ]);
 export type WIDGETS = z.infer<typeof WIDGETS>;
 export type WidgetConfig<T extends WIDGETS["type"]> = Extract<

@@ -8,6 +8,7 @@ import {
 	kavitaSchema,
 	komodoSchema,
 	nextdnsSchema,
+	prowlarrSchema,
 	radarrSchema,
 	sonarrSchema,
 	subtrackerSchema,
@@ -22,6 +23,7 @@ import * as karakeep from "../lib/widgets/karakeep";
 import * as kavita from "../lib/widgets/kavita";
 import * as komodo from "../lib/widgets/komodo";
 import * as nextdns from "../lib/widgets/nextdns";
+import * as prowlarr from "../lib/widgets/prowlarr";
 import * as radarr from "../lib/widgets/radarr";
 import * as sonarr from "../lib/widgets/sonarr";
 import * as subtracker from "../lib/widgets/subtracker";
@@ -59,6 +61,10 @@ export const widget = {
 	nextdns: defineAction({
 		input: nextdnsSchema.shape.config,
 		handler: nextdns.getWidgetData,
+	}),
+	prowlarr: defineAction({
+		input: prowlarrSchema.shape.config,
+		handler: prowlarr.getWidgetData,
 	}),
 	radarr: defineAction({
 		input: radarrSchema.shape.config,

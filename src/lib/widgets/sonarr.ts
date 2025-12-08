@@ -4,6 +4,7 @@ import type { WidgetConfig } from "~/lib/widgets";
 type SonarrSeriesResponse = Array<{
 	id: number;
 	title: string;
+	titleSlug: string;
 }>;
 
 type SonarrMissingEpisodesResponse = {
@@ -57,10 +58,10 @@ export const getWidgetData = async (config: WidgetConfig<"sonarr">) => {
 				if (entry) {
 					entry.episodes.push(cur);
 				} else {
+					const series = seriesRes.find((series) => series.id === cur.seriesId);
 					acc[cur.seriesId] = {
-						seriesTitle:
-							seriesRes.find((series) => series.id === cur.seriesId)?.title ??
-							"Unknown",
+						title: series?.title ?? "Unknown",
+						url: `${config.url}/series/${series?.titleSlug}`,
 						episodes: [cur],
 					};
 				}
@@ -69,7 +70,8 @@ export const getWidgetData = async (config: WidgetConfig<"sonarr">) => {
 			{} as Record<
 				SonarrMissingEpisodesResponse["records"][number]["seriesId"],
 				{
-					seriesTitle: SonarrSeriesResponse[number]["title"];
+					title: SonarrSeriesResponse[number]["title"];
+					url: string;
 					episodes: Array<SonarrMissingEpisodesResponse["records"][number]>;
 				}
 			>,

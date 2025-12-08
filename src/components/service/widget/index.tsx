@@ -8,6 +8,7 @@ import { KarakeepWidget } from "~/components/service/widget/widgets/karakeep";
 import { KavitaWidget } from "~/components/service/widget/widgets/kavita";
 import { KomodoWidget } from "~/components/service/widget/widgets/komodo";
 import { NextDNSWidget } from "~/components/service/widget/widgets/nextdns";
+import { ProwlarrWidget } from "~/components/service/widget/widgets/prowlarr";
 import { RadarrWidget } from "~/components/service/widget/widgets/radarr";
 import SonarrWidget from "~/components/service/widget/widgets/sonarr";
 import { SubtrackerWidget } from "~/components/service/widget/widgets/subtracker";
@@ -88,6 +89,8 @@ export const Widget = ({ widget }: { widget: WIDGETS }) => {
 			return <KarakeepWidget config={widget.config} />;
 		case "kavita":
 			return <KavitaWidget config={widget.config} />;
+		case "prowlarr":
+			return <ProwlarrWidget config={widget.config} />;
 		default:
 			return null;
 	}

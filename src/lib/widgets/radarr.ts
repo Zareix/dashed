@@ -13,6 +13,7 @@ type RadarrMissingMoviesResponse = {
 type Record = {
 	id: number;
 	title: string;
+	tmdbId: number;
 };
 
 export const getWidgetData = async (config: WidgetConfig<"radarr">) => {
@@ -36,6 +37,7 @@ export const getWidgetData = async (config: WidgetConfig<"radarr">) => {
 			.map((record) => ({
 				id: record.id,
 				title: record.title,
+				url: `${config.url}/movie/${record.tmdbId}`,
 			}))
 			.sort((a, b) => a.title.localeCompare(b.title)),
 	};

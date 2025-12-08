@@ -1,5 +1,6 @@
 import { actions } from "astro:actions";
 import { useQuery } from "@tanstack/react-query";
+import { ExternalLinkIcon } from "lucide-react";
 import { queryClient } from "~/lib/store";
 import type { WIDGETS } from "~/lib/widgets";
 
@@ -35,10 +36,20 @@ const SonarrWidget = ({ config }: Props) => {
 	return (
 		<div className="text-sm grid gap-1 max-w-[300px]">
 			{Object.entries(data.missingSeriesEpisodes)
-				.sort((a, b) => a[1].seriesTitle.localeCompare(b[1].seriesTitle))
+				.sort((a, b) => a[1].title.localeCompare(b[1].title))
 				.map(([seriesId, series]) => (
 					<div key={seriesId}>
-						<div className="font-bold">{series.seriesTitle}</div>
+						<a
+							href={series.url}
+							className="group underline flex items-center gap-1"
+							target="_blank"
+							rel="noreferrer"
+						>
+							<span className="whitespace-nowrap max-w-64 overflow-hidden text-ellipsis">
+								{series.title}
+							</span>
+							<ExternalLinkIcon size={10} />
+						</a>
 						<div>
 							{series.episodes
 								.sort((a, b) => {

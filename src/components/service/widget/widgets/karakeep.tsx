@@ -9,7 +9,7 @@ type Props = {
 };
 
 export const KarakeepWidget: React.FC<Props> = ({ config }) => {
-	const karakeepQuery = useQuery(
+	const { isLoading, isError, data } = useQuery(
 		{
 			queryKey: ["widget", "karakeep", config],
 			queryFn: () => actions.widget.karakeep(config),
@@ -21,11 +21,11 @@ export const KarakeepWidget: React.FC<Props> = ({ config }) => {
 		queryClient,
 	);
 
-	if (karakeepQuery.isLoading) {
+	if (isLoading) {
 		return <div>Loading...</div>;
 	}
 
-	if (karakeepQuery.isError || !karakeepQuery.data) {
+	if (isError || !data) {
 		return <div>Error</div>;
 	}
 
@@ -40,10 +40,10 @@ export const KarakeepWidget: React.FC<Props> = ({ config }) => {
 				⭐<span className="group-hover:underline">Favourites</span>
 				<ExternalLinkIcon size={10} />
 			</a>
-			{karakeepQuery.data.lists.map((list) => (
+			{data.lists.map((list) => (
 				<a
 					key={list.id}
-					href={`${config.url}/dashboard/lists/${list.id}`}
+					href={list.url}
 					className="group no-underline font-medium flex items-center gap-1"
 					target="_blank"
 					rel="noreferrer"

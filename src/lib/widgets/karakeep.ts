@@ -34,6 +34,13 @@ export const getWidgetData = async (
 	}
 
 	return {
-		lists: res.data.lists.toSorted((a, b) => a.name.localeCompare(b.name)),
+		lists: res.data.lists
+			.toSorted((a, b) => a.name.localeCompare(b.name))
+			.map((x) => ({
+				id: x.id,
+				icon: x.icon,
+				name: x.name,
+				url: `${config.url}/dashboard/lists/${x.id}`,
+			})),
 	};
 };

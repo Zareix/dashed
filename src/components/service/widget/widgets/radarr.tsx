@@ -1,5 +1,6 @@
 import { actions } from "astro:actions";
 import { useQuery } from "@tanstack/react-query";
+import { ExternalLinkIcon } from "lucide-react";
 import { queryClient } from "~/lib/store";
 import type { WIDGETS } from "~/lib/widgets";
 
@@ -33,11 +34,20 @@ export const RadarrWidget = ({ config }: Props) => {
 	}
 
 	return (
-		<div className="text-sm grid gap-1 max-w-[300px]">
+		<div className="max-w-[300px] grid gap-1 text-sm">
 			{data.missingMovies.map((movie) => (
-				<div key={movie.id} className="font-bold">
-					{movie.title}
-				</div>
+				<a
+					key={movie.id}
+					href={movie.url}
+					className="group no-underline flex items-center gap-1"
+					target="_blank"
+					rel="noreferrer"
+				>
+					<span className="whitespace-nowrap w-64 overflow-hidden text-ellipsis">
+						{movie.title}
+					</span>
+					<ExternalLinkIcon size={10} />
+				</a>
 			))}
 		</div>
 	);
