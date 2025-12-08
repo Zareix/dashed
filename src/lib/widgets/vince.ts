@@ -43,11 +43,11 @@ export const getWidgetData = async (config: WidgetConfig<"vince">) => {
 	}
 
 	// For each site, fetch basic stats (last 30 days)
-	const sites = await Promise.all(
+	const sitesResults = await Promise.allSettled(
 		sitesRes.data.map(async (site) => {
 			const statsRes = await tryCatch(
 				fetch(
-					`${config.url}/api/v1/stats/aggregate?site_id=${site.domain}&period=30d&metrics=visitors,pageviews,visit_duration,bounce_rate`,
+					`${config.url}/api/v1/stats/aggregate?site_id=${encodeURIComponent(site.domain)}&period=30d&metrics=visitors,pageviews,visit_duration,bounce_rate`,
 					{
 						headers: {
 							Authorization: `Bearer ${config.apiKey}`,
@@ -82,6 +82,10 @@ export const getWidgetData = async (config: WidgetConfig<"vince">) => {
 			};
 		}),
 	);
+
+	const sites = sitesResults
+		.filter((result) => result.status === "fulfilled")
+		.map((result) => result.value);
 
 	return sites;
 };
