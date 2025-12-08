@@ -84,7 +84,17 @@ export const getWidgetData = async (config: WidgetConfig<"vince">) => {
 	);
 
 	const sites = sitesResults
-		.filter((result) => result.status === "fulfilled")
+		.filter(
+			(
+				result,
+			): result is PromiseFulfilledResult<{
+				domain: string;
+				visitors: number;
+				pageviews: number;
+				visitDuration: number;
+				bounceRate: number;
+			}> => result.status === "fulfilled",
+		)
 		.map((result) => result.value);
 
 	return sites;
