@@ -31,16 +31,10 @@ export const getWidgetData = async (config: WidgetConfig<"qbittorrent">) => {
 				// Extract the SID cookie from response
 				const setCookie = res.headers.get("set-cookie");
 				if (setCookie) {
-					// Parse all cookies and find SID
-					const cookies = setCookie
-						.split(",")
-						.flatMap((cookie) => cookie.split(";"));
-					for (const cookie of cookies) {
-						const trimmed = cookie.trim();
-						if (trimmed.startsWith("SID=")) {
-							const parts = trimmed.split("=");
-							return `${parts[0]}=${parts[1]}`;
-						}
+					// Parse SID cookie by looking for SID= and extracting until ; or end
+					const sidMatch = setCookie.match(/SID=([^;]+)/);
+					if (sidMatch) {
+						return `SID=${sidMatch[1]}`;
 					}
 				}
 				return "";
