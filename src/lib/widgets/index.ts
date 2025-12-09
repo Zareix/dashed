@@ -95,6 +95,14 @@ export const vinceSchema = z.object({
 		siteIds: z.string(),
 	}),
 });
+export const proxmoxSchema = z.object({
+	type: z.literal("proxmox"),
+	config: z.object({
+		url: z.string().url(),
+		tokenId: z.string(),
+		tokenSecret: z.string(),
+	}),
+});
 
 export const WIDGETS = z.discriminatedUnion("type", [
 	noneSchema,
@@ -113,6 +121,7 @@ export const WIDGETS = z.discriminatedUnion("type", [
 	prowlarrSchema,
 	qbittorrentSchema,
 	vinceSchema,
+	proxmoxSchema,
 ]);
 export type WIDGETS = z.infer<typeof WIDGETS>;
 export type WidgetConfig<T extends WIDGETS["type"]> = Extract<
