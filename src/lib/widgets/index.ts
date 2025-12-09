@@ -91,7 +91,9 @@ export const qbittorrentSchema = z.object({
 });
 export const vinceSchema = z.object({
 	type: z.literal("vince"),
-	config: withApiKey,
+	config: withApiKey.extend({
+		siteIds: z.string(),
+	}),
 });
 
 export const WIDGETS = z.discriminatedUnion("type", [
