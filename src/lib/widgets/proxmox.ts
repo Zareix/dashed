@@ -1,131 +1,177 @@
 import { tryCatch } from "~/lib/try-catch";
-import { formatBytes } from "~/lib/utils";
 import type { WidgetConfig } from "~/lib/widgets";
 
-type ProxmoxResource = {
-	id: string;
-	type: "qemu" | "lxc" | "storage" | "node";
-	status?: "running" | "stopped";
-	maxdisk?: number;
-	disk?: number;
-	node?: string;
+type ProxmoxNodesResponse = {
+	data: Array<{
+		node: string;
+		status: "online" | "offline";
+		type: "node";
+	}>;
 };
 
-type ProxmoxClusterResourcesResponse = Array<ProxmoxResource>;
-
-type ProxmoxStorageStatus = {
-	storage: string;
-	type: string;
-	content: string;
-	active: number;
-	enabled: number;
-	avail: number;
-	total: number;
-	used: number;
+type ProxmoxVMsResponse = {
+	data: Array<{
+		vmid: number;
+		name: string;
+		status: "running" | "stopped";
+		type: "qemu";
+	}>;
 };
 
-type ProxmoxNodeStorageResponse = {
-	data: Array<ProxmoxStorageStatus>;
+type ProxmoxLXCsResponse = {
+	data: Array<{
+		vmid: number;
+		name: string;
+		status: "running" | "stopped";
+		type: "lxc";
+	}>;
+};
+
+type ProxmoxStorageResponse = {
+	data: Array<{
+		storage: string;
+		type: string;
+		content: string;
+		active: number;
+		enabled: number;
+		avail: number;
+		total: number;
+		used: number;
+	}>;
 };
 
 export const getWidgetData = async (config: WidgetConfig<"proxmox">) => {
-	// Proxmox API uses Authorization: PVEAPIToken=USER@REALM!TOKENID=UUID
 	const authHeader = `PVEAPIToken=${encodeURIComponent(config.tokenId)}=${encodeURIComponent(config.tokenSecret)}`;
 
-	// Fetch cluster resources to get VMs and LXCs
-	const resourcesRes = await tryCatch(
-		fetch(`${config.url}/api2/json/cluster/resources`, {
+	const nodesRes = await tryCatch(
+		fetch(`${config.url}/api2/json/nodes`, {
 			headers: {
 				Authorization: authHeader,
 			},
 		}).then((res) => {
 			if (!res.ok) {
-				throw new Error(`Failed to fetch Proxmox resources: ${res.statusText}`);
+				throw new Error(`Failed to fetch Proxmox nodes: ${res.statusText}`);
 			}
-			return res.json() as Promise<{ data: ProxmoxClusterResourcesResponse }>;
+			return res.json() as Promise<ProxmoxNodesResponse>;
 		}),
 	);
 
-	if (resourcesRes.error) {
-		throw resourcesRes.error;
+	if (nodesRes.error) {
+		throw nodesRes.error;
 	}
 
-	const resources = resourcesRes.data.data;
+	const nodes = nodesRes.data.data;
 
-	// Count running VMs and LXCs
-	const vms = resources.filter((r) => r.type === "qemu");
-	const runningVms = vms.filter((r) => r.status === "running").length;
-	const totalVms = vms.length;
-
-	const lxcs = resources.filter((r) => r.type === "lxc");
-	const runningLxcs = lxcs.filter((r) => r.status === "running").length;
-	const totalLxcs = lxcs.length;
-
-	// Get storage information from the first node
-	// Note: In multi-node clusters, this shows storage from the first node only.
-	// For cluster-wide storage, you would need to aggregate across all nodes.
-	const nodes = resources.filter((r) => r.type === "node");
-	const firstNode = nodes[0]?.id;
-
-	if (!firstNode) {
-		return {
-			runningVms,
-			totalVms,
-			runningLxcs,
-			totalLxcs,
-			storageUsed: "N/A",
-			storageTotal: "N/A",
-			storagePercent: 0,
-		};
+	if (nodes.length === 0) {
+		throw new Error("No nodes found in Proxmox cluster");
 	}
 
-	const storageRes = await tryCatch(
-		fetch(`${config.url}/api2/json/nodes/${firstNode}/storage`, {
-			headers: {
-				Authorization: authHeader,
-			},
-		}).then((res) => {
-			if (!res.ok) {
-				throw new Error(`Failed to fetch Proxmox storage: ${res.statusText}`);
+	const nodesResults = await Promise.allSettled(
+		nodes.map(async (node) => {
+			const nodeName = node.node;
+
+			const [vmsRes, lxcsRes, storageRes] = await Promise.all([
+				tryCatch(
+					fetch(`${config.url}/api2/json/nodes/${nodeName}/qemu`, {
+						headers: {
+							Authorization: authHeader,
+						},
+					}).then((res) => {
+						if (!res.ok) {
+							throw new Error(
+								`Failed to fetch VMs for ${nodeName}: ${res.statusText}`,
+							);
+						}
+						return res.json() as Promise<ProxmoxVMsResponse>;
+					}),
+				),
+				tryCatch(
+					fetch(`${config.url}/api2/json/nodes/${nodeName}/lxc`, {
+						headers: {
+							Authorization: authHeader,
+						},
+					}).then((res) => {
+						if (!res.ok) {
+							throw new Error(
+								`Failed to fetch LXCs for ${nodeName}: ${res.statusText}`,
+							);
+						}
+						return res.json() as Promise<ProxmoxLXCsResponse>;
+					}),
+				),
+				tryCatch(
+					fetch(`${config.url}/api2/json/nodes/${nodeName}/storage`, {
+						headers: {
+							Authorization: authHeader,
+						},
+					}).then((res) => {
+						if (!res.ok) {
+							throw new Error(
+								`Failed to fetch storage for ${nodeName}: ${res.statusText}`,
+							);
+						}
+						return res.json() as Promise<ProxmoxStorageResponse>;
+					}),
+				),
+			]);
+
+			if (vmsRes.error) {
+				throw vmsRes.error;
 			}
-			return res.json() as Promise<ProxmoxNodeStorageResponse>;
+
+			if (lxcsRes.error) {
+				throw lxcsRes.error;
+			}
+
+			let totalStorage = 0;
+			let usedStorage = 0;
+			let storagePercent = 0;
+			const inaccessibleStorage: Array<string> = [];
+
+			if (storageRes.error) {
+				throw storageRes.error;
+			}
+			for (const storage of storageRes.data.data) {
+				if (storage.enabled) {
+					if (storage.active) {
+						totalStorage += storage.total;
+						usedStorage += storage.used;
+					} else {
+						inaccessibleStorage.push(storage.storage);
+					}
+				}
+
+				storagePercent =
+					totalStorage > 0 ? Math.round((usedStorage / totalStorage) * 100) : 0;
+			}
+
+			return {
+				node: nodeName,
+				vms: vmsRes.data.data,
+				lxcs: lxcsRes.data.data,
+				storageUsed: usedStorage,
+				storageTotal: totalStorage,
+				storagePercent,
+				inaccessibleStorage,
+			};
 		}),
 	);
 
-	if (storageRes.error) {
-		// If storage fetch fails, still return VM/LXC data
-		return {
-			runningVms,
-			totalVms,
-			runningLxcs,
-			totalLxcs,
-			storageUsed: "N/A",
-			storageTotal: "N/A",
-			storagePercent: 0,
-		};
-	}
+	const nodesData = nodesResults
+		.filter(
+			(
+				result,
+			): result is PromiseFulfilledResult<{
+				node: string;
+				vms: Array<ProxmoxVMsResponse["data"][0]>;
+				lxcs: Array<ProxmoxLXCsResponse["data"][0]>;
+				storageUsed: number;
+				storageTotal: number;
+				storagePercent: number;
+				inaccessibleStorage: Array<string>;
+			}> => result.status === "fulfilled",
+		)
+		.map((result) => result.value);
 
-	// Sum up storage across all storage devices
-	let totalStorage = 0;
-	let usedStorage = 0;
-
-	for (const storage of storageRes.data.data) {
-		if (storage.active && storage.enabled) {
-			totalStorage += storage.total;
-			usedStorage += storage.used;
-		}
-	}
-
-	const storagePercent =
-		totalStorage > 0 ? Math.round((usedStorage / totalStorage) * 100) : 0;
-
-	return {
-		runningVms,
-		totalVms,
-		runningLxcs,
-		totalLxcs,
-		storageUsed: formatBytes(usedStorage),
-		storageTotal: formatBytes(totalStorage),
-		storagePercent,
-	};
+	return nodesData;
 };
