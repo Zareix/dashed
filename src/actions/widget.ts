@@ -9,6 +9,7 @@ import {
 	komodoSchema,
 	nextdnsSchema,
 	prowlarrSchema,
+	proxmoxSchema,
 	qbittorrentSchema,
 	radarrSchema,
 	sonarrSchema,
@@ -26,6 +27,7 @@ import * as kavita from "../lib/widgets/kavita";
 import * as komodo from "../lib/widgets/komodo";
 import * as nextdns from "../lib/widgets/nextdns";
 import * as prowlarr from "../lib/widgets/prowlarr";
+import * as proxmox from "../lib/widgets/proxmox";
 import * as qbittorrent from "../lib/widgets/qbittorrent";
 import * as radarr from "../lib/widgets/radarr";
 import * as sonarr from "../lib/widgets/sonarr";
@@ -69,6 +71,10 @@ export const widget = {
 	prowlarr: defineAction({
 		input: prowlarrSchema.shape.config,
 		handler: prowlarr.getWidgetData,
+	}),
+	proxmox: defineAction({
+		input: proxmoxSchema.shape.config,
+		handler: proxmox.getWidgetData,
 	}),
 	qbittorrent: defineAction({
 		input: qbittorrentSchema.shape.config,
