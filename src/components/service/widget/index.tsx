@@ -14,6 +14,7 @@ import { RadarrWidget } from "~/components/service/widget/widgets/radarr";
 import SonarrWidget from "~/components/service/widget/widgets/sonarr";
 import { SubtrackerWidget } from "~/components/service/widget/widgets/subtracker";
 import UptimeKumaWidget from "~/components/service/widget/widgets/uptime-kuma";
+import { VinceWidget } from "~/components/service/widget/widgets/vince";
 import {
 	HoverCard,
 	HoverCardContent,
@@ -94,6 +95,8 @@ export const Widget = ({ widget }: { widget: WIDGETS }) => {
 			return <ProwlarrWidget config={widget.config} />;
 		case "qbittorrent":
 			return <QBittorrentWidget config={widget.config} />;
+		case "vince":
+			return <VinceWidget config={widget.config} />;
 		default:
 			return null;
 	}

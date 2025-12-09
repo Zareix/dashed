@@ -14,6 +14,7 @@ import {
 	sonarrSchema,
 	subtrackerSchema,
 	uptimeKumaSchema,
+	vinceSchema,
 } from "~/lib/widgets";
 
 import * as beszel from "../lib/widgets/beszel";
@@ -30,6 +31,7 @@ import * as radarr from "../lib/widgets/radarr";
 import * as sonarr from "../lib/widgets/sonarr";
 import * as subtracker from "../lib/widgets/subtracker";
 import * as uptimeKuma from "../lib/widgets/uptime-kuma";
+import * as vince from "../lib/widgets/vince";
 
 export const widget = {
 	beszel: defineAction({
@@ -87,5 +89,9 @@ export const widget = {
 	"uptime-kuma": defineAction({
 		input: uptimeKumaSchema.shape.config,
 		handler: uptimeKuma.getWidgetData,
+	}),
+	vince: defineAction({
+		input: vinceSchema.shape.config,
+		handler: vince.getWidgetData,
 	}),
 };

@@ -89,6 +89,12 @@ export const qbittorrentSchema = z.object({
 	type: z.literal("qbittorrent"),
 	config: withUserPass,
 });
+export const vinceSchema = z.object({
+	type: z.literal("vince"),
+	config: withApiKey.extend({
+		siteIds: z.string(),
+	}),
+});
 
 export const WIDGETS = z.discriminatedUnion("type", [
 	noneSchema,
@@ -106,6 +112,7 @@ export const WIDGETS = z.discriminatedUnion("type", [
 	kavitaSchema,
 	prowlarrSchema,
 	qbittorrentSchema,
+	vinceSchema,
 ]);
 export type WIDGETS = z.infer<typeof WIDGETS>;
 export type WidgetConfig<T extends WIDGETS["type"]> = Extract<
