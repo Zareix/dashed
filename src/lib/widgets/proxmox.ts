@@ -1,4 +1,5 @@
 import { tryCatch } from "~/lib/try-catch";
+import { formatBytes } from "~/lib/utils";
 import type { WidgetConfig } from "~/lib/widgets";
 
 type ProxmoxResource = {
@@ -25,18 +26,6 @@ type ProxmoxStorageStatus = {
 
 type ProxmoxNodeStorageResponse = {
 	data: Array<ProxmoxStorageStatus>;
-};
-
-const formatBytes = (bytes: number): string => {
-	if (bytes < 0) return "0 B";
-	if (bytes === 0) return "0 B";
-	const k = 1024;
-	const sizes = ["B", "KB", "MB", "GB", "TB", "PB"];
-	const i = Math.min(
-		Math.floor(Math.log(bytes) / Math.log(k)),
-		sizes.length - 1,
-	);
-	return `${(bytes / k ** i).toFixed(2)} ${sizes[i]}`;
 };
 
 export const getWidgetData = async (config: WidgetConfig<"proxmox">) => {
@@ -73,6 +62,8 @@ export const getWidgetData = async (config: WidgetConfig<"proxmox">) => {
 	const totalLxcs = lxcs.length;
 
 	// Get storage information from the first node
+	// Note: In multi-node clusters, this shows storage from the first node only.
+	// For cluster-wide storage, you would need to aggregate across all nodes.
 	const nodes = resources.filter((r) => r.type === "node");
 	const firstNode = nodes[0]?.id;
 
