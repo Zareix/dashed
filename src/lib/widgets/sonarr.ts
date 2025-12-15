@@ -1,3 +1,4 @@
+import type { CommandList } from "~/actions/command";
 import { tryCatch } from "~/lib/try-catch";
 import type { WidgetConfig } from "~/lib/widgets";
 
@@ -76,5 +77,27 @@ export const getWidgetData = async (config: WidgetConfig<"sonarr">) => {
 				}
 			>,
 		),
+	};
+};
+
+export const getWidgetCommands = async (
+	config: WidgetConfig<"sonarr">,
+): Promise<CommandList> => {
+	const series = await tryCatch(
+		fetch(`${config.url}/api/v3/series?apikey=${config.apiKey}`).then(
+			(res) => res.json() as Promise<SonarrSeriesResponse>,
+		),
+	);
+	if (series.error) {
+		throw new Error(`Failed to fetch Sonarr series: ${series.error.message}`);
+	}
+
+	return {
+		Series: series.data
+			.toSorted((a, b) => a.title.localeCompare(b.title))
+			.map((serie) => ({
+				name: serie.title,
+				url: `${config.url}/series/${serie.titleSlug}`,
+			})),
 	};
 };

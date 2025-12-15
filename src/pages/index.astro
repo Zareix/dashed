@@ -2,6 +2,7 @@
 import { Button } from "~/components/ui/button";
 import Layout from "~/layouts/Layout.astro";
 import List from "~/components/category/list.astro";
+import { CommandPalette } from "~/components/command-palette";
 ---
 
 <Layout>
@@ -11,4 +12,5 @@ import List from "~/components/category/list.astro";
       <Button>Admin</Button>
     </a>
   </div>
+  <CommandPalette client:load />
 </Layout>

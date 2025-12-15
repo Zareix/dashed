@@ -1,3 +1,4 @@
+import type { CommandList } from "~/actions/command";
 import { tryCatch } from "~/lib/try-catch";
 import type { WidgetConfig } from "~/lib/widgets";
 
@@ -115,4 +116,31 @@ export const getWidgetData = async (config: WidgetConfig<"komodo">) => {
 			state: stack.info.state,
 		})),
 	};
+};
+
+export const getWidgetCommands = async (
+	config: WidgetConfig<"komodo">,
+): Promise<CommandList> => {
+	const data = await getWidgetData(config);
+	const commands: CommandList = {};
+
+	for (const server of data.servers) {
+		commands.server = commands.server ?? [];
+		commands.server.push({
+			name: server.name,
+			url: `${config.url}/servers/${server.id}`,
+			information: server.state,
+		});
+	}
+
+	for (const stack of data.stacks) {
+		commands.stack = commands.stack ?? [];
+		commands.stack.push({
+			name: stack.name,
+			url: `${config.url}/stacks/${stack.id}`,
+			information: stack.state,
+		});
+	}
+
+	return commands;
 };
