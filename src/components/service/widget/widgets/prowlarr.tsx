@@ -36,7 +36,7 @@ export const ProwlarrWidget = ({ config }: Props) => {
 				<span className="font-bold">{data.activeIndexers}</span> active indexers
 				out of <span className="font-bold">{data.totalIndexers}</span> total
 			</div>
-			<div className="grid gap-2 text-sm mt-1">
+			<div className="mt-1 grid gap-2 text-sm">
 				{healthIssues.length > 0 && (
 					<div>
 						{healthIssues.map((issue) => (

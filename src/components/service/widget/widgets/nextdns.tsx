@@ -34,10 +34,7 @@ export const NextDNSWidget = ({ config }: Props) => {
 
 	return (
 		<div className="max-w-[300px]">
-			<div
-				className="grid grid-cols-3 gap-4 [&>div]:rounded-md [&>div]:flex [&>div]:flex-col
-		 [&>div]:text-center [&>div>p]:font-medium [&>div>p]:mt-auto"
-			>
+			<div className="grid grid-cols-3 gap-4 [&>div>p]:mt-auto [&>div>p]:font-medium [&>div]:flex [&>div]:flex-col [&>div]:rounded-md [&>div]:text-center">
 				<div>
 					<div>{data.default}</div>
 					<p>Total</p>

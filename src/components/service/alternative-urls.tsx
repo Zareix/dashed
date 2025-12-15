@@ -30,7 +30,7 @@ export const AlternativeUrls = ({
 					<DropdownMenuItem key={url.url} asChild>
 						<a
 							href={url.url}
-							className="flex items-center gap-2 w-full cursor-pointer"
+							className="flex w-full cursor-pointer items-center gap-2"
 							target={openInNewTab ? "_blank" : undefined}
 							rel={openInNewTab ? "noopener noreferrer" : undefined}
 						>

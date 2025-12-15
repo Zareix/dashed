@@ -147,6 +147,7 @@ export const getWidgetData = async (config: WidgetConfig<"proxmox">) => {
 
 			return {
 				node: nodeName,
+				url: `${config.url}/#v1:0:=node%2F${nodeName}`,
 				vms: vmsRes.data.data,
 				lxcs: lxcsRes.data.data,
 				storageUsed: usedStorage,
@@ -163,6 +164,7 @@ export const getWidgetData = async (config: WidgetConfig<"proxmox">) => {
 				result,
 			): result is PromiseFulfilledResult<{
 				node: string;
+				url: string;
 				vms: Array<ProxmoxVMsResponse["data"][0]>;
 				lxcs: Array<ProxmoxLXCsResponse["data"][0]>;
 				storageUsed: number;

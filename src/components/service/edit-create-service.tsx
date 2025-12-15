@@ -288,14 +288,14 @@ export const EditCreateServiceForm: React.FC<Props> = ({
 							size="sm"
 							onClick={() => append({ url: "", name: "" })}
 						>
-							<PlusIcon className="h-4 w-4 mr-1" />
+							<PlusIcon className="mr-1 h-4 w-4" />
 							Add Alternative URL
 						</Button>
 					</div>
 					{fields.map((field, index) => (
 						<div
 							key={field.id}
-							className="grid grid-cols-1 md:grid-cols-2 gap-2 p-3 border rounded-md"
+							className="grid grid-cols-1 gap-2 rounded-md border p-3 md:grid-cols-2"
 						>
 							<Controller
 								control={form.control}

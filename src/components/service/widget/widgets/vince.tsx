@@ -46,10 +46,7 @@ export const VinceWidget = ({ config }: Props) => {
 	return (
 		<div className="max-w-[250px]">
 			<p className="text-center">Last 30 days summary</p>
-			<div
-				className="grid grid-cols-2 gap-2 mb-3 [&>div]:rounded-md [&>div]:flex [&>div]:flex-col
-		 [&>div]:text-center [&>div>div]:text-lg [&>div>p]:font-medium [&>div>p]:mt-auto [&>div>p]:text-sm"
-			>
+			<div className="mb-3 grid grid-cols-2 gap-2 [&>div>div]:text-lg [&>div>p]:mt-auto [&>div>p]:font-medium [&>div>p]:text-sm [&>div]:flex [&>div]:flex-col [&>div]:rounded-md [&>div]:text-center">
 				<div>
 					<div>{totalVisitors.toLocaleString()}</div>
 					<p>Total Visitors</p>
@@ -68,21 +65,21 @@ export const VinceWidget = ({ config }: Props) => {
 				</div>
 			</div>
 			{data.length > 0 && (
-				<div className="border-t pt-2 flex flex-col gap-2">
+				<div className="flex flex-col gap-2 border-t pt-2">
 					{data.map((site) => (
 						<a
 							key={site.siteId}
 							href={`${config.url}/${site.siteId}/?period=30d`}
 							target="_blank"
 							rel="noopener noreferrer"
-							className="flex items-center justify-between p-2 rounded-md hover:bg-accent transition-colors group"
+							className="group flex items-center justify-between rounded-md p-2 transition-colors hover:bg-accent"
 						>
 							<div className="flex flex-col gap-0.5">
-								<span className="text-sm font-medium flex items-center gap-1.5">
+								<span className="flex items-center gap-1.5 font-medium text-sm">
 									{site.siteId}
-									<ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+									<ExternalLink className="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100" />
 								</span>
-								<span className="text-xs text-muted-foreground">
+								<span className="text-muted-foreground text-xs">
 									{site.visitors.toLocaleString()} visitors •{" "}
 									{site.pageviews.toLocaleString()} pageviews •{" "}
 									{site.bounceRate.toFixed(0)}% bounce rate •{" "}

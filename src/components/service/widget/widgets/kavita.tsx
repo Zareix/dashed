@@ -61,12 +61,12 @@ export const KavitaWidget = ({ config }: Props) => {
 	}
 
 	return (
-		<div className="max-w-[300px] grid gap-1">
+		<div className="grid max-w-[300px] gap-1">
 			{data.map((library) => (
 				<a
 					key={library.id}
 					href={`${config.url}/library/${library.id}`}
-					className="group no-underline font-medium flex items-center gap-1"
+					className="group flex items-center gap-1 font-medium no-underline"
 					target="_blank"
 					rel="noreferrer"
 				>

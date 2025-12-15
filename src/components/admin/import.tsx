@@ -117,7 +117,7 @@ export const ImportButton = () => {
 								render={({ field, fieldState }) => (
 									<Field data-invalid={fieldState.invalid}>
 										<FieldLabel htmlFor={field.name}>Erase existing</FieldLabel>
-										<div className="flex items-center gap-2 mt-1">
+										<div className="mt-1 flex items-center gap-2">
 											<Checkbox
 												id={field.name}
 												aria-invalid={fieldState.invalid}

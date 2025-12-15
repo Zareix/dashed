@@ -33,10 +33,7 @@ const UptimeKumaWidget = ({ config }: Props) => {
 
 	return (
 		<div className="max-w-[300px]">
-			<div
-				className="grid grid-cols-2 gap-2 text-sm [&>div]:rounded-md [&>div]:flex [&>div]:flex-col
-		 [&>div]:text-center [&>div]:text-base [&>div>p]:font-medium [&>div>p]:mt-auto min-w-[150px]"
-			>
+			<div className="grid min-w-[150px] grid-cols-2 gap-2 text-sm [&>div>p]:mt-auto [&>div>p]:font-medium [&>div]:flex [&>div]:flex-col [&>div]:rounded-md [&>div]:text-center [&>div]:text-base">
 				<div>
 					<div>{upServices.length}</div>
 					<p>Up</p>
@@ -47,7 +44,7 @@ const UptimeKumaWidget = ({ config }: Props) => {
 				</div>
 			</div>
 			{downServices.length > 0 && (
-				<div className="border-t mt-1 pt-1 text-center">
+				<div className="mt-1 border-t pt-1 text-center">
 					🚨 {downServices.map((x) => x.monitor_name).join(", ")}
 				</div>
 			)}

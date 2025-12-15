@@ -110,8 +110,8 @@ export function AdminPage() {
 			{categories.map((category) => (
 				<div key={category.name} className="mt-4 p-1">
 					<div className="flex items-end gap-2">
-						<h2 className="text-xl font-bold -m-0.5">{category.name}</h2>
-						<div className="text-sm text-muted-foreground">
+						<h2 className="-m-0.5 font-bold text-xl">{category.name}</h2>
+						<div className="text-muted-foreground text-sm">
 							Max cols: {category.maxCols}
 						</div>
 						<Separator orientation="vertical" className="ml-auto" />

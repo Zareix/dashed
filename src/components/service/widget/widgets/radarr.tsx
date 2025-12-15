@@ -34,19 +34,22 @@ export const RadarrWidget = ({ config }: Props) => {
 	}
 
 	return (
-		<div className="max-w-[300px] grid gap-1 text-sm">
+		<div className="grid max-w-[300px] gap-1 text-sm">
 			{data.missingMovies.map((movie) => (
 				<a
 					key={movie.id}
 					href={movie.url}
-					className="group no-underline flex items-center gap-1"
+					className="group flex items-center gap-1 rounded-md px-1.5 py-1 no-underline transition-colors hover:bg-accent"
 					target="_blank"
 					rel="noreferrer"
 				>
-					<span className="whitespace-nowrap w-64 overflow-hidden text-ellipsis">
+					<span className="w-64 overflow-hidden text-ellipsis whitespace-nowrap">
 						{movie.title}
 					</span>
-					<ExternalLinkIcon size={10} />
+					<ExternalLinkIcon
+						size={10}
+						className="opacity-0 transition-opacity group-hover:opacity-100"
+					/>
 				</a>
 			))}
 		</div>

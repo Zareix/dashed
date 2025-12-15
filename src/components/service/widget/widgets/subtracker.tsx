@@ -30,10 +30,7 @@ export const SubtrackerWidget = ({ config }: Props) => {
 
 	return (
 		<div className="max-w-[300px]">
-			<div
-				className="grid gap-2 [&>div]:flex [&>div]:gap-1 [&>div]:rounded-md
-		 [&>div]:text-center [&>div>div]:font-medium"
-			>
+			<div className="grid gap-2 [&>div>div]:font-medium [&>div]:flex [&>div]:gap-1 [&>div]:rounded-md [&>div]:text-center">
 				<div>
 					<div>
 						{data.stats.totalThisMonth}

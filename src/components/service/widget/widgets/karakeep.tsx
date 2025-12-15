@@ -30,27 +30,32 @@ export const KarakeepWidget: React.FC<Props> = ({ config }) => {
 	}
 
 	return (
-		<div className="max-w-[300px] grid gap-1">
+		<div className="grid max-w-[300px] gap-1">
 			<a
 				href={`${config.url}/dashboard/favourites`}
-				className="group no-underline font-medium flex items-center gap-1"
+				className="group flex items-center gap-1 rounded-md px-1.5 py-1 font-medium no-underline transition-colors hover:bg-accent"
 				target="_blank"
 				rel="noreferrer"
 			>
-				⭐<span className="group-hover:underline">Favourites</span>
-				<ExternalLinkIcon size={10} />
+				⭐ Favourites
+				<ExternalLinkIcon
+					size={10}
+					className="ml-auto opacity-0 transition-opacity group-hover:opacity-100"
+				/>
 			</a>
 			{data.lists.map((list) => (
 				<a
 					key={list.id}
 					href={list.url}
-					className="group no-underline font-medium flex items-center gap-1"
+					className="group flex items-center gap-1 rounded-md px-1.5 py-1 font-medium no-underline transition-colors hover:bg-accent"
 					target="_blank"
 					rel="noreferrer"
 				>
-					{list.icon}
-					<span className="group-hover:underline">{list.name}</span>
-					<ExternalLinkIcon size={10} />
+					{list.icon} {list.name}
+					<ExternalLinkIcon
+						size={10}
+						className="ml-auto opacity-0 transition-opacity group-hover:opacity-100"
+					/>
 				</a>
 			))}
 		</div>

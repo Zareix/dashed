@@ -32,10 +32,7 @@ export const QBittorrentWidget = ({ config }: Props) => {
 
 	return (
 		<div className="w-[250px]">
-			<div
-				className="grid grid-cols-2 gap-4 [&>div]:rounded-md [&>div]:flex [&>div]:flex-col
-		 [&>div]:text-center [&>div>p]:font-medium [&>div>p]:mt-auto"
-			>
+			<div className="grid grid-cols-2 gap-4 [&>div>p]:mt-auto [&>div>p]:font-medium [&>div]:flex [&>div]:flex-col [&>div]:rounded-md [&>div]:text-center">
 				<div>
 					<div className="flex items-center justify-center gap-1">
 						<ArrowDown size={16} />
