@@ -87,7 +87,9 @@ export const ProxmoxWidget = ({ config }: Props) => {
 				</div>
 			)}
 
-			{data.length > 0 && (
+			{data.length === 0 ? (
+				<div>No Proxmox nodes found.</div>
+			) : (
 				<div className="space-y-1.5">
 					{data.map((node) => {
 						const nodeRunningVms = node.vms.filter(

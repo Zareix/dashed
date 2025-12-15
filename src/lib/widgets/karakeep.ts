@@ -33,14 +33,23 @@ export const getWidgetData = async (
 		throw res.error;
 	}
 
+	const lists = res.data.lists
+		.toSorted((a, b) => a.name.localeCompare(b.name))
+		.map((x) => ({
+			id: x.id,
+			icon: x.icon,
+			name: x.name,
+			url: `${config.url}/dashboard/lists/${x.id}`,
+		}));
+
+	lists.unshift({
+		id: "favourites",
+		icon: "⭐",
+		name: "Favourites",
+		url: `${config.url}/dashboard/favourites`,
+	});
+
 	return {
-		lists: res.data.lists
-			.toSorted((a, b) => a.name.localeCompare(b.name))
-			.map((x) => ({
-				id: x.id,
-				icon: x.icon,
-				name: x.name,
-				url: `${config.url}/dashboard/lists/${x.id}`,
-			})),
+		lists,
 	};
 };

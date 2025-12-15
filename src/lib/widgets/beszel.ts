@@ -29,6 +29,8 @@ type BeszelSystemResponse = {
 	}>;
 };
 
+const rounded = (num: number) => Math.round(num * 10) / 10;
+
 export const getWidgetData = async (config: WidgetConfig<"beszel">) => {
 	const auth = await tryCatch(
 		fetch(`${config.url}/api/collections/users/auth-with-password`, {
@@ -67,19 +69,21 @@ export const getWidgetData = async (config: WidgetConfig<"beszel">) => {
 			throw new Error("Failed to fetch systems");
 		}),
 	);
+
 	if (res.error) {
 		throw res.error;
 	}
+
 	return res.data.items
 		.map((system) => ({
 			id: system.id,
 			name: system.name,
 			host: system.host,
 			info: {
-				cpuUsagePercent: system.info.cpu,
-				memoryUsagePercent: system.info.mp,
-				diskUsagePercent: system.info.dp,
-				temperature: system.info.dt ?? null,
+				cpuUsagePercent: rounded(system.info.cpu),
+				memoryUsagePercent: rounded(system.info.mp),
+				diskUsagePercent: rounded(system.info.dp),
+				temperature: system.info.dt ? rounded(system.info.dt) : null,
 			},
 			status: system.status,
 		}))

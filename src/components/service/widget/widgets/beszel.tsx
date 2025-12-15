@@ -30,8 +30,6 @@ export const BeszelWidget = ({ config }: Props) => {
 		queryClient,
 	);
 
-	const rounded = (num: number) => Math.round(num * 10) / 10;
-
 	if (beszelQuery.isLoading) {
 		return <div>Loading...</div>;
 	}
@@ -56,13 +54,11 @@ export const BeszelWidget = ({ config }: Props) => {
 				{beszelQuery.data.map((system) => (
 					<TableRow key={system.id}>
 						<TableCell className="font-medium">{system.name}</TableCell>
-						<TableCell>{rounded(system.info.cpuUsagePercent)}%</TableCell>
-						<TableCell>{rounded(system.info.memoryUsagePercent)}%</TableCell>
-						<TableCell>{rounded(system.info.diskUsagePercent)}%</TableCell>
+						<TableCell>{system.info.cpuUsagePercent}%</TableCell>
+						<TableCell>{system.info.memoryUsagePercent}%</TableCell>
+						<TableCell>{system.info.diskUsagePercent}%</TableCell>
 						<TableCell>
-							{system.info.temperature
-								? `${rounded(system.info.temperature)}°C`
-								: "N/A"}
+							{system.info.temperature ? `${system.info.temperature}°C` : "N/A"}
 						</TableCell>
 					</TableRow>
 				))}

@@ -66,13 +66,15 @@ export const KavitaWidget = ({ config }: Props) => {
 				<a
 					key={library.id}
 					href={`${config.url}/library/${library.id}`}
-					className="group flex items-center gap-1 font-medium no-underline"
+					className="group flex items-center gap-1 rounded-md px-1.5 py-1 transition-colors hover:bg-accent"
 					target="_blank"
 					rel="noreferrer"
 				>
-					<TypeIcon type={library.type} />
-					<span className="group-hover:underline">{library.name}</span>
-					<ExternalLinkIcon size={10} />
+					<TypeIcon type={library.type} /> {library.name}
+					<ExternalLinkIcon
+						size={10}
+						className="ml-auto opacity-0 transition-opacity group-hover:opacity-100"
+					/>
 				</a>
 			))}
 		</div>
