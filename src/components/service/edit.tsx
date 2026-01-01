@@ -40,7 +40,7 @@ export const EditServiceButton = ({
 					<PencilIcon />
 				</Button>
 			</DialogTrigger>
-			<DialogContent className="max-h-[90vh] overflow-y-auto">
+			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>Edit service</DialogTitle>
 				</DialogHeader>

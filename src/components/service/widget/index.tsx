@@ -51,13 +51,13 @@ export const ServiceWrapper = ({
 		queryClient,
 	);
 	if (!widget || widget.type === "none") {
-		return <div>{children}</div>;
+		return <div className="w-full">{children}</div>;
 	}
 
 	return (
 		<HoverCard openDelay={0} closeDelay={100}>
 			<HoverCardTrigger asChild>
-				<div>{children}</div>
+				<div className="w-full">{children}</div>
 			</HoverCardTrigger>
 			<HoverCardContent className="w-fit">
 				<Widget widget={widget} />

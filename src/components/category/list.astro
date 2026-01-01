@@ -53,26 +53,26 @@ const categories = await Astro.callAction(
           )}
         >
           {category.services.map((service) => (
-            <li>
+            <li class="h-full relative">
               <ServiceWrapper widget={service.widget} client:idle>
                 <a
                   href={service.url}
-                  class="h-full items-center gap-2 rounded-lg border border-border bg-foreground/5 p-2 shadow-xs relative flex has-[.ping-error]:border-red-500"
                   rel={service.openInNewTab ? "noopener noreferrer" : undefined}
                   target={service.openInNewTab ? "_blank" : undefined}
+                  class="flex w-full items-center gap-2 overflow-hidden rounded-lg border border-border bg-foreground/5 p-2 shadow-xs has-[.ping-error]:border-red-500"
                 >
                   <ServiceIcon service={service} />
                   <div class="overflow-hidden whitespace-nowrap text-ellipsis">
                     {service.name}
                   </div>
                   <MonitorService service={service} client:idle />
-                  <AlternativeUrls
-                    alternativeUrls={service.alternativeUrls}
-                    openInNewTab={service.openInNewTab}
-                    client:idle
-                  />
                 </a>
               </ServiceWrapper>
+              <AlternativeUrls
+                alternativeUrls={service.alternativeUrls}
+                openInNewTab={service.openInNewTab}
+                client:idle
+              />
             </li>
           ))}
         </ul>

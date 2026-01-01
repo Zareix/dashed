@@ -19,24 +19,24 @@ export const AlternativeUrls = ({
 	}
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger
-				onClick={(e) => e.stopPropagation}
-				className="ml-auto cursor-pointer"
-			>
+			<DropdownMenuTrigger className="absolute top-1/2 right-2 -translate-y-1/2 cursor-pointer p-1">
 				<EllipsisVerticalIcon />
 			</DropdownMenuTrigger>
-			<DropdownMenuContent>
+			<DropdownMenuContent align="center">
 				{alternativeUrls.map((url) => (
-					<DropdownMenuItem key={url.url} asChild>
-						<a
-							href={url.url}
-							className="flex w-full cursor-pointer items-center gap-2"
-							target={openInNewTab ? "_blank" : undefined}
-							rel={openInNewTab ? "noopener noreferrer" : undefined}
-						>
-							{url.name}
-						</a>
-					</DropdownMenuItem>
+					<DropdownMenuItem
+						key={url.url}
+						render={
+							<a
+								href={url.url}
+								className="flex w-full cursor-pointer items-center gap-2"
+								target={openInNewTab ? "_blank" : undefined}
+								rel={openInNewTab ? "noopener noreferrer" : undefined}
+							>
+								{url.name}
+							</a>
+						}
+					/>
 				))}
 			</DropdownMenuContent>
 		</DropdownMenu>

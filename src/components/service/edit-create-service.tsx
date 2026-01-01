@@ -151,7 +151,7 @@ export const EditCreateServiceForm: React.FC<Props> = ({
 								<SelectTrigger
 									id={field.name}
 									aria-invalid={fieldState.invalid}
-									className="w-[180px]"
+									className="w-45"
 									disabled={field.disabled || categoriesQuery.isLoading}
 								>
 									<SelectValue placeholder="Select a category" />
