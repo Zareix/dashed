@@ -54,7 +54,7 @@ const categories = await Astro.callAction(
         >
           {category.services.map((service) => (
             <li class="h-full relative">
-              <ServiceWrapper widget={service.widget} client:idle>
+              <ServiceWrapper widget={service.widget} client:only>
                 <a
                   href={service.url}
                   rel={service.openInNewTab ? "noopener noreferrer" : undefined}

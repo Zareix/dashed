@@ -46,11 +46,11 @@ export const ServiceWrapper = ({
 					throw new Error(res?.error.message ?? "Unknown error");
 				return res.data;
 			},
-			notifyOnChangeProps: [],
+			enabled: !!widget && widget.type !== "none" && window.innerWidth >= 640,
 		},
 		queryClient,
 	);
-	if (!widget || widget.type === "none") {
+	if (!widget || widget.type === "none" || window.innerWidth < 640) {
 		return <div className="w-full">{children}</div>;
 	}
 
