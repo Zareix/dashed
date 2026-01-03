@@ -154,7 +154,7 @@ export const EditCreateServiceForm: React.FC<Props> = ({
 									className="w-45"
 									disabled={field.disabled || categoriesQuery.isLoading}
 								>
-									<SelectValue placeholder="Select a category" />
+									<SelectValue />
 								</SelectTrigger>
 								<SelectContent>
 									{(categoriesQuery.data ?? []).map((cat) => (

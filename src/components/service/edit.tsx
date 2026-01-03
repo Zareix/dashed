@@ -35,11 +35,13 @@ export const EditServiceButton = ({
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
-			<DialogTrigger asChild>
-				<Button disabled={disabled} variant="ghost">
-					<PencilIcon />
-				</Button>
-			</DialogTrigger>
+			<DialogTrigger
+				render={
+					<Button disabled={disabled} variant="ghost">
+						<PencilIcon />
+					</Button>
+				}
+			/>
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>Edit service</DialogTitle>

@@ -4,12 +4,10 @@ import type { WidgetConfig } from "~/lib/widgets";
 type ControlDStatusResponse = {
 	success: boolean;
 	body: {
-		endTs: number;
-		startTs: number;
-		granularity: string;
-		tz: string;
+		endTime: string;
+		startTime: string;
 		queries: Array<{
-			ts: string;
+			time: string;
 			count: Count;
 		}>;
 	};
@@ -23,10 +21,11 @@ type Count = {
 };
 
 export const getWidgetData = async (config: WidgetConfig<"controld">) => {
-	const yesterdayTs = Date.now() - 24 * 60 * 60 * 1000;
+	const startTime = `${new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split("Z")[0]}Z`;
+	const endTime = `${new Date().toISOString().split("Z")[0]}Z`;
 	const res = await tryCatch(
 		fetch(
-			`https://europe.analytics.controld.com/reports/dns-queries/all-by-verdict/time-series?&startTs=${yesterdayTs}&granularity=hour&tz=Europe%2FLondon`,
+			`https://europe.analytics.controld.com/v2/statistic/timeseries/action?startTime=${startTime}&endTime=${endTime}`,
 			{
 				headers: {
 					Authorization: `Bearer ${config.apiKey}`,
@@ -34,12 +33,13 @@ export const getWidgetData = async (config: WidgetConfig<"controld">) => {
 			},
 		).then((res) => {
 			if (!res.ok) {
-				throw new Error("Failed to fetch controld data");
+				throw new Error(`Failed to fetch controld data: ${res.statusText}`);
 			}
 			return res.json() as Promise<ControlDStatusResponse>;
 		}),
 	);
 	if (res.error) {
+		console.error("Error fetching ControlD data:", res.error);
 		throw res.error;
 	}
 

@@ -94,7 +94,11 @@ export function SortableServiceRow({
 				</span>
 			</TableCell>
 			<TableCell>
-				<img src={service.icon} alt={service.name} className="h-6 w-6" />
+				<img
+					src={service.icon}
+					alt={service.name}
+					className="h-6 w-6 object-contain"
+				/>
 			</TableCell>
 			<TableCell>
 				<Input
@@ -103,6 +107,7 @@ export function SortableServiceRow({
 					onBlur={() => {
 						editSubmit();
 					}}
+					className="min-w-32"
 				/>
 			</TableCell>
 			<TableCell>
@@ -112,6 +117,7 @@ export function SortableServiceRow({
 					onBlur={() => {
 						editSubmit();
 					}}
+					className="min-w-32"
 				/>
 			</TableCell>
 			<TableCell>

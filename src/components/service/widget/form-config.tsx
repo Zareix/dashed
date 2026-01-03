@@ -40,10 +40,10 @@ export const WidgetFormConfig = () => {
 							value={field.value}
 						>
 							<SelectTrigger
-								className="w-[180px] capitalize"
+								className="w-45 capitalize"
 								data-invalid={fieldState.invalid}
 							>
-								<SelectValue placeholder="Select a widget" />
+								<SelectValue />
 							</SelectTrigger>
 							<SelectContent>
 								{WIDGETS.options
@@ -88,7 +88,7 @@ export const WidgetFormConfig = () => {
 							render={({ field, fieldState }) => (
 								<Field data-invalid={fieldState.invalid}>
 									<FieldLabel htmlFor={field.name} className="capitalize">
-										{key}
+										{schema.description ?? key}
 									</FieldLabel>
 									{schema._def.typeName === "ZodBoolean" ? (
 										<div className="flex items-center gap-2">
@@ -101,8 +101,8 @@ export const WidgetFormConfig = () => {
 									) : (
 										<Input
 											type={
-												["apiKey", "apiSecret", "token", "password"].includes(
-													key,
+												["apikey", "secret", "token", "password"].some(
+													(sensitive) => key.toLowerCase().includes(sensitive),
 												)
 													? "password"
 													: "text"

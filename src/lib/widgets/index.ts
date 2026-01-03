@@ -1,10 +1,10 @@
-import { z } from "astro:schema";
+import { z } from "astro/zod";
 
 const baseConfig = z.object({
-	url: z.string().url(),
+	url: z.string().url().describe("URL"),
 });
 const withApiKey = baseConfig.extend({
-	apiKey: z.string(),
+	apiKey: z.string().describe("API Key"),
 });
 const withUserPass = baseConfig.extend({
 	username: z.string(),
@@ -19,7 +19,7 @@ export const cupSchema = z.object({
 	type: z.literal("cup"),
 	config: z.object({
 		url: z.string().url(),
-		onlyInUse: z.boolean(),
+		onlyInUse: z.boolean().describe("Only show in-use"),
 	}),
 });
 export const sonarrSchema = z.object({
@@ -46,21 +46,21 @@ export const komodoSchema = z.object({
 	type: z.literal("komodo"),
 	config: z.object({
 		url: z.string().url(),
-		apiKey: z.string(),
-		apiSecret: z.string(),
+		apiKey: z.string().describe("API Key"),
+		apiSecret: z.string().describe("API Secret"),
 	}),
 });
 export const nextdnsSchema = z.object({
 	type: z.literal("nextdns"),
 	config: z.object({
 		profile: z.string(),
-		apiKey: z.string(),
+		apiKey: z.string().describe("API Key"),
 	}),
 });
 export const controldSchema = z.object({
 	type: z.literal("controld"),
 	config: z.object({
-		apiKey: z.string(),
+		apiKey: z.string().describe("API Key"),
 	}),
 });
 export const gatusSchema = z.object({
@@ -92,15 +92,15 @@ export const qbittorrentSchema = z.object({
 export const vinceSchema = z.object({
 	type: z.literal("vince"),
 	config: withApiKey.extend({
-		siteIds: z.string(),
+		siteIds: z.string().describe("Site IDs"),
 	}),
 });
 export const proxmoxSchema = z.object({
 	type: z.literal("proxmox"),
 	config: z.object({
 		url: z.string().url(),
-		tokenId: z.string(),
-		tokenSecret: z.string(),
+		tokenId: z.string().describe("Token ID"),
+		tokenSecret: z.string().describe("Token Secret"),
 	}),
 });
 

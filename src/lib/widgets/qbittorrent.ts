@@ -37,6 +37,7 @@ export const getWidgetData = async (config: WidgetConfig<"qbittorrent">) => {
 		}),
 	);
 	if (loginRes.error) {
+		console.error("Error fetching qBittorrent data:", loginRes.error);
 		throw loginRes.error;
 	}
 
@@ -56,6 +57,7 @@ export const getWidgetData = async (config: WidgetConfig<"qbittorrent">) => {
 	);
 
 	if (res.error) {
+		console.error("Error fetching qBittorrent data:", res.error);
 		throw res.error;
 	}
 

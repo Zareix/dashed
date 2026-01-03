@@ -15,12 +15,14 @@ export const CreateCategoryButton = () => {
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
-			<DialogTrigger asChild>
-				<Button>
-					<PlusIcon />
-					Add category
-				</Button>
-			</DialogTrigger>
+			<DialogTrigger
+				render={
+					<Button>
+						<PlusIcon />
+						Add category
+					</Button>
+				}
+			/>
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>Add a new category</DialogTitle>

@@ -42,11 +42,13 @@ export const DeleteServiceButton = ({
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
-			<DialogTrigger asChild>
-				<Button variant="ghost">
-					<TrashIcon className="text-red-500" />
-				</Button>
-			</DialogTrigger>
+			<DialogTrigger
+				render={
+					<Button variant="ghost">
+						<TrashIcon className="text-red-500" />
+					</Button>
+				}
+			/>
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>Delete &quot;{name}&quot;</DialogTitle>
@@ -56,9 +58,7 @@ export const DeleteServiceButton = ({
 					&quot;?
 				</p>
 				<DialogFooter>
-					<DialogClose asChild>
-						<Button variant="outline">Cancel</Button>
-					</DialogClose>
+					<DialogClose render={<Button variant="outline">Cancel</Button>} />
 					<Button
 						variant="destructive"
 						onClick={deleteService}

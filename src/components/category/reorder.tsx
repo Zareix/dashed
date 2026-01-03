@@ -104,9 +104,7 @@ const Content = ({ categories }: { categories: Array<Category> }) => {
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
-			<DialogTrigger asChild>
-				<Button>Reorder categories</Button>
-			</DialogTrigger>
+			<DialogTrigger render={<Button>Reorder categories</Button>} />
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>Reorder categories</DialogTitle>

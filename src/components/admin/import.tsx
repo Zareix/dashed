@@ -74,11 +74,13 @@ export const ImportButton = () => {
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
-			<DialogTrigger asChild>
-				<Button>
-					<ImportIcon /> Import
-				</Button>
-			</DialogTrigger>
+			<DialogTrigger
+				render={
+					<Button>
+						<ImportIcon /> Import
+					</Button>
+				}
+			/>
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>Import</DialogTitle>
@@ -94,11 +96,11 @@ export const ImportButton = () => {
 										<FieldLabel htmlFor={field.name}>Type</FieldLabel>
 										<Select value={field.value} onValueChange={field.onChange}>
 											<SelectTrigger
-												className="w-[180px]"
+												className="w-45"
 												id={field.name}
 												aria-invalid={fieldState.invalid}
 											>
-												<SelectValue placeholder="Type" />
+												<SelectValue />
 											</SelectTrigger>
 											<SelectContent>
 												<SelectItem value="dashed">Dashed</SelectItem>

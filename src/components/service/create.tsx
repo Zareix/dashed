@@ -21,12 +21,14 @@ export const CreateServiceButton = ({
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
-			<DialogTrigger asChild>
-				<Button>
-					<PlusIcon />
-					Add service
-				</Button>
-			</DialogTrigger>
+			<DialogTrigger
+				render={
+					<Button>
+						<PlusIcon />
+						Add service
+					</Button>
+				}
+			/>
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>Add a new service</DialogTitle>

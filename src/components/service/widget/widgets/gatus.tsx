@@ -1,5 +1,6 @@
 import { actions } from "astro:actions";
 import { useQuery } from "@tanstack/react-query";
+import { Badge } from "~/components/ui/badge";
 import { queryClient } from "~/lib/store";
 import type { WIDGETS } from "~/lib/widgets";
 
@@ -31,9 +32,20 @@ export const GatusWidget = ({ config }: Props) => {
 	const upServices = data.filter((service) => service.success);
 	const downServices = data.filter((service) => !service.success);
 
+	const groupedDownServices = downServices.reduce(
+		(acc, service) => {
+			if (!acc[service.group]) {
+				acc[service.group] = [];
+			}
+			acc[service.group].push(service);
+			return acc;
+		},
+		{} as Record<string, typeof downServices>,
+	);
+
 	return (
-		<div className="max-w-[300px]">
-			<div className="grid min-w-[150px] grid-cols-2 gap-2 text-sm [&>div>p]:mt-auto [&>div>p]:font-medium [&>div]:flex [&>div]:flex-col [&>div]:rounded-md [&>div]:text-center [&>div]:text-base">
+		<div className="max-w-75">
+			<div className="grid min-w-37.5 grid-cols-2 gap-2 text-sm [&>div>p]:mt-auto [&>div>p]:font-medium [&>div]:flex [&>div]:flex-col [&>div]:rounded-md [&>div]:text-center [&>div]:text-base">
 				<div>
 					<div>{upServices.length}</div>
 					<p>Up</p>
@@ -43,11 +55,19 @@ export const GatusWidget = ({ config }: Props) => {
 					<p>Down</p>
 				</div>
 			</div>
-			{downServices.length > 0 && (
-				<div className="mt-1 border-t pt-1 text-center">
-					🚨 {downServices.map((x) => `${x.group}/${x.name}`).join(", ")}
-				</div>
-			)}
+			{downServices.length > 0 &&
+				Object.entries(groupedDownServices).map(([group, services]) => (
+					<div key={group} className="mt-2 border-t pt-1">
+						<h3 className="mb-1 font-medium">🚨 {group}</h3>
+						<div className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
+							{services.map((x) => (
+								<Badge key={x.group + x.name} variant="destructive">
+									{x.name}
+								</Badge>
+							))}
+						</div>
+					</div>
+				))}
 		</div>
 	);
 };

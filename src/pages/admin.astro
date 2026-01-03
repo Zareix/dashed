@@ -16,10 +16,10 @@ export const prerender = true;
       <a href="/">
         <HouseIcon size={24} />
       </a>
-      <div class="flex gap-4 ml-auto">
+      <div class="flex gap-4 ml-auto flex-wrap">
         <ReorderCategoriesButton client:load />
         <CreateCategoryButton client:load />
-        <div class="h-5 bg-foreground w-px"></div>
+        <div class="h-5 bg-foreground w-px hidden sm:block"></div>
         <ImportButton client:load />
         <ExportButton client:load />
       </div>

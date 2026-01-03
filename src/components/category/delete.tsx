@@ -45,11 +45,13 @@ export const DeleteCategoryButton = ({
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
-			<DialogTrigger asChild>
-				<Button variant="destructive">
-					<TrashIcon />
-				</Button>
-			</DialogTrigger>
+			<DialogTrigger
+				render={
+					<Button variant="destructive">
+						<TrashIcon />
+					</Button>
+				}
+			/>
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>Delete &quot;{name}&quot;</DialogTitle>
@@ -59,9 +61,7 @@ export const DeleteCategoryButton = ({
 					&quot;?
 				</p>
 				<DialogFooter>
-					<DialogClose asChild>
-						<Button variant="outline">Cancel</Button>
-					</DialogClose>
+					<DialogClose render={<Button variant="outline">Cancel</Button>} />
 					<Button
 						variant="destructive"
 						onClick={deleteCategory}

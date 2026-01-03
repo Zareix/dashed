@@ -19,9 +19,7 @@ export const EditCategoryButton = ({
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
-			<DialogTrigger asChild>
-				<Button variant="outline">Edit</Button>
-			</DialogTrigger>
+			<DialogTrigger render={<Button variant="outline">Edit</Button>} />
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle>Edit category</DialogTitle>

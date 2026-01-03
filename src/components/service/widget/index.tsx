@@ -55,10 +55,11 @@ export const ServiceWrapper = ({
 	}
 
 	return (
-		<HoverCard openDelay={0} closeDelay={100}>
-			<HoverCardTrigger asChild>
-				<div className="w-full">{children}</div>
-			</HoverCardTrigger>
+		<HoverCard>
+			<HoverCardTrigger
+				delay={200}
+				render={<div className="w-full">{children}</div>}
+			/>
 			<HoverCardContent className="w-fit">
 				<Widget widget={widget} />
 			</HoverCardContent>

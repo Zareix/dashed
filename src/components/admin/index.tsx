@@ -123,7 +123,7 @@ export function AdminPage() {
 						<Table>
 							<TableHeader>
 								<TableRow>
-									<TableHead className="w-[50px]" />
+									<TableHead className="w-12.5" />
 									<TableHead>Icon</TableHead>
 									<TableHead>Name</TableHead>
 									<TableHead>URL</TableHead>
