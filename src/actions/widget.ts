@@ -14,6 +14,7 @@ import {
 	radarrSchema,
 	sonarrSchema,
 	subtrackerSchema,
+	traefikSchema,
 	uptimeKumaSchema,
 	vinceSchema,
 } from "~/lib/widgets";
@@ -32,6 +33,7 @@ import * as qbittorrent from "../lib/widgets/qbittorrent";
 import * as radarr from "../lib/widgets/radarr";
 import * as sonarr from "../lib/widgets/sonarr";
 import * as subtracker from "../lib/widgets/subtracker";
+import * as traefik from "../lib/widgets/traefik";
 import * as uptimeKuma from "../lib/widgets/uptime-kuma";
 import * as vince from "../lib/widgets/vince";
 
@@ -99,5 +101,9 @@ export const widget = {
 	vince: defineAction({
 		input: vinceSchema.shape.config,
 		handler: vince.getWidgetData,
+	}),
+	traefik: defineAction({
+		input: traefikSchema.shape.config,
+		handler: traefik.getWidgetData,
 	}),
 };

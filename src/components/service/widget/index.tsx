@@ -14,6 +14,7 @@ import { QBittorrentWidget } from "~/components/service/widget/widgets/qbittorre
 import { RadarrWidget } from "~/components/service/widget/widgets/radarr";
 import SonarrWidget from "~/components/service/widget/widgets/sonarr";
 import { SubtrackerWidget } from "~/components/service/widget/widgets/subtracker";
+import { TraefikWidget } from "~/components/service/widget/widgets/traefik";
 import UptimeKumaWidget from "~/components/service/widget/widgets/uptime-kuma";
 import { VinceWidget } from "~/components/service/widget/widgets/vince";
 import {
@@ -101,6 +102,8 @@ export const Widget = ({ widget }: { widget: WIDGETS }) => {
 			return <QBittorrentWidget config={widget.config} />;
 		case "vince":
 			return <VinceWidget config={widget.config} />;
+		case "traefik":
+			return <TraefikWidget config={widget.config} />;
 		default:
 			return null;
 	}

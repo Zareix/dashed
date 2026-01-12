@@ -103,6 +103,14 @@ export const proxmoxSchema = z.object({
 		tokenSecret: z.string().describe("Token Secret"),
 	}),
 });
+export const traefikSchema = z.object({
+	type: z.literal("traefik"),
+	config: z.object({
+		url: z.string().url(),
+		username: z.string().optional(),
+		password: z.string().optional(),
+	}),
+});
 
 export const WIDGETS = z.discriminatedUnion("type", [
 	noneSchema,
@@ -122,6 +130,7 @@ export const WIDGETS = z.discriminatedUnion("type", [
 	qbittorrentSchema,
 	vinceSchema,
 	proxmoxSchema,
+	traefikSchema,
 ]);
 export type WIDGETS = z.infer<typeof WIDGETS>;
 export type WidgetConfig<T extends WIDGETS["type"]> = Extract<
