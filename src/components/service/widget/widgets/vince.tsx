@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ExternalLink } from "lucide-react";
 import { queryClient } from "~/lib/store";
 import type { WIDGETS } from "~/lib/widgets";
+import { StatsGridWidgetPart } from "../parts/stats-grid";
 
 type Props = {
 	config: Extract<WIDGETS, { type: "vince" }>["config"];
@@ -45,27 +46,29 @@ export const VinceWidget = ({ config }: Props) => {
 
 	return (
 		<div className="max-w-62.5">
-			<p className="text-center">Last 30 days summary</p>
-			<div className="mb-3 grid grid-cols-2 gap-2 [&>div>div]:text-lg [&>div>p]:mt-auto [&>div>p]:font-medium [&>div>p]:text-sm [&>div]:flex [&>div]:flex-col [&>div]:rounded-md [&>div]:text-center">
-				<div>
-					<div>{totalVisitors.toLocaleString()}</div>
-					<p>Total Visitors</p>
-				</div>
-				<div>
-					<div>{totalPageviews.toLocaleString()}</div>
-					<p>Total Pageviews</p>
-				</div>
-				<div>
-					<div>{avgBounceRate.toFixed(0)}%</div>
-					<p>Avg. Bounce Rate</p>
-				</div>
-				<div>
-					<div>{formatDuration(avgDuration)}</div>
-					<p>Avg. Duration</p>
-				</div>
-			</div>
+			<StatsGridWidgetPart
+				title="Last 30 days summary"
+				stats={[
+					{
+						value: totalVisitors.toLocaleString(),
+						label: "Total Visitors",
+					},
+					{
+						value: totalPageviews.toLocaleString(),
+						label: "Total Pageviews",
+					},
+					{
+						value: `${avgBounceRate.toFixed(0)}%`,
+						label: "Avg. Bounce Rate",
+					},
+					{
+						value: formatDuration(avgDuration),
+						label: "Avg. Duration",
+					},
+				]}
+			/>
 			{data.length > 0 && (
-				<div className="flex flex-col gap-2 border-t pt-2">
+				<div className="mt-2 flex flex-col gap-2 border-t pt-2">
 					{data.map((site) => (
 						<a
 							key={site.siteId}

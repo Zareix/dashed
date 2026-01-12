@@ -1,7 +1,7 @@
 import { actions } from "astro:actions";
 import { useQuery } from "@tanstack/react-query";
 import { ExternalLinkIcon } from "lucide-react";
-import { AlertsWidgetpart } from "~/components/service/widget/parts/alerts";
+import { AlertsWidgetPart } from "~/components/service/widget/parts/alerts";
 import { queryClient } from "~/lib/store";
 import type { WIDGETS } from "~/lib/widgets";
 
@@ -54,7 +54,7 @@ export const RadarrWidget = ({ config }: Props) => {
 					</a>
 				))}
 			</div>
-			<AlertsWidgetpart alerts={data.allHealth} />
+			<AlertsWidgetPart alerts={data.allHealth} />
 		</div>
 	);
 };

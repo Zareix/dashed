@@ -1,7 +1,9 @@
 import { actions } from "astro:actions";
 import { useQuery } from "@tanstack/react-query";
+import { AlertsWidgetPart } from "~/components/service/widget/parts/alerts";
 import { queryClient } from "~/lib/store";
 import type { WIDGETS } from "~/lib/widgets";
+import { StatsGridWidgetPart } from "../parts/stats-grid";
 
 type Props = {
 	config: Extract<WIDGETS, { type: "komodo" }>["config"];
@@ -38,42 +40,41 @@ export const KomodoWidget = ({ config }: Props) => {
 			stack.state === "unknown",
 	);
 
+	const alerts: React.ComponentProps<typeof AlertsWidgetPart>["alerts"] = [];
+	if (serversDown.length > 0) {
+		alerts.push({
+			type: "error",
+			source: `🚨 ${serversDown.length} server(s) down`,
+			message: serversDown
+				.map((server) => `${server.name} (${server.state})`)
+				.join(", "),
+		});
+	}
+	if (stacksDown.length > 0) {
+		alerts.push({
+			type: "error",
+			source: `🚨 ${stacksDown.length} stack(s) down`,
+			message: stacksDown
+				.map((stack) => `${stack.name} (${stack.state})`)
+				.join(", "),
+		});
+	}
+
 	return (
 		<div className="max-w-75">
-			<div className="grid grid-cols-2 gap-4 [&>div>p]:mt-auto [&>div>p]:font-medium [&>div]:flex [&>div]:flex-col [&>div]:rounded-md [&>div]:text-center">
-				<div>
-					<div>{data.servers.length}</div>
-					<p>Servers</p>
-				</div>
-				<div>
-					<div>{data.stacks.length}</div>
-					<p>Stacks</p>
-				</div>
-			</div>
-			<div className="grid gap-2 text-sm">
-				{serversDown.length > 0 && (
-					<div className="mt-4 text-red-500">
-						🚨 Servers:{" "}
-						{serversDown.map((server, index) => (
-							<a href={`${config.url}/servers/${server.id}`} key={server.id}>
-								{server.name} ({server.state})
-								{index < serversDown.length - 1 ? ", " : ""}
-							</a>
-						))}
-					</div>
-				)}
-				{stacksDown.length > 0 && (
-					<div className="text-red-500">
-						🚨 Stacks:{" "}
-						{stacksDown.map((stack, index) => (
-							<a href={`${config.url}/stacks/${stack.id}`} key={stack.id}>
-								{stack.name} ({stack.state})
-								{index < stacksDown.length - 1 ? ", " : ""}
-							</a>
-						))}
-					</div>
-				)}
-			</div>
+			<StatsGridWidgetPart
+				stats={[
+					{
+						value: data.servers.length,
+						label: "Servers",
+					},
+					{
+						value: data.stacks.length,
+						label: "Stacks",
+					},
+				]}
+			/>
+			<AlertsWidgetPart alerts={alerts} />
 		</div>
 	);
 };

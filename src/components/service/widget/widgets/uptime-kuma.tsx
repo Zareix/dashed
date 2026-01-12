@@ -1,5 +1,7 @@
 import { actions } from "astro:actions";
 import { useQuery } from "@tanstack/react-query";
+import { AlertsWidgetPart } from "~/components/service/widget/parts/alerts";
+import { StatsGridWidgetPart } from "~/components/service/widget/parts/stats-grid";
 import { queryClient } from "~/lib/store";
 import type { WIDGETS } from "~/lib/widgets";
 
@@ -33,21 +35,27 @@ const UptimeKumaWidget = ({ config }: Props) => {
 
 	return (
 		<div className="max-w-75">
-			<div className="grid min-w-[150px] grid-cols-2 gap-2 text-sm [&>div>p]:mt-auto [&>div>p]:font-medium [&>div]:flex [&>div]:flex-col [&>div]:rounded-md [&>div]:text-center [&>div]:text-base">
-				<div>
-					<div>{upServices.length}</div>
-					<p>Up</p>
-				</div>
-				<div>
-					<div>{downServices.length}</div>
-					<p>Down</p>
-				</div>
-			</div>
-			{downServices.length > 0 && (
-				<div className="mt-1 border-t pt-1 text-center">
-					🚨 {downServices.map((x) => x.monitor_name).join(", ")}
-				</div>
-			)}
+			<StatsGridWidgetPart
+				stats={[
+					{
+						label: "Up",
+						value: upServices.length,
+					},
+					{
+						label: "Down",
+						value: downServices.length,
+					},
+				]}
+			/>
+			<AlertsWidgetPart
+				alerts={[
+					{
+						type: "error",
+						source: "Down Services",
+						message: downServices.map((x) => x.monitor_name).join(", "),
+					},
+				]}
+			/>
 		</div>
 	);
 };

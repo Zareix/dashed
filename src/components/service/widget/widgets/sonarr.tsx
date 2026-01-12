@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ExternalLinkIcon } from "lucide-react";
 import { queryClient } from "~/lib/store";
 import type { WIDGETS } from "~/lib/widgets";
-import { AlertsWidgetpart } from "../parts/alerts";
+import { AlertsWidgetPart } from "../parts/alerts";
 
 type Props = {
 	config: Extract<WIDGETS, { type: "sonarr" }>["config"];
@@ -75,7 +75,7 @@ const SonarrWidget = ({ config }: Props) => {
 					))}
 			</div>
 
-			<AlertsWidgetpart alerts={healthIssues} />
+			<AlertsWidgetPart alerts={healthIssues} />
 		</div>
 	);
 };

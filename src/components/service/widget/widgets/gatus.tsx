@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Badge } from "~/components/ui/badge";
 import { queryClient } from "~/lib/store";
 import type { WIDGETS } from "~/lib/widgets";
+import { StatsGridWidgetPart } from "../parts/stats-grid";
 
 type Props = {
 	config: Extract<WIDGETS, { type: "gatus" }>["config"];
@@ -45,16 +46,19 @@ export const GatusWidget = ({ config }: Props) => {
 
 	return (
 		<div className="max-w-75">
-			<div className="grid min-w-37.5 grid-cols-2 gap-2 text-sm [&>div>p]:mt-auto [&>div>p]:font-medium [&>div]:flex [&>div]:flex-col [&>div]:rounded-md [&>div]:text-center [&>div]:text-base">
-				<div>
-					<div>{upServices.length}</div>
-					<p>Up</p>
-				</div>
-				<div>
-					<div>{downServices.length}</div>
-					<p>Down</p>
-				</div>
-			</div>
+			<StatsGridWidgetPart
+				className="min-w-37.5"
+				stats={[
+					{
+						value: upServices.length,
+						label: "Up",
+					},
+					{
+						value: downServices.length,
+						label: "Down",
+					},
+				]}
+			/>
 			{downServices.length > 0 &&
 				Object.entries(groupedDownServices).map(([group, services]) => (
 					<div key={group} className="mt-2 border-t pt-1">

@@ -8,7 +8,7 @@ type Props = {
 	alerts: HealthIssue[];
 };
 
-export const AlertsWidgetpart = ({ alerts }: Props) => {
+export const AlertsWidgetPart = ({ alerts }: Props) => {
 	if (alerts.length === 0) {
 		return null;
 	}

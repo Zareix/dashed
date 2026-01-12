@@ -1,5 +1,6 @@
 import { actions } from "astro:actions";
 import { useQuery } from "@tanstack/react-query";
+import { StatsGridWidgetPart } from "~/components/service/widget/parts/stats-grid";
 import { queryClient } from "~/lib/store";
 import type { WIDGETS } from "~/lib/widgets";
 
@@ -34,20 +35,23 @@ export const NextDNSWidget = ({ config }: Props) => {
 
 	return (
 		<div className="max-w-75">
-			<div className="grid grid-cols-3 gap-4 [&>div>p]:mt-auto [&>div>p]:font-medium [&>div]:flex [&>div]:flex-col [&>div]:rounded-md [&>div]:text-center">
-				<div>
-					<div>{data.default}</div>
-					<p>Total</p>
-				</div>
-				<div>
-					<div>{data.blocked}</div>
-					<p>Blocked</p>
-				</div>
-				<div>
-					<div>{percentageBlocked}%</div>
-					<p>% Blocked</p>
-				</div>
-			</div>
+			<StatsGridWidgetPart
+				title="Last 24h summary"
+				stats={[
+					{
+						value: data.default,
+						label: "Total",
+					},
+					{
+						value: data.blocked,
+						label: "Blocked",
+					},
+					{
+						value: `${percentageBlocked}%`,
+						label: "Blocked",
+					},
+				]}
+			/>
 		</div>
 	);
 };

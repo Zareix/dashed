@@ -2,6 +2,7 @@ import { actions } from "astro:actions";
 import { useQuery } from "@tanstack/react-query";
 import { queryClient } from "~/lib/store";
 import type { WIDGETS } from "~/lib/widgets";
+import { StatsGridWidgetPart } from "../parts/stats-grid";
 
 type Props = {
 	config: Extract<WIDGETS, { type: "controld" }>["config"];
@@ -43,21 +44,23 @@ export const ControlDWidget = ({ config }: Props) => {
 
 	return (
 		<div className="max-w-75">
-			<p className="text-center">Last 24h summary</p>
-			<div className="grid grid-cols-3 gap-4 [&>div>p]:mt-auto [&>div>p]:font-medium [&>div]:flex [&>div]:flex-col [&>div]:rounded-md [&>div]:text-center">
-				<div>
-					<div>{numberFormatter.format(data.total)}</div>
-					<p>Total</p>
-				</div>
-				<div>
-					<div>{numberFormatter.format(data.blocked)}</div>
-					<p>Blocked</p>
-				</div>
-				<div>
-					<div>{percentFormatter.format(percentageBlocked)}</div>
-					<p>% Blocked</p>
-				</div>
-			</div>
+			<StatsGridWidgetPart
+				title="Last 24h summary"
+				stats={[
+					{
+						value: numberFormatter.format(data.total),
+						label: "Total",
+					},
+					{
+						value: numberFormatter.format(data.blocked),
+						label: "Blocked",
+					},
+					{
+						value: percentFormatter.format(percentageBlocked),
+						label: "Blocked",
+					},
+				]}
+			/>
 		</div>
 	);
 };

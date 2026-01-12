@@ -50,7 +50,7 @@ export const ProxmoxWidget = ({ config }: Props) => {
 		inaccessibleStorage.length > 0;
 
 	return (
-		<div className="max-w-[400px]">
+		<div className="max-w-100">
 			{hasAlerts && (
 				<div className="mb-2 rounded-md border border-yellow-500/20 bg-yellow-500/10 p-2">
 					<div className="flex items-center gap-2">
