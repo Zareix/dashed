@@ -37,6 +37,13 @@ type SonarrRecord = {
 	absoluteEpisodeNumber?: number;
 };
 
+type SonnarHealthResponse = {
+	source: string;
+	type: "ok" | "notice" | "warning" | "error";
+	message: string;
+	wikiUrl: string;
+};
+
 export const getWidgetData = async (config: WidgetConfig<"sonarr">) => {
 	const res = await tryCatch(
 		Promise.all([
@@ -46,12 +53,20 @@ export const getWidgetData = async (config: WidgetConfig<"sonarr">) => {
 			fetch(
 				`${config.url}/api/v3/wanted/missing?page=1&pageSize=100&includeSeries=false&includeImages=false&monitored=true&apikey=${config.apiKey}`,
 			).then((res) => res.json() as Promise<SonarrMissingEpisodesResponse>),
+			fetch(`${config.url}/api/v3/health?apikey=${config.apiKey}`).then(
+				(res) => res.json() as Promise<SonnarHealthResponse[]>,
+			),
 		]),
 	);
 	if (res.error) {
 		throw new Error(`Failed to fetch Sonarr data: ${res.error.message}`);
 	}
-	const [seriesRes, missingRes] = res.data;
+	const [seriesRes, missingRes, healthRes] = res.data;
+
+	const allHealth = healthRes.filter(
+		(h) => h.type === "error" || h.type === "warning",
+	);
+
 	return {
 		missingSeriesEpisodes: missingRes.records.reduce(
 			(acc, cur) => {
@@ -77,6 +92,7 @@ export const getWidgetData = async (config: WidgetConfig<"sonarr">) => {
 				}
 			>,
 		),
+		allHealth,
 	};
 };
 

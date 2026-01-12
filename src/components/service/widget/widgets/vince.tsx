@@ -44,7 +44,7 @@ export const VinceWidget = ({ config }: Props) => {
 		data.reduce((acc, site) => acc + site.bounceRate, 0) / data.length;
 
 	return (
-		<div className="max-w-[250px]">
+		<div className="max-w-62.5">
 			<p className="text-center">Last 30 days summary</p>
 			<div className="mb-3 grid grid-cols-2 gap-2 [&>div>div]:text-lg [&>div>p]:mt-auto [&>div>p]:font-medium [&>div>p]:text-sm [&>div]:flex [&>div]:flex-col [&>div]:rounded-md [&>div]:text-center">
 				<div>

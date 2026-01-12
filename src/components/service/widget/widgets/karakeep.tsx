@@ -30,7 +30,7 @@ export const KarakeepWidget: React.FC<Props> = ({ config }) => {
 	}
 
 	return (
-		<div className="grid max-w-[300px] gap-1">
+		<div className="grid max-w-75 gap-1">
 			{data.lists.map((list) => (
 				<a
 					key={list.id}

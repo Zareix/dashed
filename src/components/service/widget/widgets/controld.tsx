@@ -42,7 +42,8 @@ export const ControlDWidget = ({ config }: Props) => {
 	});
 
 	return (
-		<div className="max-w-[300px]">
+		<div className="max-w-75">
+			<p className="text-center">Last 24h summary</p>
 			<div className="grid grid-cols-3 gap-4 [&>div>p]:mt-auto [&>div>p]:font-medium [&>div]:flex [&>div]:flex-col [&>div]:rounded-md [&>div]:text-center">
 				<div>
 					<div>{numberFormatter.format(data.total)}</div>

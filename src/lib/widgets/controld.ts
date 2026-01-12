@@ -14,9 +14,9 @@ type ControlDStatusResponse = {
 };
 
 type Count = {
-	"0": number; // Blocked
-	"1": number; // Allowed
-	"3": number; // Redirected
+	"0"?: number; // Blocked
+	"1"?: number; // Allowed
+	"3"?: number; // Redirected
 	"-1"?: number;
 };
 
@@ -50,14 +50,14 @@ export const getWidgetData = async (config: WidgetConfig<"controld">) => {
 		}))
 		.reduce(
 			(acc, cur) => ({
-				blocked: acc.blocked + cur.blocked,
-				allowed: acc.allowed + cur.allowed,
+				blocked: (acc.blocked ?? 0) + (cur.blocked ?? 0),
+				allowed: (acc.allowed ?? 0) + (cur.allowed ?? 0),
 			}),
 			{ blocked: 0, allowed: 0 },
 		);
 	return {
-		allowed: queries.allowed,
-		blocked: queries.blocked,
-		total: queries.allowed + queries.blocked,
+		allowed: queries.allowed ?? 0,
+		blocked: queries.blocked ?? 0,
+		total: (queries.allowed ?? 0) + (queries.blocked ?? 0),
 	};
 };

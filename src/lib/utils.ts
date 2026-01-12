@@ -16,3 +16,8 @@ export function formatBytes(bytes: number): string {
 	);
 	return `${(bytes / k ** i).toFixed(2)} ${sizes[i]}`;
 }
+
+export function camelToTitleCase(str: string): string {
+	const result = str.replace(/([A-Z])/g, " $1");
+	return result.charAt(0).toUpperCase() + result.slice(1);
+}

@@ -32,7 +32,7 @@ const UptimeKumaWidget = ({ config }: Props) => {
 	const downServices = data.metrics.filter((service) => service.status === 0);
 
 	return (
-		<div className="max-w-[300px]">
+		<div className="max-w-75">
 			<div className="grid min-w-[150px] grid-cols-2 gap-2 text-sm [&>div>p]:mt-auto [&>div>p]:font-medium [&>div]:flex [&>div]:flex-col [&>div]:rounded-md [&>div]:text-center [&>div]:text-base">
 				<div>
 					<div>{upServices.length}</div>

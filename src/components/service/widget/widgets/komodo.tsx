@@ -39,7 +39,7 @@ export const KomodoWidget = ({ config }: Props) => {
 	);
 
 	return (
-		<div className="max-w-[300px]">
+		<div className="max-w-75">
 			<div className="grid grid-cols-2 gap-4 [&>div>p]:mt-auto [&>div>p]:font-medium [&>div]:flex [&>div]:flex-col [&>div]:rounded-md [&>div]:text-center">
 				<div>
 					<div>{data.servers.length}</div>

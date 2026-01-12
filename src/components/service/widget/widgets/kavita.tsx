@@ -61,7 +61,7 @@ export const KavitaWidget = ({ config }: Props) => {
 	}
 
 	return (
-		<div className="grid max-w-[300px] gap-1">
+		<div className="grid max-w-75 gap-1">
 			{data.map((library) => (
 				<a
 					key={library.id}
