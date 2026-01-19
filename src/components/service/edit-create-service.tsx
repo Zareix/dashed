@@ -188,7 +188,7 @@ export const EditCreateServiceForm: React.FC<Props> = ({
 										if (icon === "") return;
 										form.setValue(
 											"icon",
-											`https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/${icon}.png`,
+											`https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/${icon}.webp`,
 										);
 									}
 								}}
