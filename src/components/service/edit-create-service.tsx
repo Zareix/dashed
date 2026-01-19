@@ -148,6 +148,10 @@ export const EditCreateServiceForm: React.FC<Props> = ({
 									field.onChange(Number(value));
 								}}
 								value={field.value ? String(field.value) : undefined}
+								items={categoriesQuery.data?.map((c) => ({
+									label: c.name,
+									value: String(c.id),
+								}))}
 							>
 								<SelectTrigger
 									id={field.name}
@@ -155,7 +159,7 @@ export const EditCreateServiceForm: React.FC<Props> = ({
 									className="w-45"
 									disabled={field.disabled || categoriesQuery.isLoading}
 								>
-									<SelectValue />
+									<SelectValue placeholder="Select category" />
 								</SelectTrigger>
 								<SelectContent>
 									{(categoriesQuery.data ?? []).map((cat) => (
