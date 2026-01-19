@@ -109,6 +109,7 @@ export const EditCreateServiceForm: React.FC<Props> = ({
 			pingUrl: service?.pingUrl ?? "",
 			alternativeUrls: service?.alternativeUrls ?? [],
 			icon: service?.icon ?? "",
+			iconDark: service?.iconDark ?? "",
 			categoryId: service?.categoryId ?? category?.id,
 			openInNewTab: service?.openInNewTab ?? false,
 			widget: service?.widget ?? {
