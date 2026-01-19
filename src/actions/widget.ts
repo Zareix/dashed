@@ -8,6 +8,7 @@ import {
 	kavitaSchema,
 	komodoSchema,
 	nextdnsSchema,
+	pocketIdSchema,
 	prowlarrSchema,
 	proxmoxSchema,
 	qbittorrentSchema,
@@ -27,6 +28,7 @@ import * as karakeep from "../lib/widgets/karakeep";
 import * as kavita from "../lib/widgets/kavita";
 import * as komodo from "../lib/widgets/komodo";
 import * as nextdns from "../lib/widgets/nextdns";
+import * as pocketId from "../lib/widgets/pocket-id";
 import * as prowlarr from "../lib/widgets/prowlarr";
 import * as proxmox from "../lib/widgets/proxmox";
 import * as qbittorrent from "../lib/widgets/qbittorrent";
@@ -69,6 +71,10 @@ export const widget = {
 	nextdns: defineAction({
 		input: nextdnsSchema.shape.config,
 		handler: nextdns.getWidgetData,
+	}),
+	"pocket-id": defineAction({
+		input: pocketIdSchema.shape.config,
+		handler: pocketId.getWidgetData,
 	}),
 	prowlarr: defineAction({
 		input: prowlarrSchema.shape.config,

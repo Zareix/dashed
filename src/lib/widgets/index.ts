@@ -111,6 +111,10 @@ export const traefikSchema = z.object({
 		password: z.string().optional(),
 	}),
 });
+export const pocketIdSchema = z.object({
+	type: z.literal("pocket-id"),
+	config: withApiKey,
+});
 
 export const WIDGETS = z.discriminatedUnion("type", [
 	noneSchema,
@@ -131,6 +135,7 @@ export const WIDGETS = z.discriminatedUnion("type", [
 	vinceSchema,
 	proxmoxSchema,
 	traefikSchema,
+	pocketIdSchema,
 ]);
 export type WIDGETS = z.infer<typeof WIDGETS>;
 export type WidgetConfig<T extends WIDGETS["type"]> = Extract<

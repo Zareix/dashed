@@ -8,6 +8,7 @@ import { KarakeepWidget } from "~/components/service/widget/widgets/karakeep";
 import { KavitaWidget } from "~/components/service/widget/widgets/kavita";
 import { KomodoWidget } from "~/components/service/widget/widgets/komodo";
 import { NextDNSWidget } from "~/components/service/widget/widgets/nextdns";
+import PocketIdWidget from "~/components/service/widget/widgets/pocket-id";
 import { ProwlarrWidget } from "~/components/service/widget/widgets/prowlarr";
 import { ProxmoxWidget } from "~/components/service/widget/widgets/proxmox";
 import { QBittorrentWidget } from "~/components/service/widget/widgets/qbittorrent";
@@ -104,6 +105,8 @@ export const Widget = ({ widget }: { widget: WIDGETS }) => {
 			return <VinceWidget config={widget.config} />;
 		case "traefik":
 			return <TraefikWidget config={widget.config} />;
+		case "pocket-id":
+			return <PocketIdWidget config={widget.config} />;
 		default:
 			return null;
 	}

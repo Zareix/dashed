@@ -58,6 +58,7 @@ export const ControlDWidget = ({ config }: Props) => {
 					{
 						value: percentFormatter.format(percentageBlocked),
 						label: "Blocked",
+						key: "% blocked",
 					},
 				]}
 			/>

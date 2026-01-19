@@ -5,6 +5,7 @@ import { cn } from "~/lib/utils";
 type Stat = {
 	value: ReactNode;
 	label: string;
+	key?: string;
 	icon?: LucideIcon;
 };
 
@@ -35,7 +36,10 @@ export const StatsGridWidgetPart = ({
 				{...props}
 			>
 				{stats.map((stat) => (
-					<div key={stat.label} className="flex flex-col text-center">
+					<div
+						key={stat.key ?? stat.label}
+						className="flex flex-col text-center"
+					>
 						{stat.icon ? (
 							<div className="flex items-center justify-center gap-1 font-mono">
 								<stat.icon size={16} />
