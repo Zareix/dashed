@@ -1,6 +1,6 @@
 type HealthIssue = {
 	source: string;
-	type: string;
+	type: "error" | "warning" | "info" | (string & {});
 	message: string;
 };
 

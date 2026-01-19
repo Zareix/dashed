@@ -4,6 +4,7 @@ import { BeszelWidget } from "~/components/service/widget/widgets/beszel";
 import { ControlDWidget } from "~/components/service/widget/widgets/controld";
 import { CupWidget } from "~/components/service/widget/widgets/cup";
 import { GatusWidget } from "~/components/service/widget/widgets/gatus";
+import { GodoxyWidget } from "~/components/service/widget/widgets/godoxy";
 import { KarakeepWidget } from "~/components/service/widget/widgets/karakeep";
 import { KavitaWidget } from "~/components/service/widget/widgets/kavita";
 import { KomodoWidget } from "~/components/service/widget/widgets/komodo";
@@ -107,6 +108,8 @@ export const Widget = ({ widget }: { widget: WIDGETS }) => {
 			return <TraefikWidget config={widget.config} />;
 		case "pocket-id":
 			return <PocketIdWidget config={widget.config} />;
+		case "godoxy":
+			return <GodoxyWidget config={widget.config} />;
 		default:
 			return null;
 	}

@@ -67,6 +67,13 @@ export const gatusSchema = z.object({
 	type: z.literal("gatus"),
 	config: baseConfig,
 });
+export const godoxySchema = z.object({
+	type: z.literal("godoxy"),
+	config: baseConfig.extend({
+		user: z.string().optional(),
+		password: z.string().optional(),
+	}),
+});
 export const subtrackerSchema = z.object({
 	type: z.literal("subtracker"),
 	config: withApiKey.extend({
@@ -127,6 +134,7 @@ export const WIDGETS = z.discriminatedUnion("type", [
 	nextdnsSchema,
 	controldSchema,
 	gatusSchema,
+	godoxySchema,
 	subtrackerSchema,
 	karakeepSchema,
 	kavitaSchema,

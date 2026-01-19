@@ -4,6 +4,7 @@ import {
 	controldSchema,
 	cupSchema,
 	gatusSchema,
+	godoxySchema,
 	karakeepSchema,
 	kavitaSchema,
 	komodoSchema,
@@ -24,6 +25,7 @@ import * as beszel from "../lib/widgets/beszel";
 import * as controld from "../lib/widgets/controld";
 import * as cup from "../lib/widgets/cup";
 import * as gatus from "../lib/widgets/gatus";
+import * as godoxy from "../lib/widgets/godoxy";
 import * as karakeep from "../lib/widgets/karakeep";
 import * as kavita from "../lib/widgets/kavita";
 import * as komodo from "../lib/widgets/komodo";
@@ -55,6 +57,10 @@ export const widget = {
 	gatus: defineAction({
 		input: gatusSchema.shape.config,
 		handler: gatus.getWidgetData,
+	}),
+	godoxy: defineAction({
+		input: godoxySchema.shape.config,
+		handler: godoxy.getWidgetData,
 	}),
 	karakeep: defineAction({
 		input: karakeepSchema.shape.config,
