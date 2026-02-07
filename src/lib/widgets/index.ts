@@ -122,6 +122,12 @@ export const pocketIdSchema = z.object({
 	type: z.literal("pocket-id"),
 	config: withApiKey,
 });
+export const homeAssistantSchema = z.object({
+	type: z.literal("home-assistant"),
+	config: z.object({
+		url: z.string().url().describe("Dashboard URL"),
+	}),
+});
 
 export const WIDGETS = z.discriminatedUnion("type", [
 	noneSchema,
@@ -144,6 +150,7 @@ export const WIDGETS = z.discriminatedUnion("type", [
 	proxmoxSchema,
 	traefikSchema,
 	pocketIdSchema,
+	homeAssistantSchema,
 ]);
 export type WIDGETS = z.infer<typeof WIDGETS>;
 export type WidgetConfig<T extends WIDGETS["type"]> = Extract<

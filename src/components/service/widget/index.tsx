@@ -5,6 +5,7 @@ import { ControlDWidget } from "~/components/service/widget/widgets/controld";
 import { CupWidget } from "~/components/service/widget/widgets/cup";
 import { GatusWidget } from "~/components/service/widget/widgets/gatus";
 import { GodoxyWidget } from "~/components/service/widget/widgets/godoxy";
+import { HomeAssistantWidget } from "~/components/service/widget/widgets/home-assistant";
 import { KarakeepWidget } from "~/components/service/widget/widgets/karakeep";
 import { KavitaWidget } from "~/components/service/widget/widgets/kavita";
 import { KomodoWidget } from "~/components/service/widget/widgets/komodo";
@@ -110,6 +111,8 @@ export const Widget = ({ widget }: { widget: WIDGETS }) => {
 			return <PocketIdWidget config={widget.config} />;
 		case "godoxy":
 			return <GodoxyWidget config={widget.config} />;
+		case "home-assistant":
+			return <HomeAssistantWidget config={widget.config} />;
 		default:
 			return null;
 	}

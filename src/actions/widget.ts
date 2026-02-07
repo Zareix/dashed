@@ -5,6 +5,7 @@ import {
 	cupSchema,
 	gatusSchema,
 	godoxySchema,
+	homeAssistantSchema,
 	karakeepSchema,
 	kavitaSchema,
 	komodoSchema,
@@ -26,6 +27,7 @@ import * as controld from "../lib/widgets/controld";
 import * as cup from "../lib/widgets/cup";
 import * as gatus from "../lib/widgets/gatus";
 import * as godoxy from "../lib/widgets/godoxy";
+import * as homeAssistant from "../lib/widgets/home-assistant";
 import * as karakeep from "../lib/widgets/karakeep";
 import * as kavita from "../lib/widgets/kavita";
 import * as komodo from "../lib/widgets/komodo";
@@ -117,5 +119,9 @@ export const widget = {
 	traefik: defineAction({
 		input: traefikSchema.shape.config,
 		handler: traefik.getWidgetData,
+	}),
+	"home-assistant": defineAction({
+		input: homeAssistantSchema.shape.config,
+		handler: homeAssistant.getWidgetData,
 	}),
 };
