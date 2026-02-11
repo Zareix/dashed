@@ -44,7 +44,7 @@ export const KomodoWidget = ({ config }: Props) => {
 	if (serversDown.length > 0) {
 		alerts.push({
 			type: "error",
-			source: `🚨 ${serversDown.length} server(s) down`,
+			source: `${serversDown.length} server(s) down`,
 			message: serversDown
 				.map((server) => `${server.name} (${server.state})`)
 				.join(", "),
@@ -53,7 +53,7 @@ export const KomodoWidget = ({ config }: Props) => {
 	if (stacksDown.length > 0) {
 		alerts.push({
 			type: "error",
-			source: `🚨 ${stacksDown.length} stack(s) down`,
+			source: `${stacksDown.length} stack(s) down`,
 			message: stacksDown
 				.map((stack) => `${stack.name} (${stack.state})`)
 				.join(", "),
