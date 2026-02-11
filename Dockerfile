@@ -1,5 +1,5 @@
 ##### DEPENDENCIES
-FROM oven/bun:1.3.5-debian AS deps
+FROM oven/bun:1.3.9-debian AS deps
 WORKDIR /app
 
 COPY package.json bun.lock ./
@@ -7,7 +7,7 @@ COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile
 
 ##### BUILDER
-FROM oven/bun:1.3.5-debian AS builder
+FROM oven/bun:1.3.9-debian AS builder
 
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
