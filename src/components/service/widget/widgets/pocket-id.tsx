@@ -9,7 +9,7 @@ type Props = {
 };
 
 const PocketIdWidget = ({ config }: Props) => {
-	const { data, isError, isLoading } = useQuery(
+	const { data, isError, error, isLoading } = useQuery(
 		{
 			queryKey: ["widget", "pocket-id", config],
 			queryFn: () => actions.widget["pocket-id"](config),
@@ -26,7 +26,7 @@ const PocketIdWidget = ({ config }: Props) => {
 	}
 
 	if (isError || !data) {
-		return <div>Error</div>;
+		return <div>Error: {isError ? error.message : "No data available"}</div>;
 	}
 
 	const formatLastSignIn = (dateString: string | undefined) => {

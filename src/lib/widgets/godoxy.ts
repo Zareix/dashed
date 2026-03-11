@@ -20,6 +20,7 @@ export const getWidgetData = async (config: WidgetConfig<"godoxy">) => {
 	if (user && password) {
 		headers.Authorization = `Basic ${btoa(`${user}:${password}`)}`;
 	}
+	headers["Content-Type"] = "application/json";
 	const res = await tryCatch(
 		fetch(`${url}/api/v1/route/list`, {
 			headers,

@@ -1,7 +1,7 @@
 // @ts-check
 
+import node from "@astrojs/node";
 import react from "@astrojs/react";
-import bun from "@nurodev/astro-bun";
 import tailwindcss from "@tailwindcss/vite";
 import {
 	defineConfig,
@@ -28,21 +28,21 @@ export default defineConfig({
 		],
 	},
 
-	experimental: {
-		fonts: [
-			{
-				provider: fontProviders.google(),
-				name: "Geist",
-				cssVariable: "--font-sans",
-			},
-		],
-	},
+	fonts: [
+		{
+			provider: fontProviders.google(),
+			name: "Geist",
+			cssVariable: "--font-sans",
+		},
+	],
 
 	security: {
 		checkOrigin: false,
 	},
 
+	// adapter: bun(),
 	output: "server",
-
-	adapter: bun(),
+	adapter: node({
+		mode: "standalone",
+	}),
 });

@@ -10,7 +10,7 @@ type Props = {
 };
 
 export const GodoxyWidget = ({ config }: Props) => {
-	const { data, isError, isLoading } = useQuery(
+	const { data, isError, isLoading, error } = useQuery(
 		{
 			queryKey: ["widget", "godoxy", config],
 			queryFn: () => actions.widget.godoxy(config),
@@ -27,7 +27,7 @@ export const GodoxyWidget = ({ config }: Props) => {
 	}
 
 	if (isError || !data) {
-		return <div>Error</div>;
+		return <div>Error : {isError ? error.message : "No data available"}</div>;
 	}
 
 	const totalRoutesWithHealthCheck = data.routes.filter(
