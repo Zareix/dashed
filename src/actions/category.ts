@@ -1,5 +1,5 @@
 import { defineAction } from "astro:actions";
-import { z } from "astro:schema";
+import { z } from "astro/zod";
 import { asc, eq } from "drizzle-orm";
 import { db } from "~/lib/db";
 import { categoryTable, serviceTable } from "~/lib/db/schema";

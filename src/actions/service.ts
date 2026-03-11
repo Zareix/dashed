@@ -1,5 +1,5 @@
 import { defineAction } from "astro:actions";
-import { z } from "astro:schema";
+import { z } from "astro/zod";
 import { count, eq } from "drizzle-orm";
 import { db } from "~/lib/db";
 import { serviceTable } from "~/lib/db/schema";
@@ -8,7 +8,7 @@ import { tryCatch } from "~/lib/try-catch";
 
 export const service = {
 	ping: defineAction({
-		input: z.object({ url: z.string().url() }),
+		input: z.object({ url: z.url() }),
 		handler: async (input) => {
 			const res = await tryCatch(
 				fetch(input.url, {

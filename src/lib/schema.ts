@@ -1,23 +1,23 @@
-import { z } from "astro:schema";
+import { z } from "astro/zod";
 import { WIDGETS } from "~/lib/widgets";
 
 export const serviceCreateSchema = z.object({
 	id: z.number().optional(),
 	name: z.string().min(1),
-	url: z.string().url(),
+	url: z.url(),
 	pingUrl: z
-		.union([z.string().url(), z.literal(""), z.null(), z.undefined()])
+		.union([z.url(), z.literal(""), z.null(), z.undefined()])
 		.transform((v) => (v === "" || v == null ? null : v)),
 	alternativeUrls: z
 		.array(
 			z.object({
-				url: z.string().url(),
+				url: z.url(),
 				name: z.string().min(1),
 			}),
 		)
 		.optional()
 		.default([]),
-	icon: z.string().url(),
+	icon: z.url(),
 	iconDark: z.string().nullish(),
 	categoryId: z.number(),
 	openInNewTab: z.boolean(),

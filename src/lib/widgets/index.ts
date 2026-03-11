@@ -1,7 +1,7 @@
 import { z } from "astro/zod";
 
 const baseConfig = z.object({
-	url: z.string().url().describe("URL"),
+	url: z.url().describe("URL"),
 });
 const withApiKey = baseConfig.extend({
 	apiKey: z.string().describe("API Key"),
@@ -18,7 +18,7 @@ export const noneSchema = z.object({
 export const cupSchema = z.object({
 	type: z.literal("cup"),
 	config: z.object({
-		url: z.string().url(),
+		url: z.url(),
 		onlyInUse: z.boolean().describe("Only show in-use"),
 	}),
 });
@@ -37,7 +37,7 @@ export const uptimeKumaSchema = z.object({
 export const beszelSchema = z.object({
 	type: z.literal("beszel"),
 	config: z.object({
-		url: z.string().url(),
+		url: z.url(),
 		email: z.string(),
 		password: z.string(),
 	}),
@@ -45,7 +45,7 @@ export const beszelSchema = z.object({
 export const komodoSchema = z.object({
 	type: z.literal("komodo"),
 	config: z.object({
-		url: z.string().url(),
+		url: z.url(),
 		apiKey: z.string().describe("API Key"),
 		apiSecret: z.string().describe("API Secret"),
 	}),
@@ -105,7 +105,7 @@ export const vinceSchema = z.object({
 export const proxmoxSchema = z.object({
 	type: z.literal("proxmox"),
 	config: z.object({
-		url: z.string().url(),
+		url: z.url(),
 		tokenId: z.string().describe("Token ID"),
 		tokenSecret: z.string().describe("Token Secret"),
 	}),
@@ -113,7 +113,7 @@ export const proxmoxSchema = z.object({
 export const traefikSchema = z.object({
 	type: z.literal("traefik"),
 	config: z.object({
-		url: z.string().url(),
+		url: z.url(),
 		username: z.string().optional(),
 		password: z.string().optional(),
 	}),
@@ -125,7 +125,7 @@ export const pocketIdSchema = z.object({
 export const homeAssistantSchema = z.object({
 	type: z.literal("home-assistant"),
 	config: z.object({
-		url: z.string().url().describe("Dashboard URL"),
+		url: z.url().describe("Dashboard URL"),
 	}),
 });
 
