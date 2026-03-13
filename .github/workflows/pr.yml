@@ -16,7 +16,6 @@ jobs:
     with:
       tag: pr-${{ github.event.number }}
       push-image: false
-      platforms: linux/amd64,linux/arm64
 
   lint:
     name: Lint
