@@ -11,7 +11,13 @@ import {
 
 // https://astro.build/config
 export default defineConfig({
-	integrations: [react()],
+	integrations: [
+		react({
+			babel: {
+				plugins: [["babel-plugin-react-compiler"]],
+			},
+		}),
+	],
 
 	vite: {
 		plugins: [tailwindcss()],
@@ -30,7 +36,7 @@ export default defineConfig({
 
 	fonts: [
 		{
-			provider: fontProviders.google(),
+			provider: fontProviders.fontsource(),
 			name: "Geist",
 			cssVariable: "--font-sans",
 		},

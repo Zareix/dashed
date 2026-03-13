@@ -1,0 +1,27 @@
+---
+import type { Service } from "~/lib/db/schema";
+import ServiceIcon from "./ServiceIcon.astro";
+import { MonitorService } from "./monitor";
+
+type Props = {
+  service: Pick<
+    Service,
+    "name" | "url" | "openInNewTab" | "id" | "icon" | "iconDark" | "pingUrl"
+  >;
+};
+
+const { service } = Astro.props;
+---
+
+<a
+  href={service.url}
+  rel={service.openInNewTab ? "noopener noreferrer" : undefined}
+  target={service.openInNewTab ? "_blank" : undefined}
+  class="flex w-full items-center gap-2 overflow-hidden rounded-lg border border-border bg-foreground/5 p-2 shadow-xs has-[.ping-error]:border-red-500"
+>
+  <ServiceIcon service={service} />
+  <div class="overflow-hidden text-ellipsis whitespace-nowrap">
+    {service.name}
+  </div>
+  <MonitorService service={service} client:idle />
+</a>

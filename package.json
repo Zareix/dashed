@@ -1,7 +1,7 @@
 {
 	"name": "dashed-astro",
 	"type": "module",
-	"version": "3.8.2",
+	"version": "3.9.0",
 	"scripts": {
 		"db:push": "drizzle-kit push:sqlite",
 		"db:studio": "drizzle-kit studio",
@@ -28,6 +28,7 @@
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",
 		"astro": "^6.0.2",
+		"babel-plugin-react-compiler": "^1.0.0",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"cmdk": "^1.1.1",

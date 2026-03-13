@@ -1,10 +1,9 @@
 ---
 import { actions } from "astro:actions";
-import ServiceIcon from "~/components/service/ServiceIcon.astro";
 import { AlternativeUrls } from "~/components/service/alternative-urls";
 import { ServiceWrapper } from "~/components/service/widget";
-import { MonitorService } from "~/components/service/monitor";
 import { cn } from "~/lib/utils";
+import ServiceCard from "../service/service-card.astro";
 
 const getColsClass = (cols: number) => {
   switch (cols) {
@@ -54,19 +53,9 @@ const categories = await Astro.callAction(
         >
           {category.services.map((service) => (
             <li class="h-full relative">
-              <ServiceWrapper widget={service.widget} client:only>
-                <a
-                  href={service.url}
-                  rel={service.openInNewTab ? "noopener noreferrer" : undefined}
-                  target={service.openInNewTab ? "_blank" : undefined}
-                  class="flex w-full items-center gap-2 overflow-hidden rounded-lg border border-border bg-foreground/5 p-2 shadow-xs has-[.ping-error]:border-red-500"
-                >
-                  <ServiceIcon service={service} />
-                  <div class="overflow-hidden whitespace-nowrap text-ellipsis">
-                    {service.name}
-                  </div>
-                  <MonitorService service={service} client:idle />
-                </a>
+              <ServiceWrapper widget={service.widget} client:only="react">
+                <ServiceCard service={service} slot="fallback" />
+                <ServiceCard service={service} />
               </ServiceWrapper>
               <AlternativeUrls
                 alternativeUrls={service.alternativeUrls}
