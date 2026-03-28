@@ -112,17 +112,23 @@ export const ProxmoxWidget = ({ config }: Props) => {
 											{node.node}
 											<ExternalLinkIcon className="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100" />
 										</span>
-										<span className="text-muted-foreground text-xs">
-											<span className="inline-flex items-center gap-1">
-												<Server size={12} />
-												{nodeRunningVms.length}/{node.vms.length} VMs
+										{(node.vms.length > 0 || node.lxcs.length > 0) && (
+											<span className="text-muted-foreground text-xs">
+												{node.vms.length > 0 && (
+													<span className="inline-flex items-center gap-1">
+														<Server size={12} />
+														{nodeRunningVms.length}/{node.vms.length} VMs
+													</span>
+												)}
+												{node.vms.length > 0 && node.lxcs.length > 0 && " • "}
+												{node.lxcs.length > 0 && (
+													<span className="inline-flex items-center gap-1">
+														<Container size={12} />
+														{nodeRunningLxcs.length}/{node.lxcs.length} LXCs
+													</span>
+												)}
 											</span>
-											{" • "}
-											<span className="inline-flex items-center gap-1">
-												<Container size={12} />
-												{nodeRunningLxcs.length}/{node.lxcs.length} LXCs
-											</span>
-										</span>
+										)}
 										<span className="inline-flex items-center gap-1 text-muted-foreground text-xs">
 											<HardDrive size={12} />
 											{formatBytes(node.storageUsed)} /{" "}
