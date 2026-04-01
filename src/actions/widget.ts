@@ -1,5 +1,6 @@
 import { defineAction } from "astro:actions";
 import {
+	arcaneSchema,
 	beszelSchema,
 	controldSchema,
 	cupSchema,
@@ -22,6 +23,7 @@ import {
 	vinceSchema,
 } from "~/lib/widgets";
 
+import * as arcane from "../lib/widgets/arcane";
 import * as beszel from "../lib/widgets/beszel";
 import * as controld from "../lib/widgets/controld";
 import * as cup from "../lib/widgets/cup";
@@ -123,5 +125,9 @@ export const widget = {
 	"home-assistant": defineAction({
 		input: homeAssistantSchema.shape.config,
 		handler: homeAssistant.getWidgetData,
+	}),
+	arcane: defineAction({
+		input: arcaneSchema.shape.config,
+		handler: arcane.getWidgetData,
 	}),
 };

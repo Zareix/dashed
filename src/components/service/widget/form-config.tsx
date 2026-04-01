@@ -18,16 +18,18 @@ import type { ServiceCreateFormData } from "~/lib/schema";
 import { WIDGETS } from "~/lib/widgets";
 
 export const WidgetFormConfig = () => {
-	const form = useFormContext<ServiceCreateFormData>();
+	const { watch, control, setValue, getValues } =
+		useFormContext<ServiceCreateFormData>();
 
+	const widgetType = watch("widget.type");
 	const selectedWidget = WIDGETS.options.find(
-		(widget) => widget.shape.type.value === form.watch("widget.type"),
+		(widget) => widget.shape.type.value === widgetType,
 	);
 
 	return (
 		<FieldGroup className="grid gap-1 border-t pt-6">
 			<Controller
-				control={form.control}
+				control={control}
 				name="widget.type"
 				render={({ field, fieldState }) => (
 					<Field data-invalid={fieldState.invalid}>
@@ -35,9 +37,16 @@ export const WidgetFormConfig = () => {
 						<Select
 							onValueChange={(v) => {
 								field.onChange(v);
-								form.setValue("widget.config.url", form.getValues().url);
+								setValue(
+									"widget.config",
+									v === "none" ? {} : { url: getValues().url },
+								);
 							}}
 							value={field.value}
+							items={WIDGETS.options.map((widget) => ({
+								label: widget.shape.type.value,
+								value: widget.shape.type.value,
+							}))}
 						>
 							<SelectTrigger
 								className="w-45 capitalize"
@@ -71,8 +80,8 @@ export const WidgetFormConfig = () => {
 				Object.entries(selectedWidget.shape.config.shape).map(
 					([key, schema]) => (
 						<Controller
-							key={key}
-							control={form.control}
+							key={widgetType + key}
+							control={control}
 							rules={{
 								required: true,
 								validate: (value) => {

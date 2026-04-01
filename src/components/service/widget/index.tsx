@@ -1,5 +1,6 @@
 import { actions } from "astro:actions";
 import { useQuery } from "@tanstack/react-query";
+import { ArcaneWidget } from "~/components/service/widget/widgets/arcane";
 import { BeszelWidget } from "~/components/service/widget/widgets/beszel";
 import { ControlDWidget } from "~/components/service/widget/widgets/controld";
 import { CupWidget } from "~/components/service/widget/widgets/cup";
@@ -111,6 +112,8 @@ export const Widget = ({ widget }: { widget: WIDGETS }) => {
 			return <PocketIdWidget config={widget.config} />;
 		case "godoxy":
 			return <GodoxyWidget config={widget.config} />;
+		case "arcane":
+			return <ArcaneWidget config={widget.config} />;
 		case "home-assistant":
 			return <HomeAssistantWidget config={widget.config} />;
 		default:

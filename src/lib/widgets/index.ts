@@ -15,6 +15,10 @@ export const noneSchema = z.object({
 	type: z.literal("none"),
 	config: z.object({}),
 });
+export const arcaneSchema = z.object({
+	type: z.literal("arcane"),
+	config: withApiKey,
+});
 export const cupSchema = z.object({
 	type: z.literal("cup"),
 	config: z.object({
@@ -131,6 +135,7 @@ export const homeAssistantSchema = z.object({
 
 export const WIDGETS = z.discriminatedUnion("type", [
 	noneSchema,
+	arcaneSchema,
 	cupSchema,
 	sonarrSchema,
 	radarrSchema,

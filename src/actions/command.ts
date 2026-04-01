@@ -3,6 +3,7 @@ import { z } from "astro/zod";
 import { asc } from "drizzle-orm";
 import { db } from "~/lib/db";
 import type { WIDGETS, WidgetConfig } from "~/lib/widgets";
+import * as arcane from "../lib/widgets/arcane";
 import * as komodo from "../lib/widgets/komodo";
 import * as radarr from "../lib/widgets/radarr";
 import * as sonarr from "../lib/widgets/sonarr";
@@ -24,6 +25,7 @@ const WIDGET_COMMAND_GETTER: WidgetCommandGetter = {
 	komodo: komodo.getWidgetCommands,
 	sonarr: sonarr.getWidgetCommands,
 	radarr: radarr.getWidgetCommands,
+	arcane: arcane.getWidgetCommands,
 };
 const WIDGETS_WITH_COMMANDS = Object.keys(WIDGET_COMMAND_GETTER);
 
