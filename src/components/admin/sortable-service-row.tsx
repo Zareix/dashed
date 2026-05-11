@@ -93,12 +93,29 @@ export function SortableServiceRow({
 					<GripVertical className="h-5 w-5 text-gray-500" />
 				</span>
 			</TableCell>
-			<TableCell>
-				<img
-					src={service.icon}
-					alt={service.name}
-					className="h-6 w-6 object-contain"
-				/>
+			<TableCell className="flex items-center justify-center gap-2">
+				<div className="flex h-8 w-8 items-center justify-center rounded-lg border border-[oklch(0.922_0_0)] bg-[oklch(0.985_0_0)] shadow-xs">
+					<img
+						src={service.icon}
+						alt="Service icon"
+						className="h-6 w-6 object-contain"
+					/>
+				</div>
+				<div className="flex h-8 w-8 items-center justify-center rounded-lg border border-[oklch(1_0_0/10%)] bg-[oklch(0.205_0_0)] shadow-xs">
+					{service.iconDark ? (
+						<img
+							src={service.iconDark}
+							alt="Service dark icon"
+							className="h-6 w-6 object-contain"
+						/>
+					) : (
+						<img
+							src={service.icon}
+							alt="Service icon"
+							className="h-6 w-6 object-contain"
+						/>
+					)}
+				</div>
 			</TableCell>
 			<TableCell>
 				<Input

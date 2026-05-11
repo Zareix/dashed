@@ -214,11 +214,13 @@ export const EditCreateServiceForm: React.FC<Props> = ({
 								<FieldLabel htmlFor={field.name}>Icon</FieldLabel>
 								<div className="flex items-center gap-2">
 									{field.value && (
-										<img
-											src={field.value}
-											alt="Service icon"
-											className="h-6 w-6"
-										/>
+										<div className="flex h-8 w-8 items-center justify-center rounded-lg border border-[oklch(0.922_0_0)] bg-[oklch(0.985_0_0)] shadow-xs">
+											<img
+												src={field.value}
+												alt="Service icon"
+												className="h-6 w-6 object-contain"
+											/>
+										</div>
 									)}
 									<Input
 										{...field}
@@ -241,11 +243,13 @@ export const EditCreateServiceForm: React.FC<Props> = ({
 								<FieldLabel htmlFor={field.name}>Icon Dark</FieldLabel>
 								<div className="flex items-center gap-2">
 									{field.value && (
-										<img
-											src={field.value}
-											alt="Service dark icon"
-											className="h-6 w-6"
-										/>
+										<div className="flex h-8 w-8 items-center justify-center rounded-lg border border-[oklch(1_0_0/10%)] bg-[oklch(0.205_0_0)] shadow-xs">
+											<img
+												src={field.value}
+												alt="Service dark icon"
+												className="h-6 w-6 object-contain"
+											/>
+										</div>
 									)}
 									<Input
 										{...field}

@@ -17,7 +17,7 @@ const { service } = Astro.props;
   href={service.url}
   rel={service.openInNewTab ? "noopener noreferrer" : undefined}
   target={service.openInNewTab ? "_blank" : undefined}
-  class="flex w-full items-center gap-2 overflow-hidden rounded-lg border border-border bg-foreground/5 p-2 shadow-xs has-[.ping-error]:border-red-500"
+  class="flex w-full items-center gap-2 overflow-hidden rounded-lg border border-border bg-card p-2 shadow-xs has-[.ping-error]:border-red-500"
 >
   <ServiceIcon service={service} />
   <div class="overflow-hidden text-ellipsis whitespace-nowrap">
