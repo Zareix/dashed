@@ -1,6 +1,6 @@
 import { actions } from "astro:actions";
 import { useQuery } from "@tanstack/react-query";
-import { Badge } from "~/components/ui/badge";
+import { AlertsWidgetPart } from "~/components/service/widget/parts/alerts";
 import { queryClient } from "~/lib/store";
 import type { WIDGETS } from "~/lib/widgets";
 import { StatsGridWidgetPart } from "../parts/stats-grid";
@@ -59,19 +59,15 @@ export const GatusWidget = ({ config }: Props) => {
 					},
 				]}
 			/>
-			{downServices.length > 0 &&
-				Object.entries(groupedDownServices).map(([group, services]) => (
-					<div key={group} className="mt-2 border-t pt-1">
-						<h3 className="mb-1 font-medium">🚨 {group}</h3>
-						<div className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
-							{services.map((x) => (
-								<Badge key={x.group + x.name} variant="destructive">
-									{x.name}
-								</Badge>
-							))}
-						</div>
-					</div>
-				))}
+			<AlertsWidgetPart
+				alerts={Object.entries(groupedDownServices).map(
+					([group, services]) => ({
+						type: "error",
+						source: group,
+						items: services.map((s) => s.name),
+					}),
+				)}
+			/>
 		</div>
 	);
 };

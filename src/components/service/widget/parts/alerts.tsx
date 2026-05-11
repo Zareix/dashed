@@ -1,7 +1,10 @@
+import { Badge } from "~/components/ui/badge";
+
 type HealthIssue = {
 	source: string;
 	type: "error" | "warning" | "info" | (string & {});
-	message: string;
+	message?: string;
+	items?: string[];
 };
 
 type Props = {
@@ -44,6 +47,15 @@ export const AlertsWidgetPart = ({ alerts }: Props) => {
 						{getAlertSymbol(alert.type)}{" "}
 						<span className="font-semibold">{alert.source}</span>:{" "}
 						{alert.message}
+						{alert.items && alert.items.length > 0 && (
+							<div className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
+								{alert.items.map((x) => (
+									<Badge key={x} variant="destructive">
+										{x}
+									</Badge>
+								))}
+							</div>
+						)}
 					</div>
 				))}
 			</div>

@@ -63,7 +63,7 @@ export const GodoxyWidget = ({ config }: Props) => {
 					{
 						type: "error",
 						source: `Down route${unhealthyRoutes.length > 1 ? "s" : ""}`,
-						message: unhealthyRoutes.join(", "),
+						items: unhealthyRoutes,
 					},
 				]}
 			/>

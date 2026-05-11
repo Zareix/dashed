@@ -45,18 +45,18 @@ export const ArcaneWidget = ({ config }: Props) => {
 		alerts.push({
 			type: "error",
 			source: `${environmentsDown.length} environment(s) down`,
-			message: environmentsDown
-				.map((environment) => `${environment.name} (${environment.status})`)
-				.join(", "),
+			items: environmentsDown.map(
+				(environment) => `${environment.name} (${environment.status})`,
+			),
 		});
 	}
 	if (projectsDown.length > 0) {
 		alerts.push({
 			type: "error",
 			source: `${projectsDown.length} project(s) down`,
-			message: projectsDown
-				.map((project) => `${project.name} (${project.status})`)
-				.join(", "),
+			items: projectsDown.map(
+				(project) => `${project.name} (${project.status})`,
+			),
 		});
 	}
 
