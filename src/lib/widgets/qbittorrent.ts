@@ -29,11 +29,11 @@ export const getWidgetData = async (config: WidgetConfig<"qbittorrent">) => {
 			if (!setCookie) {
 				throw new Error("No set-cookie header received from qBittorrent");
 			}
-			const sidMatch = setCookie.match(/SID=([^;]+)/);
+			const sidMatch = setCookie.match(/((?:QBT_)?SID(?:_\d+)?)=([^;]+)/);
 			if (!sidMatch) {
 				throw new Error("No SID cookie found in qBittorrent response");
 			}
-			return `SID=${sidMatch[1]}`;
+			return `${sidMatch[1]}=${sidMatch[2]}`;
 		}),
 	);
 	if (loginRes.error) {

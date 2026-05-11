@@ -92,7 +92,6 @@ export const getWidgetData = async (config: WidgetConfig<"arcane">) => {
 	if (projects.error) {
 		throw projects.error;
 	}
-	console.log(projects.data);
 
 	return {
 		environments: environments.data.map((environment) => ({
