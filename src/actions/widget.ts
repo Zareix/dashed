@@ -2,6 +2,7 @@ import { defineAction } from "astro:actions";
 import {
 	arcaneSchema,
 	beszelSchema,
+	claudeUsageSchema,
 	controldSchema,
 	cupSchema,
 	gatusSchema,
@@ -25,6 +26,7 @@ import {
 
 import * as arcane from "../lib/widgets/arcane";
 import * as beszel from "../lib/widgets/beszel";
+import * as claudeUsage from "../lib/widgets/claude-usage";
 import * as controld from "../lib/widgets/controld";
 import * as cup from "../lib/widgets/cup";
 import * as gatus from "../lib/widgets/gatus";
@@ -129,5 +131,9 @@ export const widget = {
 	arcane: defineAction({
 		input: arcaneSchema.shape.config,
 		handler: arcane.getWidgetData,
+	}),
+	"claude-usage": defineAction({
+		input: claudeUsageSchema.shape.config,
+		handler: claudeUsage.getWidgetData,
 	}),
 };

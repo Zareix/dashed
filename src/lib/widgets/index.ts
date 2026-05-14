@@ -132,6 +132,10 @@ export const homeAssistantSchema = z.object({
 		url: z.url().describe("Dashboard URL"),
 	}),
 });
+export const claudeUsageSchema = z.object({
+	type: z.literal("claude-usage"),
+	config: baseConfig,
+});
 
 export const WIDGETS = z.discriminatedUnion("type", [
 	noneSchema,
@@ -156,6 +160,7 @@ export const WIDGETS = z.discriminatedUnion("type", [
 	traefikSchema,
 	pocketIdSchema,
 	homeAssistantSchema,
+	claudeUsageSchema,
 ]);
 export type WIDGETS = z.infer<typeof WIDGETS>;
 export type WidgetConfig<T extends WIDGETS["type"]> = Extract<

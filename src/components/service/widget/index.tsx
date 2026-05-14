@@ -2,6 +2,7 @@ import { actions } from "astro:actions";
 import { useQuery } from "@tanstack/react-query";
 import { ArcaneWidget } from "~/components/service/widget/widgets/arcane";
 import { BeszelWidget } from "~/components/service/widget/widgets/beszel";
+import { ClaudeUsageWidget } from "~/components/service/widget/widgets/claude-usage";
 import { ControlDWidget } from "~/components/service/widget/widgets/controld";
 import { CupWidget } from "~/components/service/widget/widgets/cup";
 import { GatusWidget } from "~/components/service/widget/widgets/gatus";
@@ -116,6 +117,8 @@ export const Widget = ({ widget }: { widget: WIDGETS }) => {
 			return <ArcaneWidget config={widget.config} />;
 		case "home-assistant":
 			return <HomeAssistantWidget config={widget.config} />;
+		case "claude-usage":
+			return <ClaudeUsageWidget config={widget.config} />;
 		default:
 			return null;
 	}
