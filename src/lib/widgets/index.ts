@@ -136,6 +136,10 @@ export const claudeUsageSchema = z.object({
 	type: z.literal("claude-usage"),
 	config: baseConfig,
 });
+export const dockstackSchema = z.object({
+	type: z.literal("dockstack"),
+	config: withApiKey,
+});
 
 export const WIDGETS = z.discriminatedUnion("type", [
 	noneSchema,
@@ -161,6 +165,7 @@ export const WIDGETS = z.discriminatedUnion("type", [
 	pocketIdSchema,
 	homeAssistantSchema,
 	claudeUsageSchema,
+	dockstackSchema,
 ]);
 export type WIDGETS = z.infer<typeof WIDGETS>;
 export type WidgetConfig<T extends WIDGETS["type"]> = Extract<

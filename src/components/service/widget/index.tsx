@@ -5,6 +5,7 @@ import { BeszelWidget } from "~/components/service/widget/widgets/beszel";
 import { ClaudeUsageWidget } from "~/components/service/widget/widgets/claude-usage";
 import { ControlDWidget } from "~/components/service/widget/widgets/controld";
 import { CupWidget } from "~/components/service/widget/widgets/cup";
+import { DockstackWidget } from "~/components/service/widget/widgets/dockstack";
 import { GatusWidget } from "~/components/service/widget/widgets/gatus";
 import { GodoxyWidget } from "~/components/service/widget/widgets/godoxy";
 import { HomeAssistantWidget } from "~/components/service/widget/widgets/home-assistant";
@@ -115,6 +116,8 @@ export const Widget = ({ widget }: { widget: WIDGETS }) => {
 			return <GodoxyWidget config={widget.config} />;
 		case "arcane":
 			return <ArcaneWidget config={widget.config} />;
+		case "dockstack":
+			return <DockstackWidget config={widget.config} />;
 		case "home-assistant":
 			return <HomeAssistantWidget config={widget.config} />;
 		case "claude-usage":

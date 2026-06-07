@@ -5,6 +5,7 @@ import {
 	claudeUsageSchema,
 	controldSchema,
 	cupSchema,
+	dockstackSchema,
 	gatusSchema,
 	godoxySchema,
 	homeAssistantSchema,
@@ -29,6 +30,7 @@ import * as beszel from "../lib/widgets/beszel";
 import * as claudeUsage from "../lib/widgets/claude-usage";
 import * as controld from "../lib/widgets/controld";
 import * as cup from "../lib/widgets/cup";
+import * as dockstack from "../lib/widgets/dockstack";
 import * as gatus from "../lib/widgets/gatus";
 import * as godoxy from "../lib/widgets/godoxy";
 import * as homeAssistant from "../lib/widgets/home-assistant";
@@ -135,5 +137,9 @@ export const widget = {
 	"claude-usage": defineAction({
 		input: claudeUsageSchema.shape.config,
 		handler: claudeUsage.getWidgetData,
+	}),
+	dockstack: defineAction({
+		input: dockstackSchema.shape.config,
+		handler: dockstack.getWidgetData,
 	}),
 };
