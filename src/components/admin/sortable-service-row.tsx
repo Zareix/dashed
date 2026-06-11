@@ -32,6 +32,7 @@ export function SortableServiceRow({
 		| "iconDark"
 		| "categoryId"
 		| "openInNewTab"
+		| "openInNewTabMobile"
 		| "widget"
 	>;
 	loading?: boolean;
@@ -149,6 +150,20 @@ export function SortableServiceRow({
 						}}
 					/>
 					<div>{form.watch("openInNewTab") ? "Yes" : "No"}</div>
+				</div>
+			</TableCell>
+			<TableCell>
+				<div className="flex items-center gap-2">
+					<Checkbox
+						checked={form.watch("openInNewTabMobile")}
+						onCheckedChange={(checked) => {
+							form.setValue("openInNewTabMobile", Boolean(checked));
+							setTimeout(() => {
+								editSubmit();
+							}, 100);
+						}}
+					/>
+					<div>{form.watch("openInNewTabMobile") ? "Yes" : "No"}</div>
 				</div>
 			</TableCell>
 			<TableCell className="capitalize">{service.widget.type}</TableCell>

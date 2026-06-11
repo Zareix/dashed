@@ -38,6 +38,7 @@ type Props = {
 		| "icon"
 		| "iconDark"
 		| "openInNewTab"
+		| "openInNewTabMobile"
 		| "widget"
 	>;
 	onFinish?: () => void;
@@ -112,6 +113,7 @@ export const EditCreateServiceForm: React.FC<Props> = ({
 			iconDark: service?.iconDark ?? "",
 			categoryId: service?.categoryId ?? category?.id,
 			openInNewTab: service?.openInNewTab ?? false,
+			openInNewTabMobile: service?.openInNewTabMobile ?? false,
 			widget: service?.widget ?? {
 				type: "none",
 				config: {},
@@ -369,26 +371,53 @@ export const EditCreateServiceForm: React.FC<Props> = ({
 						))}
 					</div>
 
-					<Controller
-						control={form.control}
-						name="openInNewTab"
-						render={({ field, fieldState }) => (
-							<Field
-								orientation="horizontal"
-								data-invalid={fieldState.invalid}
-								className="flex items-start space-x-3 space-y-0 rounded-md border p-3"
-							>
-								<Checkbox
-									name={field.name}
-									checked={field.value}
-									onCheckedChange={field.onChange}
-								/>
-								<div className="space-y-1 leading-none">
-									<FieldLabel htmlFor={field.name}>Open in new tab</FieldLabel>
-								</div>
-							</Field>
-						)}
-					/>
+					<div className="flex items-center gap-2">
+						<Controller
+							control={form.control}
+							name="openInNewTab"
+							render={({ field, fieldState }) => (
+								<Field
+									orientation="horizontal"
+									data-invalid={fieldState.invalid}
+									className="flex items-start space-x-3 space-y-0 rounded-md border p-3"
+								>
+									<Checkbox
+										name={field.name}
+										checked={field.value}
+										onCheckedChange={field.onChange}
+									/>
+									<div className="space-y-1 leading-none">
+										<FieldLabel htmlFor={field.name}>
+											Open in new tab
+										</FieldLabel>
+									</div>
+								</Field>
+							)}
+						/>
+
+						<Controller
+							control={form.control}
+							name="openInNewTabMobile"
+							render={({ field, fieldState }) => (
+								<Field
+									orientation="horizontal"
+									data-invalid={fieldState.invalid}
+									className="flex items-start space-x-3 space-y-0 rounded-md border p-3"
+								>
+									<Checkbox
+										name={field.name}
+										checked={field.value}
+										onCheckedChange={field.onChange}
+									/>
+									<div className="space-y-1 leading-none">
+										<FieldLabel htmlFor={field.name}>
+											Open in new tab (mobile)
+										</FieldLabel>
+									</div>
+								</Field>
+							)}
+						/>
+					</div>
 
 					<WidgetFormConfig />
 

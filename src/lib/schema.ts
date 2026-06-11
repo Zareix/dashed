@@ -21,6 +21,7 @@ export const serviceCreateSchema = z.object({
 	iconDark: z.string().nullish(),
 	categoryId: z.number(),
 	openInNewTab: z.boolean(),
+	openInNewTabMobile: z.boolean(),
 	widget: WIDGETS,
 });
 export type ServiceCreateFormData = z.infer<typeof serviceCreateSchema>;

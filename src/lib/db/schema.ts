@@ -42,6 +42,9 @@ export const serviceTable = sqliteTable(
 		openInNewTab: int("open_in_new_tab", { mode: "boolean" })
 			.notNull()
 			.default(sql`0`),
+		openInNewTabMobile: int("open_in_new_tab_mobile", { mode: "boolean" })
+			.notNull()
+			.default(sql`0`),
 		categoryId: int("category_id", { mode: "number" })
 			.references(() => categoryTable.id, {
 				onDelete: "cascade",

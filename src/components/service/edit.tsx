@@ -27,6 +27,7 @@ export const EditServiceButton = ({
 		| "icon"
 		| "iconDark"
 		| "openInNewTab"
+		| "openInNewTabMobile"
 		| "widget"
 	>;
 	disabled: boolean;

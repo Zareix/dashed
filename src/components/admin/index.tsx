@@ -128,6 +128,7 @@ export function AdminPage() {
 									<TableHead>Name</TableHead>
 									<TableHead>URL</TableHead>
 									<TableHead>Open in new tab</TableHead>
+									<TableHead>Open in new tab (mobile)</TableHead>
 									<TableHead>Widget</TableHead>
 									<TableHead>Actions</TableHead>
 								</TableRow>

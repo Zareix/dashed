@@ -6,22 +6,61 @@ import { MonitorService } from "./monitor";
 type Props = {
   service: Pick<
     Service,
-    "name" | "url" | "openInNewTab" | "id" | "icon" | "iconDark" | "pingUrl"
+    | "name"
+    | "url"
+    | "openInNewTab"
+    | "openInNewTabMobile"
+    | "id"
+    | "icon"
+    | "iconDark"
+    | "pingUrl"
   >;
 };
 
 const { service } = Astro.props;
 ---
 
-<a
-  href={service.url}
-  rel={service.openInNewTab ? "noopener noreferrer" : undefined}
-  target={service.openInNewTab ? "_blank" : undefined}
-  class="flex w-full items-center gap-2 overflow-hidden rounded-lg border border-border bg-card p-2 shadow-xs has-[.ping-error]:border-red-500"
->
-  <ServiceIcon service={service} />
-  <div class="overflow-hidden text-ellipsis whitespace-nowrap">
-    {service.name}
-  </div>
-  <MonitorService service={service} client:idle />
-</a>
+<service-card-link>
+  <a
+    href={service.url}
+    data-open-desktop={service.openInNewTab ? "true" : "false"}
+    data-open-mobile={service.openInNewTabMobile ? "true" : "false"}
+    class="flex w-full items-center gap-2 overflow-hidden rounded-lg border border-border bg-card p-2 shadow-xs has-[.ping-error]:border-red-500"
+  >
+    <ServiceIcon service={service} />
+    <div class="overflow-hidden text-ellipsis whitespace-nowrap">
+      {service.name}
+    </div>
+    <MonitorService service={service} client:idle />
+  </a>
+</service-card-link>
+
+<script>
+  class ServiceCardLink extends HTMLElement {
+    connectedCallback() {
+      const link = this.querySelector("a");
+      if (!link) return;
+
+      const applyTarget = () => {
+        const isMobile = window.innerWidth < 768;
+        const open = isMobile
+          ? link.dataset.openMobile === "true"
+          : link.dataset.openDesktop === "true";
+        if (open) {
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+        } else {
+          link.removeAttribute("target");
+          link.removeAttribute("rel");
+        }
+      };
+      applyTarget();
+      window
+        .matchMedia("(max-width: 767px)")
+        .addEventListener("change", applyTarget);
+    }
+  }
+
+  // Tell the browser to use our ServiceCardLink class for <astro-heart> elements.
+  customElements.define("service-card-link", ServiceCardLink);
+</script>

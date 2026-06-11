@@ -6,14 +6,20 @@ import {
 	DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import type { AlternativeUrl } from "~/lib/db/schema";
+import { useIsMobile } from "~/lib/hooks/use-mobile";
 
 export const AlternativeUrls = ({
 	alternativeUrls,
 	openInNewTab,
+	openInNewTabMobile,
 }: {
 	alternativeUrls?: Array<AlternativeUrl>;
 	openInNewTab: boolean;
+	openInNewTabMobile: boolean;
 }) => {
+	const isMobile = useIsMobile();
+	const shouldOpenInNewTab = isMobile ? openInNewTabMobile : openInNewTab;
+
 	if (!alternativeUrls || alternativeUrls.length === 0) {
 		return null;
 	}
@@ -30,8 +36,8 @@ export const AlternativeUrls = ({
 							<a
 								href={url.url}
 								className="flex w-full cursor-pointer items-center gap-2"
-								target={openInNewTab ? "_blank" : undefined}
-								rel={openInNewTab ? "noopener noreferrer" : undefined}
+								target={shouldOpenInNewTab ? "_blank" : undefined}
+								rel={shouldOpenInNewTab ? "noopener noreferrer" : undefined}
 							>
 								{url.name}
 							</a>
