@@ -14,6 +14,7 @@ type Props = {
     | "icon"
     | "iconDark"
     | "pingUrl"
+    | "pingEnabled"
   >;
 };
 
@@ -31,7 +32,7 @@ const { service } = Astro.props;
     <div class="overflow-hidden text-ellipsis whitespace-nowrap">
       {service.name}
     </div>
-    <MonitorService service={service} client:idle />
+    {service.pingEnabled && <MonitorService service={service} client:idle />}
   </a>
 </service-card-link>
 

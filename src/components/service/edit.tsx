@@ -22,6 +22,7 @@ export const EditServiceButton = ({
 		| "name"
 		| "url"
 		| "pingUrl"
+		| "pingEnabled"
 		| "alternativeUrls"
 		| "categoryId"
 		| "icon"

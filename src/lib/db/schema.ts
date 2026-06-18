@@ -26,6 +26,9 @@ export const serviceTable = sqliteTable(
 		name: text("name", { length: 256 }).notNull(),
 		url: text("url", { length: 256 }).notNull(),
 		pingUrl: text("ping_url", { length: 256 }),
+		pingEnabled: int("ping_enabled", { mode: "boolean" })
+			.notNull()
+			.default(sql`1`),
 		alternativeUrls: text("alternative_urls", {
 			mode: "json",
 		})

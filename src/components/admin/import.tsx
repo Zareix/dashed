@@ -144,6 +144,7 @@ export const ImportButton = () => {
 										id={field.name}
 										placeholder="data"
 										aria-invalid={fieldState.invalid}
+										className="max-h-48"
 									/>
 									{fieldState.invalid && (
 										<FieldError errors={[fieldState.error]} />

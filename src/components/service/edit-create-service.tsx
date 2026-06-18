@@ -33,6 +33,7 @@ type Props = {
 		| "name"
 		| "url"
 		| "pingUrl"
+		| "pingEnabled"
 		| "alternativeUrls"
 		| "categoryId"
 		| "icon"
@@ -108,6 +109,7 @@ export const EditCreateServiceForm: React.FC<Props> = ({
 			name: service?.name ?? "",
 			url: service?.url ?? "https://",
 			pingUrl: service?.pingUrl ?? "",
+			pingEnabled: service?.pingEnabled ?? true,
 			alternativeUrls: service?.alternativeUrls ?? [],
 			icon: service?.icon ?? "",
 			iconDark: service?.iconDark ?? "",
@@ -120,6 +122,8 @@ export const EditCreateServiceForm: React.FC<Props> = ({
 			},
 		},
 	});
+
+	const pingEnabled = form.watch("pingEnabled");
 
 	const { fields, append, remove } = useFieldArray({
 		control: form.control,
@@ -289,18 +293,44 @@ export const EditCreateServiceForm: React.FC<Props> = ({
 						name="pingUrl"
 						render={({ field, fieldState }) => (
 							<Field data-invalid={fieldState.invalid}>
-								<FieldLabel htmlFor={field.name}>
-									Ping URL (optional)
-								</FieldLabel>
-								<Input
-									{...field}
-									placeholder="Custom ping URL"
-									aria-invalid={fieldState.invalid}
-									value={field.value ?? ""}
-								/>
-								{fieldState.invalid && (
-									<FieldError errors={[fieldState.error]} />
-								)}
+								<div className="flex items-center justify-between">
+									<FieldLabel htmlFor={field.name}>Ping</FieldLabel>
+								</div>
+
+								<div className="flex items-center gap-2">
+									<Controller
+										control={form.control}
+										name="pingEnabled"
+										render={({ field: pingEnabledField }) => (
+											<Field orientation="horizontal" className="w-fit">
+												<Checkbox
+													name={pingEnabledField.name}
+													checked={pingEnabledField.value}
+													onCheckedChange={(v) => {
+														if (v) {
+															field.onChange("");
+														} else {
+															field.onChange();
+														}
+														pingEnabledField.onChange(v);
+													}}
+												/>
+											</Field>
+										)}
+									/>
+									<div className="w-full">
+										<Input
+											{...field}
+											placeholder="Custom ping URL"
+											aria-invalid={fieldState.invalid}
+											value={field.value ?? ""}
+											disabled={!pingEnabled}
+										/>
+										{fieldState.invalid && (
+											<FieldError errors={[fieldState.error]} />
+										)}
+									</div>
+								</div>
 							</Field>
 						)}
 					/>
