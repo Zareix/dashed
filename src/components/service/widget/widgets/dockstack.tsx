@@ -30,7 +30,9 @@ export const DockstackWidget = ({ config }: Props) => {
 		return <div>Error</div>;
 	}
 
-	const stacksDown = data.stacks.filter((stack) => stack.status !== "running");
+	const stacksDown = data.stacks.filter(
+		(stack) => stack.status !== "running" && stack.status !== "healthy",
+	);
 
 	const alerts: React.ComponentProps<typeof AlertsWidgetPart>["alerts"] = [];
 	if (stacksDown.length > 0) {
