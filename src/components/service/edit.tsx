@@ -1,60 +1,59 @@
-import { PencilIcon } from "lucide-react";
-import { useState } from "react";
-import { Button } from "~/components/ui/button";
+import { PencilIcon } from "lucide-react"
+import { useState } from "react"
+
+import { Button } from "~/components/ui/button"
 import {
-	Dialog,
-	DialogContent,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from "~/components/ui/dialog";
-import { ScrollArea } from "~/components/ui/scroll-area";
-import type { Service } from "~/lib/db/schema";
-import { EditCreateServiceForm } from "./edit-create-service";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "~/components/ui/dialog"
+import { ScrollArea } from "~/components/ui/scroll-area"
+import type { Service } from "~/lib/db/schema"
+
+import { EditCreateServiceForm } from "./edit-create-service"
 
 export const EditServiceButton = ({
-	service,
-	disabled = false,
+  service,
+  disabled,
 }: {
-	service: Pick<
-		Service,
-		| "id"
-		| "name"
-		| "url"
-		| "pingUrl"
-		| "pingEnabled"
-		| "alternativeUrls"
-		| "categoryId"
-		| "icon"
-		| "iconDark"
-		| "openInNewTab"
-		| "openInNewTabMobile"
-		| "widget"
-	>;
-	disabled: boolean;
+  service: Pick<
+    Service,
+    | "id"
+    | "name"
+    | "url"
+    | "pingUrl"
+    | "pingEnabled"
+    | "alternativeUrls"
+    | "categoryId"
+    | "icon"
+    | "iconDark"
+    | "openInNewTab"
+    | "openInNewTabMobile"
+    | "widget"
+  >
+  disabled: boolean
 }) => {
-	const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false)
 
-	return (
-		<Dialog open={isOpen} onOpenChange={setIsOpen}>
-			<DialogTrigger
-				render={
-					<Button disabled={disabled} variant="ghost">
-						<PencilIcon />
-					</Button>
-				}
-			/>
-			<DialogContent>
-				<DialogHeader>
-					<DialogTitle>Edit service</DialogTitle>
-				</DialogHeader>
-				<ScrollArea className="max-h-[80vh]">
-					<EditCreateServiceForm
-						service={service}
-						onFinish={() => setIsOpen(false)}
-					/>
-				</ScrollArea>
-			</DialogContent>
-		</Dialog>
-	);
-};
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger
+        render={
+          <Button disabled={disabled} variant="ghost">
+            <PencilIcon />
+          </Button>
+        }
+      />
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Edit service</DialogTitle>
+        </DialogHeader>
+        <ScrollArea className="max-h-[80vh]">
+          <EditCreateServiceForm service={service} onFinish={() => setIsOpen(false)} />
+        </ScrollArea>
+      </DialogContent>
+    </Dialog>
+  )
+}

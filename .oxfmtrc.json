@@ -1,0 +1,12 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "trailingComma": "all",
+  "semi": false,
+  "sortImports": true,
+  "sortTailwindcss": {
+    "stylesheet": "./src/styles/global.css",
+    "functions": ["cn"],
+    "preserveWhitespace": true
+  },
+  "ignorePatterns": ["bun.lock"]
+}

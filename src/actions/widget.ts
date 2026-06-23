@@ -1,145 +1,146 @@
-import { defineAction } from "astro:actions";
-import {
-	arcaneSchema,
-	beszelSchema,
-	claudeUsageSchema,
-	controldSchema,
-	cupSchema,
-	dockstackSchema,
-	gatusSchema,
-	godoxySchema,
-	homeAssistantSchema,
-	karakeepSchema,
-	kavitaSchema,
-	komodoSchema,
-	nextdnsSchema,
-	pocketIdSchema,
-	prowlarrSchema,
-	proxmoxSchema,
-	qbittorrentSchema,
-	radarrSchema,
-	sonarrSchema,
-	subtrackerSchema,
-	traefikSchema,
-	uptimeKumaSchema,
-	vinceSchema,
-} from "~/lib/widgets";
+import { defineAction } from "astro:actions"
 
-import * as arcane from "../lib/widgets/arcane";
-import * as beszel from "../lib/widgets/beszel";
-import * as claudeUsage from "../lib/widgets/claude-usage";
-import * as controld from "../lib/widgets/controld";
-import * as cup from "../lib/widgets/cup";
-import * as dockstack from "../lib/widgets/dockstack";
-import * as gatus from "../lib/widgets/gatus";
-import * as godoxy from "../lib/widgets/godoxy";
-import * as homeAssistant from "../lib/widgets/home-assistant";
-import * as karakeep from "../lib/widgets/karakeep";
-import * as kavita from "../lib/widgets/kavita";
-import * as komodo from "../lib/widgets/komodo";
-import * as nextdns from "../lib/widgets/nextdns";
-import * as pocketId from "../lib/widgets/pocket-id";
-import * as prowlarr from "../lib/widgets/prowlarr";
-import * as proxmox from "../lib/widgets/proxmox";
-import * as qbittorrent from "../lib/widgets/qbittorrent";
-import * as radarr from "../lib/widgets/radarr";
-import * as sonarr from "../lib/widgets/sonarr";
-import * as subtracker from "../lib/widgets/subtracker";
-import * as traefik from "../lib/widgets/traefik";
-import * as uptimeKuma from "../lib/widgets/uptime-kuma";
-import * as vince from "../lib/widgets/vince";
+import {
+  arcaneSchema,
+  beszelSchema,
+  claudeUsageSchema,
+  controldSchema,
+  cupSchema,
+  dockstackSchema,
+  gatusSchema,
+  godoxySchema,
+  homeAssistantSchema,
+  karakeepSchema,
+  kavitaSchema,
+  komodoSchema,
+  nextdnsSchema,
+  pocketIdSchema,
+  prowlarrSchema,
+  proxmoxSchema,
+  qbittorrentSchema,
+  radarrSchema,
+  sonarrSchema,
+  subtrackerSchema,
+  traefikSchema,
+  uptimeKumaSchema,
+  vinceSchema,
+} from "~/lib/widgets"
+
+import * as arcane from "../lib/widgets/arcane"
+import * as beszel from "../lib/widgets/beszel"
+import * as claudeUsage from "../lib/widgets/claude-usage"
+import * as controld from "../lib/widgets/controld"
+import * as cup from "../lib/widgets/cup"
+import * as dockstack from "../lib/widgets/dockstack"
+import * as gatus from "../lib/widgets/gatus"
+import * as godoxy from "../lib/widgets/godoxy"
+import * as homeAssistant from "../lib/widgets/home-assistant"
+import * as karakeep from "../lib/widgets/karakeep"
+import * as kavita from "../lib/widgets/kavita"
+import * as komodo from "../lib/widgets/komodo"
+import * as nextdns from "../lib/widgets/nextdns"
+import * as pocketId from "../lib/widgets/pocket-id"
+import * as prowlarr from "../lib/widgets/prowlarr"
+import * as proxmox from "../lib/widgets/proxmox"
+import * as qbittorrent from "../lib/widgets/qbittorrent"
+import * as radarr from "../lib/widgets/radarr"
+import * as sonarr from "../lib/widgets/sonarr"
+import * as subtracker from "../lib/widgets/subtracker"
+import * as traefik from "../lib/widgets/traefik"
+import * as uptimeKuma from "../lib/widgets/uptime-kuma"
+import * as vince from "../lib/widgets/vince"
 
 export const widget = {
-	beszel: defineAction({
-		input: beszelSchema.shape.config,
-		handler: beszel.getWidgetData,
-	}),
-	controld: defineAction({
-		input: controldSchema.shape.config,
-		handler: controld.getWidgetData,
-	}),
-	cup: defineAction({
-		input: cupSchema.shape.config,
-		handler: cup.getWidgetData,
-	}),
-	gatus: defineAction({
-		input: gatusSchema.shape.config,
-		handler: gatus.getWidgetData,
-	}),
-	godoxy: defineAction({
-		input: godoxySchema.shape.config,
-		handler: godoxy.getWidgetData,
-	}),
-	karakeep: defineAction({
-		input: karakeepSchema.shape.config,
-		handler: karakeep.getWidgetData,
-	}),
-	kavita: defineAction({
-		input: kavitaSchema.shape.config,
-		handler: kavita.getWidgetData,
-	}),
-	komodo: defineAction({
-		input: komodoSchema.shape.config,
-		handler: komodo.getWidgetData,
-	}),
-	nextdns: defineAction({
-		input: nextdnsSchema.shape.config,
-		handler: nextdns.getWidgetData,
-	}),
-	"pocket-id": defineAction({
-		input: pocketIdSchema.shape.config,
-		handler: pocketId.getWidgetData,
-	}),
-	prowlarr: defineAction({
-		input: prowlarrSchema.shape.config,
-		handler: prowlarr.getWidgetData,
-	}),
-	proxmox: defineAction({
-		input: proxmoxSchema.shape.config,
-		handler: proxmox.getWidgetData,
-	}),
-	qbittorrent: defineAction({
-		input: qbittorrentSchema.shape.config,
-		handler: qbittorrent.getWidgetData,
-	}),
-	radarr: defineAction({
-		input: radarrSchema.shape.config,
-		handler: radarr.getWidgetData,
-	}),
-	sonarr: defineAction({
-		input: sonarrSchema.shape.config,
-		handler: sonarr.getWidgetData,
-	}),
-	subtracker: defineAction({
-		input: subtrackerSchema.shape.config,
-		handler: subtracker.getWidgetData,
-	}),
-	"uptime-kuma": defineAction({
-		input: uptimeKumaSchema.shape.config,
-		handler: uptimeKuma.getWidgetData,
-	}),
-	vince: defineAction({
-		input: vinceSchema.shape.config,
-		handler: vince.getWidgetData,
-	}),
-	traefik: defineAction({
-		input: traefikSchema.shape.config,
-		handler: traefik.getWidgetData,
-	}),
-	"home-assistant": defineAction({
-		input: homeAssistantSchema.shape.config,
-		handler: homeAssistant.getWidgetData,
-	}),
-	arcane: defineAction({
-		input: arcaneSchema.shape.config,
-		handler: arcane.getWidgetData,
-	}),
-	"claude-usage": defineAction({
-		input: claudeUsageSchema.shape.config,
-		handler: claudeUsage.getWidgetData,
-	}),
-	dockstack: defineAction({
-		input: dockstackSchema.shape.config,
-		handler: dockstack.getWidgetData,
-	}),
-};
+  beszel: defineAction({
+    input: beszelSchema.shape.config,
+    handler: beszel.getWidgetData,
+  }),
+  controld: defineAction({
+    input: controldSchema.shape.config,
+    handler: controld.getWidgetData,
+  }),
+  cup: defineAction({
+    input: cupSchema.shape.config,
+    handler: cup.getWidgetData,
+  }),
+  gatus: defineAction({
+    input: gatusSchema.shape.config,
+    handler: gatus.getWidgetData,
+  }),
+  godoxy: defineAction({
+    input: godoxySchema.shape.config,
+    handler: godoxy.getWidgetData,
+  }),
+  karakeep: defineAction({
+    input: karakeepSchema.shape.config,
+    handler: karakeep.getWidgetData,
+  }),
+  kavita: defineAction({
+    input: kavitaSchema.shape.config,
+    handler: kavita.getWidgetData,
+  }),
+  komodo: defineAction({
+    input: komodoSchema.shape.config,
+    handler: komodo.getWidgetData,
+  }),
+  nextdns: defineAction({
+    input: nextdnsSchema.shape.config,
+    handler: nextdns.getWidgetData,
+  }),
+  "pocket-id": defineAction({
+    input: pocketIdSchema.shape.config,
+    handler: pocketId.getWidgetData,
+  }),
+  prowlarr: defineAction({
+    input: prowlarrSchema.shape.config,
+    handler: prowlarr.getWidgetData,
+  }),
+  proxmox: defineAction({
+    input: proxmoxSchema.shape.config,
+    handler: proxmox.getWidgetData,
+  }),
+  qbittorrent: defineAction({
+    input: qbittorrentSchema.shape.config,
+    handler: qbittorrent.getWidgetData,
+  }),
+  radarr: defineAction({
+    input: radarrSchema.shape.config,
+    handler: radarr.getWidgetData,
+  }),
+  sonarr: defineAction({
+    input: sonarrSchema.shape.config,
+    handler: sonarr.getWidgetData,
+  }),
+  subtracker: defineAction({
+    input: subtrackerSchema.shape.config,
+    handler: subtracker.getWidgetData,
+  }),
+  "uptime-kuma": defineAction({
+    input: uptimeKumaSchema.shape.config,
+    handler: uptimeKuma.getWidgetData,
+  }),
+  vince: defineAction({
+    input: vinceSchema.shape.config,
+    handler: vince.getWidgetData,
+  }),
+  traefik: defineAction({
+    input: traefikSchema.shape.config,
+    handler: traefik.getWidgetData,
+  }),
+  "home-assistant": defineAction({
+    input: homeAssistantSchema.shape.config,
+    handler: homeAssistant.getWidgetData,
+  }),
+  arcane: defineAction({
+    input: arcaneSchema.shape.config,
+    handler: arcane.getWidgetData,
+  }),
+  "claude-usage": defineAction({
+    input: claudeUsageSchema.shape.config,
+    handler: claudeUsage.getWidgetData,
+  }),
+  dockstack: defineAction({
+    input: dockstackSchema.shape.config,
+    handler: dockstack.getWidgetData,
+  }),
+}

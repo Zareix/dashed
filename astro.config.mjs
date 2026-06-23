@@ -1,54 +1,50 @@
 // @ts-check
 
-import node from "@astrojs/node";
-import react from "@astrojs/react";
-import tailwindcss from "@tailwindcss/vite";
-import {
-	defineConfig,
-	fontProviders,
-	passthroughImageService,
-} from "astro/config";
+import node from "@astrojs/node"
+import react from "@astrojs/react"
+import tailwindcss from "@tailwindcss/vite"
+import { defineConfig, fontProviders, passthroughImageService } from "astro/config"
 
 // https://astro.build/config
 export default defineConfig({
-	integrations: [
-		react({
-			babel: {
-				plugins: [["babel-plugin-react-compiler"]],
-			},
-		}),
-	],
+  integrations: [
+    react({
+      babel: {
+        plugins: [["babel-plugin-react-compiler"]],
+      },
+    }),
+  ],
 
-	vite: {
-		plugins: [tailwindcss()],
-	},
+  vite: {
+    plugins: [tailwindcss()],
+  },
 
-	image: {
-		service: passthroughImageService(),
-		remotePatterns: [
-			{
-				protocol: "https",
-				hostname: "cdn.jsdelivr.net",
-				pathname: "/gh/homarr-labs/dashboard-icons/**",
-			},
-		],
-	},
+  image: {
+    service: passthroughImageService(),
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.jsdelivr.net",
+        pathname: "/gh/homarr-labs/dashboard-icons/**",
+      },
+    ],
+  },
 
-	fonts: [
-		{
-			provider: fontProviders.fontsource(),
-			name: "Geist",
-			cssVariable: "--font-sans",
-		},
-	],
+  fonts: [
+    {
+      provider: fontProviders.fontsource(),
+      name: "Geist",
+      cssVariable: "--font-sans",
+    },
+  ],
 
-	security: {
-		checkOrigin: false,
-	},
+  security: {
+    checkOrigin: false,
+  },
 
-	// adapter: bun(),
-	output: "server",
-	adapter: node({
-		mode: "standalone",
-	}),
-});
+  // adapter: bun(),
+  output: "server",
+  adapter: node({
+    mode: "standalone",
+  }),
+})

@@ -15,7 +15,7 @@ Dashed is a self-hosted dashboard application built with Astro, React, and Bun. 
 - **UI Components**: Shadcn/ui
 - **Forms**: React Hook Form with Zod validation
 - **State Management**: TanStack Query
-- **Code Quality**: Biome (linter and formatter)
+- **Code Quality**: Oxlint (linter and formatter)
 
 ## Code Style & Conventions
 
