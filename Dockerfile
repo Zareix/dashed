@@ -37,4 +37,4 @@ ENV DATABASE_PATH=/app/db/db.sqlite
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
   CMD ["bun", "-e", "fetch('http://localhost:3000/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
 
-CMD ["./dashed"]
+CMD ["/app/dashed"]
