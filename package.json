@@ -52,7 +52,7 @@
     "drizzle-kit": "^0.31.10",
     "oxfmt": "^0.59.0",
     "oxlint": "^1.74.0",
-    "oxlint-tsgolint": "^0.25.0",
+    "oxlint-tsgolint": "^7.0.0",
     "prettier": "^3.9.5",
     "prettier-plugin-astro": "^0.14.1"
   }
