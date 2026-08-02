@@ -6,6 +6,7 @@ import { db } from "~/lib/db"
 import type { WIDGETS, WidgetConfig } from "~/lib/widgets"
 
 import * as arcane from "../lib/widgets/arcane"
+import * as dockstack from "../lib/widgets/dockstack"
 import * as komodo from "../lib/widgets/komodo"
 import * as radarr from "../lib/widgets/radarr"
 import * as sonarr from "../lib/widgets/sonarr"
@@ -25,6 +26,7 @@ type WidgetCommandGetter = {
 
 const WIDGET_COMMAND_GETTER: WidgetCommandGetter = {
   komodo: komodo.getWidgetCommands,
+  dockstack: dockstack.getWidgetCommands,
   sonarr: sonarr.getWidgetCommands,
   radarr: radarr.getWidgetCommands,
   arcane: arcane.getWidgetCommands,

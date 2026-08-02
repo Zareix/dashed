@@ -1,3 +1,4 @@
+import type { CommandList } from "~/actions/command"
 import { tryCatch } from "~/lib/try-catch"
 import type { WidgetConfig } from "~/lib/widgets"
 
@@ -29,4 +30,22 @@ export const getWidgetData = async (config: WidgetConfig<"dockstack">) => {
       status: stack.status,
     })),
   }
+}
+
+export const getWidgetCommands = async (
+  config: WidgetConfig<"dockstack">,
+): Promise<CommandList> => {
+  const data = await getWidgetData(config)
+  const commands: CommandList = {}
+
+  for (const stack of data.stacks) {
+    commands.stack = commands.stack ?? []
+    commands.stack.push({
+      name: stack.name,
+      url: `${config.url}/stacks/${stack.name}`,
+      information: stack.status,
+    })
+  }
+
+  return commands
 }
