@@ -41,6 +41,7 @@ export const getWidgetCommands = async (
   for (const stack of data.stacks) {
     commands.stack = commands.stack ?? []
     commands.stack.push({
+      id: `dockstack-stack-${stack.name}`,
       name: stack.name,
       url: `${config.url}/stacks/${stack.name}`,
       information: stack.status,

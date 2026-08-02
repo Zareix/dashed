@@ -12,11 +12,13 @@ import * as radarr from "../lib/widgets/radarr"
 import * as sonarr from "../lib/widgets/sonarr"
 
 export type Command = {
+  id: string
   name: string
   information?: string
   url: string
   serviceId?: number
   icon?: string
+  serviceName?: string
 }
 export type CommandList = Record<string, Command[]>
 
@@ -51,13 +53,15 @@ export const command = {
         for (const service of category.services) {
           commands[category.name] = commands[category.name] ?? []
           commands[category.name].push({
+            id: `service-${service.id}`,
             name: service.name,
             icon: service.icon,
             url: service.url,
             serviceId: WIDGETS_WITH_COMMANDS.includes(service.widget.type) ? service.id : undefined,
           })
-          for (const altUrl of service.alternativeUrls) {
+          for (const [altIdx, altUrl] of service.alternativeUrls.entries()) {
             commands[category.name].push({
+              id: `service-${service.id}-alt-${altIdx}`,
               name: `${service.name} > ${altUrl.name}`,
               icon: service.icon,
               url: altUrl.url,
@@ -87,7 +91,14 @@ export const command = {
       }
       // 'never' is used here because TypeScript cannot infer that
       // 'widget.config' matches the expected type for the getter function.
-      return await getter(service.widget.config as never)
+      const commands = await getter(service.widget.config as never)
+
+      for (const items of Object.values(commands)) {
+        for (const item of items) {
+          item.serviceName = service.name
+        }
+      }
+      return commands
     },
   }),
 }

@@ -112,6 +112,7 @@ export const getWidgetData = async (config: WidgetConfig<"komodo">) => {
     })),
     stacks: stacksData.map((stack) => ({
       id: stack.id,
+      serverId: stack.info.server_id,
       name: stack.name,
       state: stack.info.state,
     })),
@@ -125,6 +126,7 @@ export const getWidgetCommands = async (config: WidgetConfig<"komodo">): Promise
   for (const server of data.servers) {
     commands.server = commands.server ?? []
     commands.server.push({
+      id: `komodo-server-${server.id}`,
       name: server.name,
       url: `${config.url}/servers/${server.id}`,
       information: server.state,
@@ -134,6 +136,7 @@ export const getWidgetCommands = async (config: WidgetConfig<"komodo">): Promise
   for (const stack of data.stacks) {
     commands.stack = commands.stack ?? []
     commands.stack.push({
+      id: `komodo-server-${stack.serverId}-stack-${stack.id}`,
       name: stack.name,
       url: `${config.url}/stacks/${stack.id}`,
       information: stack.state,

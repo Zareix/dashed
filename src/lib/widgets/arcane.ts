@@ -112,6 +112,7 @@ export const getWidgetCommands = async (config: WidgetConfig<"arcane">): Promise
   for (const environment of data.environments) {
     commands.environment = commands.environment ?? []
     commands.environment.push({
+      id: `arcane-environment-${environment.id}`,
       name: environment.name ?? environment.id,
       url: `${config.url}/environments/${environment.id}`,
       information: environment.status,
@@ -121,6 +122,7 @@ export const getWidgetCommands = async (config: WidgetConfig<"arcane">): Promise
   for (const project of data.projects) {
     commands.project = commands.project ?? []
     commands.project.push({
+      id: `arcane-project-${project.id}`,
       name: project.name,
       url: `${config.url}/projects/${project.id}`,
       information: project.status,

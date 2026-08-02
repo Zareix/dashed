@@ -6,6 +6,7 @@ type SonarrSeriesResponse = Array<{
   id: number
   title: string
   titleSlug: string
+  year: number
 }>
 
 type SonarrMissingEpisodesResponse = {
@@ -108,7 +109,8 @@ export const getWidgetCommands = async (config: WidgetConfig<"sonarr">): Promise
     Series: series.data
       .toSorted((a, b) => a.title.localeCompare(b.title))
       .map((serie) => ({
-        name: serie.title,
+        id: `sonarr-series-${serie.id}`,
+        name: `${serie.title} (${serie.year})`,
         url: `${config.url}/series/${serie.titleSlug}`,
       })),
   }

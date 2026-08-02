@@ -131,7 +131,8 @@ export const getWidgetCommands = async (config: WidgetConfig<"radarr">): Promise
     Movies: movies.data
       .toSorted((a, b) => a.title.localeCompare(b.title))
       .map((movie) => ({
-        name: movie.title,
+        id: `radarr-movie-${movie.id}`,
+        name: `${movie.title} (${movie.year})`,
         url: `${config.url}/movie/${movie.tmdbId}`,
         information: movie.hasFile ? "Downloaded" : `Missing (${camelToTitleCase(movie.status)})`,
       })),

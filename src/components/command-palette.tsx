@@ -1,18 +1,29 @@
-import { useQuery } from "@tanstack/react-query"
+import { useQueries, useQuery } from "@tanstack/react-query"
 import { actions } from "astro:actions"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 
+import type { CommandList as CommandListType } from "~/actions/command"
 import {
+  Command,
   CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
-  CommandLoading,
 } from "~/components/ui/command"
 import { Kbd, KbdGroup } from "~/components/ui/kbd"
 import { queryClient } from "~/lib/store"
+
+function mergeCommandLists(lists: CommandListType[]): CommandListType {
+  const merged: CommandListType = {}
+  for (const list of lists) {
+    for (const [group, items] of Object.entries(list)) {
+      merged[group] = merged[group] ? [...merged[group], ...items] : items
+    }
+  }
+  return merged
+}
 
 export function CommandPalette() {
   const [open, setOpen] = useState(false)
@@ -30,6 +41,33 @@ export function CommandPalette() {
     },
     queryClient,
   )
+
+  const serviceIdsWithDetails = useMemo(() => {
+    const ids = new Set<number>()
+    for (const items of Object.values(baseCommandsQuery.data ?? {})) {
+      for (const item of items) {
+        if (item.serviceId) ids.add(item.serviceId)
+      }
+    }
+    return [...ids]
+  }, [baseCommandsQuery.data])
+
+  const allWidgetCommandsQueries = useQueries(
+    {
+      queries: serviceIdsWithDetails.map((serviceId) => ({
+        queryKey: ["commands", serviceId],
+        queryFn: () => actions.command.getWidgetCommands(serviceId),
+        select: (res: Awaited<ReturnType<typeof actions.command.getWidgetCommands>>) => {
+          if (res.error) throw new Error(res.error.message)
+          return res.data
+        },
+        enabled: open,
+        retry: false,
+      })),
+    },
+    queryClient,
+  )
+
   const widgetCommandsQuery = useQuery(
     {
       queryKey: ["commands", selectedServiceId],
@@ -74,16 +112,30 @@ export function CommandPalette() {
     }
   }
 
-  const isLoading = widgetCommandsQuery.isLoading || baseCommandsQuery.isLoading
-  const isError = widgetCommandsQuery.isError || baseCommandsQuery.isError
-  const commands = widgetCommandsQuery.data ?? baseCommandsQuery.data
+  const filter = (value: string, search: string, keywords?: string[]) => {
+    let score = 0
+    if (keywords?.some((k) => k.toLowerCase().includes(search.toLowerCase()))) {
+      return 1
+    }
+    if (score > 0 && value.startsWith("service-")) score += 1
+    return score
+  }
+
+  const isLoading = selectedServiceId ? widgetCommandsQuery.isLoading : baseCommandsQuery.isLoading
+  const isError = selectedServiceId ? widgetCommandsQuery.isError : baseCommandsQuery.isError
+  const commands = selectedServiceId
+    ? widgetCommandsQuery.data
+    : baseCommandsQuery.data &&
+      mergeCommandLists([
+        baseCommandsQuery.data,
+        ...allWidgetCommandsQueries.flatMap((q) => (q.data ? [q.data] : [])),
+      ])
 
   return (
-    <CommandDialog
-      open={open}
-      onOpenChange={setOpen}
-      commandProps={{
-        onKeyDown: (e) => {
+    <CommandDialog open={open} onOpenChange={setOpen}>
+      <Command
+        filter={filter}
+        onKeyDown={(e) => {
           if (e.key === "Escape" || (e.key === "Backspace" && !search)) {
             e.preventDefault()
             setSelectedServiceId(null)
@@ -91,60 +143,71 @@ export function CommandPalette() {
           if (e.key === "Meta" || e.key === "Control") {
             setIsMetaPressed(true)
           }
-        },
-        onKeyUp: (e) => {
+        }}
+        onKeyUp={(e) => {
           if (e.key === "Meta" || e.key === "Control") {
             setIsMetaPressed(false)
           }
-        },
-      }}
-    >
-      <CommandInput
-        placeholder="Type a command or search..."
-        value={search}
-        onValueChange={setSearch}
-      />
-      <CommandList>
-        {isLoading ? (
-          <CommandLoading>Fetching widget commands…</CommandLoading>
-        ) : isError || !commands ? (
-          <CommandEmpty>Error loading commands.</CommandEmpty>
-        ) : (
-          <>
-            <CommandEmpty>No results found.</CommandEmpty>
-            {Object.entries(commands).map(([cg, commandList]) => (
-              <CommandGroup heading={cg} key={cg}>
-                {commandList.map((c) => (
-                  <CommandItem
-                    key={c.name}
-                    onSelect={() => {
-                      if (isMetaPressed && c.serviceId) {
-                        setSelectedServiceId(c.serviceId)
-                        setSearch("")
-                      } else {
-                        navigate(c.url)
-                        setOpen(false)
-                      }
-                    }}
-                  >
-                    {c.icon && <img src={c.icon} alt={c.name} className="h-4 w-4 object-contain" />}
-                    <span>{c.name}</span>
-                    {c.information && <span className="ml-auto opacity-50">{c.information}</span>}
-                    {c.serviceId && (
-                      <div className="ml-auto text-muted-foreground">
-                        <KbdGroup>
-                          <Kbd>⌘ + Enter</Kbd>
-                        </KbdGroup>{" "}
-                        to open details
+        }}
+      >
+        <CommandInput
+          placeholder="Type a command or search..."
+          value={search}
+          onValueChange={setSearch}
+        />
+        <CommandList>
+          {isLoading ? (
+            <div>Fetching widget commands…</div>
+          ) : isError || !commands ? (
+            <CommandEmpty>Error loading commands.</CommandEmpty>
+          ) : (
+            <>
+              <CommandEmpty>No results found.</CommandEmpty>
+              {Object.entries(commands).map(([cg, commandList]) => (
+                <CommandGroup heading={cg} key={cg}>
+                  {commandList.map((c) => (
+                    <CommandItem
+                      key={c.id}
+                      value={c.id}
+                      keywords={[c.name]}
+                      onSelect={() => {
+                        if (isMetaPressed && c.serviceId) {
+                          setSelectedServiceId(c.serviceId)
+                          setSearch("")
+                        } else {
+                          navigate(c.url)
+                          setOpen(false)
+                        }
+                      }}
+                    >
+                      <div className="flex items-center gap-1">
+                        {c.icon && (
+                          <img src={c.icon} alt={c.name} className="h-4 w-4 object-contain" />
+                        )}
+                        <span>{c.name}</span>
+                        {c.serviceName && (
+                          <span className="text-xs opacity-50">{c.serviceName}</span>
+                        )}
                       </div>
-                    )}
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            ))}
-          </>
-        )}
-      </CommandList>
+                      <div className="ml-auto flex items-center gap-1">
+                        {c.information && <span className="opacity-50">{c.information}</span>}
+                        {c.serviceId && (
+                          <div className="text-muted-foreground">
+                            <KbdGroup>
+                              <Kbd>⌘ + Enter</Kbd>
+                            </KbdGroup>{" "}
+                            to open details
+                          </div>
+                        )}
+                      </div>
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              ))}
+            </>
+          )}
+        </CommandList>
+      </Command>
     </CommandDialog>
   )
 }
