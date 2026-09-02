@@ -50,7 +50,7 @@
     "@total-typescript/ts-reset": "^0.6.1",
     "@types/bun": "^1.4.0",
     "drizzle-kit": "^0.31.10",
-    "oxfmt": "^0.65.0",
+    "oxfmt": "^0.66.0",
     "oxlint": "^1.80.0",
     "oxlint-tsgolint": "^7.0.2001",
     "prettier": "^3.9.6",
