@@ -10,6 +10,7 @@ import {
   gatusSchema,
   godoxySchema,
   homeAssistantSchema,
+  jellyfinSchema,
   karakeepSchema,
   kavitaSchema,
   komodoSchema,
@@ -35,6 +36,7 @@ import * as dockstack from "../lib/widgets/dockstack"
 import * as gatus from "../lib/widgets/gatus"
 import * as godoxy from "../lib/widgets/godoxy"
 import * as homeAssistant from "../lib/widgets/home-assistant"
+import * as jellyfin from "../lib/widgets/jellyfin"
 import * as karakeep from "../lib/widgets/karakeep"
 import * as kavita from "../lib/widgets/kavita"
 import * as komodo from "../lib/widgets/komodo"
@@ -74,6 +76,10 @@ export const widget = {
   karakeep: defineAction({
     input: karakeepSchema.shape.config,
     handler: karakeep.getWidgetData,
+  }),
+  jellyfin: defineAction({
+    input: jellyfinSchema.shape.config,
+    handler: jellyfin.getWidgetData,
   }),
   kavita: defineAction({
     input: kavitaSchema.shape.config,

@@ -40,9 +40,15 @@ export const AlertsWidgetPart = ({ alerts }: Props) => {
         {sortedAlerts.map((alert) => (
           <div
             key={`${alert.source}-${alert.message}`}
-            className={alert.type === "error" ? "text-red-500" : "text-yellow-500"}
+            className={
+              alert.type === "error"
+                ? "text-red-500"
+                : alert.type === "warning"
+                  ? "text-yellow-500"
+                  : "text-blue-500"
+            }
           >
-            {getAlertSymbol(alert.type)} <span className="font-semibold">{alert.source}</span>:{" "}
+            {getAlertSymbol(alert.type)} <span className="font-bold">{alert.source}</span>:{" "}
             {alert.message}
             {alert.items && alert.items.length > 0 && (
               <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1">

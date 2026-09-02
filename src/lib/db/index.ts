@@ -9,7 +9,8 @@ const globalForDb = globalThis as unknown as {
   client: Database | undefined
 }
 
-export const client = globalForDb.client ?? new Database(process.env.DATABASE_PATH)
+export const client =
+  globalForDb.client ?? new Database(import.meta.env.DATABASE_PATH ?? process.env.DATABASE_PATH)
 if (process.env.NODE_ENV !== "production") globalForDb.client = client
 client.run("PRAGMA journal_mode = WAL;")
 client.run("PRAGMA foreign_keys = ON;")

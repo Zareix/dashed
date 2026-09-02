@@ -88,6 +88,10 @@ export const karakeepSchema = z.object({
   type: z.literal("karakeep"),
   config: withApiKey,
 })
+export const jellyfinSchema = z.object({
+  type: z.literal("jellyfin"),
+  config: withApiKey,
+})
 export const kavitaSchema = z.object({
   type: z.literal("kavita"),
   config: withApiKey,
@@ -156,6 +160,7 @@ export const WIDGETS = z.discriminatedUnion("type", [
   godoxySchema,
   subtrackerSchema,
   karakeepSchema,
+  jellyfinSchema,
   kavitaSchema,
   prowlarrSchema,
   qbittorrentSchema,

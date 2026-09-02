@@ -10,6 +10,7 @@ import { DockstackWidget } from "~/components/service/widget/widgets/dockstack"
 import { GatusWidget } from "~/components/service/widget/widgets/gatus"
 import { GodoxyWidget } from "~/components/service/widget/widgets/godoxy"
 import { HomeAssistantWidget } from "~/components/service/widget/widgets/home-assistant"
+import { JellyfinWidget } from "~/components/service/widget/widgets/jellyfin"
 import { KarakeepWidget } from "~/components/service/widget/widgets/karakeep"
 import { KavitaWidget } from "~/components/service/widget/widgets/kavita"
 import { KomodoWidget } from "~/components/service/widget/widgets/komodo"
@@ -91,6 +92,8 @@ export const Widget = ({ widget }: { widget: WIDGETS }) => {
       return <SubtrackerWidget config={widget.config} />
     case "karakeep":
       return <KarakeepWidget config={widget.config} />
+    case "jellyfin":
+      return <JellyfinWidget config={widget.config} />
     case "kavita":
       return <KavitaWidget config={widget.config} />
     case "prowlarr":

@@ -1,6 +1,6 @@
 {
   "name": "dashed-astro",
-  "version": "3.17.0",
+  "version": "3.18.0",
   "type": "module",
   "scripts": {
     "db:push": "drizzle-kit push:sqlite",
