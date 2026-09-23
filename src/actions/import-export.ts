@@ -12,9 +12,13 @@ const exportSchema = z.array(
     maxCols: z.number().min(1).max(5),
     order: z.number(),
     services: z.array(
-      serviceCreateSchema.omit({
-        categoryId: true,
-      }),
+      serviceCreateSchema
+        .omit({
+          categoryId: true,
+        })
+        .extend({
+          order: z.number().optional(),
+        }),
     ),
   }),
 )
@@ -48,10 +52,11 @@ export const importExport = {
             )[0]?.id
             if (!catId) continue
 
-            for (const service of category.services) {
+            for (const [index, service] of category.services.entries()) {
               await db.insert(serviceTable).values({
                 ...service,
                 categoryId: catId,
+                order: service.order ?? index + 1,
               })
             }
           }
