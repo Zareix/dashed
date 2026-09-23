@@ -63,16 +63,12 @@ export const HermesWidget = ({ config }: Props) => {
       <StatsGridWidgetPart
         stats={[
           {
+            value: data.health.gatewayState,
+            label: "Gateway",
+          },
+          {
             value: data.jobs.length,
             label: "Jobs",
-          },
-          {
-            value: data.health.activeRuns,
-            label: "Runs",
-          },
-          {
-            value: `${data.health.connectedPlatforms}/${data.health.totalPlatforms}`,
-            label: "Platforms",
           },
         ]}
       />

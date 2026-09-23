@@ -13,8 +13,6 @@ type HermesDetailedHealthResponse = {
         state?: string
         connected_platforms?: number
         platforms?: number
-        active_api_runs?: number
-        active_delegations?: number
       }
     >
   }
@@ -94,7 +92,7 @@ export const getWidgetData = async (config: WidgetConfig<"hermes">) => {
       }),
     ),
     tryCatch(
-      fetch(`${config.url}/api/sessions?limit=6`, {
+      fetch(`${config.url}/api/sessions?limit=4`, {
         headers: {
           Authorization: `Bearer ${config.apiKey}`,
         },
@@ -114,7 +112,7 @@ export const getWidgetData = async (config: WidgetConfig<"hermes">) => {
   }
 
   const sessions = (sessionsRes.data?.data ?? [])
-    .filter((session) => !session.hidden && !session.archived)
+    .filter((session) => !session.hidden && !session.archived && !session.pinned)
     .map((session) => ({
       id: session.id,
       title: session.title,
@@ -122,9 +120,7 @@ export const getWidgetData = async (config: WidgetConfig<"hermes">) => {
       messageCount: session.message_count,
       model: session.model,
       lastActive: toIsoDate(session.last_active),
-      href: config.webuiUrl
-        ? `${config.webuiUrl}/session/${encodeURIComponent(session.id)}`
-        : null,
+      href: config.webuiUrl ? `${config.webuiUrl}/session/${encodeURIComponent(session.id)}` : null,
     }))
 
   const health = healthRes.data
@@ -132,7 +128,6 @@ export const getWidgetData = async (config: WidgetConfig<"hermes">) => {
   const checks = health.readiness.checks ?? {}
   const disk = checks.disk
   const gateway = checks.gateway
-  const queues = checks.background_queues
 
   return {
     health: {
@@ -141,8 +136,6 @@ export const getWidgetData = async (config: WidgetConfig<"hermes">) => {
       gatewayState: health.gateway_state,
       connectedPlatforms: gateway?.connected_platforms ?? 0,
       totalPlatforms: gateway?.platforms ?? 0,
-      activeRuns: queues?.active_api_runs ?? 0,
-      activeDelegations: queues?.active_delegations ?? 0,
       diskUsedPercent: disk?.used_percent ?? 0,
       failedChecks: Object.entries(checks)
         .filter(([, check]) => check.status !== "ok")
