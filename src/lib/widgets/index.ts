@@ -144,6 +144,12 @@ export const dockstackSchema = z.object({
   type: z.literal("dockstack"),
   config: withApiKey,
 })
+export const hermesSchema = z.object({
+  type: z.literal("hermes"),
+  config: withApiKey.extend({
+    webuiUrl: z.url().optional().describe("WebUI URL"),
+  }),
+})
 
 export const WIDGETS = z.discriminatedUnion("type", [
   noneSchema,
@@ -171,6 +177,7 @@ export const WIDGETS = z.discriminatedUnion("type", [
   homeAssistantSchema,
   claudeUsageSchema,
   dockstackSchema,
+  hermesSchema,
 ])
 export type WIDGETS = z.infer<typeof WIDGETS>
 export type WidgetConfig<T extends WIDGETS["type"]> = Extract<WIDGETS, { type: T }>["config"]

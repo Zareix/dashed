@@ -9,6 +9,7 @@ import { CupWidget } from "~/components/service/widget/widgets/cup"
 import { DockstackWidget } from "~/components/service/widget/widgets/dockstack"
 import { GatusWidget } from "~/components/service/widget/widgets/gatus"
 import { GodoxyWidget } from "~/components/service/widget/widgets/godoxy"
+import { HermesWidget } from "~/components/service/widget/widgets/hermes"
 import { HomeAssistantWidget } from "~/components/service/widget/widgets/home-assistant"
 import { JellyfinWidget } from "~/components/service/widget/widgets/jellyfin"
 import { KarakeepWidget } from "~/components/service/widget/widgets/karakeep"
@@ -114,6 +115,8 @@ export const Widget = ({ widget }: { widget: WIDGETS }) => {
       return <ArcaneWidget config={widget.config} />
     case "dockstack":
       return <DockstackWidget config={widget.config} />
+    case "hermes":
+      return <HermesWidget config={widget.config} />
     case "home-assistant":
       return <HomeAssistantWidget config={widget.config} />
     case "claude-usage":

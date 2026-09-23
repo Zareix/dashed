@@ -9,6 +9,7 @@ import {
   dockstackSchema,
   gatusSchema,
   godoxySchema,
+  hermesSchema,
   homeAssistantSchema,
   jellyfinSchema,
   karakeepSchema,
@@ -35,6 +36,7 @@ import * as cup from "../lib/widgets/cup"
 import * as dockstack from "../lib/widgets/dockstack"
 import * as gatus from "../lib/widgets/gatus"
 import * as godoxy from "../lib/widgets/godoxy"
+import * as hermes from "../lib/widgets/hermes"
 import * as homeAssistant from "../lib/widgets/home-assistant"
 import * as jellyfin from "../lib/widgets/jellyfin"
 import * as karakeep from "../lib/widgets/karakeep"
@@ -148,5 +150,9 @@ export const widget = {
   dockstack: defineAction({
     input: dockstackSchema.shape.config,
     handler: dockstack.getWidgetData,
+  }),
+  hermes: defineAction({
+    input: hermesSchema.shape.config,
+    handler: hermes.getWidgetData,
   }),
 }
