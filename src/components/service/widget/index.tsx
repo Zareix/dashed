@@ -3,14 +3,13 @@ import { actions } from "astro:actions"
 
 import { ArcaneWidget } from "~/components/service/widget/widgets/arcane"
 import { BeszelWidget } from "~/components/service/widget/widgets/beszel"
-import { ClaudeUsageWidget } from "~/components/service/widget/widgets/claude-usage"
 import { ControlDWidget } from "~/components/service/widget/widgets/controld"
 import { CupWidget } from "~/components/service/widget/widgets/cup"
 import { DockstackWidget } from "~/components/service/widget/widgets/dockstack"
 import { GatusWidget } from "~/components/service/widget/widgets/gatus"
 import { GodoxyWidget } from "~/components/service/widget/widgets/godoxy"
 import { HermesWidget } from "~/components/service/widget/widgets/hermes"
-import { HomeAssistantWidget } from "~/components/service/widget/widgets/home-assistant"
+import { IframeWidget } from "~/components/service/widget/widgets/iframe"
 import { JellyfinWidget } from "~/components/service/widget/widgets/jellyfin"
 import { KarakeepWidget } from "~/components/service/widget/widgets/karakeep"
 import { KavitaWidget } from "~/components/service/widget/widgets/kavita"
@@ -117,12 +116,10 @@ export const Widget = ({ widget }: { widget: WIDGETS }) => {
       return <DockstackWidget config={widget.config} />
     case "hermes":
       return <HermesWidget config={widget.config} />
-    case "home-assistant":
-      return <HomeAssistantWidget config={widget.config} />
-    case "claude-usage":
-      return <ClaudeUsageWidget config={widget.config} />
+    case "iframe":
+      return <IframeWidget config={widget.config} />
     default:
-      return null
+      return <p>Unknown widget type: {widget.type}</p>
   }
 }
 

@@ -3,10 +3,10 @@ import type { WidgetConfig } from "~/lib/widgets"
 
 type GodoxyRoute = {
   alias: string
-  healthcheck: {
+  healthcheck?: {
     disable?: boolean
   }
-  health: {
+  health?: {
     status: "error" | "healthy" | "napping" | "total" | "unhealthy" | "unknown"
   }
 }
@@ -39,7 +39,7 @@ export const getWidgetData = async (config: WidgetConfig<"godoxy">) => {
   return {
     routes: res.data.map((x) => ({
       alias: x.alias,
-      health: x.healthcheck.disable ? ("disabled" as const) : x.health.status,
+      health: x.healthcheck?.disable ? ("disabled" as const) : (x.health?.status ?? "unknown"),
     })),
   }
 }

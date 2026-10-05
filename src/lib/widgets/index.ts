@@ -130,15 +130,13 @@ export const pocketIdSchema = z.object({
   type: z.literal("pocket-id"),
   config: withApiKey,
 })
-export const homeAssistantSchema = z.object({
-  type: z.literal("home-assistant"),
+export const iframeSchema = z.object({
+  type: z.literal("iframe"),
   config: z.object({
-    url: z.url().describe("Dashboard URL"),
+    url: z.url().describe("URL"),
+    width: z.string().describe("Width (e.g. 500px, 100%)"),
+    height: z.string().describe("Height (e.g. 400px, 50vh)"),
   }),
-})
-export const claudeUsageSchema = z.object({
-  type: z.literal("claude-usage"),
-  config: baseConfig,
 })
 export const dockstackSchema = z.object({
   type: z.literal("dockstack"),
@@ -174,10 +172,9 @@ export const WIDGETS = z.discriminatedUnion("type", [
   proxmoxSchema,
   traefikSchema,
   pocketIdSchema,
-  homeAssistantSchema,
-  claudeUsageSchema,
   dockstackSchema,
   hermesSchema,
+  iframeSchema,
 ])
 export type WIDGETS = z.infer<typeof WIDGETS>
 export type WidgetConfig<T extends WIDGETS["type"]> = Extract<WIDGETS, { type: T }>["config"]

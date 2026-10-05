@@ -3,14 +3,13 @@ import { defineAction } from "astro:actions"
 import {
   arcaneSchema,
   beszelSchema,
-  claudeUsageSchema,
   controldSchema,
   cupSchema,
   dockstackSchema,
   gatusSchema,
   godoxySchema,
   hermesSchema,
-  homeAssistantSchema,
+  iframeSchema,
   jellyfinSchema,
   karakeepSchema,
   kavitaSchema,
@@ -30,14 +29,13 @@ import {
 
 import * as arcane from "../lib/widgets/arcane"
 import * as beszel from "../lib/widgets/beszel"
-import * as claudeUsage from "../lib/widgets/claude-usage"
 import * as controld from "../lib/widgets/controld"
 import * as cup from "../lib/widgets/cup"
 import * as dockstack from "../lib/widgets/dockstack"
 import * as gatus from "../lib/widgets/gatus"
 import * as godoxy from "../lib/widgets/godoxy"
 import * as hermes from "../lib/widgets/hermes"
-import * as homeAssistant from "../lib/widgets/home-assistant"
+import * as iframe from "../lib/widgets/iframe"
 import * as jellyfin from "../lib/widgets/jellyfin"
 import * as karakeep from "../lib/widgets/karakeep"
 import * as kavita from "../lib/widgets/kavita"
@@ -55,6 +53,10 @@ import * as uptimeKuma from "../lib/widgets/uptime-kuma"
 import * as vince from "../lib/widgets/vince"
 
 export const widget = {
+  arcane: defineAction({
+    input: arcaneSchema.shape.config,
+    handler: arcane.getWidgetData,
+  }),
   beszel: defineAction({
     input: beszelSchema.shape.config,
     handler: beszel.getWidgetData,
@@ -135,24 +137,16 @@ export const widget = {
     input: traefikSchema.shape.config,
     handler: traefik.getWidgetData,
   }),
-  "home-assistant": defineAction({
-    input: homeAssistantSchema.shape.config,
-    handler: homeAssistant.getWidgetData,
+  hermes: defineAction({
+    input: hermesSchema.shape.config,
+    handler: hermes.getWidgetData,
   }),
-  arcane: defineAction({
-    input: arcaneSchema.shape.config,
-    handler: arcane.getWidgetData,
-  }),
-  "claude-usage": defineAction({
-    input: claudeUsageSchema.shape.config,
-    handler: claudeUsage.getWidgetData,
+  iframe: defineAction({
+    input: iframeSchema.shape.config,
+    handler: iframe.getWidgetData,
   }),
   dockstack: defineAction({
     input: dockstackSchema.shape.config,
     handler: dockstack.getWidgetData,
-  }),
-  hermes: defineAction({
-    input: hermesSchema.shape.config,
-    handler: hermes.getWidgetData,
   }),
 }
