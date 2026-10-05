@@ -20,6 +20,7 @@ import {
   proxmoxSchema,
   qbittorrentSchema,
   radarrSchema,
+  rssSchema,
   sonarrSchema,
   subtrackerSchema,
   traefikSchema,
@@ -46,6 +47,7 @@ import * as prowlarr from "../lib/widgets/prowlarr"
 import * as proxmox from "../lib/widgets/proxmox"
 import * as qbittorrent from "../lib/widgets/qbittorrent"
 import * as radarr from "../lib/widgets/radarr"
+import * as rss from "../lib/widgets/rss"
 import * as sonarr from "../lib/widgets/sonarr"
 import * as subtracker from "../lib/widgets/subtracker"
 import * as traefik from "../lib/widgets/traefik"
@@ -116,6 +118,10 @@ export const widget = {
   radarr: defineAction({
     input: radarrSchema.shape.config,
     handler: radarr.getWidgetData,
+  }),
+  rss: defineAction({
+    input: rssSchema.shape.config,
+    handler: rss.getWidgetData,
   }),
   sonarr: defineAction({
     input: sonarrSchema.shape.config,

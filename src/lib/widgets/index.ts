@@ -142,6 +142,12 @@ export const dockstackSchema = z.object({
   type: z.literal("dockstack"),
   config: withApiKey,
 })
+export const rssSchema = z.object({
+  type: z.literal("rss"),
+  config: baseConfig.extend({
+    limit: z.string().optional().describe("Number of items"),
+  }),
+})
 export const hermesSchema = z.object({
   type: z.literal("hermes"),
   config: withApiKey.extend({
@@ -174,6 +180,7 @@ export const WIDGETS = z.discriminatedUnion("type", [
   pocketIdSchema,
   dockstackSchema,
   hermesSchema,
+  rssSchema,
   iframeSchema,
 ])
 export type WIDGETS = z.infer<typeof WIDGETS>

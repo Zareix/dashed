@@ -20,6 +20,7 @@ import { ProwlarrWidget } from "~/components/service/widget/widgets/prowlarr"
 import { ProxmoxWidget } from "~/components/service/widget/widgets/proxmox"
 import { QBittorrentWidget } from "~/components/service/widget/widgets/qbittorrent"
 import { RadarrWidget } from "~/components/service/widget/widgets/radarr"
+import { RssWidget } from "~/components/service/widget/widgets/rss"
 import SonarrWidget from "~/components/service/widget/widgets/sonarr"
 import { SubtrackerWidget } from "~/components/service/widget/widgets/subtracker"
 import { TraefikWidget } from "~/components/service/widget/widgets/traefik"
@@ -76,6 +77,8 @@ export const Widget = ({ widget }: { widget: WIDGETS }) => {
       return <SonarrWidget config={widget.config} />
     case "radarr":
       return <RadarrWidget config={widget.config} />
+    case "rss":
+      return <RssWidget config={widget.config} />
     case "uptime-kuma":
       return <UptimeKumaWidget config={widget.config} />
     case "beszel":
