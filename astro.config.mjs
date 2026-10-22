@@ -2,21 +2,21 @@
 
 import node from "@astrojs/node"
 import react from "@astrojs/react"
+import babel from "@rolldown/plugin-babel"
 import tailwindcss from "@tailwindcss/vite"
 import { defineConfig, fontProviders, passthroughImageService } from "astro/config"
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [
-    react({
-      babel: {
-        plugins: [["babel-plugin-react-compiler"]],
-      },
-    }),
-  ],
+  integrations: [react()],
 
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [
+      babel({
+        plugins: ["babel-plugin-react-compiler"],
+      }),
+      tailwindcss(),
+    ],
   },
 
   image: {
