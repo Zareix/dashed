@@ -27,14 +27,10 @@ ENV NODE_ENV=production
 COPY --from=builder /app/drizzle ./drizzle
 COPY --from=builder /app/dist/client ./dist/client
 COPY --from=builder /app/dashed ./dashed
-COPY --from=builder /usr/local/bin/bun /usr/local/bin/bun
 
 EXPOSE 3000
 ENV HOST=0.0.0.0
 ENV PORT=3000
 ENV DATABASE_PATH=/app/db/db.sqlite
-
-HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-  CMD ["bun", "-e", "fetch('http://localhost:3000/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
 
 CMD ["/app/dashed"]

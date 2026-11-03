@@ -10,3 +10,5 @@ db.sqlite*
 dist
 tmp
 .astro
+dashed
+.DS_Store

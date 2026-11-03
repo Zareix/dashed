@@ -1,5 +1,7 @@
 # build output
 dist/
+# compiled binary
+dashed
 # generated types
 .astro/
 
