@@ -120,7 +120,7 @@ export const getWidgetData = async (config: WidgetConfig<"hermes">) => {
       messageCount: session.message_count,
       model: session.model,
       lastActive: toIsoDate(session.last_active),
-      href: config.webuiUrl ? `${config.webuiUrl}/${encodeURIComponent(session.id)}` : null,
+      href: config.webuiUrl ? `${config.webuiUrl}/#/${encodeURIComponent(session.id)}` : null,
     }))
 
   const health = healthRes.data
