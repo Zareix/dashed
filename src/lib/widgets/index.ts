@@ -150,7 +150,8 @@ export const rssSchema = z.object({
 })
 export const hermesSchema = z.object({
   type: z.literal("hermes"),
-  config: withApiKey.extend({
+  config: baseConfig.extend({
+    apiKey: z.string().describe("Dashboard session token"),
     webuiUrl: z.url().optional().describe("WebUI URL"),
   }),
 })

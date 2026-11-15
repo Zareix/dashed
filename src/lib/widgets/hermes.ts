@@ -1,40 +1,38 @@
 import { tryCatch } from "~/lib/try-catch"
 import type { WidgetConfig } from "~/lib/widgets"
 
-type HermesDetailedHealthResponse = {
-  status: string
-  readiness: {
-    status: string
-    checks: Record<
-      string,
-      {
-        status: string
-        used_percent?: number
-        state?: string
-        connected_platforms?: number
-        platforms?: number
-      }
-    >
-  }
+// Réponses de l'API du dashboard Hermes (`hermes dashboard`, port 9119).
+type HermesStatusResponse = {
   version: string
-  gateway_state: string
+  overall: string
+  gateway_state: string | null
+  components: Record<
+    string,
+    {
+      status: string
+      state?: string
+      connected?: number
+      configured?: number
+    }
+  >
+  disk?: {
+    used_percent?: number
+  }
 }
 
-type HermesJobsResponse = {
-  jobs: Array<{
-    id: string
-    name: string
-    schedule_display?: string
-    enabled: boolean
-    state: string
-    next_run_at?: string | null
-    last_status?: string | null
-    failure_streak: number
-  }>
+type HermesCronJob = {
+  id: string
+  name: string
+  schedule_display?: string
+  enabled: boolean
+  state: string
+  next_run_at?: string | null
+  last_status?: string | null
+  failure_streak: number
 }
 
 type HermesSessionsResponse = {
-  data: Array<{
+  sessions: Array<{
     id: string
     title: string
     source: string
@@ -43,19 +41,14 @@ type HermesSessionsResponse = {
     last_active: number | string
     started_at: number | string
     model: string
-    actual_cost_usd: number
     archived: boolean
     pinned: boolean
-    hidden: boolean
-    parent_session_id: string | null
   }>
-  limit: number
-  offset: number
-  has_more: boolean
+  total: number
 }
 
 /**
- * L'API Hermes renvoie `last_active` / `started_at` en epoch **secondes** (float).
+ * Le dashboard renvoie `last_active` / `started_at` en epoch **secondes** (float).
  * `new Date(n)` attend des millisecondes : sans conversion on obtient 1970.
  * Une chaîne ISO est acceptée telle quelle.
  */
@@ -65,54 +58,38 @@ const toIsoDate = (value: number | string | null | undefined): string | null => 
   return Number.isFinite(ms) ? new Date(ms).toISOString() : null
 }
 
+const fetchDashboard = <T>(config: WidgetConfig<"hermes">, path: string, label: string) =>
+  tryCatch(
+    fetch(`${config.url}${path}`, {
+      // `HERMES_DASHBOARD_SESSION_TOKEN` du dashboard, pas l'API_SERVER_KEY.
+      headers: { "X-Hermes-Session-Token": config.apiKey },
+    }).then((res) => {
+      if (!res.ok) {
+        throw new Error(`Failed to fetch Hermes ${label}: ${res.statusText}`)
+      }
+      return res.json() as Promise<T>
+    }),
+  )
+
 export const getWidgetData = async (config: WidgetConfig<"hermes">) => {
-  const [healthRes, jobsRes, sessionsRes] = await Promise.all([
-    tryCatch(
-      fetch(`${config.url}/health/detailed`, {
-        headers: {
-          Authorization: `Bearer ${config.apiKey}`,
-        },
-      }).then((res) => {
-        if (!res.ok) {
-          throw new Error(`Failed to fetch Hermes health: ${res.statusText}`)
-        }
-        return res.json() as Promise<HermesDetailedHealthResponse>
-      }),
-    ),
-    tryCatch(
-      fetch(`${config.url}/api/jobs`, {
-        headers: {
-          Authorization: `Bearer ${config.apiKey}`,
-        },
-      }).then((res) => {
-        if (!res.ok) {
-          throw new Error(`Failed to fetch Hermes jobs: ${res.statusText}`)
-        }
-        return res.json() as Promise<HermesJobsResponse>
-      }),
-    ),
-    tryCatch(
-      fetch(`${config.url}/api/sessions?limit=4`, {
-        headers: {
-          Authorization: `Bearer ${config.apiKey}`,
-        },
-      }).then((res) => {
-        if (!res.ok) {
-          throw new Error(`Failed to fetch Hermes sessions: ${res.statusText}`)
-        }
-        return res.json() as Promise<HermesSessionsResponse>
-      }),
+  const [statusRes, jobsRes, sessionsRes] = await Promise.all([
+    fetchDashboard<HermesStatusResponse>(config, "/api/status", "status"),
+    fetchDashboard<HermesCronJob[]>(config, "/api/cron/jobs", "jobs"),
+    fetchDashboard<HermesSessionsResponse>(
+      config,
+      "/api/sessions?limit=4&order=recent",
+      "sessions",
     ),
   ])
-  if (healthRes.error) {
-    throw healthRes.error
+  if (statusRes.error) {
+    throw statusRes.error
   }
   if (jobsRes.error) {
     throw jobsRes.error
   }
 
-  const sessions = (sessionsRes.data?.data ?? [])
-    .filter((session) => !session.hidden && !session.archived && !session.pinned)
+  const sessions = (sessionsRes.data?.sessions ?? [])
+    .filter((session) => !session.archived && !session.pinned)
     .map((session) => ({
       id: session.id,
       title: session.title,
@@ -123,25 +100,23 @@ export const getWidgetData = async (config: WidgetConfig<"hermes">) => {
       href: config.webuiUrl ? `${config.webuiUrl}/#/${encodeURIComponent(session.id)}` : null,
     }))
 
-  const health = healthRes.data
-  const jobs = jobsRes.data.jobs ?? []
-  const checks = health.readiness.checks ?? {}
-  const disk = checks.disk
-  const gateway = checks.gateway
+  const status = statusRes.data
+  const components = status.components ?? {}
+  const platforms = components.platforms
 
   return {
     health: {
-      status: health.status,
-      version: health.version,
-      gatewayState: health.gateway_state,
-      connectedPlatforms: gateway?.connected_platforms ?? 0,
-      totalPlatforms: gateway?.platforms ?? 0,
-      diskUsedPercent: disk?.used_percent ?? 0,
-      failedChecks: Object.entries(checks)
-        .filter(([, check]) => check.status !== "ok")
+      status: status.overall,
+      version: status.version,
+      gatewayState: status.gateway_state ?? "stopped",
+      connectedPlatforms: platforms?.connected ?? 0,
+      totalPlatforms: platforms?.configured ?? 0,
+      diskUsedPercent: status.disk?.used_percent ?? 0,
+      failedChecks: Object.entries(components)
+        .filter(([, component]) => component.status !== "ok")
         .map(([name]) => name),
     },
-    jobs: jobs.map((job) => ({
+    jobs: (jobsRes.data ?? []).map((job) => ({
       id: job.id,
       name: job.name,
       schedule: job.schedule_display ?? "",
