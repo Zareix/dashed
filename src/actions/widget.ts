@@ -15,6 +15,7 @@ import {
   kavitaSchema,
   komodoSchema,
   nextdnsSchema,
+  ourHomeSchema,
   pocketIdSchema,
   prowlarrSchema,
   proxmoxSchema,
@@ -42,6 +43,7 @@ import * as karakeep from "../lib/widgets/karakeep"
 import * as kavita from "../lib/widgets/kavita"
 import * as komodo from "../lib/widgets/komodo"
 import * as nextdns from "../lib/widgets/nextdns"
+import * as ourHome from "../lib/widgets/our-home"
 import * as pocketId from "../lib/widgets/pocket-id"
 import * as prowlarr from "../lib/widgets/prowlarr"
 import * as proxmox from "../lib/widgets/proxmox"
@@ -98,6 +100,10 @@ export const widget = {
   nextdns: defineAction({
     input: nextdnsSchema.shape.config,
     handler: nextdns.getWidgetData,
+  }),
+  "our-home": defineAction({
+    input: ourHomeSchema.shape.config,
+    handler: ourHome.getWidgetData,
   }),
   "pocket-id": defineAction({
     input: pocketIdSchema.shape.config,

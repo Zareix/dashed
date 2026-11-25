@@ -15,6 +15,7 @@ import { KarakeepWidget } from "~/components/service/widget/widgets/karakeep"
 import { KavitaWidget } from "~/components/service/widget/widgets/kavita"
 import { KomodoWidget } from "~/components/service/widget/widgets/komodo"
 import { NextDNSWidget } from "~/components/service/widget/widgets/nextdns"
+import { OurHomeWidget } from "~/components/service/widget/widgets/our-home"
 import PocketIdWidget from "~/components/service/widget/widgets/pocket-id"
 import { ProwlarrWidget } from "~/components/service/widget/widgets/prowlarr"
 import { ProxmoxWidget } from "~/components/service/widget/widgets/proxmox"
@@ -119,6 +120,8 @@ export const Widget = ({ widget }: { widget: WIDGETS }) => {
       return <DockstackWidget config={widget.config} />
     case "hermes":
       return <HermesWidget config={widget.config} />
+    case "our-home":
+      return <OurHomeWidget config={widget.config} />
     case "iframe":
       return <IframeWidget config={widget.config} />
     default:

@@ -155,6 +155,10 @@ export const hermesSchema = z.object({
     webuiUrl: z.url().optional().describe("WebUI URL"),
   }),
 })
+export const ourHomeSchema = z.object({
+  type: z.literal("our-home"),
+  config: withApiKey,
+})
 
 export const WIDGETS = z.discriminatedUnion("type", [
   noneSchema,
@@ -181,6 +185,7 @@ export const WIDGETS = z.discriminatedUnion("type", [
   pocketIdSchema,
   dockstackSchema,
   hermesSchema,
+  ourHomeSchema,
   rssSchema,
   iframeSchema,
 ])
